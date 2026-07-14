@@ -56,6 +56,13 @@ class StaticItemRepo extends RepoAbstract implements StaticItemRepoInterface {
         $this->removeEntity($static);
     }
 
+    /**
+     * @return StaticItemInterface[]
+     */
+    public function findAll(): array {
+        return $this->findEntities();
+    }
+
     protected function createEntity() {
         return new StaticItemClass();
     }

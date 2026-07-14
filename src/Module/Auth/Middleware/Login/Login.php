@@ -11,10 +11,12 @@ use Auth\Middleware\Login\Controler\PasswordControler;
 use Auth\Middleware\Login\Controler\AuthControler;
 use Auth\Middleware\Login\Controler\QrImageControler;
 use Auth\Middleware\Login\Controler\SynchroControler;
+use StaticRegistry\Middleware\Controler\StaticRegistryControler;
 
 use Pes\Application\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
 
+use Container\AuthStaticRegistryContainerConfigurator;
 use Container\AuthContainerConfigurator;
 use Container\StaticItemContainerConfigurator;
 use Container\AuthDbContainerConfigurator;
@@ -44,10 +46,12 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         $this->container =
             (new AuthContainerConfigurator())->configure(
-                (new StaticItemContainerConfigurator())->configure(                    
-                    (new AuthDbContainerConfigurator())->configure(
-                        (new MailContainerConfigurator())->configure(
-                            (new Container($this->getApp()->getAppContainer()))
+                (new StaticItemContainerConfigurator())->configure(
+                    (new AuthStaticRegistryContainerConfigurator())->configure(
+                        (new AuthDbContainerConfigurator())->configure(
+                            (new MailContainerConfigurator())->configure(
+                                (new Container($this->getApp()->getAppContainer()))
+                            )
                         )
                     )
                 )
@@ -77,7 +81,29 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
             /** @var ComponentStaticControler $ctrl */
             $ctrl = $this->container->get(ComponentStaticControler::class);
             return $ctrl->static($request, $staticName);
-            });     
+            });
+
+        #### StaticRegistryControler ####
+        $this->routeGenerator->addRouteForAction('GET', '/auth/v1/static/registry/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
+            /** @var StaticRegistryControler $ctrl */
+            $ctrl = $this->container->get(StaticRegistryControler::class);
+            return $ctrl->get($request, (int) $menuItemId);
+        });
+        $this->routeGenerator->addRouteForAction('GET', '/auth/v1/static/templates', function(ServerRequestInterface $request) {
+            /** @var StaticRegistryControler $ctrl */
+            $ctrl = $this->container->get(StaticRegistryControler::class);
+            return $ctrl->templates($request);
+        });
+        $this->routeGenerator->addRouteForAction('PUT', '/auth/v1/static/registry/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
+            /** @var StaticRegistryControler $ctrl */
+            $ctrl = $this->container->get(StaticRegistryControler::class);
+            return $ctrl->upsert($request, (int) $menuItemId);
+        });
+        $this->routeGenerator->addRouteForAction('DELETE', '/auth/v1/static/registry/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
+            /** @var StaticRegistryControler $ctrl */
+            $ctrl = $this->container->get(StaticRegistryControler::class);
+            return $ctrl->delete($request, (int) $menuItemId);
+        });
             
         #### ComponentControler ####
         $this->routeGenerator->addRouteForAction('GET', '/auth/v1/component/:name', function(ServerRequestInterface $request, $name) {

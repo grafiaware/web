@@ -26,5 +26,10 @@ interface StaticItemViewModelInterface extends ViewModelInterface {
     public function getStaticItemPath(): string;
     public function getStaticItemTemplate(): string;
     public function isEditable(): bool;
-    public function getStaticFullTemplatePath(): string;    
+    public function getStaticFullTemplatePath(): string;
+
+    /**
+     * @return array<int, array{path: string, template: string, fullTemplatePath?: string}>
+     */
+    public function getTemplateOptions(): array;
 }

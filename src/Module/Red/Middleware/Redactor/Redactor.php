@@ -32,6 +32,7 @@ use Red\Middleware\Redactor\Controler\SectionsControler;
 use Red\Middleware\Redactor\Controler\MultipageControler;
 use Red\Middleware\Redactor\Controler\FilesUploadControler;
 use Red\Middleware\Redactor\Controler\StaticControler;
+use Red\Middleware\Redactor\Controler\StaticRegistryPushAllControler;
 
 use Red\Middleware\Redactor\Controler\Exception\UnexpectedRequestMethodException;
 
@@ -379,6 +380,11 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 /** @var StaticControler $ctrl */
                 $ctrl = $this->container->get(StaticControler::class);
                 return $ctrl->update($request, $staticId);
+        });
+        $this->routeGenerator->addRouteForAction('POST', '/red/v1/static/registry/push-all', function(ServerRequestInterface $request) {
+                /** @var StaticRegistryPushAllControler $ctrl */
+                $ctrl = $this->container->get(StaticRegistryPushAllControler::class);
+                return $ctrl->pushAll($request);
         });
         
         #### EditItemControler ####

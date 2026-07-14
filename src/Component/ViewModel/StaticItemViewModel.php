@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Component\ViewModel;
 
 use Component\ViewModel\ViewModelAbstract;
@@ -13,27 +7,23 @@ use Component\ViewModel\StaticItemViewModelInterface;
 use Component\ViewModel\StatusViewModelInterface;
 use Red\Model\Repository\StaticItemRepoInterface;
 use Red\Model\Entity\StaticItemInterface;
-
+use Red\Service\StaticRegistry\StaticRegistryTemplateListClientInterface;
 use Site\ConfigurationCache;
-
+use StaticRegistry\Model\Repository\StaticRegistryRepoInterface;
 use Psr\Container\ContainerInterface;
-
 use ArrayIterator;
 use UnexpectedValueException;
 
-/**
- * Description of LanguageSelect
- *
- * @author pes2704
- */
 class StaticItemViewModel extends ViewModelAbstract implements StaticItemViewModelInterface {
 
-    /**
-     * @var StatusViewModelInterface
-     */
-    protected $statusViewModel;
-    
-    private $container;
+    protected StatusViewModelInterface $statusViewModel;
+
+    private ?ContainerInterface $container = null;
+    private ?int $menuItemId = null;
+    private ?StaticItemRepoInterface $staticItemRepo = null;
+    private ?StaticRegistryRepoInterface $staticRegistryRepo = null;
+    private ?StaticRegistryTemplateListClientInterface $templateListClient = null;
+    private ?string $requestBaseUrl = null;
 
     public function __construct(
             StatusViewModelInterface $status
@@ -45,28 +35,59 @@ class StaticItemViewModel extends ViewModelAbstract implements StaticItemViewMod
         $this->container = $container;
         return $this;
     }
+
+    public function setMenuItemId(int $menuItemId): StaticItemViewModelInterface {
+        $this->menuItemId = $menuItemId;
+        return $this;
+    }
+
+    public function injectStaticItemRepo(?StaticItemRepoInterface $repo): StaticItemViewModelInterface {
+        $this->staticItemRepo = $repo;
+        return $this;
+    }
+
+    public function injectStaticRegistryRepo(?StaticRegistryRepoInterface $repo): StaticItemViewModelInterface {
+        $this->staticRegistryRepo = $repo;
+        return $this;
+    }
+
+    public function injectTemplateListClient(?StaticRegistryTemplateListClientInterface $client): StaticItemViewModelInterface {
+        $this->templateListClient = $client;
+        return $this;
+    }
+
+    public function setRequestBaseUrl(?string $baseUrl): StaticItemViewModelInterface {
+        $this->requestBaseUrl = $baseUrl;
+        return $this;
+    }
     
-    /**
-     * Vrací StaticItem získaný z presentation statusu.
-     * 
-     * Očekává ve statusu nastavený StaticItem (při volání statické komponenty a view modelu není k dispozici Red databáze)
-     * StaticItem do statusu dává LayoutControler (v té chvíli je Red databáze připojena)
-     *  - vždy zkusí načíst StaticItem z repository pro id menuItem 
-     *  - když exituje záznam v tabulce static, načte StaticItem jinak null
-     * 
-     * @return StaticItemInterface
-     * @throws UnexpectedValueException
-     */
     private function getStaticItem(): StaticItemInterface {
-        $staticEntity = $this->statusViewModel->getPresentedStaticItem();
-        if (!isset($staticEntity)) {
-            throw new UnexpectedValueException("Nenačtena static položka z presentation status view modelu.");
+        if ($this->menuItemId !== null && $this->staticRegistryRepo !== null) {
+            $entry = $this->staticRegistryRepo->getByMenuItemId($this->menuItemId);
+            if ($entry !== null) {
+                return $this->staticRegistryRepo->toStaticItemInterface($entry);
+            }
         }
-        return $staticEntity;
+
+        if ($this->menuItemId !== null && $this->staticItemRepo !== null) {
+            $item = $this->staticItemRepo->getByMenuItemId($this->menuItemId);
+            if ($item !== null) {
+                return $item;
+            }
+        }
+
+        $staticEntity = $this->statusViewModel->getPresentedStaticItem();
+        if ($staticEntity !== null) {
+            return $staticEntity;
+        }
+
+        throw new UnexpectedValueException(
+            'Static položka nenalezena pro menuItemId=' . ($this->menuItemId ?? 'null') . '.'
+        );
     }
     
     public function getStaticItemId(): string {
-        return $this->getStaticItem()->getId() ?? '';
+        return (string) ($this->getStaticItem()->getId() ?? '');
     }
     
     public function getStaticItemPath(): string {
@@ -77,29 +98,55 @@ class StaticItemViewModel extends ViewModelAbstract implements StaticItemViewMod
         return $this->getStaticItem()->getTemplate() ?? '';
     }
 
-    /**
-     * Vrací úplnou cestu k souboru šablony (template) pro StaticIrem získaný z presentation statusu.
-     * 
-     * @return string
-     */
     public function getStaticFullTemplatePath(): string {
         $staticEntity = $this->getStaticItem();
         $basePath = ConfigurationCache::componentControler()['static'] ?? '';
         $path = $staticEntity->getPath() ?? '';
-        // template nesmí být null - exception ani prázdný řetězec - vznikly by dvě /
-        $template = (null!==$staticEntity->getTemplate() AND $staticEntity->getTemplate()) ?  $staticEntity->getTemplate().'/' : '';
-        return $basePath.$path.$template;
+        $template = (null !== $staticEntity->getTemplate() && $staticEntity->getTemplate())
+            ? $staticEntity->getTemplate() . '/'
+            : '';
+        return $basePath . $path . $template;
     }
+
     public function isEditable(): bool {
         $editorActions = $this->statusViewModel->getEditorActions();
         return isset($editorActions) ? $editorActions->presentEditableContent() : false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplateOptions(): array {
+        if ($this->templateListClient === null) {
+            return [];
+        }
+        $apiModule = $this->getApiModuleForTemplates();
+        if ($apiModule === null || !in_array($apiModule, ['events', 'auth'], true)) {
+            return [];
+        }
+        $prefixes = ConfigurationCache::staticRegistry()['templatePrefixes'] ?? [];
+        $prefix = $prefixes[$apiModule] ?? ($apiModule . '/');
+        try {
+            return $this->templateListClient->fetch($apiModule, $prefix, $this->requestBaseUrl);
+        } catch (\Throwable) {
+            return [];
+        }
+    }
+
+    private function getApiModuleForTemplates(): ?string {
+        $menuItem = $this->statusViewModel->getPresentedMenuItem();
+        if ($menuItem !== null && $menuItem->getApiModuleFk()) {
+            return $menuItem->getApiModuleFk();
+        }
+        return null;
     }
     
     public function getIterator(): ArrayIterator {
         $this->appendData(
                 [
                     'staticTemplatePath' => $this->getStaticFullTemplatePath(),
-                    'container' => $this->container,        // v proměnné $container ve včech statických stránkách a šablonách je k dispozici kontainer
+                    'container' => $this->container,
+                    'templateOptions' => $this->getTemplateOptions(),
                 ]
                 );
         return parent::getIterator();

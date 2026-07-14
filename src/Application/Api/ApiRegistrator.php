@@ -26,6 +26,7 @@ class ApiRegistrator {
         $this->getPrototype = $this->prototype->withHttpMethod('GET');
         $this->postPrototype = $this->prototype->withHttpMethod('POST');
         $this->putPrototype = $this->prototype->withHttpMethod('PUT');
+        $this->deletePrototype = $this->prototype->withHttpMethod('DELETE');
     }
 
     public function registerApi(ResourceRegistryInterface $registry): void {
@@ -34,7 +35,11 @@ class ApiRegistrator {
     #
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/logout'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/login'));
-        $registry->register($this->getPrototype->withUrlPattern('/auth/v1/static/:staticName'));        
+        $registry->register($this->getPrototype->withUrlPattern('/auth/v1/static/:staticName'));
+        $registry->register($this->putPrototype->withUrlPattern('/auth/v1/static/registry/:menuItemId'));
+        $registry->register($this->deletePrototype->withUrlPattern('/auth/v1/static/registry/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/auth/v1/static/registry/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/auth/v1/static/templates'));        
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/register'));
         $registry->register($this->getPrototype->withUrlPattern('/auth/v1/registerapplication/:loginname'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/register1'));
@@ -141,6 +146,7 @@ class ApiRegistrator {
         
         #### StaticControler ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/static/:staticId'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/static/registry/push-all'));
         
         #### EditItemControler ####
         $registry->register($this->putPrototype->withUrlPattern('/red/v1/menu/:menuItemUidFk/toggle'));
@@ -178,6 +184,10 @@ class ApiRegistrator {
     #
         #### EventsStaticControler ####
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/static/:staticName'));
+        $registry->register($this->putPrototype->withUrlPattern('/events/v1/static/registry/:menuItemId'));
+        $registry->register($this->deletePrototype->withUrlPattern('/events/v1/static/registry/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/events/v1/static/registry/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/events/v1/static/templates'));
 
         #### ComponentControler ####
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/component/:name'));

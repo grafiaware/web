@@ -407,4 +407,24 @@ class ConfigurationWeb extends ConfigurationConstants {
         ];
     }
 
+    public static function staticRegistry(): array {
+        return \Site\StaticRegistryConfiguration::pushConfig(rtrim(self::WEB_SITE, '/'));
+    }
+
+    public static function staticRegistryEventsReceive(): array {
+        return \Site\StaticRegistryConfiguration::receiveConfig(
+            rtrim(self::WEB_SITE, '/'),
+            'events/',
+            self::WEB_FILES_SITE . 'static_registry.sqlite'
+        );
+    }
+
+    public static function staticRegistryAuthReceive(): array {
+        return \Site\StaticRegistryConfiguration::receiveConfig(
+            rtrim(self::WEB_SITE, '/'),
+            'auth/',
+            self::WEB_FILES_SITE . 'static_registry.sqlite'
+        );
+    }
+
 }

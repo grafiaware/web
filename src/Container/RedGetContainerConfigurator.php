@@ -45,6 +45,8 @@ use \Pes\View\ViewFactory;
 use Red\Service\ItemApi\ItemApiService;
 use Red\Service\CascadeLoader\CascadeLoaderFactory;
 use Red\Service\Menu\DriverService;
+use Red\Service\StaticRegistry\StaticRegistryTemplateListClient;
+use Red\Service\StaticRegistry\StaticRegistryTemplateListClientInterface;
 
 // Access
 use Access\AccessPresentation;
@@ -211,11 +213,11 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
         return array_merge(
-                ConfigurationCache::web(),  //db
-                ConfigurationCache::webComponent(), // hodnoty jsou použity v kontejneru pro službu, která generuje ComponentConfiguration objekt (viz getSrvicecDefinitions)
+                ConfigurationCache::web(),
+                ConfigurationCache::webComponent(),
                 ConfigurationCache::menu(),
-//                Configuration::renderer(),
-                ConfigurationCache::redTemplates()
+                ConfigurationCache::redTemplates(),
+                ConfigurationCache::staticRegistryFlat(),
                 );
     }
 
@@ -1026,6 +1028,12 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             ItemApiService::class => function(ContainerInterface $c) {
                 return new ItemApiService();
+            },
+            StaticRegistryTemplateListClientInterface::class => function(ContainerInterface $c) {
+                return new StaticRegistryTemplateListClient();
+            },
+            StaticRegistryTemplateListClient::class => function(ContainerInterface $c) {
+                return $c->get(StaticRegistryTemplateListClientInterface::class);
             },
             DriverService::class => function(ContainerInterface $c) {
                 return new DriverService(

@@ -23,6 +23,7 @@ use Events\Middleware\Events\Controler\VisitorJobRequestControler;
 use Events\Middleware\Events\Controler\FilterControler;
 use Events\Middleware\Events\Controler\SynchroControler;
 use Events\Middleware\Events\Controler\MaintenanceControler;
+use StaticRegistry\Middleware\Controler\StaticRegistryControler;
 
 class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -46,6 +47,10 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
             $this->prepareProcessGet();
         } elseif ($request->getMethod()=="POST") {
             $this->prepareProcessPost();
+        } elseif ($request->getMethod()=="PUT") {
+            $this->prepareProcessPut();
+        } elseif ($request->getMethod()=="DELETE") {
+            $this->prepareProcessDelete();
         } else {
             throw new UnexpectedRequestMethodException("Neznámá metoda HTTP request '{$request->getMethod()}'.");
         }
@@ -68,6 +73,20 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(ComponentStaticControler::class);
             return $ctrl->static($request, $staticName);
             });
+
+        ###########################
+        ## StaticRegistryControler
+        ###########################
+        $this->routeGenerator->addRouteForAction('GET', '/events/v1/static/registry/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
+            /** @var StaticRegistryControler $ctrl */
+            $ctrl = $this->container->get(StaticRegistryControler::class);
+            return $ctrl->get($request, (int) $menuItemId);
+        });
+        $this->routeGenerator->addRouteForAction('GET', '/events/v1/static/templates', function(ServerRequestInterface $request) {
+            /** @var StaticRegistryControler $ctrl */
+            $ctrl = $this->container->get(StaticRegistryControler::class);
+            return $ctrl->templates($request);
+        });
                                       
         ###########################
         ## ComponentControler
@@ -98,6 +117,26 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->familyDataItem($request, $parentName, $parentId, $name, $id);
             });
         }
+
+#### PUT #################################
+
+    private function prepareProcessPut() {
+        $this->routeGenerator->addRouteForAction('PUT', '/events/v1/static/registry/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
+            /** @var StaticRegistryControler $ctrl */
+            $ctrl = $this->container->get(StaticRegistryControler::class);
+            return $ctrl->upsert($request, (int) $menuItemId);
+        });
+    }
+
+#### DELETE #################################
+
+    private function prepareProcessDelete() {
+        $this->routeGenerator->addRouteForAction('DELETE', '/events/v1/static/registry/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
+            /** @var StaticRegistryControler $ctrl */
+            $ctrl = $this->container->get(StaticRegistryControler::class);
+            return $ctrl->delete($request, (int) $menuItemId);
+        });
+    }
 
 #### POST #################################
 

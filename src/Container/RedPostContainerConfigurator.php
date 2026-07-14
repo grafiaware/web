@@ -74,7 +74,12 @@ use Red\Model\Repository\PaperSectionRepo;
 use Red\Model\Repository\ArticleRepo;
 use Red\Model\Repository\MultipageRepo;
 use Red\Model\Repository\StaticItemRepo;
-use Red\Model\Repository\ItemActionRepo;
+use Red\Service\StaticRegistry\StaticRegistryPushClient;
+use Red\Service\StaticRegistry\StaticRegistryPushClientInterface;
+use Red\Service\StaticRegistry\StaticRegistryPushService;
+use Red\Service\StaticRegistry\StaticRegistryTemplateListClient;
+use Red\Service\StaticRegistry\StaticRegistryTemplateListClientInterface;
+use Red\Middleware\Redactor\Controler\StaticRegistryPushAllControler;
 
 /**
  *
@@ -84,7 +89,10 @@ use Red\Model\Repository\ItemActionRepo;
 class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
-        return ConfigurationCache::api();
+        return array_merge(
+            ConfigurationCache::api(),
+            ConfigurationCache::staticRegistryFlat(),
+        );
     }
 
     public function getFactoriesDefinitions(): iterable {
@@ -122,7 +130,9 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(HierarchyAggregateEditDao::class),
-                        $c->get(MenuRootRepo::class));
+                        $c->get(MenuRootRepo::class),
+                        $c->get(HierarchyAggregateReadonlyDao::class),
+                        $c->get(StaticRegistryPushService::class));
             },
             ItemEditControler::class => function(ContainerInterface $c) {
                 return new ItemEditControler(
@@ -169,7 +179,9 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(StaticItemRepo::class));
+                        $c->get(StaticItemRepo::class),
+                        $c->get(MenuItemRepo::class),
+                        $c->get(StaticRegistryPushService::class));
             },
             FilesUploadControler::class => function(ContainerInterface $c) {
                 return new FilesUploadControler(
@@ -225,7 +237,8 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(StatusFlashRepo::class),
-                        $c->get(StaticItemRepo::class)
+                        $c->get(StaticItemRepo::class),
+                        $c->get(StaticRegistryPushService::class)
                     );
             },
             MenuItemCreator::class => function(ContainerInterface $c) {
@@ -289,6 +302,34 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                     $account = new Account($c->get('red.db.everyone.name'), $c->get('red.db.everyone.password'));
                 }
                 return $account;
+            },
+            StaticRegistryPushClientInterface::class => function(ContainerInterface $c) {
+                return new StaticRegistryPushClient();
+            },
+            StaticRegistryPushClient::class => function(ContainerInterface $c) {
+                return $c->get(StaticRegistryPushClientInterface::class);
+            },
+            StaticRegistryTemplateListClientInterface::class => function(ContainerInterface $c) {
+                return new StaticRegistryTemplateListClient();
+            },
+            StaticRegistryTemplateListClient::class => function(ContainerInterface $c) {
+                return $c->get(StaticRegistryTemplateListClientInterface::class);
+            },
+            StaticRegistryPushService::class => function(ContainerInterface $c) {
+                return new StaticRegistryPushService(
+                    $c->get(StaticRegistryPushClientInterface::class),
+                    $c->get(MenuItemRepo::class),
+                );
+            },
+            StaticRegistryPushAllControler::class => function(ContainerInterface $c) {
+                return new StaticRegistryPushAllControler(
+                    $c->get(StatusSecurityRepo::class),
+                    $c->get(StatusFlashRepo::class),
+                    $c->get(StatusPresentationRepo::class),
+                    $c->get(StaticItemRepo::class),
+                    $c->get(MenuItemRepo::class),
+                    $c->get(StaticRegistryPushClientInterface::class),
+                );
             },
         ];
     }

@@ -126,6 +126,15 @@ class ConfigurationCache {
                 case 'sqlite':
                     self::$cache[$name] = Siteconfig\ConfigurationDb::sqlite();
                     break;
+                case 'staticRegistry':
+                    self::$cache[$name] = Siteconfig\ConfigurationWeb::staticRegistry();
+                    break;
+                case 'staticRegistryEventsReceive':
+                    self::$cache[$name] = Siteconfig\ConfigurationWeb::staticRegistryEventsReceive();
+                    break;
+                case 'staticRegistryAuthReceive':
+                    self::$cache[$name] = Siteconfig\ConfigurationWeb::staticRegistryAuthReceive();
+                    break;
                 case 'web':
                     self::$cache[$name] = Siteconfig\ConfigurationDb::web();
                     break;
@@ -281,6 +290,53 @@ class ConfigurationCache {
     
     public static function eventTemplates() {
         return self::getConfigModule('eventTemplates');
+    }
+
+    public static function staticRegistry(): array {
+        return self::normalizeStaticRegistry(self::getConfigModule('staticRegistry'));
+    }
+
+    public static function staticRegistryEventsReceive(): array {
+        return self::normalizeStaticRegistry(self::getConfigModule('staticRegistryEventsReceive'));
+    }
+
+    public static function staticRegistryAuthReceive(): array {
+        return self::normalizeStaticRegistry(self::getConfigModule('staticRegistryAuthReceive'));
+    }
+
+    public static function staticRegistryFlat(): array {
+        return self::getConfigModule('staticRegistry');
+    }
+
+    public static function staticRegistryEventsReceiveFlat(): array {
+        return self::getConfigModule('staticRegistryEventsReceive');
+    }
+
+    public static function staticRegistryAuthReceiveFlat(): array {
+        return self::getConfigModule('staticRegistryAuthReceive');
+    }
+
+    /**
+     * @param array<string, mixed> $flat
+     * @return array<string, mixed>
+     */
+    private static function normalizeStaticRegistry(array $flat): array {
+        return [
+            'siteCode' => $flat['staticRegistry.siteCode'] ?? '',
+            'token' => $flat['staticRegistry.token'] ?? '',
+            'pathPrefix' => $flat['staticRegistry.pathPrefix'] ?? '',
+            'storage' => [
+                'sqlitePath' => $flat['staticRegistry.storage.sqlitePath'] ?? '',
+            ],
+            'push' => [
+                'enabled' => (bool) ($flat['staticRegistry.push.enabled'] ?? false),
+                'moduleBaseUrls' => $flat['staticRegistry.push.moduleBaseUrls'] ?? [],
+            ],
+            'templatePrefixes' => $flat['staticRegistry.templatePrefixes'] ?? [
+                'events' => 'events/',
+                'auth' => 'auth/',
+            ],
+        ];
     }
     
     

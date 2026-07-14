@@ -8,7 +8,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Model\Repository\MenuRootRepo;
+use Red\Service\StaticRegistry\StaticRegistryPushService;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
@@ -36,17 +38,22 @@ class HierarchyControler extends FrontControlerAbstract {
 
     private $editHierarchyDao;
     private $menuRootRepo;
+    private $readonlyHierarchyDao;
+    private $staticRegistryPushService;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
             HierarchyAggregateEditDao $editHierarchyDao,
-            MenuRootRepo $menuRootRepo) {
+            MenuRootRepo $menuRootRepo,
+            HierarchyAggregateReadonlyDao $readonlyHierarchyDao,
+            StaticRegistryPushService $staticRegistryPushService) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        // TODO: vyměnit hierarchy Dao za Repo
         $this->editHierarchyDao = $editHierarchyDao;
         $this->menuRootRepo = $menuRootRepo;
+        $this->readonlyHierarchyDao = $readonlyHierarchyDao;
+        $this->staticRegistryPushService = $staticRegistryPushService;
     }
 
 /* non REST metody */
@@ -201,6 +208,9 @@ class HierarchyControler extends FrontControlerAbstract {
      */
     public function delete(ServerRequestInterface $request, $uid): ResponseInterface {
         $parentNode = $this->editHierarchyDao->getParentNodeHelper($uid);
+        $langCode = $this->statusPresentationRepo->get()->getLanguageCode();
+        $subTree = $this->readonlyHierarchyDao->getSubTree($langCode, $uid);
+        $this->staticRegistryPushService->deleteForSubTreeRows($subTree, $this->resolveBaseUrl($request));
         $this->editHierarchyDao->deleteSubTree($uid);
         $this->addFlashMessage('delete', FlashSeverityEnum::SUCCESS);
         $redirectUid = $parentNode['uid'];   // kořen trash
@@ -237,6 +247,13 @@ class HierarchyControler extends FrontControlerAbstract {
             throw new Exception;
         }
         return "/red/v1/{$node['api_generator_fk']}/{$node['id']}";
+    }
+
+    private function resolveBaseUrl(ServerRequestInterface $request): string {
+        $scheme = $request->getUri()->getScheme();
+        $host = $request->getUri()->getHost();
+        $sp = $this->getUriInfo($request)->getSubdomainPath();
+        return "$scheme://$host$sp";
     }
     
 }
