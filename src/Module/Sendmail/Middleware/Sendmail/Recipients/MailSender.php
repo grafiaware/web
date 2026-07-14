@@ -7,9 +7,9 @@ use Sendmail\Middleware\Sendmail\Csv\CampaignDataInterface;
 
 use Sendmail\Middleware\Sendmail\Campaign\CampaignConfigInterface;
 use Sendmail\Middleware\Sendmail\Recipients\MailRecipientsInterface;
-use Mail\Mail;
+use Pes\Mail\Mail;
 use Pes\Core\Debug\Timer;
-use Mail\Exception\MailException;
+use Pes\Mail\Exception\MailException;
 
 /**
  * Description of MailSender

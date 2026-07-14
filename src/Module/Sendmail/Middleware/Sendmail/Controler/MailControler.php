@@ -14,13 +14,13 @@ use FrontControler\PresentationFrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-use Mail\Mail;
+use Pes\Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
 
-use Mail\Assembly;
-use Mail\Assembly\Content;
-use Mail\Assembly\Attachment;
-use Mail\Assembly\Party;
+use Pes\Mail\Assembly;
+use Pes\Mail\Assembly\Content;
+use Pes\Mail\Assembly\Attachment;
+use Pes\Mail\Assembly\Party;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;

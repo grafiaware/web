@@ -11,8 +11,8 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 use Pes\Logger\FileLogger;
 
 // mail
-use Mail\Mail;
-use Mail\ParamsTemplates;
+use Pes\Mail\Mail;
+use Pes\Mail\ParamsTemplates;
 use Mail\MessageFactory\HtmlMessage;
 
 use Sendmail\Middleware\Sendmail\Controler\MailControler;

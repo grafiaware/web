@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "be3646276f2d904b179c95fe3beb9b38",
+    "content-hash": "0870606a3108739db63264b16d6f78fa",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -247,12 +247,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "1916b1aa08112e8212254b8ffb888cf258edc48a"
+                "reference": "77c8fe3eb4c212dd7f9db9fcd6db00520452aafd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/1916b1aa08112e8212254b8ffb888cf258edc48a",
-                "reference": "1916b1aa08112e8212254b8ffb888cf258edc48a",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/77c8fe3eb4c212dd7f9db9fcd6db00520452aafd",
+                "reference": "77c8fe3eb4c212dd7f9db9fcd6db00520452aafd",
                 "shasum": ""
             },
             "require": {
@@ -263,6 +263,7 @@
                 "pes/pes-di": "@dev",
                 "pes/pes-http": "@dev",
                 "pes/pes-logger": "@dev",
+                "pes/pes-mail": "@dev",
                 "pes/pes-model": "@dev",
                 "pes/pes-router": "@dev",
                 "pes/pes-session": "@dev",
@@ -310,7 +311,7 @@
                 "issues": "https://github.com/box4pes/pes/issues",
                 "source": "https://github.com/box4pes/pes/tree/split"
             },
-            "time": "2026-06-19T17:35:55+00:00"
+            "time": "2026-07-14T09:03:51+00:00"
         },
         {
             "name": "pes/pes-application",
@@ -508,6 +509,34 @@
                 "MIT"
             ],
             "description": "File and array loggers for Pes (extends PSR-3).",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "pes/pes-mail",
+            "version": "dev-split",
+            "dist": {
+                "type": "path",
+                "url": "../pes/pes-mail",
+                "reference": "07eecd12de6083efd6751d718a3a4c2efd27791d"
+            },
+            "require": {
+                "php": "<8.5.0",
+                "phpmailer/phpmailer": "^6.2",
+                "psr/log": "^3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pes\\Mail\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Mail sending layer for Pes (PHPMailer wrapper, assembly, SMTP configuration).",
             "transport-options": {
                 "symlink": true,
                 "relative": true

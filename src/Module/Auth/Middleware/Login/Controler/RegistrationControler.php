@@ -3,11 +3,11 @@ namespace Auth\Middleware\Login\Controler;
 
 use Site\ConfigurationCache;
 
-use Mail\Mail;
+use Pes\Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
-use Mail\Assembly;
-use Mail\Assembly\{Content, Attachment, Party};
-use Mail\Exception\MailExceptionInterface;
+use Pes\Mail\Assembly;
+use Pes\Mail\Assembly\{Content, Attachment, Party};
+use Pes\Mail\Exception\MailExceptionInterface;
 
 use Psr\Http\Message\ServerRequestInterface;
 

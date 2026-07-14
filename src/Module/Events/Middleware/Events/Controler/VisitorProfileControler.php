@@ -46,13 +46,13 @@ use Pes\Http\Request\RequestParams;
 use Pes\Http\Factory\ResponseFactory;
 use Pes\Http\Response;
 
-use Mail\Mail;
+use Pes\Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
-use Mail\Assembly;
-use Mail\Assembly\Content;
-use Mail\Assembly\Attachment; 
-use Mail\Assembly\StringAttachment;
-use Mail\Assembly\Party;
+use Pes\Mail\Assembly;
+use Pes\Mail\Assembly\Content;
+use Pes\Mail\Assembly\Attachment; 
+use Pes\Mail\Assembly\StringAttachment;
+use Pes\Mail\Assembly\Party;
 
 
 /**
