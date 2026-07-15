@@ -316,7 +316,7 @@ class RegistrationControler extends LoginControlerAbstract
             try {
                     $ret = $mail->mail($params); // posle mail
                 } catch (MailExceptionInterface $exc) {
-                    echo $exc->getTraceAsString();
+                    throw $exc;
                 }  
 
         }   
@@ -365,7 +365,7 @@ class RegistrationControler extends LoginControlerAbstract
                     try {
                         $ret = $mail->mail($params); // posle mail
                     } catch (MailExceptionInterface $exc) {
-                        echo $exc->getTraceAsString();
+                        throw $exc;
                     }
 
         return $this->createStringOKResponse("Mail odeslán", 200); // 303 See Other

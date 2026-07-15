@@ -4,8 +4,26 @@
         colors="true"
     >
     <testsuites>
+        <testsuite name="unit">
+            <directory suffix="Test.php">Unit</directory>
+        </testsuite>
+        <testsuite name="mail-unit">
+            <directory suffix="Test.php">Unit/Mail</directory>
+        </testsuite>
+        <testsuite name="mail-integration">
+            <directory suffix="Test.php">Integration/Mail</directory>
+        </testsuite>
+        <testsuite name="integration">
+            <directory suffix="Test.php">Integration</directory>
+            <exclude>Integration/Mail</exclude>
+        </testsuite>
         <testsuite name="web">
-            <directory suffix="Test.php">tests/</directory>
+            <directory suffix="Test.php">.</directory>
         </testsuite>
     </testsuites>
+    <groups>
+        <exclude>
+            <group>mail-integration</group>
+        </exclude>
+    </groups>
 </phpunit>
