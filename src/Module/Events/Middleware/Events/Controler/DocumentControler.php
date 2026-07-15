@@ -33,7 +33,6 @@ use Pes\Http\Request\RequestParams;
 use Pes\Http\Factory\ResponseFactory;
 use Pes\Http\Response;
 
-use Pes\Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
 use Pes\Mail\Assembly;
 use Pes\Mail\Assembly\Content;

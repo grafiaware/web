@@ -8,7 +8,6 @@ use FrontControler\PresentationFrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-use Pes\Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
 
 use Pes\Mail\Assembly;

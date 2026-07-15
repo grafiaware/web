@@ -4,7 +4,7 @@ namespace Auth\Middleware\Login\Controler;
 
 use Site\ConfigurationCache;
 
-use Pes\Mail\Mail;
+use Pes\Mail\MailInterface;
 use Mail\MessageFactory\HtmlMessage;
 use Pes\Mail\Assembly;
 use Pes\Mail\Assembly\{Content, Attachment, Party};
@@ -84,8 +84,8 @@ class PasswordControler extends LoginControlerAbstract {
 
                     $registerEmail = $registration->getEmail();
                     #########################--------- poslat mail -------------------
-                    /** @var Mail $mail */
-                    $mail = $this->container->get(Mail::class);
+                    /** @var MailInterface $mail */
+                    $mail = $this->container->get(MailInterface::class);
                     /** @var HtmlMessage $mailMessageFactory */
                     $mailMessageFactory = $this->container->get(HtmlMessage::class);
 
