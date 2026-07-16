@@ -17,7 +17,7 @@ use Pes\View\Renderer\PhpTemplateRenderer;
  * @author pes2704
  */
 class HtmlMessage {
-    public function create($templateFilePath, $context) {
+    public function create(string $templateFilePath, array $context): string {
         return (string) (new ViewFactory())->phpTemplateView($templateFilePath, $context)->setRenderer(new PhpTemplateRenderer());
     }
 

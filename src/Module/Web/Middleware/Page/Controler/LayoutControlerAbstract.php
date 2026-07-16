@@ -29,12 +29,8 @@ use Red\Model\Entity\BlockInterface;
 
 use Red\Model\Repository\StaticItemRepoInterface;
 use Red\Model\Repository\StaticItemRepo;
-use Red\Model\Entity\StaticItemInterface;
 
 ####################
-
-use Red\Service\ItemApi\ItemApiService;
-use Red\Service\CascadeLoader\CascadeLoaderFactory;
 
 use Pes\View\View;
 use Pes\View\CompositeView;
@@ -79,7 +75,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
         $this->cascadeLoaderFactory = $cascadeLoaderFactory;              
     }
     
-    protected function getSafeItem($uid): MenuItemInterface {
+    protected function getSafeItem(string $uid): MenuItemInterface {
         try {
             $langCode = $this->getPresentationLangCode();
             $menuItem = $this->getMenuItem($langCode, $uid);
@@ -144,7 +140,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
      * @return MenuItemInterface
      * @throws NoItemException
      */
-    private function getMenuItem($langCode, $uid): MenuItemInterface {
+    private function getMenuItem(string $langCode, string $uid): MenuItemInterface {
         /** @var MenuItemRepo $menuItemRepo */
         $menuItemRepo = $this->container->get(MenuItemRepo::class);
         $menuItem = $menuItemRepo->get($langCode, $uid);
@@ -169,10 +165,10 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
      * Pokud blok se zadaným jménem není v databázi definován vyhodí výjimku NoBlockException.
      * 
      * @param string $name
-     * @return string
+     * @return BlockInterface
      * @throws NoBlockException
      */
-    protected function getBlock($name): BlockInterface {
+    protected function getBlock(string $name): BlockInterface {
         /** @var BlockRepo $blockRepo */
         $blockRepo = $this->container->get(BlockRepo::class);
         $block = $blockRepo->get($name);
@@ -186,10 +182,10 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
      * Vrací jméno bloku pro home page z konfigurace.
      * Pokud jméno bloku pro home page v konfiguraci není, vyhodí výjimku.
      * 
-     * @return type
+     * @return string
      * @throws UnexpectedValueException
      */
-    protected function getHomePageBlockName() {
+    protected function getHomePageBlockName(): string {
         $homePageName = ConfigurationCache::layoutControler()['homePageBlockName'];
         if (!$homePageName??'') {
                 throw new UnexpectedValueException("Undefined name of the home page (default page) in the configuration.");
@@ -207,9 +203,9 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
      *
      * @param ServerRequestInterface $request
      * @param MenuItemInterface $menuItem
-     * @return type
+     * @return CompositeViewInterface
      */
-    private function composeLayoutView(ServerRequestInterface $request, ?MenuItemInterface $menuItem = null) {
+    private function composeLayoutView(ServerRequestInterface $request, ?MenuItemInterface $menuItem = null): CompositeViewInterface {
         $layoutView = $this->getLayoutView($request);
         if (isset($menuItem)) {
             $layoutView->appendComponentViews($this->getContentViews($menuItem));
@@ -275,7 +271,6 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
     /**
      *
      * @param ServerRequestInterface $request
-     * @param MenuItemInterface $menuItem
      * @return CompositeView[]
      */
     protected function getComponentViews(ServerRequestInterface $request) {
@@ -293,10 +288,10 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
 
     /**
      * Generuje html obsahující definice tagů <script> vkládaných do stránku pouze v editačním módu
-     * @param type $request
+     * @param ServerRequestInterface $request
      * @return array
      */
-    private function getEditableModeViews($request) {
+    private function getEditableModeViews(ServerRequestInterface $request) {
         $tinyLanguage = ConfigurationCache::layoutControler()['tinyLanguage'];
         $langCode =$this->statusPresentationRepo->get()->getLanguageCode();
         $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : ConfigurationCache::presentationStatus()['default_lang_code'];
@@ -395,15 +390,16 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
         foreach ($map as $variableName => $blockName) {
             try {
                 $block = $this->getBlock($blockName);                
+                try {
+                    $menuItem = $this->getMenuItem($this->getPresentationLangCode(), $block->getUidFk());  // block uidFk - musí existovat v menuitem - cizí klíč
+                    $componets[$variableName] = $this->getMenuItemLoader($menuItem);
+                } catch (NoItemException $exc) {
+                    $componets[$variableName] = $this->getUnknownBlockView($blockName, $variableName);  // neex nebo neaktivní item                
+                }
             } catch (UnexpectedValueException $exc) {  // neexistuje block
                 $componets[$variableName] = $this->getUnknownBlockView($blockName, $variableName);
             }
-            try {
-                $menuItem = $this->getMenuItem($this->getPresentationLangCode(), $block->getUidFk());  // block uidFk - musí existovat v menuitem - cizí klíč
-                $componets[$variableName] = $this->getMenuItemLoader($menuItem);
-            } catch (NoItemException $exc) {
-                $componets[$variableName] = $this->getUnknownBlockView($blockName, $variableName);  // neex nebo neaktivní item                
-            }
+
         }
         return $componets;
     }
@@ -414,7 +410,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
      * Parametry uri v načítacím skriptu jsou typ menuItem a id menu item, aby nebylo třeba načítat data s obsahem (paper, article, multipage a další) zde v kontroleru.
      * Pro případ obsahu typu 'static' jsou jako prametry uri předány typ 'static' a jméno statické stránky, které je pak použito pro načtení statické šablony.
      *
-     * @param type $menuItem
+     * @param MenuItemInterface $menuItem
      * @return View
      */
     private function getMenuItemLoader(MenuItemInterface $menuItem) {
@@ -426,7 +422,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
         }
     }
     
-    private function getNoContentView($message) {
+    private function getNoContentView(string $message): View {
         /** @var View $view */
         $view = $this->container->get(View::class);
         $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutControler()['templates.unknownContent']))
@@ -434,7 +430,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
         return $view;
     }
     
-    private function getUnknownBlockView($blockName, $variableName) {
+    private function getUnknownBlockView(string $blockName, string $variableName): View {
         $message = "Unknown  not published block $blockName configured for layout variable $variableName.";
         return $this->getNoContentView($message);
     }

@@ -17,7 +17,7 @@ use Auth\Component\View\LogoutComponent;
 use Auth\Component\View\RegisterComponent;
 use Red\Component\View\Manage\EditorActionComponent;
 use Events\Component\View\Manage\RepresentativeActionComponent;
-use Red\Component\View\Manage\InfoBoardComponent;
+use Web\Component\View\Info\InfoBoardComponent;
 
 use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
