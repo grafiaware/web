@@ -5,8 +5,10 @@ namespace Test\Integration\Mail\Support;
 
 final class Smtp4devHelper
 {
+    // SMTP endpoint for sending test emails into smtp4dev.
     private const SMTP_HOST = 'localhost';
     private const SMTP_PORT = 25;
+    // HTTP API endpoints exposed by smtp4dev UI, mapped from container port 80 to host port 5000.
     private const API_URLS = [
         'http://localhost:5000/api/Messages',
         'http://localhost:5000/api/messages',
