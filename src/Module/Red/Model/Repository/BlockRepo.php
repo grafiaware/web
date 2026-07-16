@@ -30,30 +30,30 @@ class BlockRepo extends RepoAbstract implements BlockRepoInterface {
 
     /**
      *
-     * @param type $name
+     * @param string $name
      * @return BlockInterface|null
      */
-    public function get($name):?BlockInterface {
-        return $this->getEntity($name);
+    public function get(string $name):?BlockInterface {
+        return $this->getEntity(name: $name);
     }
 
     protected function createEntity() {
         return new Block();
     }
 
-    public function add(BlockInterface $block) {
+    public function add(BlockInterface $block): void {
         $this->addEntity($block);
     }
 
-    public function remove(BlockInterface $block) {
+    public function remove(BlockInterface $block): void {
         $this->removeEntity($block);
     }
 
-    protected function indexFromEntity(BlockInterface $block) {
+    protected function indexFromEntity(BlockInterface $block): string {
         return $block->getName();
     }
 
-    protected function indexFromRow($row) {
+    protected function indexFromRow(array $row): string {
         return $row['name'];
     }
 }
