@@ -1,3 +1,0 @@
-debug | 2026-07-16 11:54:36 | Logger start. New log file created: C:/Users/pes2704/git_repo_for_vscode/web/_www_na_logs/Logs/Errors/ErrorsLogger.log.
-debug | 2026-07-16 11:54:36 | Mode 'append to existing log file'.
-debug | 2026-07-16 11:54:36 | PHP error or unknown user error type: E_DEPRECATED [8192] [2026-07-16 11:54:36] Pes\Mail\MailInterface::mail(): Implicitly marking parameter $params as nullable is deprecated, the explicit nullable type must be used instead on line 10 in file C:\Users\pes2704\git_repo_for_vscode\pes\pes-mail\src\MailInterface.php
