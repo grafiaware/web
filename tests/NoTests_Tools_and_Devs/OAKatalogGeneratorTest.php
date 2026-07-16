@@ -139,7 +139,7 @@ class OAKatalogGeneratorTest  extends AppRunner {
                 throw new LogicException("Paper není publikovaný (active) paper.");
             }
             $sections = $paper->getPaperSectionsArray();
-            $this->assertIsArray($sections);  !! vždy pole -> assert neprázdné
+            $this->assertIsArray($sections);  //!! vždy pole -> assert neprázdné
         }
     }
 
