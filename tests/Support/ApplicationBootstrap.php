@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Test\Support;
 
 use Pes\Bootstrap\BootstrapEntry;
+use Pes\Logger\FileLogger;
 
 /**
  * Sdileny bootstrap pro PHPUnit testy.
@@ -20,7 +21,7 @@ final class ApplicationBootstrap
             return;
         }
 
-        $projectRoot = dirname(__DIR__, 2);
+        $projectRoot = TestLogPaths::projectRoot();
         chdir($projectRoot);
 
         if (!isset($_SERVER['DOCUMENT_ROOT']) || $_SERVER['DOCUMENT_ROOT'] === '') {
@@ -28,7 +29,7 @@ final class ApplicationBootstrap
         }
 
         if (!defined('PROJECT_PATH')) {
-            define('PROJECT_PATH', str_replace('\\', '/', $projectRoot) . '/');
+            define('PROJECT_PATH', rtrim(str_replace('\\', '/', $projectRoot), '/') . '/');
         }
 
         if (!defined('PES_BOOTSTRAP_SETINGS_PATH')) {
@@ -40,6 +41,8 @@ final class ApplicationBootstrap
         } else {
             require_once $projectRoot . '/vendor/autoload.php';
         }
+
+        FileLogger::setBaseLogsDirectory(TestLogPaths::logsBasePath());
 
         self::$loaded = true;
     }

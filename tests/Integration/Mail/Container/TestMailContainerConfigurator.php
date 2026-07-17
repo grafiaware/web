@@ -33,7 +33,7 @@ final class TestMailContainerConfigurator extends ContainerConfiguratorAbstract
     {
         return [
             'mail.paramsname' => 'smtp4devIntegrationTest',
-            'mail.logs.directory' => 'TestLogs/Mail',
+            'mail.logs.directory' => 'Logs/Mail',
             'mail.logs.file' => 'Mail.log',
             'mail.attachments' => MailTemplateFixtures::attachmentsDir(),
             'filesDirectory' => MailTemplateFixtures::campaignDir(),
