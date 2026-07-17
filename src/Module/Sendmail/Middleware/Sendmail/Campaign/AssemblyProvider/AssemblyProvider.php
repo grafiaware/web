@@ -13,8 +13,6 @@ use Mail\MessageFactory\HtmlMessage;
 use Pes\Mail\Assembly;
 use Pes\Mail\AssemblyInterface;
 
-use Pes\Mail\Assembly\Host;
-use Pes\Mail\Assembly\Encryption;
 use Pes\Mail\Assembly\SmtpConnection;
 use Pes\Mail\Assembly\Party;
 use Pes\Mail\Assembly\Content;

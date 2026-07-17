@@ -28,8 +28,8 @@ final class AssemblyProviderTest extends TestCase
 
         $this->assertSame('Veletrh práce a vzdělávání - nabídka', $assembly->getContent()->getSubjectRaw());
         $this->assertStringContainsString('Veletrh práce a vzdělávání', $assembly->getContent()->getHtml());
-        $this->assertSame(['info@najdisi.cz', 'Veletrh Práce'], $assembly->getParty()->getFrom());
-        $this->assertSame([['adresat@example.cz', 'Jan Novak']], $assembly->getParty()->getToArray());
+        $this->assertSame(['info@najdisi.cz', 'Veletrh Práce'], $assembly->getParty()->getFromToArray());
+        $this->assertSame([['adresat@example.cz', 'Jan Novak']], $assembly->getParty()->getToToArray());
     }
 
     public function testThrowsOnUnknownAssembly(): void
