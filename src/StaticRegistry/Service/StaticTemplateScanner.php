@@ -9,12 +9,20 @@ use RegexIterator;
 use Site\ConfigurationCache;
 
 /**
- * Vrací seznam dostupných static šablon pro editor v red modulu.
+ * Projde filesystem pod componentControler['static'] a vrátí adresáře s template.php.
+ *
+ * Běží na auth/events serveru — red editor si seznam stáhne přes GET /static/templates.
+ * PHP šablony se na remote server dostanou git deployem, ne runtime syncem.
+ *
+ * @author pes2704
  */
 class StaticTemplateScanner implements StaticTemplateScannerInterface {
 
     /**
      * {@inheritdoc}
+     *
+     * path = relativní cesta od WEB_STATIC včetně koncového lomítka (např. events/company/).
+     * template zůstává prázdný — celá cesta je v path (editor typicky ukládá path bez odděleného template).
      */
     public function scan(string $prefix, string $siteCode): array {
         $basePath = ConfigurationCache::componentControler()['static'] ?? '';

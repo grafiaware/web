@@ -8,6 +8,11 @@ use Red\Model\Entity\StaticItemInterface;
 use StaticRegistry\Model\Entity\StaticRegistryEntry;
 use StaticRegistry\Model\Storage\StaticRegistryStorage;
 
+/**
+ * {@inheritdoc}
+ *
+ * @author pes2704
+ */
 class StaticRegistryRepo implements StaticRegistryRepoInterface {
 
     public function __construct(
@@ -15,6 +20,9 @@ class StaticRegistryRepo implements StaticRegistryRepoInterface {
     ) {
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function upsert(StaticRegistryEntry $entry): bool {
         return $this->storage->upsert($entry);
     }
@@ -27,6 +35,11 @@ class StaticRegistryRepo implements StaticRegistryRepoInterface {
         return $this->storage->getByMenuItemId($menuItemId);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * redStaticId mapuje na StaticItem.id — editor v red pak ví, kam POSTovat update path/template.
+     */
     public function toStaticItemInterface(StaticRegistryEntry $entry): StaticItemInterface {
         $static = new StaticItemClass();
         $static->setId($entry->getRedStaticId());

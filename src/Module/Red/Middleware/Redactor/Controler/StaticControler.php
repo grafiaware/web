@@ -10,12 +10,19 @@ use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\StaticItemRepo;
 use Red\Service\StaticRegistry\Exception\StaticRegistryPushException;
 use Red\Service\StaticRegistry\StaticRegistryPushService;
-use Site\ConfigurationCache;
 use Status\Model\Enum\FlashSeverityEnum;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusSecurityRepo;
 
+/**
+ * POST update path/template static položky v red DB.
+ *
+ * Po zápisu do red tabulky static pushne metadata na auth/events registry,
+ * pokud api_module_fk položky je events nebo auth.
+ *
+ * @author pes2704
+ */
 class StaticControler extends FrontControlerAbstract {
 
     const PATH_VAR_NAME = "path";
@@ -32,6 +39,11 @@ class StaticControler extends FrontControlerAbstract {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
     }
 
+    /**
+     * POST /red/v1/static/:staticId
+     *
+     * Flush StaticItem do UnitOfWork probíhá na konci requestu; push jde ihned s aktuálními hodnotami entity.
+     */
     public function update(ServerRequestInterface $request, $staticId): ResponseInterface {
         $path = (new RequestParams())->getParam($request, self::PATH_VAR_NAME);
         $template = (new RequestParams())->getParam($request, self::TEMPLATE_VAR_NAME);        
@@ -40,6 +52,7 @@ class StaticControler extends FrontControlerAbstract {
         $static->setTemplate($template);
         $static->setCreator($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
 
+        // Sync na remote registry — selhání push neblokuje editaci (jen flash warning)
         $this->pushRemoteRegistry($request, $static);
         
         return $this->redirectSeeLastGet($request);

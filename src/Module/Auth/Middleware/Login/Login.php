@@ -44,6 +44,8 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
+        // AuthStaticRegistryContainerConfigurator: SQLite registry + StaticRegistryRepo
+        // (auth nemá red DB — StaticItem path/template se čte z lokální registry)
         $this->container =
             (new AuthContainerConfigurator())->configure(
                 (new StaticItemContainerConfigurator())->configure(
@@ -83,17 +85,19 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->static($request, $staticName);
             });
 
-        #### StaticRegistryControler ####
+        #### StaticRegistryControler — lokální SQLite metadata (push z red) + seznam šablon ####
         $this->routeGenerator->addRouteForAction('GET', '/auth/v1/static/registry/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
             /** @var StaticRegistryControler $ctrl */
             $ctrl = $this->container->get(StaticRegistryControler::class);
             return $ctrl->get($request, (int) $menuItemId);
         });
+        // Pro select box path/template v red editoru (filesystem scan static/auth/)
         $this->routeGenerator->addRouteForAction('GET', '/auth/v1/static/templates', function(ServerRequestInterface $request) {
             /** @var StaticRegistryControler $ctrl */
             $ctrl = $this->container->get(StaticRegistryControler::class);
             return $ctrl->templates($request);
         });
+        // Upsert / delete z red StaticRegistryPushClient (server-to-server, token)
         $this->routeGenerator->addRouteForAction('PUT', '/auth/v1/static/registry/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
             /** @var StaticRegistryControler $ctrl */
             $ctrl = $this->container->get(StaticRegistryControler::class);

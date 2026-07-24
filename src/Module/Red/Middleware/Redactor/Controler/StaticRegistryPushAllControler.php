@@ -16,8 +16,15 @@ use Site\ConfigurationCache;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusSecurityRepo;
-use Status\Model\Enum\FlashSeverityEnum;
 
+/**
+ * Jednorázový backfill: pushne všechny static položky daného modulu do remote registry.
+ *
+ * POST /red/v1/static/registry/push-all  (parametr module=events|auth)
+ * Použití po nasazení nebo při obnově SQLite na auth/events serveru.
+ *
+ * @author pes2704
+ */
 class StaticRegistryPushAllControler extends FrontControlerAbstract {
 
     public function __construct(

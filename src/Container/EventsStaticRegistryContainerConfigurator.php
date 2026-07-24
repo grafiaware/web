@@ -2,7 +2,6 @@
 
 namespace Container;
 
-use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;
 use Site\ConfigurationCache;
 use StaticRegistry\Middleware\Controler\StaticRegistryControler;
@@ -10,6 +9,11 @@ use StaticRegistry\Model\Repository\StaticRegistryRepoInterface;
 use StaticRegistry\Service\StaticRegistryTokenValidator;
 use StaticRegistry\Service\StaticTemplateScannerInterface;
 
+/**
+ * Static registry pro Events modul — pathPrefix events/, SQLite receive config.
+ *
+ * Zapojený ve ValidateUser před Events middleware.
+ */
 class EventsStaticRegistryContainerConfigurator extends StaticRegistryContainerConfigurator {
 
     public function getParams(): iterable {
@@ -26,7 +30,7 @@ class EventsStaticRegistryContainerConfigurator extends StaticRegistryContainerC
                     $c->get(StaticRegistryRepoInterface::class),
                     $c->get(StaticTemplateScannerInterface::class),
                     $c->get(StaticRegistryTokenValidator::class),
-                    ConfigurationCache::staticRegistryEventsReceive(),
+                    ConfigurationCache::staticRegistryEventsReceive(), // normalizovaný config včetně pathPrefix events/
                 );
             },
         ]);

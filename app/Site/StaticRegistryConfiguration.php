@@ -4,11 +4,20 @@ namespace Site;
 
 /**
  * Sdílená konfigurace static registry pro všechny site.
+ *
+ * pushConfig  — red modul (odesílá metadata)
+ * receiveConfig — auth/events (přijímá do SQLite, validuje pathPrefix)
+ *
+ * Token musí být shodný na red i cílovém serveru. V produkci změňte
+ * 'dev-static-registry-{site}' a nastavte moduleBaseUrls na remote URL.
  */
 class StaticRegistryConfiguration {
 
     /**
      * Konfigurace red modulu (push metadata na auth/events).
+     *
+     * moduleBaseUrls prázdné = same-host fallback (vývoj). V multi-server
+     * nasazení: 'events' => 'https://events.example.com/app/', ...
      *
      * @param string $siteCode např. najdisi
      */

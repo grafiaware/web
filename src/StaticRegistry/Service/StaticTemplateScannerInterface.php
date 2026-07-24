@@ -2,6 +2,9 @@
 
 namespace StaticRegistry\Service;
 
+/**
+ * Scan filesystemu static šablon na auth/events serveru.
+ */
 interface StaticTemplateScannerInterface {
 
     /**

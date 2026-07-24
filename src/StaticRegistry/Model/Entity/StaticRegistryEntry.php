@@ -4,6 +4,11 @@ namespace StaticRegistry\Model\Entity;
 
 /**
  * Lokální metadata static stránky synchronizovaná z red modulu.
+ *
+ * Neobsahuje business data auth/events — jen path/template potřebné k nalezení
+ * PHP šablony na filesystemu cílového serveru. menuItemId je klíč sdílený s red.
+ *
+ * @author pes2704
  */
 class StaticRegistryEntry {
 
@@ -12,6 +17,7 @@ class StaticRegistryEntry {
     private string $path;
     private string $template;
     private ?string $creator;
+    /** ISO 8601 timestamp z red DB — slouží k idempotentnímu upsertu */
     private string $updated;
     private string $siteCode;
 

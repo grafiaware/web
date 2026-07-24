@@ -1029,6 +1029,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             ItemApiService::class => function(ContainerInterface $c) {
                 return new ItemApiService();
             },
+            // Klient pro seznam šablon z remote auth/events — injektován do StaticItemViewModel
             StaticRegistryTemplateListClientInterface::class => function(ContainerInterface $c) {
                 return new StaticRegistryTemplateListClient();
             },

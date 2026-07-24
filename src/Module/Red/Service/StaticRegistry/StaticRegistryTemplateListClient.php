@@ -3,8 +3,15 @@
 namespace Red\Service\StaticRegistry;
 
 use Site\ConfigurationCache;
-use Red\Service\StaticRegistry\Exception\StaticRegistryPushException;
 
+/**
+ * Načte seznam template.php z remote auth/events serveru pro select box v editoru.
+ *
+ * GET /{apiModule}/v1/static/templates?prefix=...&siteCode=...
+ * Při selhání vrací prázdné pole — StaticItemRenderer pak použije textová pole.
+ *
+ * @author pes2704
+ */
 class StaticRegistryTemplateListClient implements StaticRegistryTemplateListClientInterface {
 
     /**
@@ -41,6 +48,7 @@ class StaticRegistryTemplateListClient implements StaticRegistryTemplateListClie
         } elseif (is_string($configuredBase) && $configuredBase !== '') {
             $root = rtrim($configuredBase, '/') . '/';
         } else {
+            // Vývoj: red i cílový modul na stejném hostu
             $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
             $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
             $root = "$scheme://$host/";

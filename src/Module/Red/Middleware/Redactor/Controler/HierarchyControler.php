@@ -38,6 +38,7 @@ class HierarchyControler extends FrontControlerAbstract {
 
     private $editHierarchyDao;
     private $menuRootRepo;
+    /** Readonly hierarchy — načtení subtree před delete kvůli push DELETE do remote registry */
     private $readonlyHierarchyDao;
     private $staticRegistryPushService;
 
@@ -201,6 +202,9 @@ class HierarchyControler extends FrontControlerAbstract {
      *  - maže hierarchy pomocí DAO, hooked actor v metodě delete smaže menu_item a případný menu_item_asset a asset (nemaže soubory "assets") a menu_root
      *  - následně díky cizím klíčům s constraint On delete: CASCADE dojde i ke smazání řádku v article nebo paper včetně sections nebo multipage nebo static
      * Metoda smaže všechny jazykové verze (vybírá menu itemy jen podle uid).
+     *
+     * Před CASCADE delete v red DB pushne DELETE do auth/events static registry
+     * (remote SQLite by jinak zůstala orphan záznamy).
      * 
      * @param ServerRequestInterface $request
      * @param type $uid
@@ -209,6 +213,7 @@ class HierarchyControler extends FrontControlerAbstract {
     public function delete(ServerRequestInterface $request, $uid): ResponseInterface {
         $parentNode = $this->editHierarchyDao->getParentNodeHelper($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguageCode();
+        // Nejdřív remote registry, pak lokální DB (CASCADE v red nesynchronizuje auth/events)
         $subTree = $this->readonlyHierarchyDao->getSubTree($langCode, $uid);
         $this->staticRegistryPushService->deleteForSubTreeRows($subTree, $this->resolveBaseUrl($request));
         $this->editHierarchyDao->deleteSubTree($uid);

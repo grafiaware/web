@@ -9,6 +9,14 @@ use Pes\View\Renderer\ClassMap\ClassMapInterface;
 use Red\Middleware\Redactor\Controler\StaticControler;
 use Template\Compiler\TemplateCompilerInterface;
 
+/**
+ * Renderer static stránky: v edit módu formulář path/template, pak PHP šablona.
+ *
+ * Pokud getTemplateOptions() vrátí seznam z remote modulu, zobrazí select boxy;
+ * jinak textová pole (red static, nebo remote list nedostupný).
+ *
+ * @author pes2704
+ */
 class StaticItemRenderer extends HtmlRendererAbstract {
     
     private TemplateCompilerInterface $templateCompiler;
@@ -43,6 +51,7 @@ class StaticItemRenderer extends HtmlRendererAbstract {
         return $html;
     }
 
+    /** Select z remote templates, nebo text input jako fallback. */
     private function renderPathField(StaticItemViewModelInterface $viewModel): string {
         $options = $viewModel->getTemplateOptions();
         if ($options === []) {

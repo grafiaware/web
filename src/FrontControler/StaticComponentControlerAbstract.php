@@ -11,6 +11,14 @@ use Component\ViewModel\StaticItemViewModelInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Red\Model\Enum\AuthoredTypeEnum;
 
+/**
+ * Společný controler pro GET /{module}/v1/static/:menuItemId (red, auth, events).
+ *
+ * Předá menuItemId z URL do StaticItemViewModel — view model pak načte StaticItem
+ * z registry / red DB / session, bez závislosti na předchozím layout requestu.
+ *
+ * @author pes2704
+ */
 abstract class StaticComponentControlerAbstract extends ComponentControlerAbstract {
 
     protected function getActionPermissions(): array {
@@ -20,10 +28,14 @@ abstract class StaticComponentControlerAbstract extends ComponentControlerAbstra
         ];
     }
     
+    /**
+     * @param mixed $menuItemId Parametr z route (historicky pojmenovaný staticName v auth/events)
+     */
     public function static(ServerRequestInterface $request, $menuItemId) {
         if($this->isAllowed(AccessActionEnum::GET)) {
             /** @var StaticItemViewModelInterface $viewModel */
             $viewModel = $this->container->get(StaticItemViewModel::class);
+            // Klíčové pro cascade/menuSwap: načtení StaticItem podle ID z URL, ne ze session
             $viewModel->setMenuItemId((int) $menuItemId);
             $viewModel->setRequestBaseUrl($this->resolveBaseUrl($request));
 
@@ -36,6 +48,7 @@ abstract class StaticComponentControlerAbstract extends ComponentControlerAbstra
         return $this->createStringOKResponseFromView($view);            
     }
 
+    /** Base URL aktuálního requestu — pro remote volání template listu / push při stejném hostu. */
     private function resolveBaseUrl(ServerRequestInterface $request): string {
         $scheme = $request->getUri()->getScheme();
         $host = $request->getUri()->getHost();

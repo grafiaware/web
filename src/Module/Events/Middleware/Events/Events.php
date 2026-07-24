@@ -43,6 +43,7 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
         /** @var RouteSegmentGenerator $this->routeGenerator */
         $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
         
+        // PUT/DELETE přidané pro static registry push z red modulu (server-to-server)
         if ($request->getMethod()=="GET") {
             $this->prepareProcessGet();
         } elseif ($request->getMethod()=="POST") {
@@ -75,13 +76,14 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
             });
 
         ###########################
-        ## StaticRegistryControler
+        ## StaticRegistryControler — lokální SQLite metadata (push z red) + seznam šablon
         ###########################
         $this->routeGenerator->addRouteForAction('GET', '/events/v1/static/registry/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
             /** @var StaticRegistryControler $ctrl */
             $ctrl = $this->container->get(StaticRegistryControler::class);
             return $ctrl->get($request, (int) $menuItemId);
         });
+        // Pro select box path/template v red editoru (filesystem scan static/events/)
         $this->routeGenerator->addRouteForAction('GET', '/events/v1/static/templates', function(ServerRequestInterface $request) {
             /** @var StaticRegistryControler $ctrl */
             $ctrl = $this->container->get(StaticRegistryControler::class);
@@ -119,6 +121,7 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
         }
 
 #### PUT #################################
+# Upsert static metadat z red (StaticRegistryPushClient)
 
     private function prepareProcessPut() {
         $this->routeGenerator->addRouteForAction('PUT', '/events/v1/static/registry/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
@@ -129,6 +132,7 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
     }
 
 #### DELETE #################################
+# Smazání záznamu registry při delete menu položky v red
 
     private function prepareProcessDelete() {
         $this->routeGenerator->addRouteForAction('DELETE', '/events/v1/static/registry/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {

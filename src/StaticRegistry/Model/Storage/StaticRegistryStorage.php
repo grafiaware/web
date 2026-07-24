@@ -8,11 +8,19 @@ use StaticRegistry\Model\Entity\StaticRegistryEntry;
 
 /**
  * SQLite úložiště metadat static stránek na auth/events serveru.
+ *
+ * Auth/events nemají připojení k red DB — path a template se sem synchronizují
+ * pushem z red modulu. Primární klíč je menu_item_id (stejné ID jako v red).
+ *
+ * @author pes2704
  */
 class StaticRegistryStorage {
 
     private PDO $pdo;
 
+    /**
+     * @param string $dbFilePath Cesta k sqlite souboru (vytvoří adresář i schéma při prvním použití)
+     */
     public function __construct(string $dbFilePath) {
         $directory = dirname($dbFilePath);
         if (!is_dir($directory) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
@@ -38,8 +46,15 @@ class StaticRegistryStorage {
         $this->pdo->exec('CREATE INDEX IF NOT EXISTS idx_static_registry_updated ON static_registry(updated)');
     }
 
+    /**
+     * Upsert = INSERT ... ON CONFLICT DO UPDATE.
+     * Pokud lokální záznam má stejný nebo novější updated, zápis se přeskočí.
+     *
+     * @return bool true pokud byl záznam zapsán/aktualizován, false pokud byl přeskočen
+     */
     public function upsert(StaticRegistryEntry $entry): bool {
         $existing = $this->getByMenuItemId($entry->getMenuItemId());
+        // Porovnání ISO 8601 řetězců — starší nebo stejná verze se nepřepisuje
         if ($existing !== null && $existing->getUpdated() >= $entry->getUpdated()) {
             return false;
         }
@@ -85,7 +100,7 @@ class StaticRegistryStorage {
      * @return StaticRegistryEntry[]
      */
     public function findAllForModulePush(string $siteCode, string $apiModule): array {
-        unset($apiModule);
+        unset($apiModule); // rezervováno pro budoucí filtr podle api_module
         $stmt = $this->pdo->prepare('SELECT * FROM static_registry WHERE site_code = :site_code ORDER BY menu_item_id');
         $stmt->execute([':site_code' => $siteCode]);
         $entries = [];

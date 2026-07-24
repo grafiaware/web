@@ -45,6 +45,8 @@ class ValidateUser extends AppMiddlewareAbstract implements MiddlewareInterface 
     
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
         
+        // EventsStaticRegistryContainerConfigurator: SQLite registry + StaticRegistryRepo
+        // (events nemá red DB — StaticItem path/template se čte z lokální registry)
         $this->container =
             (new EventsContainerConfigurator())->configure(
                 (new StaticItemContainerConfigurator())->configure(

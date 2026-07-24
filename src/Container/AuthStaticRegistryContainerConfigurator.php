@@ -9,6 +9,11 @@ use StaticRegistry\Model\Repository\StaticRegistryRepoInterface;
 use StaticRegistry\Service\StaticRegistryTokenValidator;
 use StaticRegistry\Service\StaticTemplateScannerInterface;
 
+/**
+ * Static registry pro Auth modul — pathPrefix auth/, SQLite receive config.
+ *
+ * Zapojený v Login middleware kontejnerovém stacku.
+ */
 class AuthStaticRegistryContainerConfigurator extends StaticRegistryContainerConfigurator {
 
     public function getParams(): iterable {
@@ -25,7 +30,7 @@ class AuthStaticRegistryContainerConfigurator extends StaticRegistryContainerCon
                     $c->get(StaticRegistryRepoInterface::class),
                     $c->get(StaticTemplateScannerInterface::class),
                     $c->get(StaticRegistryTokenValidator::class),
-                    ConfigurationCache::staticRegistryAuthReceive(),
+                    ConfigurationCache::staticRegistryAuthReceive(), // normalizovaný config včetně pathPrefix auth/
                 );
             },
         ]);

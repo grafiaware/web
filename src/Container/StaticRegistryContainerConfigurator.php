@@ -5,7 +5,6 @@ namespace Container;
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;
 use Site\ConfigurationCache;
-use StaticRegistry\Middleware\Controler\StaticRegistryControler;
 use StaticRegistry\Model\Repository\StaticRegistryRepo;
 use StaticRegistry\Model\Repository\StaticRegistryRepoInterface;
 use StaticRegistry\Model\Storage\StaticRegistryStorage;
@@ -13,9 +12,18 @@ use StaticRegistry\Service\StaticRegistryTokenValidator;
 use StaticRegistry\Service\StaticTemplateScanner;
 use StaticRegistry\Service\StaticTemplateScannerInterface;
 
+/**
+ * Základní DI pro lokální static registry (SQLite storage + repo + scanner).
+ *
+ * Podtřídy Events/AuthStaticRegistryContainerConfigurator dodají správný
+ * receive config a StaticRegistryControler.
+ *
+ * @author pes2704
+ */
 class StaticRegistryContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
+        // Flat parametry (staticRegistry.storage.sqlitePath) — override v podtřídách
         return ConfigurationCache::staticRegistryFlat();
     }
 

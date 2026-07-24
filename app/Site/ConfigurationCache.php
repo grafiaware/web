@@ -304,6 +304,7 @@ class ConfigurationCache {
         return self::normalizeStaticRegistry(self::getConfigModule('staticRegistryAuthReceive'));
     }
 
+    /** Flat parametry pro DI kontejner (klíče staticRegistry.*). */
     public static function staticRegistryFlat(): array {
         return self::getConfigModule('staticRegistry');
     }
@@ -317,6 +318,9 @@ class ConfigurationCache {
     }
 
     /**
+     * Převede flat konfiguraci (staticRegistry.token, ...) na vnořené pole
+     * používané službami (['token'=>..., 'push'=>['enabled'=>...], ...]).
+     *
      * @param array<string, mixed> $flat
      * @return array<string, mixed>
      */

@@ -57,6 +57,8 @@ class StaticItemRepo extends RepoAbstract implements StaticItemRepoInterface {
     }
 
     /**
+     * Všechny static položky — pro backfill push-all do remote registry.
+     *
      * @return StaticItemInterface[]
      */
     public function findAll(): array {

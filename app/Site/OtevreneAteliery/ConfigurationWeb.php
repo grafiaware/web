@@ -407,10 +407,12 @@ class ConfigurationWeb extends ConfigurationConstants {
         ];
     }
 
+    /** Push config pro red modul (odesílání metadat na auth/events). */
     public static function staticRegistry(): array {
         return \Site\StaticRegistryConfiguration::pushConfig(rtrim(self::WEB_SITE, '/'));
     }
 
+    /** Receive config pro Events — SQLite + pathPrefix events/. */
     public static function staticRegistryEventsReceive(): array {
         return \Site\StaticRegistryConfiguration::receiveConfig(
             rtrim(self::WEB_SITE, '/'),
@@ -419,6 +421,7 @@ class ConfigurationWeb extends ConfigurationConstants {
         );
     }
 
+    /** Receive config pro Auth — SQLite + pathPrefix auth/. */
     public static function staticRegistryAuthReceive(): array {
         return \Site\StaticRegistryConfiguration::receiveConfig(
             rtrim(self::WEB_SITE, '/'),

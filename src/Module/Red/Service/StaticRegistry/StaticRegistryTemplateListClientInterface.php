@@ -2,6 +2,9 @@
 
 namespace Red\Service\StaticRegistry;
 
+/**
+ * Klient pro načtení seznamu static šablon z remote modulu (events/auth).
+ */
 interface StaticRegistryTemplateListClientInterface {
 
     /**

@@ -315,6 +315,7 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
             StaticRegistryTemplateListClient::class => function(ContainerInterface $c) {
                 return $c->get(StaticRegistryTemplateListClientInterface::class);
             },
+            // Doménová služba: push/delete jen pro events|auth static položky
             StaticRegistryPushService::class => function(ContainerInterface $c) {
                 return new StaticRegistryPushService(
                     $c->get(StaticRegistryPushClientInterface::class),

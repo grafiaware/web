@@ -29,6 +29,9 @@ interface StaticItemViewModelInterface extends ViewModelInterface {
     public function getStaticFullTemplatePath(): string;
 
     /**
+     * Seznam šablon z remote auth/events (pro select box v editoru).
+     * Prázdné pole = renderer použije textová input pole.
+     *
      * @return array<int, array{path: string, template: string, fullTemplatePath?: string}>
      */
     public function getTemplateOptions(): array;

@@ -2,9 +2,7 @@
 
 namespace Container;
 
-use Site\ConfigurationCache;
 use Pes\Container\ContainerConfiguratorAbstract;
-use Pes\Container\Container;
 use Psr\Container\ContainerInterface;
 use Configuration\ComponentConfiguration;
 use Configuration\ComponentConfigurationInterface;
@@ -20,10 +18,21 @@ use Red\Model\Repository\StaticItemRepoInterface;
 use Red\Service\StaticRegistry\StaticRegistryTemplateListClientInterface;
 use StaticRegistry\Model\Repository\StaticRegistryRepoInterface;
 
+/**
+ * Sdílený kontejner pro StaticItemComponent / StaticItemViewModel (web, red, auth, events).
+ *
+ * View modelu injektuje dostupné repo podle toho, co je v parent kontejneru:
+ * - StaticItemRepo → red/web (red DB)
+ * - StaticRegistryRepo → auth/events (SQLite)
+ * - TemplateListClient → red (remote seznam šablon pro editor)
+ *
+ * @author pes2704
+ */
 class StaticItemContainerConfigurator extends ContainerConfiguratorAbstract {
     
     public function getFactoriesDefinitions(): iterable {
         return [
+            // Data (view model) se nastavují až v StaticComponentControlerAbstract::static()
             StaticItemComponent::class => function(ContainerInterface $c) {
                 /** @var ComponentConfigurationInterface $configuration */
                 $configuration = $c->get(ComponentConfiguration::class);
@@ -46,6 +55,7 @@ class StaticItemContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusViewModel::class))
                         )->injectContainer($c);
 
+                // Volitelná injekce — has() podle stacku modulu (red vs auth/events)
                 if ($c->has(StaticItemRepoInterface::class)) {
                     $viewModel->injectStaticItemRepo($c->get(StaticItemRepoInterface::class));
                 } elseif ($c->has(StaticItemRepo::class)) {

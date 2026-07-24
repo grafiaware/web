@@ -15,10 +15,18 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusSecurityRepo;
 use UnexpectedValueException;
 
+/**
+ * Controler lokální static registry na auth/events serveru.
+ *
+ * Přijímá push metadat z red modulu (PUT/DELETE) a poskytuje seznam šablon
+ * pro editor v red (GET templates). Endpointy vyžadují hlavičku X-Static-Registry-Token.
+ *
+ * @author pes2704
+ */
 class StaticRegistryControler extends FrontControlerAbstract {
 
     /**
-     * @param array<string, mixed> $registryConfig
+     * @param array<string, mixed> $registryConfig Normalizovaná konfigurace static registry (token, pathPrefix, siteCode)
      */
     public function __construct(
         StatusSecurityRepo $statusSecurityRepo,
@@ -32,6 +40,12 @@ class StaticRegistryControler extends FrontControlerAbstract {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
     }
 
+    /**
+     * Upsert = insert nebo update podle menuItemId.
+     * Idempotentní: starší updated než lokální záznam se přeskočí (status skipped).
+     *
+     * PUT /{module}/v1/static/registry/:menuItemId
+     */
     public function upsert(ServerRequestInterface $request, int $menuItemId): ResponseInterface {
         if (!$this->assertToken($request)) {
             return $this->createJsonOKResponse(['error' => 'invalid_token'], StatusEnum::_401_Unauthorized);
@@ -56,6 +70,7 @@ class StaticRegistryControler extends FrontControlerAbstract {
             ->setUpdated((string) ($payload['updated'] ?? date(DATE_ATOM)))
             ->setSiteCode((string) ($payload['siteCode'] ?? $this->registryConfig['siteCode']));
 
+        // true = zapsáno, false = přeskočeno (lokální updated je novější)
         $upserted = $this->staticRegistryRepo->upsert($entry);
         return $this->createJsonOKResponse([
             'menuItemId' => $menuItemId,
@@ -64,6 +79,11 @@ class StaticRegistryControler extends FrontControlerAbstract {
         ]);
     }
 
+    /**
+     * Smaže záznam z lokální registry (volá red při delete menu položky).
+     *
+     * DELETE /{module}/v1/static/registry/:menuItemId
+     */
     public function delete(ServerRequestInterface $request, int $menuItemId): ResponseInterface {
         if (!$this->assertToken($request)) {
             return $this->createJsonOKResponse(['error' => 'invalid_token'], StatusEnum::_401_Unauthorized);
@@ -72,6 +92,11 @@ class StaticRegistryControler extends FrontControlerAbstract {
         return $this->createPutNoContentResponse();
     }
 
+    /**
+     * Vrátí jeden záznam registry (debug / ověření po pushi).
+     *
+     * GET /{module}/v1/static/registry/:menuItemId
+     */
     public function get(ServerRequestInterface $request, int $menuItemId): ResponseInterface {
         if (!$this->assertToken($request)) {
             return $this->createJsonOKResponse(['error' => 'invalid_token'], StatusEnum::_401_Unauthorized);
@@ -91,6 +116,11 @@ class StaticRegistryControler extends FrontControlerAbstract {
         ]);
     }
 
+    /**
+     * Seznam dostupných template.php pod pathPrefix — pro select box v editoru red modulu.
+     *
+     * GET /{module}/v1/static/templates?prefix=events/&siteCode=najdisi
+     */
     public function templates(ServerRequestInterface $request): ResponseInterface {
         if (!$this->assertToken($request)) {
             return $this->createJsonOKResponse(['error' => 'invalid_token'], StatusEnum::_401_Unauthorized);
@@ -105,6 +135,9 @@ class StaticRegistryControler extends FrontControlerAbstract {
         return $this->tokenValidator->isValid($request, (string) $this->registryConfig['token']);
     }
 
+    /**
+     * Path musí začínat prefixem modulu (events/ nebo auth/), prázdný path je povolen při vytvoření položky.
+     */
     private function assertPathPrefix(string $path): void {
         if ($path === '') {
             return;

@@ -381,6 +381,7 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(StaticControler::class);
                 return $ctrl->update($request, $staticId);
         });
+        // Backfill: push všech static položek daného modulu do remote registry
         $this->routeGenerator->addRouteForAction('POST', '/red/v1/static/registry/push-all', function(ServerRequestInterface $request) {
                 /** @var StaticRegistryPushAllControler $ctrl */
                 $ctrl = $this->container->get(StaticRegistryPushAllControler::class);

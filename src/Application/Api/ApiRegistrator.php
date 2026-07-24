@@ -36,6 +36,7 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/logout'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/login'));
         $registry->register($this->getPrototype->withUrlPattern('/auth/v1/static/:staticName'));
+        // Static registry API (server-to-server sync z red + template list pro editor)
         $registry->register($this->putPrototype->withUrlPattern('/auth/v1/static/registry/:menuItemId'));
         $registry->register($this->deletePrototype->withUrlPattern('/auth/v1/static/registry/:menuItemId'));
         $registry->register($this->getPrototype->withUrlPattern('/auth/v1/static/registry/:menuItemId'));
@@ -146,7 +147,7 @@ class ApiRegistrator {
         
         #### StaticControler ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/static/:staticId'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/static/registry/push-all'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/static/registry/push-all')); // backfill remote registry
         
         #### EditItemControler ####
         $registry->register($this->putPrototype->withUrlPattern('/red/v1/menu/:menuItemUidFk/toggle'));
@@ -184,6 +185,7 @@ class ApiRegistrator {
     #
         #### EventsStaticControler ####
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/static/:staticName'));
+        // Static registry API (server-to-server sync z red + template list pro editor)
         $registry->register($this->putPrototype->withUrlPattern('/events/v1/static/registry/:menuItemId'));
         $registry->register($this->deletePrototype->withUrlPattern('/events/v1/static/registry/:menuItemId'));
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/static/registry/:menuItemId'));
