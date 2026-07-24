@@ -12,6 +12,10 @@ use StaticRegistry\Model\Entity\StaticRegistryEntry;
  * Auth/events nemají připojení k red DB — path a template se sem synchronizují
  * pushem z red modulu. Primární klíč je menu_item_id (stejné ID jako v red).
  *
+ * Soubor DB: sqlite/auth/static_registry.sqlite nebo sqlite/events/static_registry.sqlite
+ * (ne v _files — ta je jen pro uživatelské uploady). Při prvním použití vytvoří
+ * adresář i schéma.
+ *
  * @author pes2704
  */
 class StaticRegistryStorage {

@@ -1,0 +1,4 @@
+# Databáze vznikají na produkci / při prvním běhu (StaticRegistryStorage).
+# V gitu zůstává jen struktura složek (auth/, events/).
+*.sqlite
+!.gitkeep

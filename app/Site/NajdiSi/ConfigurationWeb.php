@@ -429,21 +429,21 @@ class ConfigurationWeb extends ConfigurationConstants {
         return StaticRegistryConfiguration::pushConfig(rtrim(self::WEB_SITE, '/'));
     }
 
-    /** Receive config pro Events — SQLite + pathPrefix events/. */
+    /** Receive config pro Events — SQLite v sqlite/events/ (ne v _files). */
     public static function staticRegistryEventsReceive(): array {
         return StaticRegistryConfiguration::receiveConfig(
             rtrim(self::WEB_SITE, '/'),
             'events/',
-            self::WEB_FILES_SITE . 'static_registry.sqlite'
+            'sqlite/events/static_registry.sqlite'
         );
     }
 
-    /** Receive config pro Auth — SQLite + pathPrefix auth/. */
+    /** Receive config pro Auth — SQLite v sqlite/auth/ (ne v _files). */
     public static function staticRegistryAuthReceive(): array {
         return StaticRegistryConfiguration::receiveConfig(
             rtrim(self::WEB_SITE, '/'),
             'auth/',
-            self::WEB_FILES_SITE . 'static_registry.sqlite'
+            'sqlite/auth/static_registry.sqlite'
         );
     }
 

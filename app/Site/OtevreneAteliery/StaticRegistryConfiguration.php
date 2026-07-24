@@ -53,9 +53,14 @@ class StaticRegistryConfiguration {
     /**
      * Konfigurace auth/events modulu (příjem metadat).
      *
+     * sqlitePath je oddělený od _files (uživatelské uploady). Jedna DB na modul:
+     *   sqlite/events/static_registry.sqlite
+     *   sqlite/auth/static_registry.sqlite
+     * Soubor se vytvoří při prvním zápisu (StaticRegistryStorage); složky jsou v gitu.
+     *
      * @param string $siteCode např. otevreneateliery
      * @param string $pathPrefix např. events/ nebo auth/
-     * @param string $sqlitePath cesta k sqlite souboru
+     * @param string $sqlitePath cesta k sqlite souboru relativně ke kořeni aplikace
      */
     public static function receiveConfig(string $siteCode, string $pathPrefix, string $sqlitePath): array {
         $token = 'dev-static-registry-' . $siteCode;
