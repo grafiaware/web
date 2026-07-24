@@ -39,6 +39,7 @@ class ApiRegistrator {
         // Static registry API (server-to-server sync z red + template list pro editor)
         $registry->register($this->putPrototype->withUrlPattern('/auth/v1/static/registry/:menuItemId'));
         $registry->register($this->deletePrototype->withUrlPattern('/auth/v1/static/registry/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/auth/v1/static/registry')); // seznam SQLite registry
         $registry->register($this->getPrototype->withUrlPattern('/auth/v1/static/registry/:menuItemId'));
         $registry->register($this->getPrototype->withUrlPattern('/auth/v1/static/templates'));        
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/register'));
@@ -188,6 +189,7 @@ class ApiRegistrator {
         // Static registry API (server-to-server sync z red + template list pro editor)
         $registry->register($this->putPrototype->withUrlPattern('/events/v1/static/registry/:menuItemId'));
         $registry->register($this->deletePrototype->withUrlPattern('/events/v1/static/registry/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/events/v1/static/registry')); // seznam SQLite registry
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/static/registry/:menuItemId'));
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/static/templates'));
 

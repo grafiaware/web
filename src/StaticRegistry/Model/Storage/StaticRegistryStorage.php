@@ -101,12 +101,17 @@ class StaticRegistryStorage {
     }
 
     /**
+     * Seznam záznamů v lokální registry (volitelně filtrovaný podle site_code).
+     *
      * @return StaticRegistryEntry[]
      */
-    public function findAllForModulePush(string $siteCode, string $apiModule): array {
-        unset($apiModule); // rezervováno pro budoucí filtr podle api_module
-        $stmt = $this->pdo->prepare('SELECT * FROM static_registry WHERE site_code = :site_code ORDER BY menu_item_id');
-        $stmt->execute([':site_code' => $siteCode]);
+    public function findAll(?string $siteCode = null): array {
+        if ($siteCode !== null && $siteCode !== '') {
+            $stmt = $this->pdo->prepare('SELECT * FROM static_registry WHERE site_code = :site_code ORDER BY menu_item_id');
+            $stmt->execute([':site_code' => $siteCode]);
+        } else {
+            $stmt = $this->pdo->query('SELECT * FROM static_registry ORDER BY menu_item_id');
+        }
         $entries = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $entries[] = $this->hydrate($row);

@@ -78,6 +78,12 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
         ###########################
         ## StaticRegistryControler — lokální SQLite metadata (push z red) + seznam šablon
         ###########################
+        // Seznam musí být před :menuItemId (a vedle :staticName jako exact match)
+        $this->routeGenerator->addRouteForAction('GET', '/events/v1/static/registry', function(ServerRequestInterface $request) {
+            /** @var StaticRegistryControler $ctrl */
+            $ctrl = $this->container->get(StaticRegistryControler::class);
+            return $ctrl->list($request);
+        });
         $this->routeGenerator->addRouteForAction('GET', '/events/v1/static/registry/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
             /** @var StaticRegistryControler $ctrl */
             $ctrl = $this->container->get(StaticRegistryControler::class);

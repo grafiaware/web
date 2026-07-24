@@ -36,6 +36,8 @@ class StaticRegistryConfiguration {
             #       PUT/DELETE {base}{module}/v1/static/registry/{menuItemId}
             #   - StaticRegistryTemplateListClient::buildTemplatesUrl()
             #       GET {base}{module}/v1/static/templates?prefix=...
+            #   - StaticRegistryListClient::buildListUrl()
+            #       GET {base}{module}/v1/static/registry?siteCode=...
             #   Priorita base URL: parametr $baseUrl z requestu → moduleBaseUrls → HTTP_HOST.
             #
             # 'staticRegistry.push.moduleBaseUrls' => [

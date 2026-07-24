@@ -18,8 +18,9 @@ use UnexpectedValueException;
 /**
  * Controler lokální static registry na auth/events serveru.
  *
- * Přijímá push metadat z red modulu (PUT/DELETE) a poskytuje seznam šablon
- * pro editor v red (GET templates). Endpointy vyžadují hlavičku X-Static-Registry-Token.
+ * Přijímá push metadat z red modulu (PUT/DELETE), poskytuje seznam šablon
+ * pro editor v red (GET templates) a seznam záznamů registry (GET registry).
+ * Endpointy vyžadují hlavičku X-Static-Registry-Token.
  *
  * @author pes2704
  */
@@ -105,14 +106,28 @@ class StaticRegistryControler extends FrontControlerAbstract {
         if ($entry === null) {
             return $this->createJsonOKResponse(['error' => 'not_found'], StatusEnum::_404_NotFound);
         }
+        return $this->createJsonOKResponse($this->entryToArray($entry));
+    }
+
+    /**
+     * Seznam záznamů v lokální SQLite registry — pro admin přehled / porovnání s red DB.
+     *
+     * GET /{module}/v1/static/registry?siteCode=najdisi
+     */
+    public function list(ServerRequestInterface $request): ResponseInterface {
+        if (!$this->assertToken($request)) {
+            return $this->createJsonOKResponse(['error' => 'invalid_token'], StatusEnum::_401_Unauthorized);
+        }
+        $queryParams = $request->getQueryParams();
+        $siteCode = (string) ($queryParams['siteCode'] ?? $this->registryConfig['staticRegistry.siteCode'] ?? '');
+        $items = [];
+        foreach ($this->staticRegistryRepo->findAll($siteCode !== '' ? $siteCode : null) as $entry) {
+            $items[] = $this->entryToArray($entry);
+        }
         return $this->createJsonOKResponse([
-            'menuItemId' => $entry->getMenuItemId(),
-            'redStaticId' => $entry->getRedStaticId(),
-            'path' => $entry->getPath(),
-            'template' => $entry->getTemplate(),
-            'creator' => $entry->getCreator(),
-            'updated' => $entry->getUpdated(),
-            'siteCode' => $entry->getSiteCode(),
+            'items' => $items,
+            'count' => count($items),
+            'siteCode' => $siteCode,
         ]);
     }
 
@@ -129,6 +144,21 @@ class StaticRegistryControler extends FrontControlerAbstract {
         $prefix = (string) ($queryParams['prefix'] ?? $this->registryConfig['staticRegistry.pathPrefix'] ?? '');
         $siteCode = (string) ($queryParams['siteCode'] ?? $this->registryConfig['staticRegistry.siteCode'] ?? '');
         return $this->createJsonOKResponse($this->templateScanner->scan($prefix, $siteCode));
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function entryToArray(StaticRegistryEntry $entry): array {
+        return [
+            'menuItemId' => $entry->getMenuItemId(),
+            'redStaticId' => $entry->getRedStaticId(),
+            'path' => $entry->getPath(),
+            'template' => $entry->getTemplate(),
+            'creator' => $entry->getCreator(),
+            'updated' => $entry->getUpdated(),
+            'siteCode' => $entry->getSiteCode(),
+        ];
     }
 
     private function assertToken(ServerRequestInterface $request): bool {

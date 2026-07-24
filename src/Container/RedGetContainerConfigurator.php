@@ -47,6 +47,8 @@ use Red\Service\CascadeLoader\CascadeLoaderFactory;
 use Red\Service\Menu\DriverService;
 use Red\Service\StaticRegistry\StaticRegistryTemplateListClient;
 use Red\Service\StaticRegistry\StaticRegistryTemplateListClientInterface;
+use Red\Service\StaticRegistry\StaticRegistryListClient;
+use Red\Service\StaticRegistry\StaticRegistryListClientInterface;
 
 // Access
 use Access\AccessPresentation;
@@ -1035,6 +1037,13 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             StaticRegistryTemplateListClient::class => function(ContainerInterface $c) {
                 return $c->get(StaticRegistryTemplateListClientInterface::class);
+            },
+            // Klient pro seznam záznamů SQLite registry — admin přehled static-registry
+            StaticRegistryListClientInterface::class => function(ContainerInterface $c) {
+                return new StaticRegistryListClient();
+            },
+            StaticRegistryListClient::class => function(ContainerInterface $c) {
+                return $c->get(StaticRegistryListClientInterface::class);
             },
             DriverService::class => function(ContainerInterface $c) {
                 return new DriverService(

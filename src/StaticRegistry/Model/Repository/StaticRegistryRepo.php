@@ -37,6 +37,13 @@ class StaticRegistryRepo implements StaticRegistryRepoInterface {
 
     /**
      * {@inheritdoc}
+     */
+    public function findAll(?string $siteCode = null): array {
+        return $this->storage->findAll($siteCode);
+    }
+
+    /**
+     * {@inheritdoc}
      *
      * redStaticId mapuje na StaticItem.id — editor v red pak ví, kam POSTovat update path/template.
      */

@@ -24,6 +24,13 @@ interface StaticRegistryRepoInterface {
     public function getByMenuItemId(int $menuItemId): ?StaticRegistryEntry;
 
     /**
+     * Seznam záznamů v lokální SQLite registry (volitelně podle site_code).
+     *
+     * @return StaticRegistryEntry[]
+     */
+    public function findAll(?string $siteCode = null): array;
+
+    /**
      * Převod lokálního záznamu na StaticItemInterface — StaticItemViewModel
      * pak nemusí rozlišovat zdroj (red DB vs. lokální registry).
      */
