@@ -8,16 +8,12 @@ namespace Site;
  * pushConfig  — red modul (odesílá metadata)
  * receiveConfig — auth/events (přijímá do SQLite, validuje pathPrefix)
  *
- * Token musí být shodný na red i cílovém serveru. V produkci změňte
- * 'dev-static-registry-{site}' a nastavte moduleBaseUrls na remote URL.
+ * Token musí být shodný na red i cílovém serveru.
  */
 class StaticRegistryConfiguration {
 
     /**
      * Konfigurace red modulu (push metadata na auth/events).
-     *
-     * moduleBaseUrls prázdné = same-host fallback (vývoj). V multi-server
-     * nasazení: 'events' => 'https://events.example.com/app/', ...
      *
      * @param string $siteCode např. najdisi
      */
@@ -27,10 +23,26 @@ class StaticRegistryConfiguration {
             'staticRegistry.siteCode' => $siteCode,
             'staticRegistry.token' => $token,
             'staticRegistry.push.enabled' => true,
-            'staticRegistry.push.moduleBaseUrls' => [
-                'events' => '',
-                'auth' => '',
-            ],
+            #
+            # K čemu to je:
+            #   Základní URL cílových serverů (events / auth), kam red modul posílá
+            #   server-to-server requesty při sync static metadat a při načítání
+            #   seznamu šablon do editoru. Bez nastavení se použije same-host fallback
+            #   (aktuální request / HTTP_HOST) — vhodné pro vývoj na jednom serveru.
+            #   V multi-server produkci odkomentujte a nastavte remote URL modulů.
+            #
+            # Kde se čte:
+            #   - StaticRegistryPushClient::buildRegistryUrl()
+            #       PUT/DELETE {base}{module}/v1/static/registry/{menuItemId}
+            #   - StaticRegistryTemplateListClient::buildTemplatesUrl()
+            #       GET {base}{module}/v1/static/templates?prefix=...
+            #   Priorita base URL: parametr $baseUrl z requestu → moduleBaseUrls → HTTP_HOST.
+            #
+            # 'staticRegistry.push.moduleBaseUrls' => [
+            #     'events' => 'https://events.example.com/app/',
+            #     'auth'   => 'https://auth.example.com/app/',
+            # ],
+            #
             'staticRegistry.templatePrefixes' => [
                 'events' => 'events/',
                 'auth' => 'auth/',
