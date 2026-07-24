@@ -17,7 +17,7 @@ use StaticRegistry\Service\StaticTemplateScannerInterface;
 class EventsStaticRegistryContainerConfigurator extends StaticRegistryContainerConfigurator {
 
     public function getParams(): iterable {
-        return ConfigurationCache::staticRegistryEventsReceiveFlat();
+        return ConfigurationCache::staticRegistryEventsReceive();
     }
 
     public function getServicesDefinitions(): iterable {
@@ -30,7 +30,7 @@ class EventsStaticRegistryContainerConfigurator extends StaticRegistryContainerC
                     $c->get(StaticRegistryRepoInterface::class),
                     $c->get(StaticTemplateScannerInterface::class),
                     $c->get(StaticRegistryTokenValidator::class),
-                    ConfigurationCache::staticRegistryEventsReceive(), // normalizovaný config včetně pathPrefix events/
+                    ConfigurationCache::staticRegistryEventsReceive(), // flat klíče včetně pathPrefix events/
                 );
             },
         ]);

@@ -91,7 +91,7 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getParams(): iterable {
         return array_merge(
             ConfigurationCache::api(),
-            ConfigurationCache::staticRegistryFlat(),
+            ConfigurationCache::staticRegistry(),
         );
     }
 

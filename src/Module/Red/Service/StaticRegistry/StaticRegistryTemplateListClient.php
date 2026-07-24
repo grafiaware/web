@@ -19,7 +19,7 @@ class StaticRegistryTemplateListClient implements StaticRegistryTemplateListClie
      */
     public function fetch(string $apiModule, string $prefix, ?string $baseUrl = null): array {
         $url = $this->buildTemplatesUrl($apiModule, $prefix, $baseUrl);
-        $token = ConfigurationCache::staticRegistry()['token'] ?? '';
+        $token = ConfigurationCache::staticRegistry()['staticRegistry.token'] ?? '';
         $headers = "X-Static-Registry-Token: $token\r\n";
         $options = [
             'http' => [
@@ -42,7 +42,7 @@ class StaticRegistryTemplateListClient implements StaticRegistryTemplateListClie
     }
 
     private function buildTemplatesUrl(string $apiModule, string $prefix, ?string $baseUrl): string {
-        $configuredBase = ConfigurationCache::staticRegistry()['push']['moduleBaseUrls'][$apiModule] ?? null;
+        $configuredBase = ConfigurationCache::staticRegistry()['staticRegistry.push.moduleBaseUrls'][$apiModule] ?? null;
         if ($baseUrl !== null && $baseUrl !== '') {
             $root = rtrim($baseUrl, '/') . '/';
         } elseif (is_string($configuredBase) && $configuredBase !== '') {
@@ -53,7 +53,7 @@ class StaticRegistryTemplateListClient implements StaticRegistryTemplateListClie
             $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
             $root = "$scheme://$host/";
         }
-        $siteCode = urlencode(ConfigurationCache::staticRegistry()['siteCode']);
+        $siteCode = urlencode((string) (ConfigurationCache::staticRegistry()['staticRegistry.siteCode'] ?? ''));
         $encodedPrefix = urlencode($prefix);
         return $root . "$apiModule/v1/static/templates?prefix=$encodedPrefix&siteCode=$siteCode";
     }

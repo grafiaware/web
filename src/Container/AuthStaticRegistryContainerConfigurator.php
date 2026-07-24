@@ -17,7 +17,7 @@ use StaticRegistry\Service\StaticTemplateScannerInterface;
 class AuthStaticRegistryContainerConfigurator extends StaticRegistryContainerConfigurator {
 
     public function getParams(): iterable {
-        return ConfigurationCache::staticRegistryAuthReceiveFlat();
+        return ConfigurationCache::staticRegistryAuthReceive();
     }
 
     public function getServicesDefinitions(): iterable {
@@ -30,7 +30,7 @@ class AuthStaticRegistryContainerConfigurator extends StaticRegistryContainerCon
                     $c->get(StaticRegistryRepoInterface::class),
                     $c->get(StaticTemplateScannerInterface::class),
                     $c->get(StaticRegistryTokenValidator::class),
-                    ConfigurationCache::staticRegistryAuthReceive(), // normalizovaný config včetně pathPrefix auth/
+                    ConfigurationCache::staticRegistryAuthReceive(), // flat klíče včetně pathPrefix auth/
                 );
             },
         ]);

@@ -54,7 +54,7 @@ class StaticRegistryPushClient implements StaticRegistryPushClientInterface {
     }
 
     private function isPushEnabled(): bool {
-        return (bool) (ConfigurationCache::staticRegistry()['push']['enabled'] ?? false);
+        return (bool) (ConfigurationCache::staticRegistry()['staticRegistry.push.enabled'] ?? false);
     }
 
     /** Push má smysl jen pro moduly bez red DB (events, auth). */
@@ -64,10 +64,10 @@ class StaticRegistryPushClient implements StaticRegistryPushClientInterface {
 
     /**
      * Priorita base URL: explicitní parametr → konfigurace moduleBaseUrls → same-host fallback.
-     * Prázdné moduleBaseUrls = typicky vývoj na jednom hostu (red i events na stejném serveru).
+     * Prázdné / chybějící moduleBaseUrls = typicky vývoj na jednom hostu (red i events na stejném serveru).
      */
     private function buildRegistryUrl(string $apiModule, int $menuItemId, ?string $baseUrl): string {
-        $configuredBase = ConfigurationCache::staticRegistry()['push']['moduleBaseUrls'][$apiModule] ?? null;
+        $configuredBase = ConfigurationCache::staticRegistry()['staticRegistry.push.moduleBaseUrls'][$apiModule] ?? null;
         if ($baseUrl !== null && $baseUrl !== '') {
             $root = rtrim($baseUrl, '/') . '/';
         } elseif (is_string($configuredBase) && $configuredBase !== '') {
@@ -85,7 +85,7 @@ class StaticRegistryPushClient implements StaticRegistryPushClientInterface {
     }
 
     private function httpRequest(string $method, string $url, ?string $body): void {
-        $token = ConfigurationCache::staticRegistry()['token'] ?? '';
+        $token = ConfigurationCache::staticRegistry()['staticRegistry.token'] ?? '';
         $headers = "Content-Type: application/json\r\n"
             . "X-Static-Registry-Token: $token\r\n";
         $options = [

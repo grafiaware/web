@@ -35,7 +35,7 @@ class StaticRegistryPushService {
         $this->pushClient->push(
             $apiModule,
             $static,
-            ConfigurationCache::staticRegistry()['siteCode'],
+            ConfigurationCache::staticRegistry()['staticRegistry.siteCode'] ?? '',
             $baseUrl
         );
     }

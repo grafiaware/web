@@ -45,7 +45,7 @@ class StaticRegistryPushAllControler extends FrontControlerAbstract {
         }
 
         $baseUrl = $this->resolveBaseUrl($request);
-        $siteCode = ConfigurationCache::staticRegistry()['siteCode'];
+        $siteCode = ConfigurationCache::staticRegistry()['staticRegistry.siteCode'] ?? '';
         $pushed = 0;
         $failed = 0;
         $errors = [];

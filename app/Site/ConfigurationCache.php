@@ -293,54 +293,15 @@ class ConfigurationCache {
     }
 
     public static function staticRegistry(): array {
-        return self::normalizeStaticRegistry(self::getConfigModule('staticRegistry'));
-    }
-
-    public static function staticRegistryEventsReceive(): array {
-        return self::normalizeStaticRegistry(self::getConfigModule('staticRegistryEventsReceive'));
-    }
-
-    public static function staticRegistryAuthReceive(): array {
-        return self::normalizeStaticRegistry(self::getConfigModule('staticRegistryAuthReceive'));
-    }
-
-    /** Flat parametry pro DI kontejner (klíče staticRegistry.*). */
-    public static function staticRegistryFlat(): array {
         return self::getConfigModule('staticRegistry');
     }
 
-    public static function staticRegistryEventsReceiveFlat(): array {
+    public static function staticRegistryEventsReceive(): array {
         return self::getConfigModule('staticRegistryEventsReceive');
     }
 
-    public static function staticRegistryAuthReceiveFlat(): array {
+    public static function staticRegistryAuthReceive(): array {
         return self::getConfigModule('staticRegistryAuthReceive');
-    }
-
-    /**
-     * Převede flat konfiguraci (staticRegistry.token, ...) na vnořené pole
-     * používané službami (['token'=>..., 'push'=>['enabled'=>...], ...]).
-     *
-     * @param array<string, mixed> $flat
-     * @return array<string, mixed>
-     */
-    private static function normalizeStaticRegistry(array $flat): array {
-        return [
-            'siteCode' => $flat['staticRegistry.siteCode'] ?? '',
-            'token' => $flat['staticRegistry.token'] ?? '',
-            'pathPrefix' => $flat['staticRegistry.pathPrefix'] ?? '',
-            'storage' => [
-                'sqlitePath' => $flat['staticRegistry.storage.sqlitePath'] ?? '',
-            ],
-            'push' => [
-                'enabled' => (bool) ($flat['staticRegistry.push.enabled'] ?? false),
-                'moduleBaseUrls' => $flat['staticRegistry.push.moduleBaseUrls'] ?? [],
-            ],
-            'templatePrefixes' => $flat['staticRegistry.templatePrefixes'] ?? [
-                'events' => 'events/',
-                'auth' => 'auth/',
-            ],
-        ];
     }
     
     

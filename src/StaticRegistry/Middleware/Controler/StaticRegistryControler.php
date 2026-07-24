@@ -26,7 +26,7 @@ use UnexpectedValueException;
 class StaticRegistryControler extends FrontControlerAbstract {
 
     /**
-     * @param array<string, mixed> $registryConfig Normalizovaná konfigurace static registry (token, pathPrefix, siteCode)
+     * @param array<string, mixed> $registryConfig Flat konfigurace static registry (klíče staticRegistry.*)
      */
     public function __construct(
         StatusSecurityRepo $statusSecurityRepo,
@@ -68,7 +68,7 @@ class StaticRegistryControler extends FrontControlerAbstract {
             ->setTemplate((string) ($payload['template'] ?? ''))
             ->setCreator(isset($payload['creator']) ? (string) $payload['creator'] : null)
             ->setUpdated((string) ($payload['updated'] ?? date(DATE_ATOM)))
-            ->setSiteCode((string) ($payload['siteCode'] ?? $this->registryConfig['siteCode']));
+            ->setSiteCode((string) ($payload['siteCode'] ?? $this->registryConfig['staticRegistry.siteCode'] ?? ''));
 
         // true = zapsáno, false = přeskočeno (lokální updated je novější)
         $upserted = $this->staticRegistryRepo->upsert($entry);
@@ -126,13 +126,13 @@ class StaticRegistryControler extends FrontControlerAbstract {
             return $this->createJsonOKResponse(['error' => 'invalid_token'], StatusEnum::_401_Unauthorized);
         }
         $queryParams = $request->getQueryParams();
-        $prefix = (string) ($queryParams['prefix'] ?? $this->registryConfig['pathPrefix']);
-        $siteCode = (string) ($queryParams['siteCode'] ?? $this->registryConfig['siteCode']);
+        $prefix = (string) ($queryParams['prefix'] ?? $this->registryConfig['staticRegistry.pathPrefix'] ?? '');
+        $siteCode = (string) ($queryParams['siteCode'] ?? $this->registryConfig['staticRegistry.siteCode'] ?? '');
         return $this->createJsonOKResponse($this->templateScanner->scan($prefix, $siteCode));
     }
 
     private function assertToken(ServerRequestInterface $request): bool {
-        return $this->tokenValidator->isValid($request, (string) $this->registryConfig['token']);
+        return $this->tokenValidator->isValid($request, (string) ($this->registryConfig['staticRegistry.token'] ?? ''));
     }
 
     /**
@@ -142,8 +142,8 @@ class StaticRegistryControler extends FrontControlerAbstract {
         if ($path === '') {
             return;
         }
-        $expectedPrefix = (string) $this->registryConfig['pathPrefix'];
-        if (!str_starts_with($path, $expectedPrefix)) {
+        $expectedPrefix = (string) ($this->registryConfig['staticRegistry.pathPrefix'] ?? '');
+        if ($expectedPrefix !== '' && !str_starts_with($path, $expectedPrefix)) {
             throw new UnexpectedValueException("invalid_path_prefix");
         }
     }

@@ -24,7 +24,7 @@ class StaticRegistryContainerConfigurator extends ContainerConfiguratorAbstract 
 
     public function getParams(): iterable {
         // Flat parametry (staticRegistry.storage.sqlitePath) — override v podtřídách
-        return ConfigurationCache::staticRegistryFlat();
+        return ConfigurationCache::staticRegistry();
     }
 
     public function getServicesDefinitions(): iterable {

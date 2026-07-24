@@ -1,9 +1,9 @@
 <?php
 
-namespace Site;
+namespace Site\Grafia;
 
 /**
- * Sdílená konfigurace static registry pro všechny site.
+ * Konfigurace static registry pro site grafia.
  *
  * pushConfig  — red modul (odesílá metadata)
  * receiveConfig — auth/events (přijímá do SQLite, validuje pathPrefix)
@@ -15,7 +15,7 @@ class StaticRegistryConfiguration {
     /**
      * Konfigurace red modulu (push metadata na auth/events).
      *
-     * @param string $siteCode např. najdisi
+     * @param string $siteCode např. grafia
      */
     public static function pushConfig(string $siteCode): array {
         $token = 'dev-static-registry-' . $siteCode;
@@ -53,7 +53,7 @@ class StaticRegistryConfiguration {
     /**
      * Konfigurace auth/events modulu (příjem metadat).
      *
-     * @param string $siteCode např. najdisi
+     * @param string $siteCode např. grafia
      * @param string $pathPrefix např. events/ nebo auth/
      * @param string $sqlitePath cesta k sqlite souboru
      */

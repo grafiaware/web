@@ -217,7 +217,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 ConfigurationCache::webComponent(),
                 ConfigurationCache::menu(),
                 ConfigurationCache::redTemplates(),
-                ConfigurationCache::staticRegistryFlat(),
+                ConfigurationCache::staticRegistry(),
                 );
     }
 

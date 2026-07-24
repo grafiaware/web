@@ -36,7 +36,7 @@ class StaticItemViewModel extends ViewModelAbstract implements StaticItemViewMod
     private ?StaticRegistryRepoInterface $staticRegistryRepo = null;
     /** Volitelně v red — pro select box šablon při editaci */
     private ?StaticRegistryTemplateListClientInterface $templateListClient = null;
-    /** Base URL requestu — fallback když push.moduleBaseUrls nejsou nastaveny */
+    /** Base URL requestu — fallback když staticRegistry.push.moduleBaseUrls nejsou nastaveny */
     private ?string $requestBaseUrl = null;
 
     public function __construct(
@@ -156,7 +156,7 @@ class StaticItemViewModel extends ViewModelAbstract implements StaticItemViewMod
         if ($apiModule === null || !in_array($apiModule, ['events', 'auth'], true)) {
             return [];
         }
-        $prefixes = ConfigurationCache::staticRegistry()['templatePrefixes'] ?? [];
+        $prefixes = ConfigurationCache::staticRegistry()['staticRegistry.templatePrefixes'] ?? [];
         $prefix = $prefixes[$apiModule] ?? ($apiModule . '/');
         try {
             return $this->templateListClient->fetch($apiModule, $prefix, $this->requestBaseUrl);
