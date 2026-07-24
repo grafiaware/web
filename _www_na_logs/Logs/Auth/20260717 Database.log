@@ -1,0 +1,1732 @@
+debug | 2026-07-17 13:41:21 | Logger start. New log file created: C:/Users/pes2704/git_repo_for_vscode/web/_www_na_logs/Logs/Auth/20260717 Database.log.
+debug | 2026-07-17 13:41:21 | Mode 'new log file for day, apend to log in one day range'.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (1), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (1): prepare( SELECT `login_name_fk`, `password_hash`, `role_fk`, `created`, `updated`  FROM `credentials`  WHERE  login_name_fk LIKE :name_like , ). Vytvořen Statement (1).
+debug | 2026-07-17 13:41:21 | Statement (1): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (1): bindValue(name_like, ROLEDaoTest_%, 2)
+debug | 2026-07-17 13:41:21 | Statement (1): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (1): prepare( SELECT `role`  FROM `role`  WHERE  role LIKE :role_like , ). Vytvořen Statement (2).
+debug | 2026-07-17 13:41:21 | Statement (2): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (2): bindValue(role_like, ROLEDaoTest_%, 2)
+debug | 2026-07-17 13:41:21 | Statement (2): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (1): prepare( SELECT `login_name`  FROM `login`  WHERE `login_name` = :login_name , ). Vytvořen Statement (3).
+debug | 2026-07-17 13:41:21 | Statement (3): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (3): bindValue(:login_name, ROLEDaoTest_Login1, 2)
+debug | 2026-07-17 13:41:21 | Statement (3): execute().
+debug | 2026-07-17 13:41:21 | Statement (3): fetch(0, 0, 0) Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (2), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (2) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (2) beginTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (2) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (2): prepare( SELECT `login_name`  FROM `login`  WHERE `login_name` = :login_name  LOCK IN SHARE MODE, ). Vytvořen Statement (4).
+debug | 2026-07-17 13:41:21 | Statement (4): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (4): bindValue(login_name, ROLEDaoTest_Login1, 2)
+debug | 2026-07-17 13:41:21 | Statement (4): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (2): prepare(INSERT INTO login (`login_name`)  VALUES (:login_name), ). Vytvořen Statement (5).
+debug | 2026-07-17 13:41:21 | Statement (5): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (5): bindValue(login_name, ROLEDaoTest_Login1, 2)
+debug | 2026-07-17 13:41:21 | Statement (5): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (2) commit()
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (3), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (4), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (4) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (4) beginTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (4) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (4): prepare( SELECT `role`  FROM `role`  WHERE `role` = :role  LOCK IN SHARE MODE, ). Vytvořen Statement (6).
+debug | 2026-07-17 13:41:21 | Statement (6): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (6): bindValue(role, ROLEDaoTest_Barbuch, 2)
+debug | 2026-07-17 13:41:21 | Statement (6): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (4): prepare(INSERT INTO role (`role`)  VALUES (:role), ). Vytvořen Statement (7).
+debug | 2026-07-17 13:41:21 | Statement (7): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (7): bindValue(role, ROLEDaoTest_Barbuch, 2)
+debug | 2026-07-17 13:41:21 | Statement (7): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (4) commit()
+debug | 2026-07-17 13:41:21 | Handler single_login (4): prepare(INSERT INTO credentials (`role_fk`, `password_hash`, `login_name_fk`)  VALUES (:role_fk, :password_hash, :login_name_fk), ). Vytvořen Statement (8).
+debug | 2026-07-17 13:41:21 | Statement (8): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (8): bindValue(role_fk, ROLEDaoTest_Barbuch, 2)
+debug | 2026-07-17 13:41:21 | Statement (8): bindValue(password_hash, a, 2)
+debug | 2026-07-17 13:41:21 | Statement (8): bindValue(login_name_fk, ROLEDaoTest_Login1, 2)
+debug | 2026-07-17 13:41:21 | Statement (8): execute().
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (5), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (5): prepare( SELECT `role`  FROM `role`  WHERE `role` = :role , ). Vytvořen Statement (9).
+debug | 2026-07-17 13:41:21 | Statement (9): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (9): bindValue(:role, ROLEDaoTest_Barbuch, 2)
+debug | 2026-07-17 13:41:21 | Statement (9): execute().
+debug | 2026-07-17 13:41:21 | Statement (9): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (6), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (6): prepare( SELECT `role`  FROM `role`  WHERE `role` = :role , ). Vytvořen Statement (10).
+debug | 2026-07-17 13:41:21 | Statement (10): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (10): bindValue(:role, ROLEDaoTest_Barbuch, 2)
+debug | 2026-07-17 13:41:21 | Statement (10): execute().
+debug | 2026-07-17 13:41:21 | Statement (10): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (7), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (7): prepare( SELECT `role`  FROM `role`  WHERE `role` = :role , ). Vytvořen Statement (11).
+debug | 2026-07-17 13:41:21 | Statement (11): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (11): bindValue(:role, ROLEDaoTest_Barbuch, 2)
+debug | 2026-07-17 13:41:21 | Statement (11): execute().
+debug | 2026-07-17 13:41:21 | Statement (11): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (8), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (8): prepare(UPDATE role SET `role` = :role WHERE `role` = :key_role , ). Vytvořen Statement (12).
+debug | 2026-07-17 13:41:21 | Statement (12): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (12): bindValue(role, ROLEDaoTest_Barbubuchac, 2)
+debug | 2026-07-17 13:41:21 | Statement (12): bindValue(key_role, ROLEDaoTest_Barbuch, 2)
+debug | 2026-07-17 13:41:21 | Statement (12): execute().
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (9), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (9): prepare( SELECT `login_name_fk`, `password_hash`, `role_fk`, `created`, `updated`  FROM `credentials`  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (13).
+debug | 2026-07-17 13:41:21 | Statement (13): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (13): bindValue(:login_name_fk, ROLEDaoTest_Login1, 2)
+debug | 2026-07-17 13:41:21 | Statement (13): execute().
+debug | 2026-07-17 13:41:21 | Statement (13): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (10), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (10): prepare( SELECT `role`  FROM `role` , ). Vytvořen Statement (14).
+debug | 2026-07-17 13:41:21 | Statement (14): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (14): execute().
+debug | 2026-07-17 13:41:21 | Statement (14): execute().
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (11), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (11): prepare( SELECT `role`  FROM `role`  WHERE `role` = :role , ). Vytvořen Statement (15).
+debug | 2026-07-17 13:41:21 | Statement (15): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (15): bindValue(:role, ROLEDaoTest_Barbubuchac, 2)
+debug | 2026-07-17 13:41:21 | Statement (15): execute().
+debug | 2026-07-17 13:41:21 | Statement (15): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Handler single_login (11): prepare(DELETE FROM role  WHERE `role` = :role , ). Vytvořen Statement (16).
+debug | 2026-07-17 13:41:21 | Statement (16): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (16): bindValue(role, ROLEDaoTest_Barbubuchac, 2)
+error | 2026-07-17 13:41:21 | Statement (16): Selhal execute(null).
+error | 2026-07-17 13:41:21 | Metoda Pes\Database\Statement\Statement::execute selhala. Vyhozena výjimka \PDOException: SQLSTATE[23000]: Integrity constraint violation: 1451 Cannot delete or update a parent row: a foreign key constraint fails (`single_login`.`credentials`, CONSTRAINT `credentials_ibfk_2` FOREIGN KEY (`role_fk`) REFERENCES `role` (`role`) ON UPDATE CASCADE).
+error | 2026-07-17 13:41:21 | Výpis errorInfo: Array
+    (
+        [0] => 23000
+        [1] => 1451
+        [2] => Cannot delete or update a parent row: a foreign key constraint fails (`single_login`.`credentials`, CONSTRAINT `credentials_ibfk_2` FOREIGN KEY (`role_fk`) REFERENCES `role` (`role`) ON UPDATE CASCADE)
+    )
+debug | 2026-07-17 13:41:21 | Statement (16): execute().
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (12), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (12): prepare( SELECT `login_name_fk`, `password_hash`, `role_fk`, `created`, `updated`  FROM `credentials`  WHERE  login_name_fk LIKE :name_like , ). Vytvořen Statement (17).
+debug | 2026-07-17 13:41:21 | Statement (17): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (17): bindValue(name_like, ROLEDaoTest_%, 2)
+debug | 2026-07-17 13:41:21 | Statement (17): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (12): prepare(DELETE FROM credentials  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (18).
+debug | 2026-07-17 13:41:21 | Statement (18): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (18): bindValue(login_name_fk, ROLEDaoTest_Login1, 2)
+debug | 2026-07-17 13:41:21 | Statement (18): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (12): prepare( SELECT `role`  FROM `role`  WHERE `role` = :role , ). Vytvořen Statement (19).
+debug | 2026-07-17 13:41:21 | Statement (19): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (19): bindValue(:role, ROLEDaoTest_Barbubuchac, 2)
+debug | 2026-07-17 13:41:21 | Statement (19): execute().
+debug | 2026-07-17 13:41:21 | Statement (19): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Handler single_login (12): prepare(DELETE FROM role  WHERE `role` = :role , ). Vytvořen Statement (20).
+debug | 2026-07-17 13:41:21 | Statement (20): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (20): bindValue(role, ROLEDaoTest_Barbubuchac, 2)
+debug | 2026-07-17 13:41:21 | Statement (20): execute().
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (13), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (13): prepare( SELECT `role`  FROM `role`  WHERE `role` = :role , ). Vytvořen Statement (21).
+debug | 2026-07-17 13:41:21 | Statement (21): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (21): bindValue(:role, ROLEDaoTest_Barbubuchac, 2)
+debug | 2026-07-17 13:41:21 | Statement (21): execute().
+debug | 2026-07-17 13:41:21 | Statement (21): fetch(0, 0, 0) Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (14), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (14): prepare( SELECT `role`  FROM `role`  WHERE `role` = :role , ). Vytvořen Statement (22).
+debug | 2026-07-17 13:41:21 | Statement (22): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (22): bindValue(:role, ROLEDaoTest_Barbuch, 2)
+debug | 2026-07-17 13:41:21 | Statement (22): execute().
+debug | 2026-07-17 13:41:21 | Statement (22): fetch(0, 0, 0) Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (15), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (15): prepare( SELECT `login_name_fk`, `password_hash`, `role_fk`, `created`, `updated`  FROM `credentials`  WHERE  login_name_fk LIKE :name_like , ). Vytvořen Statement (23).
+debug | 2026-07-17 13:41:21 | Statement (23): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (23): bindValue(name_like, ROLEDaoTest_%, 2)
+debug | 2026-07-17 13:41:21 | Statement (23): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (15): prepare( SELECT `role`  FROM `role`  WHERE  role LIKE :role_like , ). Vytvořen Statement (24).
+debug | 2026-07-17 13:41:21 | Statement (24): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (24): bindValue(role_like, ROLEDaoTest_%, 2)
+debug | 2026-07-17 13:41:21 | Statement (24): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (15): prepare( SELECT `login_name`  FROM `login`  WHERE `login_name` = :login_name , ). Vytvořen Statement (25).
+debug | 2026-07-17 13:41:21 | Statement (25): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (25): bindValue(:login_name, ROLEDaoTest_Login1, 2)
+debug | 2026-07-17 13:41:21 | Statement (25): execute().
+debug | 2026-07-17 13:41:21 | Statement (25): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Handler single_login (15): prepare(DELETE FROM login  WHERE `login_name` = :login_name , ). Vytvořen Statement (26).
+debug | 2026-07-17 13:41:21 | Statement (26): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (26): bindValue(login_name, ROLEDaoTest_Login1, 2)
+debug | 2026-07-17 13:41:21 | Statement (26): execute().
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (16), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (16): prepare( SELECT `login_name_fk`, `password_hash`, `role_fk`, `created`, `updated`  FROM `credentials`  WHERE login_name_fk LIKE :login_name_like , ). Vytvořen Statement (27).
+debug | 2026-07-17 13:41:21 | Statement (27): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (27): bindValue(login_name_like, testLoginAggregateCredentials%, 2)
+debug | 2026-07-17 13:41:21 | Statement (27): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (16): prepare( SELECT `login_name`  FROM `login`  WHERE login_name LIKE :login_name_like , ). Vytvořen Statement (28).
+debug | 2026-07-17 13:41:21 | Statement (28): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (28): bindValue(login_name_like, testLoginAggregateCredentials%, 2)
+debug | 2026-07-17 13:41:21 | Statement (28): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (16): prepare(DELETE FROM login  WHERE `login_name` = :login_name , ). Vytvořen Statement (29).
+debug | 2026-07-17 13:41:21 | Statement (29): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (29): bindValue(login_name, testLoginAggregateCredentials1, 2)
+debug | 2026-07-17 13:41:21 | Statement (29): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (16) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (16) beginTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (16) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (16): prepare( SELECT `login_name`  FROM `login`  WHERE `login_name` = :login_name  LOCK IN SHARE MODE, ). Vytvořen Statement (30).
+debug | 2026-07-17 13:41:21 | Statement (30): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (30): bindValue(login_name, testLoginAggregateCredentials1, 2)
+debug | 2026-07-17 13:41:21 | Statement (30): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (16): prepare(INSERT INTO login (`login_name`)  VALUES (:login_name), ). Vytvořen Statement (31).
+debug | 2026-07-17 13:41:21 | Statement (31): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (31): bindValue(login_name, testLoginAggregateCredentials1, 2)
+debug | 2026-07-17 13:41:21 | Statement (31): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (16) commit()
+debug | 2026-07-17 13:41:21 | Handler single_login (16): prepare(INSERT INTO credentials (`login_name_fk`, `password_hash`, `role_fk`)  VALUES (:login_name_fk, :password_hash, :role_fk), ). Vytvořen Statement (32).
+debug | 2026-07-17 13:41:21 | Statement (32): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (32): bindValue(login_name_fk, testLoginAggregateCredentials1, 2)
+debug | 2026-07-17 13:41:21 | Statement (32): bindValue(password_hash, testHeslosetUpBeforeClass, 2)
+debug | 2026-07-17 13:41:21 | Statement (32): bindValue(role_fk, panákZTestu, 2)
+error | 2026-07-17 13:41:21 | Statement (32): Selhal execute(null).
+error | 2026-07-17 13:41:21 | Metoda Pes\Database\Statement\Statement::execute selhala. Vyhozena výjimka \PDOException: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`single_login`.`credentials`, CONSTRAINT `credentials_ibfk_2` FOREIGN KEY (`role_fk`) REFERENCES `role` (`role`) ON UPDATE CASCADE).
+error | 2026-07-17 13:41:21 | Výpis errorInfo: Array
+    (
+        [0] => 23000
+        [1] => 1452
+        [2] => Cannot add or update a child row: a foreign key constraint fails (`single_login`.`credentials`, CONSTRAINT `credentials_ibfk_2` FOREIGN KEY (`role_fk`) REFERENCES `role` (`role`) ON UPDATE CASCADE)
+    )
+debug | 2026-07-17 13:41:21 | Statement (32): execute().
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (17), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (17): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE login_name_fk LIKE :login_name_like , ). Vytvořen Statement (33).
+debug | 2026-07-17 13:41:21 | Statement (33): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (33): bindValue(login_name_like, testLoginAggregateRegistration%, 2)
+debug | 2026-07-17 13:41:21 | Statement (33): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (17): prepare( SELECT `login_name`  FROM `login`  WHERE login_name LIKE :login_name_like , ). Vytvořen Statement (34).
+debug | 2026-07-17 13:41:21 | Statement (34): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (34): bindValue(login_name_like, testLoginAggregateRegistration%, 2)
+debug | 2026-07-17 13:41:21 | Statement (34): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (17) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (17) beginTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (17) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (17): prepare( SELECT `login_name`  FROM `login`  WHERE `login_name` = :login_name  LOCK IN SHARE MODE, ). Vytvořen Statement (35).
+debug | 2026-07-17 13:41:21 | Statement (35): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (35): bindValue(login_name, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (35): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (17): prepare(INSERT INTO login (`login_name`)  VALUES (:login_name), ). Vytvořen Statement (36).
+debug | 2026-07-17 13:41:21 | Statement (36): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (36): bindValue(login_name, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (36): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (17) commit()
+debug | 2026-07-17 13:41:21 | Handler single_login (17) beginTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (17) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (17): prepare(SELECT uid
+                            FROM registration
+                            WHERE uid = :uid LOCK IN SHARE MODE, ). Vytvořen Statement (37).
+debug | 2026-07-17 13:41:21 | Statement (37): bindParam(:uid, 6a5a14e15e788, 2, , )
+debug | 2026-07-17 13:41:21 | Statement (37): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (17) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (17) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (17): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE `login_name_fk` = :login_name_fk  LOCK IN SHARE MODE, ). Vytvořen Statement (38).
+debug | 2026-07-17 13:41:21 | Statement (38): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (38): bindValue(login_name_fk, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (38): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (17): prepare(INSERT INTO registration (`login_name_fk`, `password_hash`, `uid`)  VALUES (:login_name_fk, :password_hash, :uid), ). Vytvořen Statement (39).
+debug | 2026-07-17 13:41:21 | Statement (39): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (39): bindValue(login_name_fk, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (39): bindValue(password_hash, testHeslosetUpBeforeClass, 2)
+debug | 2026-07-17 13:41:21 | Statement (39): bindValue(uid, 6a5a14e15e788, 2)
+debug | 2026-07-17 13:41:21 | Statement (39): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (17) commit()
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (18), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (19), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (19): prepare( SELECT `login_name`  FROM `login`  WHERE `login_name` = :login_name , ). Vytvořen Statement (40).
+debug | 2026-07-17 13:41:21 | Statement (40): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (40): bindValue(:login_name, QWER45T6U7I89OPOLKJHGFD, 2)
+debug | 2026-07-17 13:41:21 | Statement (40): execute().
+debug | 2026-07-17 13:41:21 | Statement (40): fetch(0, 0, 0) Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (20), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (20): prepare( SELECT `login_name`  FROM `login`  WHERE `login_name` = :login_name , ). Vytvořen Statement (41).
+debug | 2026-07-17 13:41:21 | Statement (41): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (41): bindValue(:login_name, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (41): execute().
+debug | 2026-07-17 13:41:21 | Statement (41): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Handler single_login (20): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (42).
+debug | 2026-07-17 13:41:21 | Statement (42): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (42): bindValue(:login_name_fk, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (42): execute().
+debug | 2026-07-17 13:41:21 | Statement (42): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Handler single_login (20): prepare(DELETE FROM registration  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (43).
+debug | 2026-07-17 13:41:21 | Statement (43): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (43): bindValue(login_name_fk, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (43): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (20): prepare(DELETE FROM login  WHERE `login_name` = :login_name , ). Vytvořen Statement (44).
+debug | 2026-07-17 13:41:21 | Statement (44): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (44): bindValue(login_name, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (44): execute().
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (21), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (21): prepare( SELECT `login_name`  FROM `login`  WHERE `login_name` = :login_name , ). Vytvořen Statement (45).
+debug | 2026-07-17 13:41:21 | Statement (45): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (45): bindValue(:login_name, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (45): execute().
+debug | 2026-07-17 13:41:21 | Statement (45): fetch(0, 0, 0) Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (22), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (22) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (22) beginTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (22) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (22): prepare( SELECT `login_name`  FROM `login`  WHERE `login_name` = :login_name  LOCK IN SHARE MODE, ). Vytvořen Statement (46).
+debug | 2026-07-17 13:41:21 | Statement (46): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (46): bindValue(login_name, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (46): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (22): prepare(INSERT INTO login (`login_name`)  VALUES (:login_name), ). Vytvořen Statement (47).
+debug | 2026-07-17 13:41:21 | Statement (47): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (47): bindValue(login_name, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (47): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (22) commit()
+debug | 2026-07-17 13:41:21 | Handler single_login (22) beginTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (22) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (22): prepare(SELECT uid
+                            FROM registration
+                            WHERE uid = :uid LOCK IN SHARE MODE, ). Vytvořen Statement (48).
+debug | 2026-07-17 13:41:21 | Statement (48): bindParam(:uid, 6a5a14e1720d7, 2, , )
+debug | 2026-07-17 13:41:21 | Statement (48): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (22) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (22) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (22): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE `login_name_fk` = :login_name_fk  LOCK IN SHARE MODE, ). Vytvořen Statement (49).
+debug | 2026-07-17 13:41:21 | Statement (49): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (49): bindValue(login_name_fk, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (49): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (22): prepare(INSERT INTO registration (`login_name_fk`, `password_hash`, `email`, `info`, `email_time`, `uid`)  VALUES (:login_name_fk, :password_hash, :email, :info, :email_time, :uid), ). Vytvořen Statement (50).
+debug | 2026-07-17 13:41:21 | Statement (50): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (50): bindValue(login_name_fk, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (50): bindValue(password_hash, testHeslo, 2)
+debug | 2026-07-17 13:41:21 | Statement (50): bindValue(email, test.email@mejl.cz, 2)
+debug | 2026-07-17 13:41:21 | Statement (50): bindValue(info, , 0)
+debug | 2026-07-17 13:41:21 | Statement (50): bindValue(email_time, , 0)
+debug | 2026-07-17 13:41:21 | Statement (50): bindValue(uid, 6a5a14e1720d7, 2)
+debug | 2026-07-17 13:41:21 | Statement (50): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (22) commit()
+debug | 2026-07-17 13:41:21 | Handler single_login (22): prepare(UPDATE registration SET `info` = :info, `email_time` = :email_time WHERE `login_name_fk` = :key_login_name_fk , ). Vytvořen Statement (51).
+debug | 2026-07-17 13:41:21 | Statement (51): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (51): bindValue(info, , 0)
+debug | 2026-07-17 13:41:21 | Statement (51): bindValue(email_time, , 0)
+debug | 2026-07-17 13:41:21 | Statement (51): bindValue(key_login_name_fk, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (51): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (22): prepare( SELECT `login_name`  FROM `login`  WHERE `login_name` = :login_name , ). Vytvořen Statement (52).
+debug | 2026-07-17 13:41:21 | Statement (52): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (52): bindValue(:login_name, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (52): execute().
+debug | 2026-07-17 13:41:21 | Statement (52): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Handler single_login (22): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (53).
+debug | 2026-07-17 13:41:21 | Statement (53): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (53): bindValue(:login_name_fk, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (53): execute().
+debug | 2026-07-17 13:41:21 | Statement (53): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (23), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (23): prepare( SELECT `login_name`  FROM `login`  WHERE `login_name` = :login_name , ). Vytvořen Statement (54).
+debug | 2026-07-17 13:41:21 | Statement (54): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (54): bindValue(:login_name, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (54): execute().
+debug | 2026-07-17 13:41:21 | Statement (54): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Handler single_login (23): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (55).
+debug | 2026-07-17 13:41:21 | Statement (55): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (55): bindValue(:login_name_fk, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (55): execute().
+debug | 2026-07-17 13:41:21 | Statement (55): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (24), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (24) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (24) beginTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (24) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (24): prepare( SELECT `login_name`  FROM `login`  WHERE `login_name` = :login_name  LOCK IN SHARE MODE, ). Vytvořen Statement (56).
+debug | 2026-07-17 13:41:21 | Statement (56): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (56): bindValue(login_name, testLoginAggregateRegistration2, 2)
+debug | 2026-07-17 13:41:21 | Statement (56): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (24): prepare(INSERT INTO login (`login_name`)  VALUES (:login_name), ). Vytvořen Statement (57).
+debug | 2026-07-17 13:41:21 | Statement (57): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (57): bindValue(login_name, testLoginAggregateRegistration2, 2)
+debug | 2026-07-17 13:41:21 | Statement (57): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (24) commit()
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (25), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (25): prepare( SELECT `login_name`  FROM `login`  WHERE `login_name` = :login_name , ). Vytvořen Statement (58).
+debug | 2026-07-17 13:41:21 | Statement (58): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (58): bindValue(:login_name, testLoginAggregateRegistration2, 2)
+debug | 2026-07-17 13:41:21 | Statement (58): execute().
+debug | 2026-07-17 13:41:21 | Statement (58): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Handler single_login (25): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (59).
+debug | 2026-07-17 13:41:21 | Statement (59): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (59): bindValue(:login_name_fk, testLoginAggregateRegistration2, 2)
+debug | 2026-07-17 13:41:21 | Statement (59): execute().
+debug | 2026-07-17 13:41:21 | Statement (59): fetch(0, 0, 0) Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (26), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (26): prepare( SELECT `login_name`  FROM `login`  WHERE `login_name` = :login_name , ). Vytvořen Statement (60).
+debug | 2026-07-17 13:41:21 | Statement (60): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (60): bindValue(:login_name, testLoginAggregateRegistration2, 2)
+debug | 2026-07-17 13:41:21 | Statement (60): execute().
+debug | 2026-07-17 13:41:21 | Statement (60): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Handler single_login (26): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (61).
+debug | 2026-07-17 13:41:21 | Statement (61): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (61): bindValue(:login_name_fk, testLoginAggregateRegistration2, 2)
+debug | 2026-07-17 13:41:21 | Statement (61): execute().
+debug | 2026-07-17 13:41:21 | Statement (61): fetch(0, 0, 0) Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+debug | 2026-07-17 13:41:21 | Handler single_login (26) beginTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (26) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (26): prepare(SELECT uid
+                            FROM registration
+                            WHERE uid = :uid LOCK IN SHARE MODE, ). Vytvořen Statement (62).
+debug | 2026-07-17 13:41:21 | Statement (62): bindParam(:uid, 6a5a14e17f918, 2, , )
+debug | 2026-07-17 13:41:21 | Statement (62): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (26) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (26) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (26): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE `login_name_fk` = :login_name_fk  LOCK IN SHARE MODE, ). Vytvořen Statement (63).
+debug | 2026-07-17 13:41:21 | Statement (63): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (63): bindValue(login_name_fk, testLoginAggregateRegistration2, 2)
+debug | 2026-07-17 13:41:21 | Statement (63): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (26): prepare(INSERT INTO registration (`login_name_fk`, `password_hash`, `email`, `info`, `email_time`, `uid`)  VALUES (:login_name_fk, :password_hash, :email, :info, :email_time, :uid), ). Vytvořen Statement (64).
+debug | 2026-07-17 13:41:21 | Statement (64): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (64): bindValue(login_name_fk, testLoginAggregateRegistration2, 2)
+debug | 2026-07-17 13:41:21 | Statement (64): bindValue(password_hash, testHeslo, 2)
+debug | 2026-07-17 13:41:21 | Statement (64): bindValue(email, test.email@mejl.cz, 2)
+debug | 2026-07-17 13:41:21 | Statement (64): bindValue(info, , 0)
+debug | 2026-07-17 13:41:21 | Statement (64): bindValue(email_time, , 0)
+debug | 2026-07-17 13:41:21 | Statement (64): bindValue(uid, 6a5a14e17f918, 2)
+debug | 2026-07-17 13:41:21 | Statement (64): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (26) commit()
+debug | 2026-07-17 13:41:21 | Handler single_login (26): prepare(UPDATE registration SET `info` = :info, `email_time` = :email_time WHERE `login_name_fk` = :key_login_name_fk , ). Vytvořen Statement (65).
+debug | 2026-07-17 13:41:21 | Statement (65): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (65): bindValue(info, , 0)
+debug | 2026-07-17 13:41:21 | Statement (65): bindValue(email_time, , 0)
+debug | 2026-07-17 13:41:21 | Statement (65): bindValue(key_login_name_fk, testLoginAggregateRegistration2, 2)
+debug | 2026-07-17 13:41:21 | Statement (65): execute().
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (27), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (27): prepare( SELECT `login_name`  FROM `login`  WHERE `login_name` = :login_name , ). Vytvořen Statement (66).
+debug | 2026-07-17 13:41:21 | Statement (66): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (66): bindValue(:login_name, testLoginAggregateRegistration2, 2)
+debug | 2026-07-17 13:41:21 | Statement (66): execute().
+debug | 2026-07-17 13:41:21 | Statement (66): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Handler single_login (27): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (67).
+debug | 2026-07-17 13:41:21 | Statement (67): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (67): bindValue(:login_name_fk, testLoginAggregateRegistration2, 2)
+debug | 2026-07-17 13:41:21 | Statement (67): execute().
+debug | 2026-07-17 13:41:21 | Statement (67): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (28), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (28): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE login_name_fk LIKE :login_name_like , ). Vytvořen Statement (68).
+debug | 2026-07-17 13:41:21 | Statement (68): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (68): bindValue(login_name_like, testLoginAggregateRegistration%, 2)
+debug | 2026-07-17 13:41:21 | Statement (68): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (28): prepare(DELETE FROM registration  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (69).
+debug | 2026-07-17 13:41:21 | Statement (69): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (69): bindValue(login_name_fk, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (69): execute().
+debug | 2026-07-17 13:41:21 | Statement (69): bindValue(login_name_fk, testLoginAggregateRegistration2, 2)
+debug | 2026-07-17 13:41:21 | Statement (69): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (28): prepare( SELECT `login_name`  FROM `login`  WHERE login_name LIKE :login_name_like , ). Vytvořen Statement (70).
+debug | 2026-07-17 13:41:21 | Statement (70): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (70): bindValue(login_name_like, testLoginAggregateRegistration%, 2)
+debug | 2026-07-17 13:41:21 | Statement (70): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (28): prepare(DELETE FROM login  WHERE `login_name` = :login_name , ). Vytvořen Statement (71).
+debug | 2026-07-17 13:41:21 | Statement (71): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (71): bindValue(login_name, testLoginAggregateRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (71): execute().
+debug | 2026-07-17 13:41:21 | Statement (71): bindValue(login_name, testLoginAggregateRegistration2, 2)
+debug | 2026-07-17 13:41:21 | Statement (71): execute().
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (29), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (29): prepare(DELETE FROM registration  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (72).
+debug | 2026-07-17 13:41:21 | Statement (72): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (72): bindValue(login_name_fk, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (72): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (29): prepare(DELETE FROM login  WHERE `login_name` = :login_name , ). Vytvořen Statement (73).
+debug | 2026-07-17 13:41:21 | Statement (73): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (73): bindValue(login_name, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (73): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (29) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (29) beginTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (29) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (29): prepare( SELECT `login_name`  FROM `login`  WHERE `login_name` = :login_name  LOCK IN SHARE MODE, ). Vytvořen Statement (74).
+debug | 2026-07-17 13:41:21 | Statement (74): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (74): bindValue(login_name, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (74): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (29): prepare(INSERT INTO login (`login_name`)  VALUES (:login_name), ). Vytvořen Statement (75).
+debug | 2026-07-17 13:41:21 | Statement (75): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (75): bindValue(login_name, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (75): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (29) commit()
+debug | 2026-07-17 13:41:21 | Handler single_login (29) beginTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (29) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (29): prepare(SELECT uid
+                            FROM registration
+                            WHERE uid = :uid LOCK IN SHARE MODE, ). Vytvořen Statement (76).
+debug | 2026-07-17 13:41:21 | Statement (76): bindParam(:uid, 6a5a14e189ac3, 2, , )
+debug | 2026-07-17 13:41:21 | Statement (76): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (29) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (29) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (29): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE `login_name_fk` = :login_name_fk  LOCK IN SHARE MODE, ). Vytvořen Statement (77).
+debug | 2026-07-17 13:41:21 | Statement (77): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (77): bindValue(login_name_fk, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (77): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (29): prepare(INSERT INTO registration (`login_name_fk`, `password_hash`, `uid`)  VALUES (:login_name_fk, :password_hash, :uid), ). Vytvořen Statement (78).
+debug | 2026-07-17 13:41:21 | Statement (78): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (78): bindValue(login_name_fk, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (78): bindValue(password_hash, testHeslo, 2)
+debug | 2026-07-17 13:41:21 | Statement (78): bindValue(uid, 6a5a14e189ac3, 2)
+debug | 2026-07-17 13:41:21 | Statement (78): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (29) commit()
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (30), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (31), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (31): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (79).
+debug | 2026-07-17 13:41:21 | Statement (79): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (79): bindValue(:login_name_fk, QWER45T6U7I89OPOLKJHGFD, 2)
+debug | 2026-07-17 13:41:21 | Statement (79): execute().
+debug | 2026-07-17 13:41:21 | Statement (79): fetch(0, 0, 0) Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (32), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (32): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (80).
+debug | 2026-07-17 13:41:21 | Statement (80): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (80): bindValue(:login_name_fk, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (80): execute().
+debug | 2026-07-17 13:41:21 | Statement (80): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Handler single_login (32): prepare(DELETE FROM registration  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (81).
+debug | 2026-07-17 13:41:21 | Statement (81): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (81): bindValue(login_name_fk, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (81): execute().
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (33), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (33): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (82).
+debug | 2026-07-17 13:41:21 | Statement (82): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (82): bindValue(:login_name_fk, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (82): execute().
+debug | 2026-07-17 13:41:21 | Statement (82): fetch(0, 0, 0) Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (34), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (34) beginTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (34) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (34): prepare(SELECT uid
+                            FROM registration
+                            WHERE uid = :uid LOCK IN SHARE MODE, ). Vytvořen Statement (83).
+debug | 2026-07-17 13:41:21 | Statement (83): bindParam(:uid, 6a5a14e19940d, 2, , )
+debug | 2026-07-17 13:41:21 | Statement (83): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (34) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (34) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (34): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE `login_name_fk` = :login_name_fk  LOCK IN SHARE MODE, ). Vytvořen Statement (84).
+debug | 2026-07-17 13:41:21 | Statement (84): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (84): bindValue(login_name_fk, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (84): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (34): prepare(INSERT INTO registration (`login_name_fk`, `password_hash`, `email`, `info`, `email_time`, `uid`)  VALUES (:login_name_fk, :password_hash, :email, :info, :email_time, :uid), ). Vytvořen Statement (85).
+debug | 2026-07-17 13:41:21 | Statement (85): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (85): bindValue(login_name_fk, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (85): bindValue(password_hash, testHeslo, 2)
+debug | 2026-07-17 13:41:21 | Statement (85): bindValue(email, test.email@mejl.cz, 2)
+debug | 2026-07-17 13:41:21 | Statement (85): bindValue(info, testInfo jhedhgdjgjwdgdj  io ipfpf , 2)
+debug | 2026-07-17 13:41:21 | Statement (85): bindValue(email_time, , 0)
+debug | 2026-07-17 13:41:21 | Statement (85): bindValue(uid, 6a5a14e19940d, 2)
+debug | 2026-07-17 13:41:21 | Statement (85): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (34) commit()
+debug | 2026-07-17 13:41:21 | Handler single_login (34): prepare(UPDATE registration SET `email_time` = :email_time WHERE `login_name_fk` = :key_login_name_fk , ). Vytvořen Statement (86).
+debug | 2026-07-17 13:41:21 | Statement (86): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (86): bindValue(email_time, , 0)
+debug | 2026-07-17 13:41:21 | Statement (86): bindValue(key_login_name_fk, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (86): execute().
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (35), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (35): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (87).
+debug | 2026-07-17 13:41:21 | Statement (87): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (87): bindValue(:login_name_fk, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (87): execute().
+debug | 2026-07-17 13:41:21 | Statement (87): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (36), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (36): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE `uid` = :uid , ). Vytvořen Statement (88).
+debug | 2026-07-17 13:41:21 | Statement (88): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (88): bindValue(:uid, 6a5a14e19940d, 2)
+debug | 2026-07-17 13:41:21 | Statement (88): execute().
+debug | 2026-07-17 13:41:21 | Statement (88): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (37), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (37): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (89).
+debug | 2026-07-17 13:41:21 | Statement (89): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (89): bindValue(:login_name_fk, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (89): execute().
+debug | 2026-07-17 13:41:21 | Statement (89): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Handler single_login (37): prepare(DELETE FROM registration  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (90).
+debug | 2026-07-17 13:41:21 | Statement (90): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (90): bindValue(login_name_fk, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (90): execute().
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (38), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (38) beginTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (38) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (38): prepare(SELECT uid
+                            FROM registration
+                            WHERE uid = :uid LOCK IN SHARE MODE, ). Vytvořen Statement (91).
+debug | 2026-07-17 13:41:21 | Statement (91): bindParam(:uid, 6a5a14e1ac71b, 2, , )
+debug | 2026-07-17 13:41:21 | Statement (91): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (38) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (38) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (38): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE `login_name_fk` = :login_name_fk  LOCK IN SHARE MODE, ). Vytvořen Statement (92).
+debug | 2026-07-17 13:41:21 | Statement (92): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (92): bindValue(login_name_fk, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (92): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (38): prepare(INSERT INTO registration (`login_name_fk`, `password_hash`, `email`, `info`, `email_time`, `uid`)  VALUES (:login_name_fk, :password_hash, :email, :info, :email_time, :uid), ). Vytvořen Statement (93).
+debug | 2026-07-17 13:41:21 | Statement (93): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (93): bindValue(login_name_fk, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (93): bindValue(password_hash, testHeslo, 2)
+debug | 2026-07-17 13:41:21 | Statement (93): bindValue(email, test.email@mejl.cz, 2)
+debug | 2026-07-17 13:41:21 | Statement (93): bindValue(info, testInfo2 jhedhgdjgjwdgdj  io ipfpf , 2)
+debug | 2026-07-17 13:41:21 | Statement (93): bindValue(email_time, , 0)
+debug | 2026-07-17 13:41:21 | Statement (93): bindValue(uid, 6a5a14e1ac71b, 2)
+debug | 2026-07-17 13:41:21 | Statement (93): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (38) commit()
+debug | 2026-07-17 13:41:21 | Handler single_login (38): prepare(UPDATE registration SET `email_time` = :email_time WHERE `login_name_fk` = :key_login_name_fk , ). Vytvořen Statement (94).
+debug | 2026-07-17 13:41:21 | Statement (94): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (94): bindValue(email_time, , 0)
+debug | 2026-07-17 13:41:21 | Statement (94): bindValue(key_login_name_fk, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (94): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (38): prepare( SELECT `login_name_fk`, `password_hash`, `email`, `email_time`, `uid`, `info`, `created`  FROM `registration`  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (95).
+debug | 2026-07-17 13:41:21 | Statement (95): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (95): bindValue(:login_name_fk, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (95): execute().
+debug | 2026-07-17 13:41:21 | Statement (95): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (39), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (39): prepare(DELETE FROM registration  WHERE `login_name_fk` = :login_name_fk , ). Vytvořen Statement (96).
+debug | 2026-07-17 13:41:21 | Statement (96): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (96): bindValue(login_name_fk, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (96): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (39): prepare(DELETE FROM login  WHERE `login_name` = :login_name , ). Vytvořen Statement (97).
+debug | 2026-07-17 13:41:21 | Statement (97): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (97): bindValue(login_name, testRegistration1, 2)
+debug | 2026-07-17 13:41:21 | Statement (97): execute().
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (40), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (40): prepare( SELECT `role`  FROM `role`  WHERE role LIKE 'testRole%' , ). Vytvořen Statement (98).
+debug | 2026-07-17 13:41:21 | Statement (98): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (98): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (40) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (40) beginTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (40) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (40): prepare( SELECT `role`  FROM `role`  WHERE `role` = :role  LOCK IN SHARE MODE, ). Vytvořen Statement (99).
+debug | 2026-07-17 13:41:21 | Statement (99): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (99): bindValue(role, testRole, 2)
+debug | 2026-07-17 13:41:21 | Statement (99): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (40): prepare(INSERT INTO role (`role`)  VALUES (:role), ). Vytvořen Statement (100).
+debug | 2026-07-17 13:41:21 | Statement (100): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (100): bindValue(role, testRole, 2)
+debug | 2026-07-17 13:41:21 | Statement (100): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (40) commit()
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (41), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (42), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (42): prepare( SELECT `role`  FROM `role`  WHERE `role` = :role , ). Vytvořen Statement (101).
+debug | 2026-07-17 13:41:21 | Statement (101): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (101): bindValue(:role, QWER45T6U7I89OPOLKJHGFD, 2)
+debug | 2026-07-17 13:41:21 | Statement (101): execute().
+debug | 2026-07-17 13:41:21 | Statement (101): fetch(0, 0, 0) Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (43), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (43): prepare( SELECT `role`  FROM `role`  WHERE `role` = :role , ). Vytvořen Statement (102).
+debug | 2026-07-17 13:41:21 | Statement (102): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (102): bindValue(:role, testRole, 2)
+debug | 2026-07-17 13:41:21 | Statement (102): execute().
+debug | 2026-07-17 13:41:21 | Statement (102): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Handler single_login (43): prepare(DELETE FROM role  WHERE `role` = :role , ). Vytvořen Statement (103).
+debug | 2026-07-17 13:41:21 | Statement (103): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (103): bindValue(role, testRole, 2)
+debug | 2026-07-17 13:41:21 | Statement (103): execute().
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (44), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (44): prepare( SELECT `role`  FROM `role`  WHERE `role` = :role , ). Vytvořen Statement (104).
+debug | 2026-07-17 13:41:21 | Statement (104): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (104): bindValue(:role, testRole, 2)
+debug | 2026-07-17 13:41:21 | Statement (104): execute().
+debug | 2026-07-17 13:41:21 | Statement (104): fetch(0, 0, 0) Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (45), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (45) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (45) beginTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (45) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (45): prepare( SELECT `role`  FROM `role`  WHERE `role` = :role  LOCK IN SHARE MODE, ). Vytvořen Statement (105).
+debug | 2026-07-17 13:41:21 | Statement (105): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (105): bindValue(role, testRole, 2)
+debug | 2026-07-17 13:41:21 | Statement (105): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (45): prepare(INSERT INTO role (`role`)  VALUES (:role), ). Vytvořen Statement (106).
+debug | 2026-07-17 13:41:21 | Statement (106): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (106): bindValue(role, testRole, 2)
+debug | 2026-07-17 13:41:21 | Statement (106): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (45) commit()
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (46), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (46): prepare( SELECT `role`  FROM `role`  WHERE `role` = :role , ). Vytvořen Statement (107).
+debug | 2026-07-17 13:41:21 | Statement (107): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (107): bindValue(:role, testRole, 2)
+debug | 2026-07-17 13:41:21 | Statement (107): execute().
+debug | 2026-07-17 13:41:21 | Statement (107): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (47), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (47) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (47) beginTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (47) inTransaction()
+debug | 2026-07-17 13:41:21 | Handler single_login (47): prepare( SELECT `role`  FROM `role`  WHERE `role` = :role  LOCK IN SHARE MODE, ). Vytvořen Statement (108).
+debug | 2026-07-17 13:41:21 | Statement (108): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (108): bindValue(role, testRole1, 2)
+debug | 2026-07-17 13:41:21 | Statement (108): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (47): prepare(INSERT INTO role (`role`)  VALUES (:role), ). Vytvořen Statement (109).
+debug | 2026-07-17 13:41:21 | Statement (109): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (109): bindValue(role, testRole1, 2)
+debug | 2026-07-17 13:41:21 | Statement (109): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (47) commit()
+debug | 2026-07-17 13:41:21 | Handler single_login (47): prepare( SELECT `role`  FROM `role`  WHERE `role` = :role , ). Vytvořen Statement (110).
+debug | 2026-07-17 13:41:21 | Statement (110): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (110): bindValue(:role, testRole1, 2)
+debug | 2026-07-17 13:41:21 | Statement (110): execute().
+debug | 2026-07-17 13:41:21 | Statement (110): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (48), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (48): prepare( SELECT `role`  FROM `role`  WHERE `role` = :role , ). Vytvořen Statement (111).
+debug | 2026-07-17 13:41:21 | Statement (111): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (111): bindValue(:role, testRole1, 2)
+debug | 2026-07-17 13:41:21 | Statement (111): execute().
+debug | 2026-07-17 13:41:21 | Statement (111): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (49), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (49): prepare( SELECT `role`  FROM `role`  WHERE `role` = :role , ). Vytvořen Statement (112).
+debug | 2026-07-17 13:41:21 | Statement (112): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (112): bindValue(:role, testRole1, 2)
+debug | 2026-07-17 13:41:21 | Statement (112): execute().
+debug | 2026-07-17 13:41:21 | Statement (112): fetch(0, 0, 0) Result je objekt object.
+debug | 2026-07-17 13:41:21 | Handler single_login (49): prepare(DELETE FROM role  WHERE `role` = :role , ). Vytvořen Statement (113).
+debug | 2026-07-17 13:41:21 | Statement (113): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (113): bindValue(role, testRole1, 2)
+debug | 2026-07-17 13:41:21 | Statement (113): execute().
+debug | 2026-07-17 13:41:21 | Statement (112): bindValue(:role, testRole1, 2)
+debug | 2026-07-17 13:41:21 | Statement (112): execute().
+debug | 2026-07-17 13:41:21 | Statement (112): fetch(0, 0, 0) Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=127.0.0.1;port=3306;dbname=single_login
+debug | 2026-07-17 13:41:21 | Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+debug | 2026-07-17 13:41:21 | Vytvořen database handler Handler single_login (50), name single_login, host 127.0.0.1.
+info | 2026-07-17 13:41:21 | Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+debug | 2026-07-17 13:41:21 | Handler single_login (50): prepare( SELECT `role`  FROM `role`  WHERE role LIKE 'testRole%' , ). Vytvořen Statement (114).
+debug | 2026-07-17 13:41:21 | Statement (114): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (114): execute().
+debug | 2026-07-17 13:41:21 | Handler single_login (50): prepare(DELETE FROM role  WHERE `role` = :role , ). Vytvořen Statement (115).
+debug | 2026-07-17 13:41:21 | Statement (115): setFetchMode(8)
+debug | 2026-07-17 13:41:21 | Statement (115): bindValue(role, testRole, 2)
+debug | 2026-07-17 13:41:21 | Statement (115): execute().
