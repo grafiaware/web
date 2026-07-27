@@ -67,21 +67,8 @@ class StaticRegistryPushClient implements StaticRegistryPushClientInterface {
      * Prázdné / chybějící moduleBaseUrls = typicky vývoj na jednom hostu (red i events na stejném serveru).
      */
     private function buildRegistryUrl(string $apiModule, int $menuItemId, ?string $baseUrl): string {
-        $configuredBase = ConfigurationCache::staticRegistry()['staticRegistry.push.moduleBaseUrls'][$apiModule] ?? null;
-        if ($baseUrl !== null && $baseUrl !== '') {
-            $root = rtrim($baseUrl, '/') . '/';
-        } elseif (is_string($configuredBase) && $configuredBase !== '') {
-            $root = rtrim($configuredBase, '/') . '/';
-        } else {
-            $root = $this->resolveSameHostBaseUrl();
-        }
+        $root = StaticRegistryBaseUrlResolver::resolve($apiModule, $baseUrl);
         return $root . "$apiModule/v1/static/registry/$menuItemId";
-    }
-
-    private function resolveSameHostBaseUrl(): string {
-        $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-        $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-        return "$scheme://$host/";
     }
 
     private function httpRequest(string $method, string $url, ?string $body): void {

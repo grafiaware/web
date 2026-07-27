@@ -35,11 +35,11 @@ class StaticRegistryListClient implements StaticRegistryListClientInterface {
             return ['items' => [], 'count' => 0, 'error' => "Nelze načíst registry z $url"];
         }
         if (isset($http_response_header[0]) && !str_contains($http_response_header[0], ' 200')) {
-            return ['items' => [], 'count' => 0, 'error' => "Registry $apiModule: {$http_response_header[0]}"];
+            return ['items' => [], 'count' => 0, 'error' => "Registry $apiModule: {$http_response_header[0]} ($url)"];
         }
         $decoded = json_decode($result, true);
         if (!is_array($decoded)) {
-            return ['items' => [], 'count' => 0, 'error' => "Neplatná JSON odpověď z $apiModule registry"];
+            return ['items' => [], 'count' => 0, 'error' => "Neplatná JSON odpověď z $apiModule registry ($url)"];
         }
         $items = $decoded['items'] ?? [];
         if (!is_array($items)) {
@@ -53,16 +53,7 @@ class StaticRegistryListClient implements StaticRegistryListClientInterface {
     }
 
     private function buildListUrl(string $apiModule, ?string $baseUrl): string {
-        $configuredBase = ConfigurationCache::staticRegistry()['staticRegistry.push.moduleBaseUrls'][$apiModule] ?? null;
-        if ($baseUrl !== null && $baseUrl !== '') {
-            $root = rtrim($baseUrl, '/') . '/';
-        } elseif (is_string($configuredBase) && $configuredBase !== '') {
-            $root = rtrim($configuredBase, '/') . '/';
-        } else {
-            $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-            $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-            $root = "$scheme://$host/";
-        }
+        $root = StaticRegistryBaseUrlResolver::resolve($apiModule, $baseUrl);
         $siteCode = urlencode((string) (ConfigurationCache::staticRegistry()['staticRegistry.siteCode'] ?? ''));
         return $root . "$apiModule/v1/static/registry?siteCode=$siteCode";
     }

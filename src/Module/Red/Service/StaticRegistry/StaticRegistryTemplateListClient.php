@@ -42,17 +42,7 @@ class StaticRegistryTemplateListClient implements StaticRegistryTemplateListClie
     }
 
     private function buildTemplatesUrl(string $apiModule, string $prefix, ?string $baseUrl): string {
-        $configuredBase = ConfigurationCache::staticRegistry()['staticRegistry.push.moduleBaseUrls'][$apiModule] ?? null;
-        if ($baseUrl !== null && $baseUrl !== '') {
-            $root = rtrim($baseUrl, '/') . '/';
-        } elseif (is_string($configuredBase) && $configuredBase !== '') {
-            $root = rtrim($configuredBase, '/') . '/';
-        } else {
-            // Vývoj: red i cílový modul na stejném hostu
-            $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-            $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-            $root = "$scheme://$host/";
-        }
+        $root = StaticRegistryBaseUrlResolver::resolve($apiModule, $baseUrl);
         $siteCode = urlencode((string) (ConfigurationCache::staticRegistry()['staticRegistry.siteCode'] ?? ''));
         $encodedPrefix = urlencode($prefix);
         return $root . "$apiModule/v1/static/templates?prefix=$encodedPrefix&siteCode=$siteCode";
