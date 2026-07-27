@@ -349,6 +349,13 @@ class ConfigurationWeb extends ConfigurationConstants {
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
                         'targetId'=>'content',
                         ],
+                    'menuRedAdmin' => [
+                        'rootName' => 'menu red admin',
+                        'itemtype' => ItemTypeEnum::MULTILEVEL,
+                        'levelRenderer' => 'menuVertical.levelRenderer',
+                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        'targetId'=>'content',
+                        ],
                     'menuVertical' => [
                         'rootName' => 'menu vertical',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,

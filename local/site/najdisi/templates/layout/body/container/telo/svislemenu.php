@@ -22,7 +22,9 @@ use Pes\Core\Text\Html;
             <nav class="svisle-menu svisle-menu--opravneni">
                 <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuEventsVisitor", 'data-nav-target-id'=>'menu_target'])  ?>
             </nav>            
-
+            <nav class="svisle-menu svisle-menu--opravneni">
+                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuRedAdmin", 'data-nav-target-id'=>'menu_target'])  ?>
+            </nav>  
             <nav class="svisle-menu kos">
                 <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuTrash", 'data-nav-target-id'=>'menu_target'])  ?>
             </nav>

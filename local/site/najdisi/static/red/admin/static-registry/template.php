@@ -1,8 +1,8 @@
 <?php
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Pes\Text\Html;
-use Pes\Text\Text;
+use Pes\Core\Text\Html;
+use Pes\Core\Text\Text;
 use Access\Enum\RoleEnum;
 use Component\ViewModel\StatusViewModel;
 use Component\ViewModel\StatusViewModelInterface;

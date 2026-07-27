@@ -72,7 +72,7 @@ use Red\Component\View\Menu\MenuComponentSupervisor;
 use Red\Component\View\Menu\MenuComponentEventsAdmin;
 use Red\Component\View\Menu\MenuComponentEventsRepresentative;
 use Red\Component\View\Menu\MenuComponentEventsVisitor;
-
+use Red\Component\View\Menu\MenuComponentRedAdmin;
 
 use Red\Component\View\Manage\EditMenuSwitchComponent;
 
@@ -297,6 +297,12 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
+            MenuComponentRedAdmin::class => function(ContainerInterface $c) {
+                $component = new MenuComponentRedAdmin($c->get(ComponentConfiguration::class), $c);  // kontejner
+                $component->setRendererName(MenuRenderer::class);                
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
                     
             LevelComponent::class => function(ContainerInterface $c) {
                 $component = new LevelComponent($c->get(ComponentConfiguration::class));
@@ -412,7 +418,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             'menuSupervisor' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.services')['menuSupervisor'];
-                /** @var MenuComponentRed $component */
+                /** @var MenuComponentSupervisor $component */
                 $component = $c->get(MenuComponentSupervisor::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -490,6 +496,24 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 }
                 return $component;
             },
+            'menuRedAdmin' => function(ContainerInterface $c) {
+                $menuConfig = $c->get('menu.services')['menuRedAdmin'];
+                /** @var MenuComponentRedAdmin $component */
+                $component = $c->get(MenuComponentRedAdmin::class);
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                if($accessPresentation->isAllowed(MenuComponentRedAdmin::class, AccessPresentationEnum::DISPLAY)) {
+                    $component->setItemType($menuConfig['itemtype']);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
+                    /** @var MenuViewModel $viewModel */
+                    $viewModel = $c->get(MenuViewModel::class);
+                    $viewModel->setMenuRootName($menuConfig['rootName']);
+                    $component->setData($viewModel);
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                return $component;
+            },                    
             //bloky
             'menuBlocks' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.services')['menuBlocks'];

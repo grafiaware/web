@@ -17,10 +17,10 @@ use Access\Enum\AccessPresentationEnum;
  *
  * @author pes2704
  */
-class MenuComponentEventsAdmin extends MenuComponentAbstract {
+class MenuComponentRedAdmin extends MenuComponentAbstract {
     public static function getComponentPermissions(): array {
         return [
-            RoleEnum::EVENTS_ADMINISTRATOR => [AccessPresentationEnum::DISPLAY => true]
+            RoleEnum::RED_ADMINISTRATOR => [AccessPresentationEnum::DISPLAY => true]
         ];
     }
     
