@@ -142,8 +142,10 @@ function linkListener(event) {
         console.error(`menuSwap: linkListener není navázán na element contentTarget - contentTarget je null.`);
     }
     let contentTarget = this;
-    menuAction(currentItem, contentTarget);
-    switchContent(currentItem, contentTarget);
+    // presenteddriver musí doběhnout dřív než content — nastavuje PresentationStatus.menuItem do session
+    menuAction(currentItem, contentTarget).then(() => {
+        switchContent(currentItem, contentTarget);
+    });
     event.preventDefault();
     event.stopPropagation();
 }
@@ -156,11 +158,13 @@ function itemAndContentChange(loaderElement, json) {
         }
         if (json.newitemuid !== undefined) {
             let currentItem = document.getElementById(conf.itemIdPrefix + json.newitemuid);
-            menuAction(currentItem, contentTarget);
-            switchContent(currentItem, contentTarget);
+            menuAction(currentItem, contentTarget).then(() => {
+                switchContent(currentItem, contentTarget);
+            });
         } else {
-            menuAction(previousItem, contentTarget);
-            switchContent(previousItem, contentTarget);
+            menuAction(previousItem, contentTarget).then(() => {
+                switchContent(previousItem, contentTarget);
+            });
         }
     } else {
         console.warn("menuSwap: No target defined in loader element");
@@ -173,15 +177,17 @@ function menuAction(currentItem, contentTarget) {
         let currentHref = itemDriver(currentItem).getAttribute('href');
         history.pushState({}, "", currentHref);
     }
-    switchItem(currentItem);
+    const driversReady = switchItem(currentItem);
     currentItem.addEventListener("click", linkListener.bind(contentTarget));
     listenFormsWithApiAction(currentItem);
+    return driversReady;
 }
 
 function switchItem(currentItem) {
-    getNewDrivers(previousItem, currentItem);
+    const driversReady = getNewDrivers(previousItem, currentItem);
     shrinkAndExpandChildrenOnPath(previousItem, currentItem);
     previousItem = currentItem;
+    return driversReady;
 }
 
 function switchContent(currentItem, contentTarget) {
@@ -221,12 +227,15 @@ function getNewDrivers(previousItem, currentItem) {
         });
     }
 
+    const promises = [];
     if (previousItem) {
         let driverApi = itemDriver(previousItem).getAttribute('data-red-driver');
-        fetchDriver(previousItem, driverApi, 'default');
+        promises.push(fetchDriver(previousItem, driverApi, 'default'));
     }
     let presentedDriverApi = itemDriver(currentItem).getAttribute('data-red-presenteddriver');
-    fetchDriver(currentItem, presentedDriverApi, 'default');
+    // Critical path: PresentationStatus.menuItem (title pro static šablony) se nastaví tady
+    promises.push(fetchDriver(currentItem, presentedDriverApi, 'default'));
+    return Promise.all(promises);
 }
 
 function replaceDriverContent(itemElement, newHtmlTextContent) {

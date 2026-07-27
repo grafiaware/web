@@ -182,6 +182,7 @@ use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\MenuItemApiRepo;
 use Red\Model\Repository\MenuRootRepo;
 use Red\Model\Repository\ItemActionRepo;
+use Red\Model\Repository\StaticItemRepo;
 use Red\Model\Repository\PaperRepo;
 use Red\Model\Repository\PaperAggregateSectionsRepo;
 use Red\Model\Repository\ArticleRepo;
@@ -1023,6 +1024,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class),
                         $c->get(AccessPresentation::class),
                         $c->get(MenuItemRepo::class),
+                        $c->get(StaticItemRepo::class),
                         $c->get(DriverService::class)
                         )
                     )->injectContainer($c);  // inject component kontejner

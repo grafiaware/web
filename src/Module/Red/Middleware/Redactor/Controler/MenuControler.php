@@ -21,6 +21,7 @@ use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Access\AccessPresentationInterface;
 use Red\Model\Repository\MenuItemRepoInterface;
+use Red\Model\Repository\StaticItemRepoInterface;
 use Red\Service\Menu\DriverServiceInterface;
 
 // komponenty
@@ -46,6 +47,7 @@ use Pes\View\View;
 class MenuControler extends PresentationFrontControlerAbstract {
     
     private $menuItemRepo;
+    private $staticItemRepo;
     private $driverService;
 
     public function __construct(
@@ -54,10 +56,12 @@ class MenuControler extends PresentationFrontControlerAbstract {
             StatusPresentationRepo $statusPresentationRepo, 
             AccessPresentationInterface $accessPresentation,
             MenuItemRepoInterface $menuItemRepo,
+            StaticItemRepoInterface $staticItemRepo,
             DriverServiceInterface $driverService
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo, $accessPresentation);
         $this->menuItemRepo = $menuItemRepo;
+        $this->staticItemRepo = $staticItemRepo;
         $this->driverService = $driverService;
     }
     
@@ -74,7 +78,10 @@ class MenuControler extends PresentationFrontControlerAbstract {
     
     public function presentedDriver(ServerRequestInterface $request, $uid) {
         $driver = $this->createDriver($uid, true);
-        $this->setPresentationMenuItem($driver->getData()->getMenuItem());  // driver po kompletaci už má data
+        $menuItem = $driver->getData()->getMenuItem();  // driver po kompletaci už má data
+        // Session handoff pro cascade content (events/auth static šablony čtou title z PresentationStatus)
+        $this->setPresentationMenuItem($menuItem);
+        $this->setPresentationStaticItem($this->staticItemRepo->getByMenuItemId($menuItem->getId()));
         return $this->createStringOKResponseFromView($driver);
     }
     
