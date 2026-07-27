@@ -21,8 +21,8 @@ use Site\ConfigurationCache;
 $statusViewModel = $container->get(StatusViewModel::class);
 $userRole = $statusViewModel->getUserRole();
 
-if ($userRole !== RoleEnum::SUPERVISOR) {
-    echo Html::p('Stránka je určena pouze pro supervisor administraci.', ['class' => 'ui orange segment']);
+if ($userRole !== RoleEnum::RED_ADMINISTRATOR) {
+    echo Html::p('Stránka je určena pouze pro red administraci.', ['class' => 'ui orange segment']);
     return;
 }
 
