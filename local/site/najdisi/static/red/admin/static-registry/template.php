@@ -69,7 +69,7 @@ foreach ($remoteModules as $module) {
     $remoteByModule[$module] = $registryListClient->fetch($module);
 }
 
-$pushSyncUrl = Text::encodeUrlPath('red/v1/static/registry/push-sync');
+$pushSyncUiUrl = Text::encodeUrlPath('red/v1/static/registry/push-sync-ui');
 
 /**
  * @param list<array<string, mixed>> $rows
@@ -123,18 +123,17 @@ $renderTable = static function (array $rows, bool $showTitle = false): void {
     <h3 class="ui dividing header">Push sync</h3>
     <form class="ui form" method="POST" action="">
         <button class="ui primary button" type="submit"
-                formaction="<?= $pushSyncUrl ?>?module=events">
+                formaction="<?= $pushSyncUiUrl ?>?module=events">
             Sync → events
         </button>
         <button class="ui primary button" type="submit"
-                formaction="<?= $pushSyncUrl ?>?module=auth">
+                formaction="<?= $pushSyncUiUrl ?>?module=auth">
             Sync → auth
         </button>
     </form>
     <p class="ui small grey text">
-        POST <code>/red/v1/static/registry/push-sync</code> s parametrem <code>module=events|auth</code>.
-        Upsertne všechny položky z red a smaže orphan záznamy v SQLite.
-        Po sync obnovte stránku, aby se propsal SQLite přehled.
+        POST <code>/red/v1/static/registry/push-sync-ui</code> — sync na serveru + flash + návrat na stránku.
+        JSON varianta: <code>/red/v1/static/registry/push-sync</code>.
     </p>
 </div>
 

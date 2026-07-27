@@ -14,6 +14,7 @@ use Red\Service\StaticRegistry\Exception\StaticRegistryPushException;
 use Red\Service\StaticRegistry\StaticRegistryListClientInterface;
 use Red\Service\StaticRegistry\StaticRegistryPushClientInterface;
 use Site\ConfigurationCache;
+use Status\Model\Enum\FlashSeverityEnum;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusSecurityRepo;
@@ -21,9 +22,9 @@ use Status\Model\Repository\StatusSecurityRepo;
 /**
  * Plná synchronizace static registry: upsert všech položek z red + smazání orphanů v SQLite.
  *
- * POST /red/v1/static/registry/push-sync  (parametr module=events|auth)
- * Nahradí dřívější push-all (jen upsert). Použití po nasazení, při obnově SQLite
- * nebo když selhala průběžná sync při add/delete menu položky.
+ * POST /red/v1/static/registry/push-sync     — JSON (skripty / ops)
+ * POST /red/v1/static/registry/push-sync-ui  — PRG + flash (admin static stránka)
+ * Parametr module=events|auth.
  *
  * @author pes2704
  */
@@ -41,12 +42,70 @@ class StaticRegistryPushSyncControler extends FrontControlerAbstract {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
     }
 
+    /**
+     * JSON odpověď pro programové volání.
+     */
     public function pushSync(ServerRequestInterface $request): ResponseInterface {
         $module = (string) (new RequestParams())->getParam($request, 'module');
-        if (!in_array($module, ['events', 'auth'], true)) {
+        if (!$this->isValidModule($module)) {
             return $this->createJsonOKResponse(['error' => 'invalid_module'], StatusEnum::_400_BadRequest);
         }
+        return $this->createJsonOKResponse($this->runSync($request, $module));
+    }
 
+    /**
+     * Form POST z admin stránky: sync + flash + redirect na last GET (PRG).
+     */
+    public function pushSyncUi(ServerRequestInterface $request): ResponseInterface {
+        $module = (string) (new RequestParams())->getParam($request, 'module');
+        if (!$this->isValidModule($module)) {
+            $this->addFlashMessage('Static registry sync: neplatný modul.', FlashSeverityEnum::WARNING);
+            return $this->redirectSeeLastGet($request);
+        }
+
+        $result = $this->runSync($request, $module);
+        $failed = (int) $result['pushFailed'] + (int) $result['deleteFailed'];
+        $parts = [
+            "Sync {$result['module']}:",
+            "pushed {$result['pushed']}",
+            "deleted {$result['deleted']}",
+        ];
+        if ($result['pushFailed']) {
+            $parts[] = "pushFailed {$result['pushFailed']}";
+        }
+        if ($result['deleteFailed']) {
+            $parts[] = "deleteFailed {$result['deleteFailed']}";
+        }
+        if ($result['deleteSkipped']) {
+            $parts[] = "deleteSkipped: {$result['deleteSkipped']}";
+        }
+
+        $severity = ($failed > 0 || $result['deleteSkipped'])
+            ? FlashSeverityEnum::WARNING
+            : FlashSeverityEnum::SUCCESS;
+        $this->addFlashMessage(implode(' ', $parts), $severity);
+
+        return $this->redirectSeeLastGet($request);
+    }
+
+    private function isValidModule(string $module): bool {
+        return in_array($module, ['events', 'auth'], true);
+    }
+
+    /**
+     * Server-side sync red → auth|events (upsert + delete orphanů).
+     *
+     * @return array{
+     *     module: string,
+     *     pushed: int,
+     *     pushFailed: int,
+     *     deleted: int,
+     *     deleteFailed: int,
+     *     deleteSkipped: string|null,
+     *     errors: list<array{action: string, menuItemId: int, message: string}>
+     * }
+     */
+    private function runSync(ServerRequestInterface $request, string $module): array {
         $baseUrl = $this->resolveBaseUrl($request);
         $siteCode = ConfigurationCache::staticRegistry()['staticRegistry.siteCode'] ?? '';
         $pushed = 0;
@@ -105,7 +164,7 @@ class StaticRegistryPushSyncControler extends FrontControlerAbstract {
             }
         }
 
-        return $this->createJsonOKResponse([
+        return [
             'module' => $module,
             'pushed' => $pushed,
             'pushFailed' => $pushFailed,
@@ -113,7 +172,7 @@ class StaticRegistryPushSyncControler extends FrontControlerAbstract {
             'deleteFailed' => $deleteFailed,
             'deleteSkipped' => $deleteSkipped,
             'errors' => $errors,
-        ]);
+        ];
     }
 
     private function resolveBaseUrl(ServerRequestInterface $request): string {

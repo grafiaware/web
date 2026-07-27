@@ -148,7 +148,8 @@ class ApiRegistrator {
         
         #### StaticControler ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/static/:staticId'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/static/registry/push-sync')); // sync remote registry (upsert + delete orphans)
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/static/registry/push-sync')); // sync remote registry JSON
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/static/registry/push-sync-ui')); // sync + PRG flash pro admin stránku
         
         #### EditItemControler ####
         $registry->register($this->putPrototype->withUrlPattern('/red/v1/menu/:menuItemUidFk/toggle'));

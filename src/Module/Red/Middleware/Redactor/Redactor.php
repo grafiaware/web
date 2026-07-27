@@ -387,6 +387,12 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(StaticRegistryPushSyncControler::class);
                 return $ctrl->pushSync($request);
         });
+        // Admin UI: stejný sync + flash + PRG zpět na last GET
+        $this->routeGenerator->addRouteForAction('POST', '/red/v1/static/registry/push-sync-ui', function(ServerRequestInterface $request) {
+                /** @var StaticRegistryPushSyncControler $ctrl */
+                $ctrl = $this->container->get(StaticRegistryPushSyncControler::class);
+                return $ctrl->pushSyncUi($request);
+        });
         
         #### EditItemControler ####
         $this->routeGenerator->addRouteForAction('PUT', '/red/v1/menu/:menuItemUidFk/toggle', function(ServerRequestInterface $request, $menuItemId) {
