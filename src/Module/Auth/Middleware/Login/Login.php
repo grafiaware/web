@@ -78,15 +78,7 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
              
              
              
-        #### StaticControler ####
-        $this->routeGenerator->addRouteForAction('GET', '/auth/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
-            /** @var ComponentStaticControler $ctrl */
-            $ctrl = $this->container->get(ComponentStaticControler::class);
-            return $ctrl->static($request, $staticName);
-            });
-
-        #### StaticRegistryControler — lokální SQLite metadata (push z red) + seznam šablon ####
-        // Seznam musí být před :menuItemId (a vedle :staticName jako exact match)
+        #### StaticRegistryControler — před :staticName (router bere první match) ####
         $this->routeGenerator->addRouteForAction('GET', '/auth/v1/static/registry', function(ServerRequestInterface $request) {
             /** @var StaticRegistryControler $ctrl */
             $ctrl = $this->container->get(StaticRegistryControler::class);
@@ -97,12 +89,19 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(StaticRegistryControler::class);
             return $ctrl->get($request, (int) $menuItemId);
         });
-        // Pro select box path/template v red editoru (filesystem scan static/auth/)
         $this->routeGenerator->addRouteForAction('GET', '/auth/v1/static/templates', function(ServerRequestInterface $request) {
             /** @var StaticRegistryControler $ctrl */
             $ctrl = $this->container->get(StaticRegistryControler::class);
             return $ctrl->templates($request);
         });
+
+        #### StaticControler ####
+        $this->routeGenerator->addRouteForAction('GET', '/auth/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
+            /** @var ComponentStaticControler $ctrl */
+            $ctrl = $this->container->get(ComponentStaticControler::class);
+            return $ctrl->static($request, $staticName);
+            });
+
         // Upsert / delete z red StaticRegistryPushClient (server-to-server, token)
         $this->routeGenerator->addRouteForAction('PUT', '/auth/v1/static/registry/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
             /** @var StaticRegistryControler $ctrl */
