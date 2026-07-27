@@ -69,7 +69,7 @@ foreach ($remoteModules as $module) {
     $remoteByModule[$module] = $registryListClient->fetch($module);
 }
 
-$pushAllUrl = Text::encodeUrlPath('red/v1/static/registry/push-all');
+$pushSyncUrl = Text::encodeUrlPath('red/v1/static/registry/push-sync');
 
 /**
  * @param list<array<string, mixed>> $rows
@@ -113,27 +113,28 @@ $renderTable = static function (array $rows, bool $showTitle = false): void {
 
 ?>
 <div class="ui segment">
-    <h2 class="ui header">Static registry — přehled a backfill</h2>
+    <h2 class="ui header">Static registry — přehled a sync</h2>
     <p>
         Site: <strong><?= htmlspecialchars($siteCode) ?></strong>.
         Red přehled je z MySQL tabulky <code>static</code>; auth/events ze SQLite přes
         <code>GET /{module}/v1/static/registry</code>.
     </p>
 
-    <h3 class="ui dividing header">Push all (backfill)</h3>
+    <h3 class="ui dividing header">Push sync</h3>
     <form class="ui form" method="POST" action="">
         <button class="ui primary button" type="submit"
-                formaction="<?= $pushAllUrl ?>?module=events">
-            Push all → events
+                formaction="<?= $pushSyncUrl ?>?module=events">
+            Sync → events
         </button>
         <button class="ui primary button" type="submit"
-                formaction="<?= $pushAllUrl ?>?module=auth">
-            Push all → auth
+                formaction="<?= $pushSyncUrl ?>?module=auth">
+            Sync → auth
         </button>
     </form>
     <p class="ui small grey text">
-        POST <code>/red/v1/static/registry/push-all</code> s parametrem <code>module=events|auth</code>.
-        Po pushi obnovte stránku, aby se propsal SQLite přehled.
+        POST <code>/red/v1/static/registry/push-sync</code> s parametrem <code>module=events|auth</code>.
+        Upsertne všechny položky z red a smaže orphan záznamy v SQLite.
+        Po sync obnovte stránku, aby se propsal SQLite přehled.
     </p>
 </div>
 

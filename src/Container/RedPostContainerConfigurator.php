@@ -79,9 +79,11 @@ use Red\Model\Repository\ItemActionRepo;
 use Red\Service\StaticRegistry\StaticRegistryPushClient;
 use Red\Service\StaticRegistry\StaticRegistryPushClientInterface;
 use Red\Service\StaticRegistry\StaticRegistryPushService;
+use Red\Service\StaticRegistry\StaticRegistryListClient;
+use Red\Service\StaticRegistry\StaticRegistryListClientInterface;
 use Red\Service\StaticRegistry\StaticRegistryTemplateListClient;
 use Red\Service\StaticRegistry\StaticRegistryTemplateListClientInterface;
-use Red\Middleware\Redactor\Controler\StaticRegistryPushAllControler;
+use Red\Middleware\Redactor\Controler\StaticRegistryPushSyncControler;
 
 /**
  *
@@ -317,6 +319,12 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
             StaticRegistryTemplateListClient::class => function(ContainerInterface $c) {
                 return $c->get(StaticRegistryTemplateListClientInterface::class);
             },
+            StaticRegistryListClientInterface::class => function(ContainerInterface $c) {
+                return new StaticRegistryListClient();
+            },
+            StaticRegistryListClient::class => function(ContainerInterface $c) {
+                return $c->get(StaticRegistryListClientInterface::class);
+            },
             // Doménová služba: push/delete jen pro events|auth static položky
             StaticRegistryPushService::class => function(ContainerInterface $c) {
                 return new StaticRegistryPushService(
@@ -324,14 +332,15 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(MenuItemRepo::class),
                 );
             },
-            StaticRegistryPushAllControler::class => function(ContainerInterface $c) {
-                return new StaticRegistryPushAllControler(
+            StaticRegistryPushSyncControler::class => function(ContainerInterface $c) {
+                return new StaticRegistryPushSyncControler(
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
                     $c->get(StaticItemRepo::class),
                     $c->get(MenuItemRepo::class),
                     $c->get(StaticRegistryPushClientInterface::class),
+                    $c->get(StaticRegistryListClientInterface::class),
                 );
             },
         ];

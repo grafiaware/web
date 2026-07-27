@@ -32,7 +32,7 @@ use Red\Middleware\Redactor\Controler\SectionsControler;
 use Red\Middleware\Redactor\Controler\MultipageControler;
 use Red\Middleware\Redactor\Controler\FilesUploadControler;
 use Red\Middleware\Redactor\Controler\StaticControler;
-use Red\Middleware\Redactor\Controler\StaticRegistryPushAllControler;
+use Red\Middleware\Redactor\Controler\StaticRegistryPushSyncControler;
 
 use Red\Middleware\Redactor\Controler\Exception\UnexpectedRequestMethodException;
 
@@ -381,11 +381,11 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(StaticControler::class);
                 return $ctrl->update($request, $staticId);
         });
-        // Backfill: push všech static položek daného modulu do remote registry
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/static/registry/push-all', function(ServerRequestInterface $request) {
-                /** @var StaticRegistryPushAllControler $ctrl */
-                $ctrl = $this->container->get(StaticRegistryPushAllControler::class);
-                return $ctrl->pushAll($request);
+        // Sync: upsert všech static položek modulu + smazání orphanů v remote registry
+        $this->routeGenerator->addRouteForAction('POST', '/red/v1/static/registry/push-sync', function(ServerRequestInterface $request) {
+                /** @var StaticRegistryPushSyncControler $ctrl */
+                $ctrl = $this->container->get(StaticRegistryPushSyncControler::class);
+                return $ctrl->pushSync($request);
         });
         
         #### EditItemControler ####

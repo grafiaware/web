@@ -148,7 +148,7 @@ class ApiRegistrator {
         
         #### StaticControler ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/static/:staticId'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/static/registry/push-all')); // backfill remote registry
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/static/registry/push-sync')); // sync remote registry (upsert + delete orphans)
         
         #### EditItemControler ####
         $registry->register($this->putPrototype->withUrlPattern('/red/v1/menu/:menuItemUidFk/toggle'));

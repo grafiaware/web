@@ -57,7 +57,7 @@ class StaticItemRepo extends RepoAbstract implements StaticItemRepoInterface {
     }
 
     /**
-     * Všechny static položky — pro backfill push-all do remote registry.
+     * Všechny static položky — pro push-sync do remote registry.
      *
      * @return StaticItemInterface[]
      */
