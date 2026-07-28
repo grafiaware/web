@@ -31,7 +31,7 @@
         "pes/pes": "dev-split",
         "phpmailer/phpmailer": "^6.2",
         "endroid/qr-code": "^6.1.0",
-        "khanamiryan/qrcode-detector-decoder": "2.0.3"
+        "khanamiryan/qrcode-detector-decoder": "^2.0.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^12.5",
@@ -41,21 +41,33 @@
     "autoload": {
         "psr-4": {
             "Site\\": "app/Site",
+            "Access\\": "src/Access",
+            "Application\\": "src/Application",
+            "Component\\": "src/Component",
+            "Configuration\\": "src/Configuration",
+            "Container\\": "src/Container",
+            "FrontControler\\": "src/FrontControler",
+            "Mail\\": "src/Mail",
+            "Replace\\": "src/Replace",
+            "StaticRegistry\\": "src/StaticRegistry",
+            "Template\\": "src/Template",
+            "View\\": "src/View",
+            
             "Auth\\": "src/Module/Auth",
             "Build\\": "src/Module/Build",
+            "Consent\\": "src/Module/Consent",
+            "Events\\": "src/Module/Events",
             "Firewall\\": "src/Module/Firewall",
+            "Ping\\": "src/Module/Ping",
             "Red\\": "src/Module/Red",
-            "Web\\": "src/Module/Web",
-            "Transformator\\": "src/Module/Transformator",
-            "Status\\": "src/Module/Status",
             "RequestLogger\\": "src/Module/RequestLogger",
             "ResponseTime\\": "src/Module/ResponseTime",
-            "Events\\": "src/Module/Events",
             "Sendmail\\": "src/Module/Sendmail",
-            "Ping\\": "src/Module/Ping",
-            "Consent\\": "src/Module/Consent",
-            "Test\\": "tests",
-            "" : "src"
+            "Status\\": "src/Module/Status",
+            "Transformator\\": "src/Module/Transformator",
+            "Web\\": "src/Module/Web",
+
+            "Test\\": "tests"
         }
     }
 }
