@@ -58,19 +58,11 @@ class DriverService implements DriverServiceInterface{
         $this->container = $container;      //TODO: ODSTRANIT! kontejner
     }
     
-        public function getMenuItem($uid) {
+        public function getMenuItem($uid): ?MenuItemInterface {
         return $this->menuItemRepo->get($this->statusViewModel->getPresentedLanguageCode(), $uid);        
     }
     
-    /**
-     * Doplní drive komponent o buttony
-     * 
-     * @param DriverComponentInterface $driver
-     * @param MenuItemInterface $menuItem
-     * @param type $isPresented
-     * @return DriverComponentInterface
-     */
-    public function completeDriverComponent(DriverComponentInterface $driver, MenuItemInterface $menuItem, $isPresented){
+    public function completeDriverComponent(DriverComponentInterface $driver, MenuItemInterface $menuItem, bool $isPresented): DriverComponentInterface {
         /** @var DriverViewModelInterface $driverViewModel */
         $driverViewModel = $driver->getData();
 

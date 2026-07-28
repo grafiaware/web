@@ -10,7 +10,20 @@ use Red\Component\View\Menu\DriverComponentInterface;
  */
 interface DriverServiceInterface {
     
-    public function getMenuItem($uid);
+    /**
+     * 
+     * @param type $uid
+     * @return MenuItemInterface|null
+     */
+    public function getMenuItem($uid): ?MenuItemInterface;
     
-    public function completeDriverComponent(DriverComponentInterface $driver, MenuItemInterface $menuItem, $isPresented);
+    /**
+     * Doplní drive komponent o buttony
+     * 
+     * @param DriverComponentInterface $driver
+     * @param MenuItemInterface $menuItem
+     * @param bool $isPresented
+     * @return DriverComponentInterface
+     */
+    public function completeDriverComponent(DriverComponentInterface $driver, MenuItemInterface $menuItem, bool $isPresented): DriverComponentInterface;
 }
