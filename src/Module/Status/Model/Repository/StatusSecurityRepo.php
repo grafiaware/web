@@ -15,6 +15,9 @@ use Status\Model\Entity\SecurityInterface;
  * Description of StatusSecurityRepo
  * Repository obsahuje vždy jen jednu entitu StatusSecurity.
  *
+ * Po StatusDao::finish() get/add/remove vyhodí SessionFinishedException;
+ * pro read-only snapshot použijte isFinished() + getClone().
+ *
  * @author pes2704
  */
 class StatusSecurityRepo extends StatusRepositoryAbstract {
@@ -28,6 +31,7 @@ class StatusSecurityRepo extends StatusRepositoryAbstract {
      * @return SecurityInterface|null
      */
     public function get(): ?SecurityInterface {
+        $this->assertSessionWritable();
         if (! isset($this->entity)) {
             $this->load();
         }
@@ -39,6 +43,7 @@ class StatusSecurityRepo extends StatusRepositoryAbstract {
      * @param SecurityInterface $securityStatus
      */
     public function add(SecurityInterface $securityStatus) {
+        $this->assertSessionWritable();
         $this->entity = $securityStatus;
     }
 
@@ -46,6 +51,7 @@ class StatusSecurityRepo extends StatusRepositoryAbstract {
      * Repository obsahuje vždy jen jednu entitu StatusSecurityInterface a ta je smazána.
      */
     public function remove() {
+        $this->assertSessionWritable();
         $this->entity = NULL;
     }
 }
