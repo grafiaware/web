@@ -16,6 +16,9 @@ use Status\Model\Entity\FlashInterface;
  * Description of StausLoginRepo
  * Repository obsahuje vždy jen jednu entitu StatusLogin.
  *
+ * Po StatusDao::finish() get/add/remove vyhodí SessionFinishedException;
+ * pro read-only snapshot použijte isFinished() + getClone().
+ *
  * @author pes2704
  */
 class StatusFlashRepo extends StatusRepositoryAbstract {
@@ -29,6 +32,7 @@ class StatusFlashRepo extends StatusRepositoryAbstract {
      * @return FlashInterface|null
      */
     public function get(): ?FlashInterface {
+        $this->assertSessionWritable();
         if (! isset($this->entity)) {
             $this->load();
         }
@@ -40,6 +44,7 @@ class StatusFlashRepo extends StatusRepositoryAbstract {
      * @param FlashInterface $flashStatus
      */
     public function add(FlashInterface $flashStatus) {
+        $this->assertSessionWritable();
         $this->entity = $flashStatus;
     }
 
@@ -47,6 +52,7 @@ class StatusFlashRepo extends StatusRepositoryAbstract {
      * Repository obsahuje vždy jen jednu entitu a ta je smazána.
      */
     public function remove() {
+        $this->assertSessionWritable();
         $this->entity = NULL;
     }
 }

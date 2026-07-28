@@ -16,6 +16,9 @@ use Status\Model\Entity\PresentationInterface;
  * Description of StausPresentationRepo
  * Repository obsahuje vždy jen jednu entitu StatusPresentation.
  *
+ * Po StatusDao::finish() get/add/remove vyhodí SessionFinishedException;
+ * pro read-only snapshot použijte isFinished() + getClone().
+ *
  * @author pes2704
  */
 class StatusPresentationRepo extends StatusRepositoryAbstract {
@@ -29,6 +32,7 @@ class StatusPresentationRepo extends StatusRepositoryAbstract {
      * @return PresentationInterface
      */
     public function get(): ?PresentationInterface {
+        $this->assertSessionWritable();
         if (! isset($this->entity)) {
             $this->load();
         }
@@ -41,6 +45,7 @@ class StatusPresentationRepo extends StatusRepositoryAbstract {
      * @param PresentationInterface $statusPresentation
      */
     public function add(PresentationInterface $statusPresentation) {
+        $this->assertSessionWritable();
         $this->entity = $statusPresentation;
     }
 
@@ -48,6 +53,7 @@ class StatusPresentationRepo extends StatusRepositoryAbstract {
      * Repository obsahuje vždy jen jednu entitu StatusPresentationInterface a ta je smazána.
      */
     public function remove() {
+        $this->assertSessionWritable();
         $this->entity = NULL;
     }
 }
