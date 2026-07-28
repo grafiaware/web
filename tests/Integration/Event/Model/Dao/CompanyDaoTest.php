@@ -89,6 +89,7 @@ class CompanyDaoTest  extends AppRunner {
     public function testInsert() {
         $rowData = new RowData();
         $rowData->offsetSet('name', "testCompany-nameNNN");
+        $rowData->offsetSet('version_fk', "test");
 
         $this->dao->insert($rowData);
         self::$id =  $this->dao->getLastInsertedPrimaryKey(); //pro autoincrement

@@ -42,7 +42,7 @@ class TestDbUpgradeContainerConfigurator extends DbUpgradeContainerConfigurator 
                 ###################################
                 # Konfigurace logu databáze pro test
                 #
-                'red.logs.db.directory' => 'TestLogs/Red',
+                'red.logs.db.directory' => 'Logs/Red',
                 'red.logs.db.file' => 'Database.log',
                 #
                 #################################

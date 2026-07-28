@@ -3,7 +3,7 @@ namespace Auth\Middleware\Login\Controler;
 
 use Site\ConfigurationCache;
 
-use Pes\Mail\Mail;
+use Pes\Mail\MailInterface;
 use Mail\MessageFactory\HtmlMessage;
 use Pes\Mail\Assembly;
 use Pes\Mail\Assembly\{Content, Attachment, Party};
@@ -108,8 +108,8 @@ class RegistrationControler extends LoginControlerAbstract
                     $confirmationUrl = "https://{$confirmDomainName}auth/v1/confirm/$uid";
 
                     #########################--------- poslat mail uzivateli---------------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                    /** @var Mail $mail */
-                    $mail = $this->container->get(Mail::class);
+                    /** @var MailInterface $mail */
+                    $mail = $this->container->get(MailInterface::class);
                     /** @var HtmlMessage $mailMessageFactory */
                     $mailMessageFactory = $this->container->get(HtmlMessage::class);                    
                     
@@ -153,8 +153,8 @@ class RegistrationControler extends LoginControlerAbstract
                     
                     
 //                    #########################---------  kopie -------------------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-//                    /** @var Mail $mail */
-//                    $mail = $this->container->get(Mail::class);
+//                    /** @var MailInterface $mail */
+//                    $mail = $this->container->get(MailInterface::class);
 //                    /** @var HtmlMessage $mailMessageFactory */
 //                    $mailMessageFactory = $this->container->get(HtmlMessage::class);
 //                    
@@ -187,8 +187,8 @@ class RegistrationControler extends LoginControlerAbstract
                     
 //                    if ($registerInfo) {
 //                        ##########################--------- poslat mail do Grafie - registrujicise  je  vystavovatel -------------------
-//                        /** @var Mail $mail */
-//                        $mail = $this->container->get(Mail::class);
+//                        /** @var MailInterface $mail */
+//                        $mail = $this->container->get(MailInterface::class);
 //                        /** @var HtmlMessage $mailMessageFactory */
 //                        $mailMessageFactory = $this->container->get(HtmlMessage::class);
 //
@@ -285,8 +285,8 @@ class RegistrationControler extends LoginControlerAbstract
 
         if ($companyName and $loginName) {
         // #########################--------- poslat mail -------------------
-                /** @var Mail $mail */
-                $mail = $this->container->get(Mail::class);
+                /** @var MailInterface $mail */
+                $mail = $this->container->get(MailInterface::class);
                 /** @var HtmlMessage $mailMessageFactory */
                 $mailMessageFactory = $this->container->get(HtmlMessage::class);
 
@@ -316,7 +316,7 @@ class RegistrationControler extends LoginControlerAbstract
             try {
                     $ret = $mail->mail($params); // posle mail
                 } catch (MailExceptionInterface $exc) {
-                    echo $exc->getTraceAsString();
+                    throw $exc;
                 }  
 
         }   
@@ -336,8 +336,8 @@ class RegistrationControler extends LoginControlerAbstract
         
         $requestBody = $request->getParsedBody();
         
-                    /** @var Mail $mail */
-                    $mail = $this->container->get(Mail::class);
+                    /** @var MailInterface $mail */
+                    $mail = $this->container->get(MailInterface::class);
                     /** @var HtmlMessage $mailMessageFactory */
                     $mailMessageFactory = $this->container->get(HtmlMessage::class);
 
@@ -365,7 +365,7 @@ class RegistrationControler extends LoginControlerAbstract
                     try {
                         $ret = $mail->mail($params); // posle mail
                     } catch (MailExceptionInterface $exc) {
-                        echo $exc->getTraceAsString();
+                        throw $exc;
                     }
 
         return $this->createStringOKResponse("Mail odeslán", 200); // 303 See Other

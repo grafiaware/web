@@ -1,0 +1,13 @@
+Přístup k testům: 
+
+Pro unit testy:
+TestCase + globální bootstrap v phpunit.xml - vhodné pro unit testy šablon, MailSender, AssemblyProvider — doporučeno pro mail testy
+
+Pro funkční/integration testy:
+1) AppRunner - vhodné pro funkční/integration testy, které potřebují mock HTTP prostředí (mockEnvironment, createEnvironment, běh aplikace)
+2) ApplicationBootstrap::load() - kdekoliv, kde test potřebuje PES konstanty, ale ne HTTP mock
+
+Doporučený model:
+phpunit-bootstrap.php          → ApplicationBootstrap::load()  (pro všechny testy)
+TestCase                       → unit testy (mail šablony, logika)
+AppRunner extends TestCase     → jen testy, které celou aplikaci

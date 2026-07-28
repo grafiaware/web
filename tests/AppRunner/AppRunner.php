@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Test\AppRunner;
 
+use Test\Support\ApplicationBootstrap;
 use PHPUnit\Framework\TestCase;
 
 use Pes\Http\Factory\EnvironmentFactory;
@@ -28,17 +29,7 @@ class AppRunner extends TestCase {
     protected static $inputStream;
 
     public static function bootstrapBeforeClass(): void {
-        if ( !defined('PES_DEVELOPMENT') AND !defined('PES_PRODUCTION') ) {
-            if ( !defined('PES_FORCE_DEVELOPMENT')) {
-                define('PES_FORCE_DEVELOPMENT', 'force_development');
-            }
-            //// nebo
-            //define('PES_FORCE_PRODUCTION', 'force_production');
-
-            define('PROJECT_PATH', 'c:/ApacheRoot/web/');
-
-            include '../vendor/pes/pes/src/Bootstrap/Bootstrap.php';
-        }
+        ApplicationBootstrap::load();
 
         // input stream je možné otevřít jen jednou
         self::$inputStream = fopen('php://temp', 'w+');  // php://temp will store its data in memory but will use a temporary file once the amount of data stored hits a predefined limit (the default is 2 MB). The location of this temporary file is determined in the same way as the sys_get_temp_dir() function.
