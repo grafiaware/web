@@ -9,6 +9,7 @@
 namespace Status\Model\Entity;
 
 use Pes\Model\Entity\PersistableEntityAbstract;
+use LogicException;
 
 use Pes\Model\Entity\SecurityPersistableEntityInterface;
 
@@ -23,7 +24,9 @@ use Events\Model\Entity\RepresentationActionsInterface;
  *
  * @author pes2704
  */
-class Security extends PersistableEntityAbstract implements SecurityInterface {
+class Security extends PersistableEntityAbstract implements SecurityInterface, MakeImmutableInterface {
+
+    private bool $immutable = false;
 
     /**
      * @var LoginAggregateFullInterface
@@ -47,6 +50,20 @@ class Security extends PersistableEntityAbstract implements SecurityInterface {
     
     private $info = [];
 
+    public function makeImmutable(): void {
+        $this->immutable = true;
+    }
+
+    private function assertMutable(string $methodName): void {
+        if ($this->immutable) {
+            throw new LogicException(sprintf(
+                '%s::%s() failed: entity is immutable clone (returned by getClone()).',
+                static::class,
+                $methodName
+            ));
+        }
+    }
+
     /**
      * {@inheritdoc}
      * 
@@ -55,6 +72,7 @@ class Security extends PersistableEntityAbstract implements SecurityInterface {
      */
     #[\Override]
     public function newContext(LoginAggregateFullInterface $loginAggregate): SecurityInterface {
+        $this->assertMutable(__FUNCTION__);
         $this->loggedOffUserName = null;        
         $this->loginAggregate = $loginAggregate;
         $this->editorActions = new EditorActions();
@@ -69,6 +87,7 @@ class Security extends PersistableEntityAbstract implements SecurityInterface {
      */
     #[\Override]
     public function removeContext(): SecurityInterface {
+        $this->assertMutable(__FUNCTION__);
         $this->processActionsForLossOfSecurityContext($this->loginAggregate?->getLoginName());
         return $this;
     }
@@ -80,6 +99,7 @@ class Security extends PersistableEntityAbstract implements SecurityInterface {
      */
     #[\Override]
     public function processActionsForLossOfSecurityContext(?string $loggedOffUserName=null) {
+        $this->assertMutable(__FUNCTION__);
         if (isset($this->editorActions)) {
            $this->editorActions->processActionsForLossOfSecurityContext($loggedOffUserName);
         }            
@@ -100,11 +120,13 @@ class Security extends PersistableEntityAbstract implements SecurityInterface {
     
     #[\Override]
     public function addUserNameVerifiedWithinSession(string $loginName): void {
+        $this->assertMutable(__FUNCTION__);
         $this->userNameVerifyedWithinSession[$loginName] = true;  // jméno jako klíč - nevzniknou duplicity
     }
     
     #[\Override]
     public function removeUserNameVerifiedWithinSession(string $loginName): void {
+        $this->assertMutable(__FUNCTION__);
         unset($this->userNameVerifyedWithinSession[$loginName]);
     }
     
@@ -137,6 +159,7 @@ class Security extends PersistableEntityAbstract implements SecurityInterface {
     
     #[\Override]
     public function setInfo(string|int $name, mixed $value) {
+        $this->assertMutable(__FUNCTION__);
         $this->info[$name] = $value;
     }
     

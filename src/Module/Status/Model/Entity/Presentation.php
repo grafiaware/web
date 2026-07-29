@@ -9,6 +9,7 @@
 namespace Status\Model\Entity;
 
 use Pes\Model\Entity\PersistableEntityAbstract;
+use LogicException;
 
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\StaticItemInterface;
@@ -18,7 +19,9 @@ use Status\Model\Entity\PresentationInterface;
  *
  * @author pes2704
  */
-class Presentation extends PersistableEntityAbstract implements PresentationInterface {
+class Presentation extends PersistableEntityAbstract implements PresentationInterface, MakeImmutableInterface {
+
+    private bool $immutable = false;
 
     private $languageCode;
 
@@ -40,6 +43,23 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
     private $lastTemplateName;
     
     private $info = [];
+
+    /**
+     * Ponechává entitu pouze pro čtení (používá se pro getClone() snapshots).
+     */
+    public function makeImmutable(): void {
+        $this->immutable = true;
+    }
+
+    private function assertMutable(string $methodName): void {
+        if ($this->immutable) {
+            throw new LogicException(sprintf(
+                '%s::%s() failed: entity is immutable clone (returned by getClone()).',
+                static::class,
+                $methodName
+            ));
+        }
+    }
     
     ### resource path
     
@@ -59,6 +79,7 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
      */
     #[\Override]
     public function setLastGetResourcePath(string $lastResourcePath): PresentationInterface {
+        $this->assertMutable(__FUNCTION__);
         $this->lastResourcePath = $lastResourcePath;
         return $this;
     }
@@ -90,6 +111,7 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
      */
     #[\Override]
     public function setLanguageCode(string $languageCode): PresentationInterface {
+        $this->assertMutable(__FUNCTION__);
         $this->languageCode = $languageCode;
         return $this;
     }
@@ -101,6 +123,7 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
      */
     #[\Override]
     public function setRequestedLangCode(string $requestedLangCode): PresentationInterface {
+        $this->assertMutable(__FUNCTION__);
         $this->requestedLangCode = $requestedLangCode;
         return $this;
     }
@@ -123,6 +146,7 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
      */
     #[\Override]
     public function setMenuItem(MenuItemInterface $menuItem): PresentationInterface {
+        $this->assertMutable(__FUNCTION__);
         $this->menuItem = $menuItem;
         return $this;
     }
@@ -136,6 +160,7 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
     
     #[\Override]
     public function setStaticItem(?StaticItemInterface $staticItem=null): PresentationInterface {
+        $this->assertMutable(__FUNCTION__);
         $this->staticItem = $staticItem;
         return $this;
     }
@@ -158,12 +183,14 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
      */
     #[\Override]
     public function setLastTemplateName(string $templateName): PresentationInterface {
+        $this->assertMutable(__FUNCTION__);
         $this->lastTemplateName = $templateName;
         return $this;
     }
 
     #[\Override]
     public function setInfo($name, $value) {
+        $this->assertMutable(__FUNCTION__);
         $this->info[$name] = $value;
     }
     

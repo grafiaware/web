@@ -11,6 +11,7 @@ namespace Status\Model\Entity;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Model\Entity\PersistableEntityAbstract;
+use LogicException;
 use Status\Model\Enum\FlashSeverityEnum;
 use Pes\Core\Type\Exception\ValueNotInEnumException;
 use Status\Model\Exception\UndefinedFlashMessageSeverityException;
@@ -20,7 +21,9 @@ use Status\Model\Exception\UndefinedFlashMessageSeverityException;
  *
  * @author pes2704
  */
-class Flash extends PersistableEntityAbstract implements FlashInterface {
+class Flash extends PersistableEntityAbstract implements FlashInterface, MakeImmutableInterface {
+
+    private bool $immutable = false;
 
     private $preparedFlashMessages=[];
     private $storedFlashMessages=[];
@@ -37,6 +40,33 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      */
     private $severityEnum;
 
+    public function makeImmutable(): void {
+        $this->immutable = true;
+    }
+
+    private function assertMutable(string $methodName): void {
+        if ($this->immutable) {
+            throw new LogicException(sprintf(
+                '%s::%s() failed: entity is immutable clone (returned by getClone()).',
+                static::class,
+                $methodName
+            ));
+        }
+    }
+
+    /**
+     * Read metody, které interně mění stav entity (např. po přečtení smažou data).
+     */
+    private function assertNoReadSideEffects(string $methodName): void {
+        if ($this->immutable) {
+            throw new LogicException(sprintf(
+                '%s::%s() failed: immutable clone does not allow read methods with side effects (returned by getClone()).',
+                static::class,
+                $methodName
+            ));
+        }
+    }
+
     public function __construct() {
         $this->severityEnum = new FlashSeverityEnum();
     }
@@ -48,6 +78,7 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      */
     #[\Override]
     public function getMessages(): array {
+        $this->assertNoReadSideEffects(__FUNCTION__);
         $messages = $this->storedFlashMessages;
         $this->storedFlashMessages = [];
         return $messages;
@@ -61,6 +92,7 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      */
     #[\Override]
     public function setMessage(string $message, string $severity = FlashSeverityEnum::INFO): FlashInterface {
+        $this->assertMutable(__FUNCTION__);
         $en = $this->severityEnum;
         try {
             $this->preparedFlashMessages[] = ['severity'=>$en($severity), 'message'=>$message];
@@ -77,6 +109,7 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      */
     #[\Override]
     public function storeMessages(): void {
+        $this->assertMutable(__FUNCTION__);
         foreach ($this->preparedFlashMessages as $prep) {
             $this->storedFlashMessages[] = $prep;   //TODO: stack
         }
@@ -110,6 +143,7 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      */
     #[\Override]
     public function getPostCommand() {
+        $this->assertNoReadSideEffects(__FUNCTION__);
         $command = $this->storedPostFlashCommand;
         $this->storedPostFlashCommand = null;
         return $command;
@@ -149,6 +183,7 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      */
     #[\Override]
     public function setPostCommand($command): FlashInterface {
+        $this->assertMutable(__FUNCTION__);
         $this->preparedPostFlashCommand = $command;
         return $this;
     }
