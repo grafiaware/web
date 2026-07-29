@@ -39,7 +39,7 @@ $isVisitorDataPost = false;
 /** @var StatusSecurityRepo $statusSecurityRepo */
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 /** @var SecurityInterface $statusSecurity */
-$statusSecurity = $statusSecurityRepo->get();
+$statusSecurity = $statusSecurityRepo->getClone();
 /** @var LoginAggregateFullInterface $loginAggregate */
 $loginAggregate = $statusSecurity->getLoginAggregate();
 ####

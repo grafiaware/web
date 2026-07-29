@@ -91,7 +91,7 @@ class MenuControler extends PresentationFrontControlerAbstract {
     }
     
     private function getMenuItem($uid) {
-        return $this->menuItemRepo->get($this->statusPresentationRepo->get()->getLanguageCode(), $uid);        
+        return $this->menuItemRepo->get($this->statusPresentationRepo->getClone()->getLanguageCode(), $uid);        // status jen je čtení
     }    
     
     private function createDriver($uid, $isPresented): DriverComponentInterface {

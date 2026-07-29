@@ -61,7 +61,7 @@ class ContextProvider implements ContextProviderInterface {
         if (isset($this->forceShowOnlyPublished)) {
             $show = (bool) $this->forceShowOnlyPublished;
         } else {
-            $userActions = $this->statusSecurityRepo->get()->getEditorActions();
+            $userActions = $this->statusSecurityRepo->getClone()->getEditorActions();       // jen ke čtení
             $show = isset($userActions) ? !$userActions->presentEditableContent() : true;
         }
         return $show;

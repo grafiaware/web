@@ -19,6 +19,8 @@ use Status\Model\Entity\FlashInterface;
 
 /**
  * Description of StatusViewModel
+ * 
+ * Poskytuje komponentám status data (data ukládaná do session). Poskytuje data pouze ke čtení, session muže být již uzavřena (pro omezení session lock).
  *
  * @author pes2704
  */
@@ -49,9 +51,9 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
             ) {
         parent::__construct();
 
-        $this->statusSecurity = $statusSecurityRepo->get();
-        $this->statusPresentation = $statusPresentationRepo->get();
-        $this->statusFlash = $statusFlashRepo->get();
+        $this->statusSecurity = $statusSecurityRepo->getClone();
+        $this->statusPresentation = $statusPresentationRepo->getClone();
+        $this->statusFlash = $statusFlashRepo->getClone();
     }
 
     #[\Override]

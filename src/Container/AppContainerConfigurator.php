@@ -165,7 +165,7 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             LoginAggregateFullInterface::class => function(ContainerInterface $c) {
                 /** @var StatusSecurityRepo $securityStatusRepo */
                 $securityStatusRepo = $c->get(StatusSecurityRepo::class);
-                return $securityStatusRepo->get()->getLoginAggregate();
+                return $securityStatusRepo->getClone()->getLoginAggregate();    // jen ke čtení
             },
 
             // router

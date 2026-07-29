@@ -51,7 +51,7 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
      * @return ResponseInterface
      */
     protected function addCacheHeaders(ResponseInterface $response): ResponseInterface {
-        $editorActions = $this->statusSecurityRepo->get()->getEditorActions();
+        $editorActions = $this->statusSecurityRepo->getClone()->getEditorActions();
         if ($editorActions AND $editorActions->presentEditableContent()) {
             $response = $response->withHeader('Cache-Control', 'no-store, no-cache');
         } else {
@@ -65,17 +65,17 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
     ### status control methods ###
 
     protected function setPresentationMenuItem($menuItem) {
-        $statusPresentation = $this->statusPresentationRepo->get();
+        $statusPresentation = $this->statusPresentationRepo->getClone();
         $statusPresentation->setMenuItem($menuItem);
     }
 
     protected function setPresentationStaticItem($staticItem=null) {
-        $statusPresentation = $this->statusPresentationRepo->get();
+        $statusPresentation = $this->statusPresentationRepo->getClone();
         $statusPresentation->setStaticItem($staticItem);        
     }
     
     protected function getPresentationLangCode() {
-        return $this->statusPresentationRepo->get()->getLanguageCode();
+        return $this->statusPresentationRepo->getClone()->getLanguageCode();
     }
 
     /**
@@ -85,7 +85,7 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
      * @return type
      */
     protected function setPresentationLangCode($languageCode) {
-        return $this->statusPresentationRepo->get()->setLanguageCode($languageCode);
+        return $this->statusPresentationRepo->getClone()->setLanguageCode($languageCode);
     }
 
 }

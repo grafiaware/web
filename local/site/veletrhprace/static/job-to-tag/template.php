@@ -32,7 +32,7 @@ use Events\Model\Entity\LoginInterface;
 
    $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
     /** @var StatusSecurityRepo $statusSecurityRepo */
-    $statusSecurity = $statusSecurityRepo->get();
+    $statusSecurity = $statusSecurityRepo->getClone();
     $loginAggregate = $statusSecurity->getLoginAggregate();
     if (isset($loginAggregate)) {
         $loginName = $loginAggregate->getLoginName();
