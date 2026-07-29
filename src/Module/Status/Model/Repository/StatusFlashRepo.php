@@ -32,7 +32,7 @@ class StatusFlashRepo extends StatusRepositoryAbstract {
      * @return FlashInterface|null
      */
     public function get(): ?FlashInterface {
-        $this->assertSessionWritable();
+        $this->assertSessionWritableForGet();
         if (! isset($this->entity)) {
             $this->load();
         }
@@ -44,7 +44,7 @@ class StatusFlashRepo extends StatusRepositoryAbstract {
      * @param FlashInterface $flashStatus
      */
     public function add(FlashInterface $flashStatus) {
-        $this->assertSessionWritable();
+        $this->assertSessionWritable('add');
         $this->entity = $flashStatus;
     }
 
@@ -52,7 +52,7 @@ class StatusFlashRepo extends StatusRepositoryAbstract {
      * Repository obsahuje vždy jen jednu entitu a ta je smazána.
      */
     public function remove() {
-        $this->assertSessionWritable();
+        $this->assertSessionWritable('remove');
         $this->entity = NULL;
     }
 }

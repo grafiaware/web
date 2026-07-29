@@ -31,7 +31,7 @@ class StatusSecurityRepo extends StatusRepositoryAbstract {
      * @return SecurityInterface|null
      */
     public function get(): ?SecurityInterface {
-        $this->assertSessionWritable();
+        $this->assertSessionWritableForGet();
         if (! isset($this->entity)) {
             $this->load();
         }
@@ -43,7 +43,7 @@ class StatusSecurityRepo extends StatusRepositoryAbstract {
      * @param SecurityInterface $securityStatus
      */
     public function add(SecurityInterface $securityStatus) {
-        $this->assertSessionWritable();
+        $this->assertSessionWritable('add');
         $this->entity = $securityStatus;
     }
 
@@ -51,7 +51,7 @@ class StatusSecurityRepo extends StatusRepositoryAbstract {
      * Repository obsahuje vždy jen jednu entitu StatusSecurityInterface a ta je smazána.
      */
     public function remove() {
-        $this->assertSessionWritable();
+        $this->assertSessionWritable('remove');
         $this->entity = NULL;
     }
 }
