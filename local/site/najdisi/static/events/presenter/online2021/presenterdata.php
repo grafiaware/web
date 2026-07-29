@@ -11,7 +11,7 @@ use Template\Compiler\TemplateCompilerInterface;
 
 /** @var StatusSecurityRepo $statusSecurityRepo */
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
-$statusSecurity = $statusSecurityRepo->get();
+$statusSecurity = $statusSecurityRepo->getClone();
 $jobs = [];
 if ($companyName) {
     /** @var JobViewModel $jobModel */

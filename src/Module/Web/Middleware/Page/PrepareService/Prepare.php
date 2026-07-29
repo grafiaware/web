@@ -47,7 +47,7 @@ class Prepare implements PrepareStatusServiceInterface {
      * @throws UnexpectedValueException
      */
     public function prepareDbByStatus() {
-        $statusPresentation = $this->statusPresentationRepo->get();
+        $statusPresentation = $this->statusPresentationRepo->getClone();    // jen ke čtení
         if (!$statusPresentation->getLanguageCode()) {
             $requestedLangCode = $statusPresentation->getRequestedLangCode();
             $language = $this->languageRepo->get($requestedLangCode);
@@ -62,7 +62,7 @@ class Prepare implements PrepareStatusServiceInterface {
             }
             $statusPresentation->setLanguageCode($language->getLangCode());
         }
-        $userActions = $this->statusSecurityRepo->get()->getEditorActions();
+        $userActions = $this->statusSecurityRepo->getClone()->getEditorActions();   // jen ke čtení
         if(isset($userActions)) {
             $loggedOffUser = $this->statusSecurityRepo->get()->lastLoggedOffUsername();  
             if (isset($loggedOffUser)) {

@@ -8,7 +8,7 @@ use Status\Model\Repository\StatusSecurityRepo;
 
     $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
     /** @var StatusSecurityRepo $statusSecurityRepo */
-    $statusSecurity = $statusSecurityRepo->get();
+    $statusSecurity = $statusSecurityRepo->getClone();
 
     $institutionName = "Drůbežářský závod Klatovy";
     $event = (new EventViewModel($statusSecurity))->getEventList("", $institutionName, [], true);   // enrolling = true

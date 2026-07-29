@@ -96,7 +96,7 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
                 /** @var StatusPresentationRepo $statusPresentationRepo */
                 $statusPresentationRepo = $this->container->get(StatusPresentationRepo::class);
                 //TODO: $statusPresentation může být null -> exception
-                $statusPresentation = $statusPresentationRepo->get();
+                $statusPresentation = $statusPresentationRepo->getClone();      // jen ke čtení
                 $replacer->replaceRsUrlsInHref($request, $text, $key, $dao, $statusPresentation);
             } catch (InvalidHtmlSourceException $e) {
                 $this->flashAndLogIncorrectHtmlSyntax($request->getUri()->getPath(), $e);
@@ -108,21 +108,17 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
     }
     
     private function flashAndLogNotFound($requestUri, ListValueNotFoundInDatabaseException $e) {
-        /** @var StatusFlashRepo $statusFlashRepo */
-        $statusFlashRepo = $this->container->get(StatusFlashRepo::class);
         if (PES_DEVELOPMENT) {
-            $statusFlashRepo->get()->setMessage($e->getMessage());
+            throw $e;
         }
         if ($this->hasLogger()) {
             $this->getLogger()->notice("Pro uri $requestUri - {$e->getMessage()}");
         }
     }
     
-    private function flashAndLogIncorrectHtmlSyntax($requestUri, InvalidHtmlSourceException $e) {
-        /** @var StatusFlashRepo $statusFlashRepo */
-        $statusFlashRepo = $this->container->get(StatusFlashRepo::class);        
+    private function flashAndLogIncorrectHtmlSyntax($requestUri, InvalidHtmlSourceException $e) { 
         if (PES_DEVELOPMENT) {
-            $statusFlashRepo->get()->setMessage($e->getMessage());
+            throw $e;
         }
         if ($this->hasLogger()) {
             $this->getLogger()->notice("{$e->getMessage()} Nalezen počáteční řetězec a nenalezen konec pro $requestUri.");

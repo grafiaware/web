@@ -25,10 +25,14 @@ class UnlockStatus extends AppMiddlewareAbstract implements MiddlewareInterface 
     /**
      * Uvolní session lock
      * 
-     * Zapíše session data do úložiště a zavře session pro requesty, které v handleru nemění Status. Tím uvolní session data v úložišti (např. soubor ke čtení) 
+     * Zapíše session data do úložiště a zavře session (session_write_close). Tím uvolní session data v úložišti (např. soubor ke čtení) 
      * pro další request, který nemusí čekat nebo přestane čekat na session_start().
      * 
-     * Requesty, které v handleru nemění Status jsou GET requesty požadující cascade komponent, pokud to není komponent flash.
+     * Zavře session pro: 
+     * - GET requesty požadující cascade komponent (mají hlavičku "X-Cascade"), pokud to není komponent flash.
+     * 
+     * Zavírá session volání StatusDao::finish(). StatusDao používají všechna Status repo. Po zavření session nelze volat metody Staus repo get/add/remove.
+     * Lze volat pouze repo->getClone(), ta vrací jen klon status entity ke čtení. 
      * 
      * Pro ostatní případy se session se ukládá a zavírá automaticky až na konci skriptu:
      *  - jiné než GET requesty - handler mění Status (PUT, POST)
@@ -45,7 +49,9 @@ class UnlockStatus extends AppMiddlewareAbstract implements MiddlewareInterface 
             $container = $this->getApp()->getAppContainer();
             /** @var StatusDao $statusDao */
             $statusDao = $container->get(StatusDao::class);
-            $statusDao->finish();  // uloží data a zavře session (session_write_close)
+            // uloží data a zavře session (session_write_close)
+            // finish lze data session pouze číst, nelze zapisovat
+            $statusDao->finish();
         }
         return $handler->handle($request);
     }

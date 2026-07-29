@@ -92,10 +92,9 @@ class SelectorItems {
                 return [
                     new ResponseTime(),
                     new SecurityStatus(),
-//                    new Login(),
                     new FlashStatus(),
                     new PresentationStatus(),
-                    new UnlockStatus(),
+                    new UnlockStatus(),     // session unlock  - volá session->finish
                     new Transformator(),
                     new Redactor()
                 ];},
@@ -107,7 +106,7 @@ class SelectorItems {
                     new SecurityStatus(),
                     new FlashStatus(),
                     new PresentationStatus(),  // GET requesty (zobrazení komponenty) potřebují lang
-                    new UnlockStatus(),
+//                    new UnlockStatus(),     // session unlock  - volá session->finish
                     new Login()
                 ];},
             '/events'=>
@@ -115,11 +114,10 @@ class SelectorItems {
                 return [
                     new ResponseTime(),
                     new SecurityStatus(),
-//                    new Login(),
                     new FlashStatus(),
                     new PresentationStatus(),
-                    new UnlockStatus(),
-                    new ValidateUser(),
+                    new ValidateUser(),     // ValidateUser zapisuje do session úspěšné ověření -> musí být před UnlockStatus
+                    new UnlockStatus(),     // session unlock  - volá session->finish
                     new Events()
                 ];},
             '/sendmail'=>
@@ -127,9 +125,8 @@ class SelectorItems {
                 return [
                     //TODO: doplnit basic autentifikaci pro případ nepřihlášeného uživatele.
                     new SecurityStatus(),
-//                    new Login(),
                     new Firewall(new HasRole($this->app, RoleEnum::SUPERVISOR)),
-                    new UnlockStatus(),
+                    new UnlockStatus(),     // session unlock  - volá session->finish
                     new Sendmail()
                 ];},
             '/build'=>
@@ -137,7 +134,6 @@ class SelectorItems {
                 return [
                     //TODO: doplnit basic autentifikaci pro případ nepřihlášeného uživatele.
                     new SecurityStatus(),
-//                    new Login(),
                     new Firewall(new HasRole($this->app, RoleEnum::SUPERVISOR)),
                     new UnlockStatus(),
                     new Build()

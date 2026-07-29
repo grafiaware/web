@@ -293,7 +293,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
      */
     private function getEditableModeViews(ServerRequestInterface $request) {
         $tinyLanguage = ConfigurationCache::layoutControler()['tinyLanguage'];
-        $langCode =$this->statusPresentationRepo->get()->getLanguageCode();
+        $langCode =$this->statusPresentationRepo->getClone()->getLanguageCode();    // jen ke čtení
         $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : ConfigurationCache::presentationStatus()['default_lang_code'];
         $tinyConfigView =  $this->container->get(View::class)
                 ->setTemplate(new InterpolateTemplate(ConfigurationCache::layoutControler()['templates.tinyConfig']))
