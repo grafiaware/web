@@ -53,11 +53,21 @@ class UnlockStatus extends AppMiddlewareAbstract implements MiddlewareInterface 
             // finish lze data session pouze číst, nelze zapisovat
             $statusDao->finish();
         }
-        return $handler->handle($request);
+        $respone = $handler->handle($request);
+//        pokud jsou data 
+
+//            nastavit data
+
+        return $respone;
     }
     
     private function isFlashRequest(ServerRequestInterface $request) {
         $path = $request->getUri()->getPath();
-        return strpos($path, "component/flash") !== false;        
+//        return strpos($path, "component/flash") !== false;        
+        if (strpos($path, "component/flash") !== false) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

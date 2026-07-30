@@ -65,17 +65,17 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
     ### status control methods ###
 
     protected function setPresentationMenuItem($menuItem) {
-        $statusPresentation = $this->statusPresentationRepo->getClone();
+        $statusPresentation = $this->statusPresentationRepo->get(); // nesmí být session close
         $statusPresentation->setMenuItem($menuItem);
     }
 
     protected function setPresentationStaticItem($staticItem=null) {
-        $statusPresentation = $this->statusPresentationRepo->getClone();
+        $statusPresentation = $this->statusPresentationRepo->get(); // nesmí být session close
         $statusPresentation->setStaticItem($staticItem);        
     }
     
     protected function getPresentationLangCode() {
-        return $this->statusPresentationRepo->getClone()->getLanguageCode();
+        return $this->statusPresentationRepo->getClone()->getLanguageCode();   // vrací klon i když je session close - klon je immutable 
     }
 
     /**
@@ -85,7 +85,7 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
      * @return type
      */
     protected function setPresentationLangCode($languageCode) {
-        return $this->statusPresentationRepo->getClone()->setLanguageCode($languageCode);
+        return $this->statusPresentationRepo->get()->setLanguageCode($languageCode); // nesmí být session close
     }
 
 }
