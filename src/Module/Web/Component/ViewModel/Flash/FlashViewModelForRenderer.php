@@ -24,7 +24,7 @@ class FlashViewModelForRenderer implements FlashViewModelForRendererInterface {
     }
 
     public function getMessage() {
-        $statusFlash = $this->statusFlashRepo->getClone();  // jen ke čtení
+        $statusFlash = $this->statusFlashRepo->get();
         return $statusFlash ? $statusFlash->getMessages() ?? 'no flash' : 'no flash message';
     }
 }
