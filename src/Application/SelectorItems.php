@@ -106,7 +106,7 @@ class SelectorItems {
                     new SecurityStatus(),
                     new FlashStatus(),
                     new PresentationStatus(),  // GET requesty (zobrazení komponenty) potřebují lang
-//                    new UnlockStatus(),     // session unlock  - volá session->finish
+                    new UnlockStatus(),     // session unlock  - volá session->finish
                     new Login()
                 ];},
             '/events'=>

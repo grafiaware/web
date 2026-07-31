@@ -56,7 +56,7 @@ class FilterControler extends FrontControlerAbstract {
     
     public function cleanFilterJob(ServerRequestInterface $request) {                
         
-        $statusPresentation = $this->statusPresentationRepo->getClone();    // jen ke čtení
+        $statusPresentation = $this->statusPresentationRepo->get();
         $this->langCode = $statusPresentation->getLanguageCode();
         if (isset($statusPresentation) ) {
             $statusPresentation->setInfo(self::FILTER, [self::FILTER_TAGS=> null, self::FILTER_COMPANY=> '' ]);  

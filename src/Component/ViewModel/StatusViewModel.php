@@ -44,6 +44,13 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
      */
     private $statusFlash;
 
+    /**
+     * Flash se čte přes get() (getMessages má side-effect); session musí zůstat otevřená (flash request).
+     *
+     * @var StatusFlashRepo
+     */
+    private StatusFlashRepo $statusFlashRepo;
+
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
@@ -53,6 +60,7 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
 
         $this->statusSecurity = $statusSecurityRepo->getClone();
         $this->statusPresentation = $statusPresentationRepo->getClone();
+        $this->statusFlashRepo = $statusFlashRepo;
         $this->statusFlash = $statusFlashRepo->getClone();
     }
 
@@ -64,7 +72,8 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
 
     #[\Override]
     public function getFlashMessages() {
-        return $this->statusFlash?->getMessages();
+        $statusFlash = $this->statusFlashRepo->get();
+        return $statusFlash?->getMessages();
     }
 
     #[\Override]
