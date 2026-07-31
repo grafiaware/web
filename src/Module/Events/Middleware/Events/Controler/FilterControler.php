@@ -44,8 +44,8 @@ class FilterControler extends FrontControlerAbstract {
         $tags = (new RequestParams())->getParsedBodyParam($request, self::FILTER_TAGS );  // když není žádný checkbox zaškrtnut => nejsou POST data => $data=null
         $selectCompanyId = (new RequestParams())->getParsedBodyParam($request, self::FILTER_COMPANY );   //AuthControler::NULL_VALUE;   
         
-        $statusPresentation = $this->statusPresentationRepo->get();)
-        $this->langCode = $statusPresentation->getLangCode();
+        $statusPresentation = $this->statusPresentationRepo->get();
+        $this->langCode = $statusPresentation->getLanguageCode();
         if (isset($statusPresentation) ) {
             $statusPresentation->setInfo(self::FILTER, [self::FILTER_TAGS=>$tags, self::FILTER_COMPANY=>$selectCompanyId]);  
         } else {
