@@ -13,5 +13,5 @@ namespace Web\Component\ViewModel\Flash;
  * @author pes2704
  */
 interface FlashViewModelForRendererInterface {
-    public function getMessage();
+    public function getMessages();
 }

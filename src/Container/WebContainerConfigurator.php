@@ -157,7 +157,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
         // components
             // FlashComponent s vlastním rendererem
 //            FlashComponent::class => function(ContainerInterface $c) {
-//                $viewModel = new FlashViewModelForRenderer($c->get(StatusFlashRepo::class));
+//                $viewModel = new FlashViewModelForRenderer($c->get(StatusViewModel::class));
 //                return (new FlashComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(FlashRenderer::class);
 //            },
 
