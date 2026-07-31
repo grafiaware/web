@@ -51,6 +51,10 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
         $this->immutable = true;
     }
 
+    public function makeMutable(): void {
+        $this->immutable = false;
+    }
+
     private function assertMutable(string $methodName): void {
         if ($this->immutable) {
             throw new LogicException(sprintf(

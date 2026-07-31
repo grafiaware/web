@@ -44,6 +44,10 @@ class Flash extends PersistableEntityAbstract implements FlashInterface, MakeImm
         $this->immutable = true;
     }
 
+    public function makeMutable(): void {
+        $this->immutable = false;
+    }
+
     private function assertMutable(string $methodName): void {
         if ($this->immutable) {
             throw new LogicException(sprintf(
