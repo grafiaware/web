@@ -45,7 +45,8 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
     private $statusFlash;
 
     /**
-     * Flash se čte přes get() (getMessages má side-effect); session musí zůstat otevřená (flash request).
+     * Flash se čte přes mutable getClone(false) (getMessages má side-effect);
+     * spotřebovaný klon se vrátí do repo přes replaceEntityInMemory a po UnlockStatus::reopen() se flushne ve FlashStatus.
      *
      * @var StatusFlashRepo
      */
@@ -72,8 +73,12 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
 
     #[\Override]
     public function getFlashMessages() {
-        $statusFlash = $this->statusFlashRepo->get();
-        return $statusFlash?->getMessages();
+        /** @var FlashInterface $flash */
+        $flash = $this->statusFlashRepo->getClone(false);
+        $messages = $flash->getMessages();
+        $this->statusFlashRepo->replaceEntityInMemory($flash);
+        $this->statusFlash = $flash;
+        return $messages;
     }
 
     #[\Override]

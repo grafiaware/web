@@ -17,7 +17,8 @@ use Status\Model\Entity\FlashInterface;
  * Repository obsahuje vždy jen jednu entitu StatusLogin.
  *
  * Po StatusDao::finish() get/add/remove vyhodí SessionFinishedException;
- * pro read-only snapshot použijte isFinished() + getClone().
+ * pro read-only snapshot použijte isFinished() + getClone();
+ * pro spotřebu messages getClone(false) + replaceEntityInMemory() a po reopen() flush ve FlashStatus.
  *
  * @author pes2704
  */
