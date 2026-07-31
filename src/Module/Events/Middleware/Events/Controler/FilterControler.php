@@ -38,7 +38,6 @@ class FilterControler extends FrontControlerAbstract {
     const FILTER_TAGS = 'filter_tags';
     const FILTER_COMPANY = 'filter_company';
 
-
     public function filterJob(ServerRequestInterface $request) {
                 
         $tags = (new RequestParams())->getParsedBodyParam($request, self::FILTER_TAGS );  // když není žádný checkbox zaškrtnut => nejsou POST data => $data=null
@@ -55,10 +54,7 @@ class FilterControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request);         
     }
     
-    
-    
-    
-     public function cleanFilterJob(ServerRequestInterface $request) {                
+    public function cleanFilterJob(ServerRequestInterface $request) {                
         
         $statusPresentation = $this->statusPresentationRepo->getClone();    // jen ke čtení
         $this->langCode = $statusPresentation->getLanguageCode();
@@ -70,8 +66,6 @@ class FilterControler extends FrontControlerAbstract {
         
         return $this->redirectSeeLastGet($request);         
     }
-        
-//            $this->addFlashMessage(" ");               
-          
+
 }
 
