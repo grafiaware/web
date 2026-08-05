@@ -28,11 +28,13 @@ class UnlockStatus extends AppMiddlewareAbstract implements MiddlewareInterface 
      * Zapíše session data do úložiště a zavře session (session_write_close). Tím uvolní session data v úložišti (např. soubor ke čtení)
      * pro další request, který nemusí čekat nebo přestane čekat na session_start().
      *
-     * Zavře session pro všechny GET requesty s hlavičkou "X-Cascade" (včetně flash).
-     * Pro flash cascade GET po návratu z handle session znovu otevře (reopen), aby FlashStatus mohl zapsat spotřebované messages.
+     * Zavře session pro všechny GET requesty s hlavičkou "X-Cascade" (včetně flash a presenteddriver).
+     * Po návratu z handle session znovu otevře (reopen) pro:
+     *  - flash — FlashStatus zapíše spotřebované messages
+     *  - presenteddriver — PresentationStatus zapíše menuItem/staticItem nastavené v paměti během handle
      *
      * Po zavření session nelze volat Status repo get/add/remove/flush.
-     * Lze volat repo->getClone() (immutable) nebo getClone(false) + replaceEntityInMemory (mutable flash).
+     * Lze volat repo->getClone() (immutable) nebo getClone(false) + replaceEntityInMemory (mutable snapshot).
      *
      * Pro ostatní případy se session ukládá a zavírá automaticky až na konci skriptu:
      *  - jiné než GET requesty - handler mění Status (PUT, POST)
@@ -44,7 +46,7 @@ class UnlockStatus extends AppMiddlewareAbstract implements MiddlewareInterface 
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
         $isCascadeGet = $request->getMethod() === 'GET' && $request->hasHeader('X-Cascade');
-        $isFlash = $isCascadeGet && $this->isFlashRequest($request);
+        $needsReopen = $isCascadeGet && $this->needsSessionReopen($request);
 
         if ($isCascadeGet) {
             $container = $this->getApp()->getAppContainer();
@@ -55,7 +57,7 @@ class UnlockStatus extends AppMiddlewareAbstract implements MiddlewareInterface 
 
         $response = $handler->handle($request);
 
-        if ($isFlash) {
+        if ($needsReopen) {
             $container = $this->getApp()->getAppContainer();
             /** @var StatusDao $statusDao */
             $statusDao = $container->get(StatusDao::class);
@@ -65,8 +67,12 @@ class UnlockStatus extends AppMiddlewareAbstract implements MiddlewareInterface 
         return $response;
     }
 
-    private function isFlashRequest(ServerRequestInterface $request): bool {
+    /**
+     * Cascade GET routy, které po handle potřebují znovu zapisovatelnou session.
+     */
+    private function needsSessionReopen(ServerRequestInterface $request): bool {
         $path = $request->getUri()->getPath();
-        return strpos($path, 'component/flash') !== false;
+        return strpos($path, 'component/flash') !== false
+            || strpos($path, 'presenteddriver') !== false;
     }
 }
