@@ -54,6 +54,10 @@ class Security extends PersistableEntityAbstract implements SecurityInterface, M
         $this->immutable = true;
     }
 
+    public function makeMutable(): void {
+        $this->immutable = false;
+    }
+
     private function assertMutable(string $methodName): void {
         if ($this->immutable) {
             throw new LogicException(sprintf(

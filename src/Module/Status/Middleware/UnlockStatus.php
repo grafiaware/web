@@ -24,50 +24,49 @@ use Pes\Model\Dao\StatusDao;
 class UnlockStatus extends AppMiddlewareAbstract implements MiddlewareInterface {
     /**
      * Uvolní session lock
-     * 
-     * Zapíše session data do úložiště a zavře session (session_write_close). Tím uvolní session data v úložišti (např. soubor ke čtení) 
+     *
+     * Zapíše session data do úložiště a zavře session (session_write_close). Tím uvolní session data v úložišti (např. soubor ke čtení)
      * pro další request, který nemusí čekat nebo přestane čekat na session_start().
-     * 
-     * Zavře session pro: 
-     * - GET requesty požadující cascade komponent (mají hlavičku "X-Cascade"), pokud to není komponent flash.
-     * 
-     * Zavírá session volání StatusDao::finish(). StatusDao používají všechna Status repo. Po zavření session nelze volat metody Staus repo get/add/remove.
-     * Lze volat pouze repo->getClone(), ta vrací jen klon status entity ke čtení. 
-     * 
-     * Pro ostatní případy se session se ukládá a zavírá automaticky až na konci skriptu:
+     *
+     * Zavře session pro všechny GET requesty s hlavičkou "X-Cascade" (včetně flash).
+     * Pro flash cascade GET po návratu z handle session znovu otevře (reopen), aby FlashStatus mohl zapsat spotřebované messages.
+     *
+     * Po zavření session nelze volat Status repo get/add/remove/flush.
+     * Lze volat repo->getClone() (immutable) nebo getClone(false) + replaceEntityInMemory (mutable flash).
+     *
+     * Pro ostatní případy se session ukládá a zavírá automaticky až na konci skriptu:
      *  - jiné než GET requesty - handler mění Status (PUT, POST)
-     *  - flash komponent - je volán GET requestem, ale handler mění Status - vyzvedne a smaže flash messages
-     *  - GET požaduje něco jiného než component = stránka z Page controleru - handler mění Status, ukládá menu item
-     * 
+     *  - GET bez X-Cascade = stránka z Page controleru - handler mění Status
+     *
      * @param ServerRequestInterface $request
      * @param RequestHandlerInterface $handler
      * @return ResponseInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
+        $isCascadeGet = $request->getMethod() === 'GET' && $request->hasHeader('X-Cascade');
+        $isFlash = $isCascadeGet && $this->isFlashRequest($request);
 
-        if ($request->getMethod() == 'GET' && $request->hasHeader("X-Cascade") && !$this->isFlashRequest($request)) {
+        if ($isCascadeGet) {
             $container = $this->getApp()->getAppContainer();
             /** @var StatusDao $statusDao */
             $statusDao = $container->get(StatusDao::class);
-            // uloží data a zavře session (session_write_close)
-            // finish lze data session pouze číst, nelze zapisovat
             $statusDao->finish();
         }
-        $respone = $handler->handle($request);
-//        pokud jsou data 
 
-//            nastavit data
+        $response = $handler->handle($request);
 
-        return $respone;
-    }
-    
-    private function isFlashRequest(ServerRequestInterface $request) {
-        $path = $request->getUri()->getPath();
-//        return strpos($path, "component/flash") !== false;        
-        if (strpos($path, "component/flash") !== false) {
-            return true;
-        } else {
-            return false;
+        if ($isFlash) {
+            $container = $this->getApp()->getAppContainer();
+            /** @var StatusDao $statusDao */
+            $statusDao = $container->get(StatusDao::class);
+            $statusDao->reopen();
         }
+
+        return $response;
+    }
+
+    private function isFlashRequest(ServerRequestInterface $request): bool {
+        $path = $request->getUri()->getPath();
+        return strpos($path, 'component/flash') !== false;
     }
 }
