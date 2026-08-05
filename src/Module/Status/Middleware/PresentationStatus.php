@@ -57,10 +57,17 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         $this->setLastGetPath($statusPresentation, $request); 
 
         if ($request->getMethod() == 'GET') {
-            $statusPresentationRepo->flush();   // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
+            $statusPresentationRepo->flush();   // uloží lang/lastGet; fragment flag se shodí (entita zůstane v paměti)
         }
-        
+
         $response = $handler->handle($request);
+
+        // Po UnlockStatus::reopen() (flash / presenteddriver) zapsat in-memory změny (např. menuItem).
+        // U ostatních cascade GET (finish bez reopen) přeskočit — session je closed.
+        if (!$statusPresentationRepo->isFinished()) {
+            $statusPresentationRepo->flush();
+        }
+
         return $response;
     }
 

@@ -79,7 +79,7 @@ class MenuControler extends PresentationFrontControlerAbstract {
     public function presentedDriver(ServerRequestInterface $request, $uid) {
         $driver = $this->createDriver($uid, true);
         $menuItem = $driver->getData()->getMenuItem();  // driver po kompletaci už má data
-        // Session handoff pro cascade content (events/auth static šablony čtou title z PresentationStatus)
+        // Session handoff: menuItem/staticItem se zapíší in-memory; do session až po handle (UnlockStatus reopen + PresentationStatus flush)
         $this->setPresentationMenuItem($menuItem);
         $this->setPresentationStaticItem($this->staticItemRepo->getByMenuItemId($menuItem->getId()));
         return $this->createStringOKResponseFromView($driver);
