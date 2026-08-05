@@ -28,11 +28,12 @@ export function initMenuSwap() {
 }
 
 function attachToLoader(loaderElement) {
+    // apiAction formuláře jsou i v content cascade (tužka itemaction) — musí se zachytit vždy
+    listenFormsWithApiAction(loaderElement);
     if (!hasTargetId(loaderElement)) {
         return;
     }
     listenLinks(loaderElement);
-    listenFormsWithApiAction(loaderElement);
 }
 
 function hasTargetId(element) {
