@@ -51,7 +51,7 @@ final class MailSendIntegrationTest extends TestCase {
     
     
     //*************************************************
-    public function G_testRegistrationMailSendsViaSmtp4dev(): void
+    public function testRegistrationMailSendsViaSmtp4dev(): void
     {
         $this->skipWithoutSmtp4dev();
 
@@ -79,7 +79,7 @@ final class MailSendIntegrationTest extends TestCase {
     
     
     //*****************************
-    public function G_testForgottenPasswordMailSendsViaSmtp4dev(): void
+    public function testForgottenPasswordMailSendsViaSmtp4dev(): void
     {
         $this->skipWithoutSmtp4dev();
 
@@ -99,7 +99,7 @@ final class MailSendIntegrationTest extends TestCase {
         $this->assertTrue($this->createMail()->mail($assembly));
     }
 
-    public function G_testVisitorJobRequestMailSendsViaSmtp4dev(): void
+    public function testVisitorJobRequestMailSendsViaSmtp4dev(): void
     {
         $this->skipWithoutSmtp4dev();
 
@@ -154,6 +154,9 @@ final class MailSendIntegrationTest extends TestCase {
     }
     
     
+    
+    
+    
     public function testMailBody_withContextEcxception(): void
     {
         $this->skipWithoutSmtp4dev();
@@ -163,7 +166,7 @@ final class MailSendIntegrationTest extends TestCase {
         try {
             $body = (new HtmlMessage())->create(
                 MailTemplateFixtures::sendmailControlerMessage('podekovani-odkazy-igelitka.php'),
-                MailTemplateFixtures::podekovaniEmptyContext()
+                MailTemplateFixtures::podekovaniEmptyContext()   //zpusobuje chybu
             );   
             $this->fail('Výjimka typu ContextExceptionInterface měla být vyhozena, ale kód prošel.');
         }  
@@ -210,7 +213,7 @@ final class MailSendIntegrationTest extends TestCase {
     
     
     
-    public function G_testCampaignMailSenderAnketa2025ViaSmtp4dev(): void
+    public function testCampaignMailSenderAnketa2025ViaSmtp4dev(): void
     {
         $this->skipWithoutSmtp4dev();
 
