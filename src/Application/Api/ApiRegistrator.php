@@ -8,6 +8,8 @@ use Pes\Router\UrlPatternValidator;
 use Pes\Router\Resource\Resource;
 use Pes\Router\Resource\ResourceRegistryInterface;
 
+use Status\Session\SessionUnlockPolicy;
+
 /**
  * Description of ApiFactory
  *
@@ -74,7 +76,7 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/block/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/searchresult'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/component/:name'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/flash'));
+        $registry->register($this->getPrototype->withUrlPattern(SessionUnlockPolicy::ROUTE_PATTERN_FLASH));
 
     ### red module ###
     #
@@ -82,7 +84,7 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/service/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/component/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/driver/:uid'));
-        $registry->register($this->getPrototype->withUrlPattern('/red/v1/presenteddriver/:uid'));
+        $registry->register($this->getPrototype->withUrlPattern(SessionUnlockPolicy::ROUTE_PATTERN_PRESENTED_DRIVER));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/root/:menuItemId'));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/empty/:menuItemId'));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/static/:name'));

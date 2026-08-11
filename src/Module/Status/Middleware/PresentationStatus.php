@@ -22,7 +22,7 @@ use Site\ConfigurationCache;
 use Status\Model\Entity\Presentation;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Entity\PresentationInterface;
-use Red\Model\Entity\LanguageInterface;
+use Status\Session\SessionUnlockPolicy;
 
 use UnexpectedValueException;
 
@@ -46,6 +46,8 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
     #[\Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
         $container = $this->getApp()->getAppContainer();
+        /** @var SessionUnlockPolicy $unlockPolicy */
+        $unlockPolicy = $container->get(SessionUnlockPolicy::class);
         /** @var StatusPresentationRepo $statusPresentationRepo */
         $statusPresentationRepo = $container->get(StatusPresentationRepo::class);
         $statusPresentation = $statusPresentationRepo->get();
@@ -54,7 +56,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
             $statusPresentationRepo->add($statusPresentation);
         }
         $this->setPresentationLanguage($statusPresentation, $request);
-        $this->setLastGetPath($statusPresentation, $request); 
+        $this->setLastGetPath($statusPresentation, $request, $unlockPolicy);
 
         if ($request->getMethod() == 'GET') {
             $statusPresentationRepo->flush();   // uloží lang/lastGet; fragment flag se shodí (entita zůstane v paměti)
@@ -86,20 +88,18 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
     }
 
     /**
-     * Pro GET request uloží uri do StatusPresentation. 
-     * - Neukládá uri pokud request obsahuje hlavičku "X-Cascade", to je využito při kaskádním načítání, 
-     *   kdy se neuládají adresy GET requestů, kterými jsou načítány vložené komponenty stránky. 
-     * 
+     * Pro GET request uloží uri do StatusPresentation.
+     * Cascade fragmenty se neukládají — viz SessionUnlockPolicy::shouldRecordLastGet().
+     *
      * Poznámka: Použito pro přesměrování redirectLastGet a pro Transform!
-     * 
-     * @param type $statusPresentation
-     * @param type $request
      */
-    private function setLastGetPath(PresentationInterface $statusPresentation, ServerRequestInterface $request) {
-        if ($request->getMethod()=='GET') {
-            if (!$request->hasHeader("X-Cascade")) {
-                $statusPresentation->setLastGetResourcePath($this->getRestUri($request));
-            }
+    private function setLastGetPath(
+        PresentationInterface $statusPresentation,
+        ServerRequestInterface $request,
+        SessionUnlockPolicy $unlockPolicy
+    ): void {
+        if ($unlockPolicy->shouldRecordLastGet($request)) {
+            $statusPresentation->setLastGetResourcePath($this->getRestUri($request));
         }
     }
     

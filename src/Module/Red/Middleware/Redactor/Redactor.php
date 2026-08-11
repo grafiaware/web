@@ -36,6 +36,8 @@ use Red\Middleware\Redactor\Controler\StaticRegistryPushSyncControler;
 
 use Red\Middleware\Redactor\Controler\Exception\UnexpectedRequestMethodException;
 
+use Status\Session\SessionUnlockPolicy;
+
 class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
 
     private $container;
@@ -144,7 +146,7 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
             });
             
         #### MenuControler ####
-        $this->routeGenerator->addRouteForAction('GET', '/red/v1/presenteddriver/:uid', function(ServerRequestInterface $request, $uid) {
+        $this->routeGenerator->addRouteForAction('GET', SessionUnlockPolicy::ROUTE_PATTERN_PRESENTED_DRIVER, function(ServerRequestInterface $request, $uid) {
             /** @var MenuControler $ctrl */
             $ctrl = $this->container->get(MenuControler::class);
             return $ctrl->presentedDriver($request, $uid);

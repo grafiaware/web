@@ -17,6 +17,12 @@ const conf = {
     itemIdPrefix: "item_"
 };
 
+function cascadeHeaderName() {
+    return (typeof navConfig !== 'undefined' && navConfig.cascadeHeader)
+        ? navConfig.cascadeHeader
+        : 'X-Cascade';
+}
+
 // proměnná pro uložení event.currentTarget — musí být mimo tělo event handleru
 var previousItem = null;
 
@@ -207,7 +213,7 @@ function getNewDrivers(previousItem, currentItem) {
             method: "GET",
             cache: cacheControl,
             headers: {
-                "X-Cascade": "fetch driver"
+                [cascadeHeaderName()]: "fetch driver"
             }
         })
         .then(response => {

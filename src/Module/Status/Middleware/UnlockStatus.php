@@ -13,43 +13,52 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 
 use Pes\Application\Middleware\AppMiddlewareAbstract;
-
 use Pes\Model\Dao\StatusDao;
+use Pes\Session\SessionStatusHandlerInterface;
+
+use Status\Session\SessionUnlockPolicy;
 
 /**
- * Description of FinishStatus
+ * Uvolní session lock
+ *
+ * Politika finish/reopen: {@see SessionUnlockPolicy}.
+ *
+ * Po zavření session nelze volat Status repo get/add/remove/flush.
+ * Lze volat repo->getClone() (immutable) nebo getClone(false) + replaceEntityInMemory (mutable snapshot).
+ *
+ * Pro ostatní případy se session ukládá a zavírá automaticky až na konci skriptu:
+ *  - jiné než GET requesty - handler mění Status (PUT, POST)
+ *  - GET bez cascade hlavičky = stránka z Page controleru - handler mění Status
  *
  * @author pes2704
  */
 class UnlockStatus extends AppMiddlewareAbstract implements MiddlewareInterface {
-    /**
-     * Uvolní session lock
-     *
-     * Zapíše session data do úložiště a zavře session (session_write_close). Tím uvolní session data v úložišti (např. soubor ke čtení)
-     * pro další request, který nemusí čekat nebo přestane čekat na session_start().
-     *
-     * Zavře session pro všechny GET requesty s hlavičkou "X-Cascade" (včetně flash a presenteddriver).
-     * Po návratu z handle session znovu otevře (reopen) pro:
-     *  - flash — FlashStatus zapíše spotřebované messages
-     *  - presenteddriver — PresentationStatus zapíše menuItem/staticItem nastavené v paměti během handle
-     *
-     * Po zavření session nelze volat Status repo get/add/remove/flush.
-     * Lze volat repo->getClone() (immutable) nebo getClone(false) + replaceEntityInMemory (mutable snapshot).
-     *
-     * Pro ostatní případy se session ukládá a zavírá automaticky až na konci skriptu:
-     *  - jiné než GET requesty - handler mění Status (PUT, POST)
-     *  - GET bez X-Cascade = stránka z Page controleru - handler mění Status
-     *
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $handler
-     * @return ResponseInterface
-     */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-        $isCascadeGet = $request->getMethod() === 'GET' && $request->hasHeader('X-Cascade');
-        $needsReopen = $isCascadeGet && $this->needsSessionReopen($request);
 
-        if ($isCascadeGet) {
-            $container = $this->getApp()->getAppContainer();
+    #[\Override]
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
+        $container = $this->getApp()->getAppContainer();
+        /** @var SessionUnlockPolicy $policy */
+        $policy = $container->get(SessionUnlockPolicy::class);
+        /** @var SessionStatusHandlerInterface $sessionHandler */
+        $sessionHandler = $container->get(SessionStatusHandlerInterface::class);
+        $sessionIsNew = $sessionHandler->isNew();
+
+        if ($policy->isNewSessionCascadeAnomaly($request, $sessionIsNew)) {
+            user_error(
+                sprintf(
+                    'SessionUnlockPolicy anomaly: new session with %s on %s %s — session finish skipped.',
+                    SessionUnlockPolicy::CASCADE_HEADER,
+                    $request->getMethod(),
+                    $request->getUri()->getPath()
+                ),
+                E_USER_WARNING
+            );
+        }
+
+        $shouldFinish = $policy->shouldFinish($request, $sessionIsNew);
+        $needsReopen = $shouldFinish && $policy->needsReopen($request);
+
+        if ($shouldFinish) {
             /** @var StatusDao $statusDao */
             $statusDao = $container->get(StatusDao::class);
             $statusDao->finish();
@@ -58,21 +67,11 @@ class UnlockStatus extends AppMiddlewareAbstract implements MiddlewareInterface 
         $response = $handler->handle($request);
 
         if ($needsReopen) {
-            $container = $this->getApp()->getAppContainer();
             /** @var StatusDao $statusDao */
             $statusDao = $container->get(StatusDao::class);
             $statusDao->reopen();
         }
 
         return $response;
-    }
-
-    /**
-     * Cascade GET routy, které po handle potřebují znovu zapisovatelnou session.
-     */
-    private function needsSessionReopen(ServerRequestInterface $request): bool {
-        $path = $request->getUri()->getPath();
-        return strpos($path, 'component/flash') !== false
-            || strpos($path, 'presenteddriver') !== false;
     }
 }

@@ -25,6 +25,8 @@ use Web\Middleware\Page\Controler\FlashControler;
 
 use Web\Middleware\Page\PrepareService\Prepare;
 
+use Status\Session\SessionUnlockPolicy;
+
 class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
 
     const HEADER = 'X-WEB-Time';
@@ -61,7 +63,7 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
         
         #### ComponentControler ####
-        $this->routeGenerator->addRouteForAction('GET', '/web/v1/flash', function(ServerRequestInterface $request) {
+        $this->routeGenerator->addRouteForAction('GET', SessionUnlockPolicy::ROUTE_PATTERN_FLASH, function(ServerRequestInterface $request) {
             /** @var FlashControler $ctrl */
             $ctrl = $this->container->get(FlashControler::class);
             return $ctrl->flash($request);
