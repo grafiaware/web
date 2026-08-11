@@ -1,6 +1,7 @@
 <?php
 use Pes\Core\Text\Html;
 use Pes\View\Renderer\PhpTemplateFunctionsInterface;
+use Status\Session\SessionUnlockPolicy;
 /** @var PhpTemplateFunctionsInterface $this */
 ?>
 <style>
@@ -51,7 +52,7 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
                     <main class="page-content">
                         <?= $this->insert( __DIR__.'/container/telo.php', $context); ?>                
                         <?php //include "container/telo.php"; ?>
-                        <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"web/v1/component/flash",])  ?>
+                        <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>SessionUnlockPolicy::URI_FLASH,])  ?>
                         <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"web/v1/component/infoBoard",])  ?>
 
                     </main>

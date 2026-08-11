@@ -5,6 +5,7 @@ use Pes\View\ViewInterface;
 use Red\Model\Entity\MenuItemInterface;
 use Red\Service\ItemCreator\Enum\ItemApiGeneratorEnum;
 use Pes\Core\Text\FriendlyUrl;
+use Status\Session\SessionUnlockPolicy;
 
 use UnexpectedValueException;
 
@@ -35,7 +36,7 @@ class ItemApiService implements ItemApiServiceInterface {
      * @return string
      */
     public function getPresentedDriverApiUri(MenuItemInterface $menuItem) {
-        return "red/v1/presenteddriver/{$menuItem->getUidFk()}";
+        return SessionUnlockPolicy::presentedDriverUri($menuItem->getUidFk());
     }
     
     /**

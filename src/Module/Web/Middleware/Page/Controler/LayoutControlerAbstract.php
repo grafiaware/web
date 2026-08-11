@@ -15,6 +15,7 @@ use FrontControler\PresentationFrontControlerAbstract;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
+use Status\Session\SessionUnlockPolicy;
 use Access\AccessPresentationInterface;
 use Red\Service\ItemApi\ItemApiServiceInterface;
 use Red\Service\CascadeLoader\CascadeLoaderFactoryInterface;
@@ -226,6 +227,7 @@ abstract class LayoutControlerAbstract extends PresentationFrontControlerAbstrac
                     // pro navConfig.js
                     'basePath' => $this->getBasePath($request),  // stejná metoda dáva base path i do layout.php
                     'cascadeClass' => ConfigurationCache::layoutControler()['cascade.class'],
+                    'cascadeHeader' => SessionUnlockPolicy::CASCADE_HEADER,
                     'apiActionClass' => ConfigurationCache::layoutControler()['apiaction.class'],
                     // cascade refactor: předáno do navConfig.js → body.js načte menuSwap.js
                     'menuSwapEnabled' => (ConfigurationCache::layoutControler()['menuSwap.enabled'] ?? false) ? 'true' : 'false',

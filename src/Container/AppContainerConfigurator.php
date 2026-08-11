@@ -43,6 +43,9 @@ use Access\Enum\AccessPresentationEnum;
 // dao
 use Pes\Model\Dao\StatusDao;
 
+// session unlock policy
+use Status\Session\SessionUnlockPolicy;
+
 // repo
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
@@ -130,6 +133,9 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             // model - pro data v session - dao používají všechny session repo v kontejnerech
             StatusDao::class => function(ContainerInterface $c) {
                 return new StatusDao($c->get(SessionStatusHandler::class));
+            },
+            SessionUnlockPolicy::class => function(ContainerInterface $c) {
+                return new SessionUnlockPolicy();
             },
             // session security status
             StatusSecurityRepo::class => function(ContainerInterface $c) {

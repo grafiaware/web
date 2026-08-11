@@ -7,6 +7,12 @@ const conf = {
     cacheControl: "data-red-cache-control",
 };
 
+function cascadeHeaderName() {
+    return (typeof navConfig !== 'undefined' && navConfig.cascadeHeader)
+        ? navConfig.cascadeHeader
+        : 'X-Cascade';
+}
+
 const contentLoadedHooks = [];
 
 /** true během počátečního loadSubsequentElements() — reinicializace Tiny se provede až v body.js/initElements() */
@@ -81,7 +87,7 @@ export function fetchCascadeContent(parentElement) {
         method: "GET",
         cache: cacheControl,
         headers: {
-            "X-Cascade": "do not store request",
+            [cascadeHeaderName()]: "do not store request",
         },
     }).then(response => {
         if (response.ok) {
