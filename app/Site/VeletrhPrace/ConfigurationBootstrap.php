@@ -1,6 +1,6 @@
 <?php
 
-namespace Site\Grafia;
+namespace Site\VeletrhPrace;
 
 /**
  * Site bootstrap — logs path a production host z ConfigurationConstants.
