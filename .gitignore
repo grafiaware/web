@@ -7,5 +7,6 @@
 /tests/.phpunit.result.cache
 /_files/
 /_docs/
+/_db_dumps/
 /uri.log
 /_www_na_logs/
