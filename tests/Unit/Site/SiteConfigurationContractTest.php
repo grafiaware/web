@@ -25,12 +25,12 @@ final class SiteConfigurationContractTest extends TestCase {
     }
 
     public static function migratedSitesProvider(): array {
-        // TydenZdravi zatím nemá rozdělené Configuration* — mimo CI kontrakt
         return [
             'NajdiSi' => ['NajdiSi'],
             'Grafia' => ['Grafia'],
             'OtevreneAteliery' => ['OtevreneAteliery'],
             'VeletrhPrace' => ['VeletrhPrace'],
+            'TydenZdravi' => ['TydenZdravi'],
         ];
     }
 
