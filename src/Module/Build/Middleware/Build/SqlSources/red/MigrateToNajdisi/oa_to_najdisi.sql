@@ -48,12 +48,44 @@ ALTER TABLE `static`
 UPDATE `static` AS s
 INNER JOIN `menu_item` AS mi ON mi.id = s.menu_item_id_fk
 SET s.template = LOWER(
-    REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
-    REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
-      LOWER(mi.title),
-      'á','a'),'č','c'),'ď','d'),'é','e'),'ě','e'),'í','i'),'ň','n'),'ó','o'),'ř','r'),
-      'š','s'),'ť','t'),'ú','u'),'ů','u'),'ý','y'),'ž','z'),'.','-'),' ','-'),'\t','-'),'\n','-')
-  ),
+	REPLACE(
+            REPLACE(
+                REPLACE(
+                    REPLACE(
+                        REPLACE(
+                            REPLACE(
+                                REPLACE(
+                                    REPLACE(
+                                        REPLACE(
+                                            REPLACE(
+                                                REPLACE(
+                                                    REPLACE(
+                                                        REPLACE(
+                                                            REPLACE(
+                                                                REPLACE(
+                                                                    REPLACE(
+                                                                        REPLACE(
+                                                                            REPLACE(
+                                                                                REPLACE(LOWER(mi.title),'á','a'),
+                                                                            'č','c'),
+                                                                        'ď','d'),
+                                                                    'é','e'),
+                                                                'ě','e'),
+                                                            'í','i'),
+                                                        'ň','n'),
+                                                    'ó','o'),
+                                                'ř','r'),
+                                            'š','s'),
+                                        'ť','t'),
+                                    'ú','u'),
+                                'ů','u'),
+                            'ý','y'),
+                        'ž','z'),
+                    '.', '-'),
+                ' ', '-'),
+            '\t', '-'),
+        '\n', '-')
+    ),
   s.creator = IF(s.creator IS NULL OR s.creator = '', 'transform', s.creator)
 WHERE mi.api_generator_fk = 'static'
   AND (s.template IS NULL OR s.template = '');
