@@ -43,8 +43,58 @@ ALTER TABLE `static`
   DROP COLUMN `folded`,
   DROP COLUMN `editor`;
 
--- Optional: fill template for static menu items that have no static.template yet
--- (adapted from 2026/14_inset_into_static_from_menu_item.sql — only updates empty templates)
+-- Seed missing static rows from menu_item (2026/14). Old OA often had static menu
+-- items without a matching static row; UPDATE alone leaves the table empty.
+INSERT INTO `static` (`menu_item_id_fk`, `template`, `creator`)
+SELECT
+  mi.id AS menu_item_id_fk,
+  LOWER(
+	REPLACE(
+            REPLACE(
+                REPLACE(
+                    REPLACE(
+                        REPLACE(
+                            REPLACE(
+                                REPLACE(
+                                    REPLACE(
+                                        REPLACE(
+                                            REPLACE(
+                                                REPLACE(
+                                                    REPLACE(
+                                                        REPLACE(
+                                                            REPLACE(
+                                                                REPLACE(
+                                                                    REPLACE(
+                                                                        REPLACE(
+                                                                            REPLACE(
+                                                                                REPLACE(LOWER(mi.title),'á','a'),
+                                                                            'č','c'),
+                                                                        'ď','d'),
+                                                                    'é','e'),
+                                                                'ě','e'),
+                                                            'í','i'),
+                                                        'ň','n'),
+                                                    'ó','o'),
+                                                'ř','r'),
+                                            'š','s'),
+                                        'ť','t'),
+                                    'ú','u'),
+                                'ů','u'),
+                            'ý','y'),
+                        'ž','z'),
+                    '.', '-'),
+                ' ', '-'),
+            '\t', '-'),
+        '\n', '-')
+    ) AS template,
+  'transform' AS creator
+FROM `menu_item` AS mi
+WHERE mi.api_generator_fk = 'static'
+  AND NOT EXISTS (
+    SELECT 1 FROM `static` AS s WHERE s.menu_item_id_fk = mi.id
+  );
+
+-- Fill empty template on any pre-existing static rows
 UPDATE `static` AS s
 INNER JOIN `menu_item` AS mi ON mi.id = s.menu_item_id_fk
 SET s.template = LOWER(
@@ -135,5 +185,14 @@ ALTER TABLE `menu_root` DROP FOREIGN KEY `nested_set_uid_fk2`;
 ALTER TABLE `menu_root`
   ADD CONSTRAINT `nested_set_uid_fk2`
     FOREIGN KEY (`uid_fk`) REFERENCES `hierarchy` (`uid`) ON DELETE CASCADE;
+
+-- -----------------------------------------------------------------------------
+-- 5) Optional: menu_root names (2026/16)
+--    OA ConfigurationWeb still uses rootName 'menu_vertical' (underscore).
+--    Run ONLY if you also change config to NajdiSi names ('menu vertical', …).
+-- -----------------------------------------------------------------------------
+-- UPDATE `menu_root` SET `name`='menu vertical' WHERE `name`='menu_vertical';
+-- UPDATE `menu_root` SET `name`='menu horizontal' WHERE `name`='menu_horizontal';
+-- UPDATE `menu_root` SET `name`='menu redirect' WHERE `name`='menu_redirect';
 
 SET FOREIGN_KEY_CHECKS = 1;
