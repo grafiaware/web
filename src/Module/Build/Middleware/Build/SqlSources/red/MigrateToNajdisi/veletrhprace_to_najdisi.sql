@@ -58,6 +58,56 @@ ALTER TABLE `static`
   DROP COLUMN `folded`,
   DROP COLUMN `editor`;
 
+-- Seed missing static rows from menu_item (2026/14)
+INSERT INTO `static` (`menu_item_id_fk`, `template`, `creator`)
+SELECT
+  mi.id AS menu_item_id_fk,
+  LOWER(
+	REPLACE(
+            REPLACE(
+                REPLACE(
+                    REPLACE(
+                        REPLACE(
+                            REPLACE(
+                                REPLACE(
+                                    REPLACE(
+                                        REPLACE(
+                                            REPLACE(
+                                                REPLACE(
+                                                    REPLACE(
+                                                        REPLACE(
+                                                            REPLACE(
+                                                                REPLACE(
+                                                                    REPLACE(
+                                                                        REPLACE(
+                                                                            REPLACE(
+                                                                                REPLACE(LOWER(mi.title),'á','a'),
+                                                                            'č','c'),
+                                                                        'ď','d'),
+                                                                    'é','e'),
+                                                                'ě','e'),
+                                                            'í','i'),
+                                                        'ň','n'),
+                                                    'ó','o'),
+                                                'ř','r'),
+                                            'š','s'),
+                                        'ť','t'),
+                                    'ú','u'),
+                                'ů','u'),
+                            'ý','y'),
+                        'ž','z'),
+                    '.', '-'),
+                ' ', '-'),
+            '\t', '-'),
+        '\n', '-')
+    ) AS template,
+  'transform' AS creator
+FROM `menu_item` AS mi
+WHERE mi.api_generator_fk = 'static'
+  AND NOT EXISTS (
+    SELECT 1 FROM `static` AS s WHERE s.menu_item_id_fk = mi.id
+  );
+
 UPDATE `static` AS s
 INNER JOIN `menu_item` AS mi ON mi.id = s.menu_item_id_fk
 SET s.template = LOWER(
