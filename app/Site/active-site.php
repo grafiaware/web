@@ -6,4 +6,4 @@
  *
  * Povolené hodnoty: NajdiSi, Grafia, OtevreneAteliery, VeletrhPrace, TydenZdravi
  */
-return 'NajdiSi';
+return 'OtevreneAteliery';
