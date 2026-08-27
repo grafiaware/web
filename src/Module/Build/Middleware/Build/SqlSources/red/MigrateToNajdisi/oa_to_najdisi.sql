@@ -43,6 +43,24 @@ ALTER TABLE `static`
   DROP COLUMN `folded`,
   DROP COLUMN `editor`;
 
+-- Old OA stored the static folder in `path`. NajdiSi resolves WEB_STATIC + path + template/.
+-- Move folder name into `template` and clear `path` so paths are not doubled.
+UPDATE `static`
+SET
+  `template` = TRIM(BOTH '/' FROM REPLACE(`path`, '\\', '/')),
+  `path` = NULL
+WHERE (`template` IS NULL OR `template` = '')
+  AND `path` IS NOT NULL
+  AND TRIM(`path`) <> '';
+
+-- If both path and template were filled (e.g. prior migration), keep template and clear path.
+UPDATE `static`
+SET `path` = NULL
+WHERE `path` IS NOT NULL
+  AND TRIM(`path`) <> ''
+  AND `template` IS NOT NULL
+  AND TRIM(`template`) <> '';
+
 -- Seed missing static rows from menu_item (2026/14). Old OA often had static menu
 -- items without a matching static row; UPDATE alone leaves the table empty.
 INSERT INTO `static` (`menu_item_id_fk`, `template`, `creator`)

@@ -58,6 +58,22 @@ ALTER TABLE `static`
   DROP COLUMN `folded`,
   DROP COLUMN `editor`;
 
+-- Old VP/OA: folder in `path`. NajdiSi: WEB_STATIC + path + template/
+UPDATE `static`
+SET
+  `template` = TRIM(BOTH '/' FROM REPLACE(`path`, '\\', '/')),
+  `path` = NULL
+WHERE (`template` IS NULL OR `template` = '')
+  AND `path` IS NOT NULL
+  AND TRIM(`path`) <> '';
+
+UPDATE `static`
+SET `path` = NULL
+WHERE `path` IS NOT NULL
+  AND TRIM(`path`) <> ''
+  AND `template` IS NOT NULL
+  AND TRIM(`template`) <> '';
+
 -- Seed missing static rows from menu_item (2026/14)
 INSERT INTO `static` (`menu_item_id_fk`, `template`, `creator`)
 SELECT

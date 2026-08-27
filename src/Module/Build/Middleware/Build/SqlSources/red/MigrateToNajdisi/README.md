@@ -104,3 +104,7 @@ They do **not** `DROP TABLE` with live content except dropping obsolete VP-only 
 ### Already migrated OA/VP with empty `static`
 
 Run once: `repair_static_from_menu_item.sql`
+
+### Already migrated OA/VP with broken static paths (path + template both set)
+
+Run once: `repair_static_path_template.sql`
