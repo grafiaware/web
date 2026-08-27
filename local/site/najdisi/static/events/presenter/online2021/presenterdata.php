@@ -20,6 +20,7 @@ if ($companyName) {
     if (isset($company)) {
         //TODO PROVIZORNÍ ŘEŠENÍ - jen pro vývoj - nastavení company, kterou uživatel s rolí representative reprezentuje, musí být ve speciální komponentě ((??userAction)
         // tato informace je nezbytná pro ověřování, zda přihlášený uživatel je reprezentantem zobrazované společnosti
+        // bez getClone(false) + replaceEntityInMemory() + reopen/flush se to do session stejně neuloží
         $statusSecurity->setInfo('companyName', $companyName);  // použije se companyName z data.php
         
         foreach ($jobModel->getCompanyJobList($company->getId()) as $job) {
