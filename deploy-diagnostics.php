@@ -85,7 +85,6 @@ $criticalFiles = array(
     $projectRoot . '/bootstrap/RegisterAutoloader.php',
     $projectRoot . '/app/Site/ConfigurationCache.php',
     $projectRoot . '/app/Site/active-site.php',
-    $projectRoot . '/composer.json',
 );
 foreach ($criticalFiles as $path) {
     $deployCheckReadable($path);
@@ -123,9 +122,6 @@ if (is_dir($pesVendorDir)) {
 } else {
     $deployEcho('vendor/pes', 'MISSING');
 }
-
-$deployEcho('Stará cesta (oa24?)', is_readable($projectRoot . '/vendor/pes/pes/src/Bootstrap/Bootstrap.php') ? 'existuje — starý monolit' : 'neexistuje');
-$deployEcho('Nová cesta (pes-bootstrap)', is_readable($projectRoot . '/vendor/pes/pes-bootstrap/bootstrap/Bootstrap.php') ? 'existuje' : 'MISSING');
 
 $activeSite = null;
 $activeSiteFile = $projectRoot . '/app/Site/active-site.php';
