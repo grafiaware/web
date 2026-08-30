@@ -117,6 +117,9 @@ class HierarchyControler extends FrontControlerAbstract {
         $parentNode = $this->editHierarchyDao->getParentNodeHelper($uid);  // vrací jen node - bez položky menu
         $statusFlash = $this->statusFlashRepo->get();
         $success = false;
+        $pasteduid = null;
+        $transform = null;
+        $command = null;
         if (isset($parentNode)) {
             $postCommand = $statusFlash->getPostCommand();
             if (is_array($postCommand) ) {
@@ -144,13 +147,11 @@ class HierarchyControler extends FrontControlerAbstract {
         } else {
             $this->addFlashMessage('Unable to paste as siebling, item has no parent.', FlashSeverityEnum::WARNING);
         }
-//        if ($success ) {
-            return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($pasteduid), "newitemuid"=>$pasteduid]);
-//        } else {
-            return $this->createJsonOKResponse(["refresh"=>"navigation", "newitemuid"=>$uid]);  // refresh jen driver
-//        }
-        //TODO: POST version
-        return $success ? $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$pasteduid") : $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$uid");
+        if ($success) {
+            $focusUid = $this->resolvePastedFocusUid($command, $pasteduid, $transform);
+            return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($focusUid), "newitemuid"=>$focusUid]);
+        }
+        return $this->createJsonOKResponse(["refresh"=>"navigation", "newitemuid"=>$uid]);
     }
 
     /**
@@ -166,6 +167,9 @@ class HierarchyControler extends FrontControlerAbstract {
     public function pasteChild(ServerRequestInterface $request, $uid): ResponseInterface {
         $statusFlash = $this->statusFlashRepo->get();
         $success = false;
+        $pasteduid = null;
+        $transform = null;
+        $command = null;
         $postCommand = $statusFlash->getPostCommand();
         if (is_array($postCommand) ) {
             $command = array_key_first($postCommand);
@@ -188,13 +192,11 @@ class HierarchyControler extends FrontControlerAbstract {
         }else {
             $this->addFlashMessage("No post command.", FlashSeverityEnum::WARNING);
         }
-//        if ($success ) {
-            return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($pasteduid), "newitemuid"=>$pasteduid]);
-//        } else {
-            return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($uid), "newitemuid"=>$uid]);
-//        }
-        //TODO: POST version
-        return $success ? $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$pasteduid") : $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$uid");
+        if ($success) {
+            $focusUid = $this->resolvePastedFocusUid($command, $pasteduid, $transform);
+            return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($focusUid), "newitemuid"=>$focusUid]);
+        }
+        return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($uid), "newitemuid"=>$uid]);
     }
 
     /**
@@ -243,6 +245,16 @@ class HierarchyControler extends FrontControlerAbstract {
                        return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($redirectUid), "newitemuid"=>$redirectUid]);
         //TODO: POST version        
         return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$redirectUid");
+    }
+
+    /**
+     * Po cut je focus původní (přesunutá) položka; po copy je focus nová položka z transformace sourceUid→newUid.
+     */
+    private function resolvePastedFocusUid($command, $pasteduid, $transform) {
+        if ($command === self::POST_COMMAND_COPY && is_array($transform) && isset($transform[$pasteduid])) {
+            return $transform[$pasteduid];
+        }
+        return $pasteduid;
     }
 
     private function getContentApiUri($uid) {

@@ -160,12 +160,13 @@ function fetchFreshContent(formElement, json) {
         itemAndContentChange(loaderElement, json);
     } else if (refresh === "navigation") {
         let loaderElement = closestCascadeElement(formElement);
-        let navs = document.getElementsByClassName(conf.navigationClass);
-        for (const navigation of [...navs]) {
-            let navElement = closestCascadeElement(navigation);
-            fetchCascadeContent(navElement);
-        }
-        itemAndContentChange(loaderElement, json);
+        // Nejdřív počkat na nová menu (nové/přesunuté položky musí být v DOM), teprve pak presented + content
+        refreshNavigationMenus().then(() => {
+            itemAndContentChange(loaderElement, json);
+        }).catch(e => {
+            console.error(`menuSwap: navigation refresh failed. ${e}`);
+            window.location.reload();
+        });
     } else if (refresh === "document") {
         window.location.reload();
     } else {
@@ -173,14 +174,42 @@ function fetchFreshContent(formElement, json) {
     }
 }
 
+/**
+ * Reload všech cascade loaderů, které obsahují .navigation (svislé menu, koš, bloky, …).
+ * @returns {Promise}
+ */
+function refreshNavigationMenus() {
+    const navs = document.getElementsByClassName(conf.navigationClass);
+    const menuLoaders = new Set();
+    for (const navigation of [...navs]) {
+        try {
+            menuLoaders.add(closestCascadeElement(navigation));
+        } catch (e) {
+            console.warn(`menuSwap: navigation without cascade loader: ${e.message}`);
+        }
+    }
+    return Promise.all([...menuLoaders].map(navElement => fetchCascadeContent(navElement)));
+}
+
 function itemAndContentChange(loaderElement, json) {
     if (hasTargetId(loaderElement)) {
         const contentTarget = document.getElementById(getTargetId(loaderElement));
+        if (!contentTarget) {
+            console.error(`menuSwap: contentTarget #${getTargetId(loaderElement)} not found.`);
+            return;
+        }
         if (json.targeturi !== undefined) {
             contentTarget.setAttribute(conf.elementApiUri, json.targeturi);
         }
         if (json.newitemuid !== undefined) {
             let currentItem = document.getElementById(conf.itemIdPrefix + json.newitemuid);
+            if (!currentItem) {
+                console.warn(`menuSwap: item_${json.newitemuid} not found after refresh; loading content only.`);
+                if (json.targeturi !== undefined) {
+                    fetchCascadeContent(contentTarget);
+                }
+                return;
+            }
             runNavigation(currentItem, contentTarget);
         } else {
             runNavigation(previousItem, contentTarget);
