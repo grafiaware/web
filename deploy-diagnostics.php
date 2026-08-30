@@ -90,7 +90,9 @@ foreach ($criticalFiles as $path) {
     $deployCheckReadable($path);
 }
 
-echo '<h3>Vendor pes balíčky (symlink vs. kopie)</h3>';
+echo '<h3>Vendor pes balíčky</h3>';
+echo '<p>Obsah <code>vendor/pes/</code>. Procedurální bootstrap (<code>bootstrap/Bootstrap.php</code>) existuje '
+    . 'pouze v balíčku <code>pes-bootstrap</code>. U ostatních balíčků (pes-core, pes-http, …) je to normální — mají jen <code>src/</code>.</p>';
 $pesVendorDir = $projectRoot . '/vendor/pes';
 if (is_dir($pesVendorDir)) {
     $entries = scandir($pesVendorDir);
@@ -110,17 +112,26 @@ if (is_dir($pesVendorDir)) {
         } else {
             $linkInfo = 'file';
         }
-        $bootstrapProbe = $packagePath . '/bootstrap/Bootstrap.php';
         $srcProbe = $packagePath . '/src';
-        $deployEcho(
-            'vendor/pes/' . $entry,
-            $linkInfo
-                . '; bootstrap/Bootstrap.php: ' . (is_readable($bootstrapProbe) ? 'OK' : 'MISSING')
-                . '; src/: ' . (is_dir($srcProbe) ? 'OK' : 'MISSING')
-        );
+        $srcStatus = is_dir($srcProbe) ? 'OK' : 'MISSING';
+        if ($entry === 'pes-bootstrap') {
+            $bootstrapProbe = $packagePath . '/bootstrap/Bootstrap.php';
+            $bootstrapStatus = is_readable($bootstrapProbe)
+                ? 'OK'
+                : 'nenalezen — BootstrapEntry::load() nebude fungovat (zkontrolujte nahrání vendor/pes/pes-bootstrap)';
+            $deployEcho(
+                'vendor/pes/' . $entry,
+                $linkInfo . '; bootstrap/Bootstrap.php: ' . $bootstrapStatus . '; src/: ' . $srcStatus
+            );
+        } else {
+            $deployEcho(
+                'vendor/pes/' . $entry,
+                $linkInfo . '; src/: ' . $srcStatus
+            );
+        }
     }
 } else {
-    $deployEcho('vendor/pes', 'MISSING');
+    $deployEcho('vendor/pes', 'MISSING — složka vendor/pes neexistuje');
 }
 
 $activeSite = null;
