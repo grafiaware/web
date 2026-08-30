@@ -26,20 +26,42 @@ function cascadeHeaderName() {
 // proměnná pro uložení event.currentTarget — musí být mimo tělo event handleru
 var previousItem = null;
 
+/** Pořadí navigace: pozdější klik / refresh zahodí nedokončené přepnutí. */
+let navSeq = 0;
+
+const driverAbort = new WeakMap();
+
+let menuSwapInitialized = false;
+
 /**
- * Registruje připojení menu navigace po každém načtení cascade obsahu.
+ * Registruje delegované click handlery (jednou) a po každém cascade loadu si zapamatuje presented položku.
  */
 export function initMenuSwap() {
-    onContentLoaded(attachToLoader);
+    if (menuSwapInitialized) {
+        return;
+    }
+    menuSwapInitialized = true;
+    document.addEventListener('click', onDocumentClick);
+    onContentLoaded(onCascadeContentLoaded);
 }
 
-function attachToLoader(loaderElement) {
-    // apiAction formuláře jsou i v content cascade (tužka itemaction) — musí se zachytit vždy
-    listenFormsWithApiAction(loaderElement);
+function onCascadeContentLoaded(loaderElement) {
     if (!hasTargetId(loaderElement)) {
         return;
     }
-    listenLinks(loaderElement);
+    const navs = loaderElement.getElementsByClassName(conf.navigationClass);
+    console.log(`menuSwap: Menu loader ` + loaderElement.getAttribute(conf.elementApiUri) + ' - ' + navs.length + ' navs found.');
+    rememberPresentedItem(loaderElement);
+}
+
+function rememberPresentedItem(loaderElement) {
+    const presentedDriver = loaderElement.querySelector('.presented');
+    if (presentedDriver) {
+        const item = presentedDriver.closest(conf.itemElementName);
+        if (item) {
+            previousItem = item;
+        }
+    }
 }
 
 function hasTargetId(element) {
@@ -54,45 +76,74 @@ function getTargetId(element) {
     }
 }
 
-function listenFormsWithApiAction(loaderElement) {
-    let formsWithApiAction = loaderElement.querySelectorAll("." + conf.apiAction);
+function onDocumentClick(event) {
+    const form = event.target.closest('form.' + conf.apiAction);
+    if (form) {
+        event.preventDefault();
+        event.stopPropagation();
+        submitApiActionForm(form, event.target.closest('button'));
+        return;
+    }
 
-    formsWithApiAction.forEach((form) => {
-        form.addEventListener('click', (event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            var formElement = event.currentTarget;
-            var but = event.target.closest("button");
-            var actionUri = null;
-            if (but !== null) {
-                actionUri = but.getAttribute("formaction");
-            }
-            if (actionUri === null) {
-                actionUri = formElement.getAttribute("action");
-            }
-            fetch(actionUri, {
-                method: 'PUT',
-                body: new URLSearchParams(new FormData(formElement))
-            }).then((response) => {
-                if (response.ok) {
-                    return response.json().then(json => {
-                        console.log(`menuSwap: Content to ${actionUri} sent.`);
-                        fetchFreshContent(formElement, json);
-                    }).catch(err => {
-                        console.log(`menuSwap: Response status was ok but the body was empty or not JSON. ${err}`);
-                    });
-                } else {
-                    return response.json().catch(err => {
-                        console.log(`menuSwap: Response status was not ok and the body was not JSON. ${err}`);
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }).then(parsedValue => {
-                        throw new Error(parsedValue.error);
-                    });
-                }
-            }).catch(e => {
-                throw new Error(`menuSwap: There has been a problem with fetch with PUT ${actionUri}. Reason:` + e.message);
+    const item = event.target.closest(conf.itemElementName);
+    if (!item) {
+        return;
+    }
+    const navigation = item.closest('.' + conf.navigationClass);
+    if (!navigation) {
+        return;
+    }
+    let loaderElement;
+    try {
+        loaderElement = closestCascadeElement(navigation);
+    } catch (e) {
+        return;
+    }
+    if (!hasTargetId(loaderElement) || !loaderElement.contains(item)) {
+        return;
+    }
+    const contentTarget = document.getElementById(getTargetId(loaderElement));
+    if (null === contentTarget) {
+        console.error(`menuSwap: contentTarget je null.`);
+        return;
+    }
+    event.preventDefault();
+    event.stopPropagation();
+    if (item === previousItem) {
+        return;
+    }
+    runNavigation(item, contentTarget);
+}
+
+function submitApiActionForm(formElement, button) {
+    var actionUri = null;
+    if (button !== null) {
+        actionUri = button.getAttribute("formaction");
+    }
+    if (actionUri === null) {
+        actionUri = formElement.getAttribute("action");
+    }
+    fetch(actionUri, {
+        method: 'PUT',
+        body: new URLSearchParams(new FormData(formElement))
+    }).then((response) => {
+        if (response.ok) {
+            return response.json().then(json => {
+                console.log(`menuSwap: Content to ${actionUri} sent.`);
+                fetchFreshContent(formElement, json);
+            }).catch(err => {
+                console.log(`menuSwap: Response status was ok but the body was empty or not JSON. ${err}`);
             });
-        });
+        } else {
+            return response.json().catch(err => {
+                console.log(`menuSwap: Response status was not ok and the body was not JSON. ${err}`);
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }).then(parsedValue => {
+                throw new Error(parsedValue.error);
+            });
+        }
+    }).catch(e => {
+        throw new Error(`menuSwap: There has been a problem with fetch with PUT ${actionUri}. Reason:` + e.message);
     });
 }
 
@@ -122,41 +173,6 @@ function fetchFreshContent(formElement, json) {
     }
 }
 
-function listenLinks(loaderElement) {
-    if (hasTargetId(loaderElement)) {
-        const contentTarget = document.getElementById(getTargetId(loaderElement));
-        let navs = loaderElement.getElementsByClassName(conf.navigationClass);
-        let navsCnt = navs.length;
-        console.log(`menuSwap: Try to listen links in ` + loaderElement.getAttribute(conf.elementApiUri) + ' - ' + navsCnt + ' navs found.');
-        for (const navigation of [...navs]) {
-            let items = navigation.querySelectorAll(conf.itemElementName);
-            console.log(`menuSwap: Listen links match ` + items.length + ' items.');
-            for (const item of [...items]) {
-                item.addEventListener("click", linkListener.bind(contentTarget));
-                if (itemDriver(item).classList.contains("presented")) {
-                    previousItem = item;
-                }
-            }
-        }
-    } else {
-        console.warn(`menuSwap: Loader element s api uri: ${loaderElement.getAttribute(conf.elementApiUri)} nemá atribut ${conf.targetId}.`);
-    }
-}
-
-function linkListener(event) {
-    let currentItem = event.currentTarget;
-    if (null === this) {
-        console.error(`menuSwap: linkListener není navázán na element contentTarget - contentTarget je null.`);
-    }
-    let contentTarget = this;
-    // presenteddriver musí doběhnout dřív než content — nastavuje PresentationStatus.menuItem do session
-    menuAction(currentItem, contentTarget).then(() => {
-        switchContent(currentItem, contentTarget);
-    });
-    event.preventDefault();
-    event.stopPropagation();
-}
-
 function itemAndContentChange(loaderElement, json) {
     if (hasTargetId(loaderElement)) {
         const contentTarget = document.getElementById(getTargetId(loaderElement));
@@ -165,13 +181,9 @@ function itemAndContentChange(loaderElement, json) {
         }
         if (json.newitemuid !== undefined) {
             let currentItem = document.getElementById(conf.itemIdPrefix + json.newitemuid);
-            menuAction(currentItem, contentTarget).then(() => {
-                switchContent(currentItem, contentTarget);
-            });
+            runNavigation(currentItem, contentTarget);
         } else {
-            menuAction(previousItem, contentTarget).then(() => {
-                switchContent(previousItem, contentTarget);
-            });
+            runNavigation(previousItem, contentTarget);
         }
     } else {
         console.warn("menuSwap: No target defined in loader element");
@@ -179,15 +191,23 @@ function itemAndContentChange(loaderElement, json) {
     }
 }
 
-function menuAction(currentItem, contentTarget) {
+function runNavigation(currentItem, contentTarget) {
+    const seq = ++navSeq;
+    // presenteddriver musí doběhnout dřív než content — nastavuje PresentationStatus.menuItem do session
+    menuAction(currentItem).then(() => {
+        if (seq !== navSeq) {
+            return;
+        }
+        switchContent(currentItem, contentTarget);
+    });
+}
+
+function menuAction(currentItem) {
     if (previousItem !== currentItem) {
         let currentHref = itemDriver(currentItem).getAttribute('href');
         history.pushState({}, "", currentHref);
     }
-    const driversReady = switchItem(currentItem);
-    currentItem.addEventListener("click", linkListener.bind(contentTarget));
-    listenFormsWithApiAction(currentItem);
-    return driversReady;
+    return switchItem(currentItem);
 }
 
 function switchItem(currentItem) {
@@ -209,33 +229,51 @@ function itemDriver(itemElement) {
 
 function getNewDrivers(previousItem, currentItem) {
     function fetchDriver(item, apiUri, cacheControl) {
+        const prevController = driverAbort.get(item);
+        if (prevController) {
+            prevController.abort();
+        }
+        const controller = new AbortController();
+        driverAbort.set(item, controller);
+        const seq = navSeq;
+
         return fetch(apiUri, {
             method: "GET",
             cache: cacheControl,
+            signal: controller.signal,
             headers: {
                 [cascadeHeaderName()]: "fetch driver"
             }
         })
         .then(response => {
+            if (seq !== navSeq) {
+                return null;
+            }
             if (response.ok) {
                 return response.text();
             } else {
                 throw new Error(`menuSwap: HTTP error! Status: ${response.status}`);
             }
         })
-        .then(textPromise => {
-            let element = replaceDriverContent(item, textPromise);
-            listenFormsWithApiAction(item);
+        .then(html => {
+            if (html === null || seq !== navSeq) {
+                return item;
+            }
+            let element = replaceDriverContent(item, html);
             console.log(`menuSwap: Fetched and replaced driver ${apiUri}`);
             return element;
         })
         .catch(e => {
+            if (e.name === 'AbortError') {
+                return item;
+            }
             throw new Error(`menuSwap: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
         });
     }
 
     const promises = [];
-    if (previousItem) {
+    // stejná položka: nenačítej ne-presented driver, jinak položka blikne presented → a → presented
+    if (previousItem && previousItem !== currentItem) {
         let driverApi = itemDriver(previousItem).getAttribute('data-red-driver');
         promises.push(fetchDriver(previousItem, driverApi, 'default'));
     }
@@ -251,7 +289,7 @@ function replaceDriverContent(itemElement, newHtmlTextContent) {
     var newElements = template.content.childNodes;
     var cnt = newElements.length;
     if (cnt > 1) {
-        console.warn(`menuSwap: New driver as children of element "+itemElement.tagName+" with attribute ${conf.elementApiUri}: ${itemElement.getAttribute(conf.elementApiUri)} has ${cnt} element(s).`);
+        console.warn(`menuSwap: New driver as children of element ${itemElement.tagName} with attribute ${conf.elementApiUri}: ${itemElement.getAttribute(conf.elementApiUri)} has ${cnt} element(s).`);
     } else {
         itemDriver(itemElement).replaceWith(newElements[0]);
     }
