@@ -27,7 +27,7 @@ class ArticleRendererEditable extends AuthoredRendererAbstract {
         $article = $viewModel->getArticle();  // vrací PaperAggregate
 
         $html =
-                Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templateArticle')],
+                Html::tag('div', ['class'=>$this->authoredTemplateClass($viewModel, 'div.templateArticle')],
                     Html::tag('article', ['data-red-renderer'=>'ArticleRendererEditable', "data-red-datasource"=> "article {$article->getId()} for item {$article->getMenuItemIdFk()}"],
                         [
                             $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '',

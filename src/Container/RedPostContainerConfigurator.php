@@ -52,6 +52,7 @@ use Red\Service\HierarchyManipulator\MenuItemManipulator;
 use Red\Model\HierarchyHooks\HookedMenuItemActor;
 // item action service
 use Red\Service\ItemAction\ItemActionService;
+use Red\Service\Menu\MenuItemLocationServiceInterface;
 use Red\Service\Asset\AssetService;
 // dao
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
@@ -126,7 +127,9 @@ class RedPostContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(ItemActionService::class));
+                        $c->get(ItemActionService::class),
+                        $c->get(MenuItemRepo::class),
+                        $c->get(MenuItemLocationServiceInterface::class));
             },
             HierarchyControler::class => function(ContainerInterface $c) {
                 return new HierarchyControler(
