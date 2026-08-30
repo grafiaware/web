@@ -276,8 +276,9 @@ body{
     [data-tooltip]::after{
         font-weight: @buttonDataTooltipFontWeight;
     }
-    /*popisky buttonů při stavu disabled - oprava semanticu*/
-   .ui.button.disabled[data-tooltip] {
+    /*popisky buttonů při stavu disabled - oprava semanticu (pointer-events: auto je v button.overrides) */
+   .ui.button.disabled[data-tooltip],
+   .ui.button:disabled[data-tooltip] {
        color: @buttonDisabledDataTooltipColor;
     }
 
@@ -687,7 +688,7 @@ body{
         .editingButtons.icon.button{
             color: @multiPageColor;
             box-shadow: @rendererMultipageBoxShadow;
-            &:not(.basic){
+            &:not(.basic):not(.disabled){
                 background-color: @multiPageColor;
                 color: @white;
                 &:hover{
@@ -703,7 +704,7 @@ body{
         .editingButtons.icon.button{
             color: @articleColor;
             box-shadow: @rendererArticleBoxShadow;
-            &:not(.basic){
+            &:not(.basic):not(.disabled){
                 background-color: @articleColor;
                 color: @white;
                 &:hover{
@@ -719,7 +720,7 @@ body{
         .editingButtons.icon.button{
             color: @paperColor;
             box-shadow: @rendererPaperBoxShadow;
-            &:not(.basic){
+            &:not(.basic):not(.disabled){
                 background-color: @paperColor;
                 color: @white;
                 &:hover{
@@ -745,6 +746,15 @@ body{
                 filter: @trashContentFilter;
                 opacity: @trashContentOpacity;
             }
+        }
+        /* zašedlá tužtička (koš / jiný editor) — barevné styly výše by jinak přebily Semantic disabled */
+        .editingButtons.icon.button.disabled,
+        .editingButtons.icon.button:disabled {
+            filter: grayscale(1) !important;
+            opacity: 0.45 !important;
+            box-shadow: none !important;
+            background-color: @mediumGrey !important;
+            color: @white !important;
         }
     }
     .template-article, .template-articleedit{
