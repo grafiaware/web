@@ -39,6 +39,12 @@ interface AuthoredViewModelInterface extends MenuItemViewModelInterface {
 
     public function getItemAction(): ?ItemActionInterface;
     public function userPerformItemAction(): bool;
+
+    /**
+     * Položka leží v menu trash. Obsah se v koši nezapíná k editaci — tužtička je zašedlá.
+     */
+    public function isInTrash(): bool;
+
     /**
      * Vrací jméno, které musí být v rendereru použito jako id pro element, na kterém visí tiny editor.
      * POZOR - id musí být unikátní - jinak selhává tiny selektor - a "nic není vidět"

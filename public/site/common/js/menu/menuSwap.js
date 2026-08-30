@@ -79,6 +79,12 @@ function getTargetId(element) {
 function onDocumentClick(event) {
     const form = event.target.closest('form.' + conf.apiAction);
     if (form) {
+        const button = event.target.closest('button');
+        if (button && (button.disabled || button.classList.contains('disabled'))) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+        }
         event.preventDefault();
         event.stopPropagation();
         submitApiActionForm(form, event.target.closest('button'));

@@ -16,6 +16,7 @@ use Red\Model\Repository\ItemActionRepoInterface;
 
 use Red\Model\Entity\ArticleInterface;
 use Red\Model\Repository\ArticleRepo;
+use Red\Service\Menu\MenuItemLocationServiceInterface;
 
 use Red\Model\Enum\AuthoredTypeEnum;
 
@@ -41,9 +42,10 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
             StatusViewModelInterface $status,
             MenuItemRepoInterface $menuItemRepo,
             ItemActionRepoInterface $itemActionRepo,
+            MenuItemLocationServiceInterface $menuItemLocationService,
             ArticleRepo $articleRepo
             ) {
-        parent::__construct($status, $menuItemRepo, $itemActionRepo);
+        parent::__construct($status, $menuItemRepo, $itemActionRepo, $menuItemLocationService);
         $this->articleRepo = $articleRepo;
     }
 
