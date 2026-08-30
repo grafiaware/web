@@ -22,6 +22,10 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
+// Bez bufferu by echo diagnostiky poslalo tělo odpovědi dřív, než SessionStatusHandler
+// stihne session_start() / Set-Cookie → session_status() !== ACTIVE → falešné SessionFinishedException.
+ob_start();
+
 $deployEcho = function ($label, $value = '') {
     echo '<p><strong>' . htmlspecialchars((string) $label, ENT_QUOTES, 'UTF-8') . ':</strong> '
         . '<code>' . htmlspecialchars(is_bool($value) ? ($value ? 'true' : 'false') : (string) $value, ENT_QUOTES, 'UTF-8') . '</code></p>';
@@ -35,6 +39,20 @@ $deployCheckReadable = function ($path) use ($deployEcho) {
 
 $deployFormatException = function ($e) {
     return get_class($e) . ': ' . $e->getMessage() . "\n" . $e->getFile() . ':' . $e->getLine() . "\n\n" . $e->getTraceAsString();
+};
+
+$deploySessionStatusLabel = function () {
+    $status = session_status();
+    if ($status === PHP_SESSION_DISABLED) {
+        return 'PHP_SESSION_DISABLED';
+    }
+    if ($status === PHP_SESSION_NONE) {
+        return 'PHP_SESSION_NONE (neaktivní)';
+    }
+    if ($status === PHP_SESSION_ACTIVE) {
+        return 'PHP_SESSION_ACTIVE';
+    }
+    return 'unknown(' . $status . ')';
 };
 
 echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Deploy diagnostics</title></head><body>';
@@ -208,11 +226,22 @@ if (class_exists('Site\\ConfigurationCache')) {
     echo '<p>ConfigurationCache::activeSiteName(): ' . htmlspecialchars(\Site\ConfigurationCache::activeSiteName(), ENT_QUOTES, 'UTF-8') . '</p>';
 }
 
+echo '<h2>Běh aplikace (App::run)</h2>';
+$deployEcho('session_status před AppContainer', $deploySessionStatusLabel());
+$deployEcho('headers_sent před AppContainer', headers_sent($hsFile, $hsLine)
+    ? ('ano @ ' . $hsFile . ':' . $hsLine)
+    : 'ne (OK — session cookie ještě lze nastavit)');
+
 try {
     $environment = (new EnvironmentFactory())->createFromGlobals();
     $app = (new WebAppFactory())->createFromEnvironment($environment);
+    // SessionStatusHandler startuje session v konstruktoru při prvním get ze služby.
     $appContainer = (new AppContainerConfigurator())->configure(new Container());
     $app->setAppContainer($appContainer);
+
+    // Vynutí vytvoření SessionStatusHandler (session_start) ještě před App::run.
+    $appContainer->get(\Pes\Session\SessionStatusHandler::class);
+    $deployEcho('session_status po SessionStatusHandler', $deploySessionStatusLabel());
 
     $selector = $appContainer->get(Selector::class);
     (new SelectorItems($app))->addItems($selector);
@@ -225,10 +254,31 @@ try {
     $response = $app->run($selector, $noMatchHandler);
 
     echo '<p>Response status: ' . (int) $response->getStatusCode() . '</p>';
+    echo '<p style="color:green"><strong>App::run dokončen.</strong> Pro běžný provoz nastavte <code>$deploy = false</code> v index.php.</p>';
     echo '</body></html>';
+    if (ob_get_level() > 0) {
+        ob_end_flush();
+    }
     (new ResponseSender())->send($response);
 } catch (Throwable $e) {
     http_response_code(500);
     echo '<h3 style="color:red">Chyba po bootstrapu (aplikace)</h3>';
+    $deployEcho('session_status při chybě', $deploySessionStatusLabel());
+    $deployEcho('headers_sent při chybě', headers_sent($hsFile, $hsLine)
+        ? ('ano @ ' . $hsFile . ':' . $hsLine)
+        : 'ne');
+    if (strpos(get_class($e), 'SessionFinishedException') !== false
+        || strpos($e->getMessage(), 'session is closed') !== false
+    ) {
+        echo '<p style="color:darkorange"><strong>Poznámka:</strong> <code>StatusDao::isFinished()</code> je true i když '
+            . '<code>finish()</code> neproběhl — stačí, že PHP session není ACTIVE '
+            . '(např. <code>session_start()</code> selhalo po odeslání výstupu). '
+            . 'Diagnostika drží výstup v <code>ob_start()</code>; pokud session stále není ACTIVE, '
+            . 'zkontrolujte PHP session konfiguraci na hostingu. '
+            . 'Pro ověření běžného webu nastavte <code>$deploy = false</code>.</p>';
+    }
     echo '<pre>' . htmlspecialchars($deployFormatException($e), ENT_QUOTES, 'UTF-8') . '</pre></body></html>';
+    if (ob_get_level() > 0) {
+        ob_end_flush();
+    }
 }
