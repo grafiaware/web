@@ -35,15 +35,6 @@ class ConfigurationWeb extends ConfigurationConstants {
     const RED_TEMPLATES_SITE = 'local/site/'.self::WEB_SITE.'templates/red/';
     const RED_STATIC = 'local/site/'.self::WEB_SITE.'static/';
     
-    ### bootstrap ###
-    #
-    public static function bootstrap() {
-        return [
-            'bootstrap.logs.basepath' => self::WEB_BOOTSTRAP_LOGS,
-            'bootstrap.productionhost' => self::WEB_BOOTSTRAP_PRODUCTION_HOST,
-        ];
-    }
-
     ### kontejner ###
     #
 
@@ -105,13 +96,24 @@ class ConfigurationWeb extends ConfigurationConstants {
      */
     public static function webComponent() {
         return [
-            'webcomponent.logs.directory' => 'Logs/Web',
-            'webcomponent.logs.render' => 'Render.log',
-            'webcomponent.logs.type' => FileLogger::REWRITE_LOG,
-            'webcomponent.templates' =>
-                [
+            'logs.directory' => 'Logs/Components',
+            'logs.render' => 'Render.log',
+            'logs.type' => FileLogger::REWRITE_LOG,
+            'templates' => [
+                'gdpr' => self::WEB_TEMPLATES_COMMON.'layout/gdpr/gdpr.php',
+                'flash' => self::WEB_TEMPLATES_COMMON.'layout/info/flashMessages.php',
+                'login' => self::WEB_TEMPLATES_COMMON.'layout/status/login.php',
+                'logout' => self::WEB_TEMPLATES_COMMON.'layout/status/logout.php',
+                'editoraction' => self::WEB_TEMPLATES_COMMON.'layout/status/editorAction.php',
+                'representativeaction' => self::WEB_TEMPLATES_COMMON.'layout/status/representationAction.php',
+                'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
+            ],
+        ];
+    }
 
-                ]
+    public static function commonTemplates() {
+        return [
+            'templates' => self::WEB_TEMPLATES_COMMON,
         ];
     }
 
@@ -184,8 +186,8 @@ class ConfigurationWeb extends ConfigurationConstants {
             'urlContentTemplatesCss' => self::WEB_LINKS_COMMON."css/templates.css",
             'urlMediaCss' => self::WEB_LINKS_COMMON."css/media.css",
             // home page
-            'home_page' => ['block', 'home'],
-//           'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
+            'homePageBlockName' => 'home',
+            'homePageFallbackBlockName' => 'home_fallback',
 
             'templates.poznamky' => self::WEB_TEMPLATES_COMMON.'layout/info/poznamky.php',
             'templates.loaderElement' => self::WEB_TEMPLATES_COMMON.'layout/cascade/loaderElement.php',
