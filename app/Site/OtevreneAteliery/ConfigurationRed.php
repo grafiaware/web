@@ -166,7 +166,7 @@ class ConfigurationRed extends ConfigurationConstants {
             'red.db.charset' => 'utf8',
             'red.db.collation' => 'utf8_general_ci',
             'red.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : '127.0.0.1' ,   // 'localhost' zbytečně překládá jméno,
-            'red.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneatelierycz02' : 'oa_upgrade',
+            'red.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneatelierycz03' : 'oa_upgrade',
             #
             ###################################
             # Konfigurace logu databáze
