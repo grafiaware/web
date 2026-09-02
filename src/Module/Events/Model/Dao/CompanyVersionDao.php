@@ -21,7 +21,7 @@ class CompanyVersionDao extends DaoEditAbstract {
     }
 
     public function getAttributes(): array {
-        return [version];
+        return ['version'];
     }
 
     public function getTableName(): string {

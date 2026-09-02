@@ -13,6 +13,12 @@ use Application\SelectorItems;
 
 use Pes\Application\Middleware\NoMatchedRouteRequestHandler;
 
+use Pes\Http\Request;
+use Pes\Http\Helper\UriInfoInterface;
+
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UriInterface;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -74,6 +80,26 @@ class AppRunner extends TestCase {
                 ['HTTP_USER_AGENT'=>'AppRunner']
 
                 );
+    }
+
+    protected function createPostRequest(array $parsedBody, string $path = '/', string $rootPath = '/'): ServerRequestInterface
+    {
+        $uri = $this->createMock(UriInterface::class);
+        $uri->method('getPath')->willReturn($path);
+
+        $uriInfo = $this->createMock(UriInfoInterface::class);
+        $uriInfo->method('getRootAbsolutePath')->willReturn($rootPath);
+        $uriInfo->method('getSubdomainPath')->willReturn($rootPath);
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getMethod')->willReturn('POST');
+        $request->method('getUri')->willReturn($uri);
+        $request->method('getParsedBody')->willReturn($parsedBody);
+        $request->method('getAttribute')->willReturnCallback(
+            static fn(string $name) => $name === Request::URI_INFO_ATTRIBUTE_NAME ? $uriInfo : null
+        );
+
+        return $request;
     }
 
     /**
