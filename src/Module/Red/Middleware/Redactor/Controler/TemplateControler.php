@@ -13,10 +13,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Site\ConfigurationCache;
 use Configuration\TemplateControlerConfigurationInterface;
 
-use FrontControler\FrontControlerAbstract;
-use FrontControler\FrontControlerInterface;
+use FrontControler\PresentationFrontControlerAbstract;
 
-use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\PaperAggregatePaperSection;
 
 // view modely
@@ -39,6 +37,7 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 
+use Access\AccessPresentationInterface;
 use Template\Seeker\TemplateSeekerInterface;
 use Red\Model\Enum\AuthoredTemplateTypeEnum;
 
@@ -57,7 +56,7 @@ use Pes\View\Template\ImplodeTemplate;
  *
  * @author pes2704
  */
-class TemplateControler extends FrontControlerAbstract {
+class TemplateControler extends PresentationFrontControlerAbstract {
 
     /**
      *
@@ -85,10 +84,11 @@ class TemplateControler extends FrontControlerAbstract {
             StatusSecurityRepo $statusSecurityRepo, 
             StatusFlashRepo $statusFlashRepo, 
             StatusPresentationRepo $statusPresentationRepo, 
+            AccessPresentationInterface $accessPresentation,            
             TemplateSeekerInterface $templateSeeker,
             TemplateControlerConfigurationInterface $configuration
             ) {
-        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo, $accessPresentation);
         $this->templateSeeker = $templateSeeker;
         $this->configuration = $configuration;
     }
