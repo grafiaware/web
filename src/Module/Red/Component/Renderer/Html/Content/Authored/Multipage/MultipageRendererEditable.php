@@ -24,7 +24,7 @@ class MultipageRendererEditable  extends AuthoredRendererAbstract {
         $multipage = $viewModel->getMultipage();
 
         $html =
-                Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templateMultipage')],
+                Html::tag('div', ['class'=>$this->authoredTemplateClass($viewModel, 'div.templateMultipage')],
                   Html::tag('div', ['data-red-renderer'=>'MultipageRendererEditable', "data-red-datasource"=> "multipage {$multipage->getId()} for item {$multipage->getMenuItemIdFk()}"],
                         [
                             $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '',

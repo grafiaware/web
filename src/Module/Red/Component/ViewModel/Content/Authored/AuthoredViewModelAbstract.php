@@ -15,10 +15,12 @@ use Red\Middleware\Redactor\Controler\AuthoredControlerAbstract;
 use Component\ViewModel\StatusViewModelInterface;
 use Red\Model\Repository\MenuItemRepoInterface;
 use Red\Model\Repository\ItemActionRepoInterface;
+use Red\Service\Menu\MenuItemLocationServiceInterface;
 
 use Red\Model\Entity\ItemActionInterface;
 use Red\Model\Enum\AuthoredTypeEnum;
 use UnexpectedValueException;
+use LogicException;
 
 /**
  * Description of AuthoredViewModelAbstract
@@ -29,6 +31,10 @@ abstract class AuthoredViewModelAbstract extends MenuItemViewModel implements Au
 
     protected $itemActionRepo;
 
+    private MenuItemLocationServiceInterface $menuItemLocationService;
+
+    private ?bool $inTrash = null;
+
     abstract public function getAuthoredContentType(): string;
 
     abstract public function getAuthoredTemplateName(): ?string;
@@ -38,10 +44,26 @@ abstract class AuthoredViewModelAbstract extends MenuItemViewModel implements Au
     public function __construct(
             StatusViewModelInterface $status,
             MenuItemRepoInterface $menuItemRepo,
-            ItemActionRepoInterface $itemActionRepo
+            ItemActionRepoInterface $itemActionRepo,
+            MenuItemLocationServiceInterface $menuItemLocationService
             ) {
         parent::__construct($status, $menuItemRepo);
         $this->itemActionRepo = $itemActionRepo;
+        $this->menuItemLocationService = $menuItemLocationService;
+    }
+
+    public function isInTrash(): bool {
+        if ($this->inTrash === null) {
+            try {
+                $menuItem = $this->getMenuItem();
+                $this->inTrash = $menuItem
+                    ? $this->menuItemLocationService->isInTrash($menuItem->getUidFk())
+                    : false;
+            } catch (LogicException $e) {
+                $this->inTrash = false;
+            }
+        }
+        return $this->inTrash;
     }
     
     // - z itemActionRepo - podle $menuItem->getId() - dostanu jestli a kdo edituje item

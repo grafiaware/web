@@ -10,7 +10,7 @@ namespace Site\NajdiSi;
  *
  * Token musí být shodný na red i cílovém serveru.
  */
-class StaticRegistryConfiguration {
+class StaticRegistryConfiguration extends \Site\Common\StaticRegistrySqlite {
 
     /**
      * Konfigurace red modulu (push metadata na auth/events).

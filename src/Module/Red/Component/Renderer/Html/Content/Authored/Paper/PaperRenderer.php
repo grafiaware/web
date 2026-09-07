@@ -17,7 +17,10 @@ class PaperRenderer  extends HtmlRendererAbstract {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();  // vrací PaperAggregate
         if (isset($paperAggregate)) {
-            $html = Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templatePaper')],
+            $html = Html::tag('div', ['class'=>[
+                        $this->classMap->get('Template', 'div.templatePaper'),
+                        $viewModel->isInTrash() ? 'trash' : '',
+                    ]],
                         Html::tag('article', ['data-red-renderer'=>'PaperRenderer', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
                             [
                                 $viewModel->getContextVariable(PaperComponent::BUTTON_EDIT_CONTENT) ?? '',

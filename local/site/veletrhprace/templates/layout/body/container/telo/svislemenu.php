@@ -1,8 +1,8 @@
 <?php
-use Site\ConfigurationCache;
+use Pes\Core\Text\Html;
 ?>
         <!-- #mySidenav s třídou .open se menu neskryje při kliknutí mimo oblast menu-->
-        <!-- #mySidenav s třídou .editMenu vznikne nescrollovatelné svislé menu; k rodiči tohoto elementu - <div class="fix-bar"> se ještě musí přidat class .no-fix (než bude podpora :has())-->
+        <!-- #mySidenav s třídou .editMenu vznikne nescrollovatelné svislé menu; k rodiči tohoto elementu - <div class="fix-bar"> se ještě musí přidat class .no-scroll (než bude podpora :has())-->
         <div id="mySidenav"> 
             <div class="close-item">
                 <div class="hamburger-icon"><i class="bars big icon"></i><p>Menu</p></div>
@@ -13,13 +13,13 @@ use Site\ConfigurationCache;
 
             </div>
             <nav class="svisle-menu">
-                <?= $menuSvisle ?? ''; ?>
+                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuVertical", 'data-nav-target-id'=>'menusvisle_target'])  ?>
             </nav>
             <nav class="svisle-menu kos">
-                <?= $kos ?? ''; ?>
+                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuTrash", 'data-nav-target-id'=>'menusvisle_target'])  ?>
             </nav>
             <nav class="svisle-menu bloky">
-                <?= $bloky ?? ''; ?>
+                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuBlocks", 'data-nav-target-id'=>'menusvisle_target'])  ?>
             </nav>
         </div>
         <div id="myOverlay" onclick="hamburger_close()"></div>

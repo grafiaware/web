@@ -57,7 +57,10 @@ class AssemblyProvider implements AssemblyProviderInterface {
 //                    $attachments = [
 //                            (new Attachment())
 //                            ->setFileName(ConfigurationCache::mail()['mail.attachments'].'nejakePdf.pdf')
-//                            ->setAltText('pdf k rozeslání'), ];                            
+//                            ->setAltText('pdf k rozeslání'), ];   
+//                    (new Attachment())
+//                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'Katalog veletrhPRACE.online 2021.pdf')
+//                                        ->setAltText('Katalog veletrhPRACE.online 2021'),
                     $assembly = (new Assembly())
                         ->setContent(  (new Content())
                                      ->setSubject($subject)

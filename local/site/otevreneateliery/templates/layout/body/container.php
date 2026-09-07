@@ -1,6 +1,7 @@
 <?php
 use Pes\Core\Text\Html;
 use Pes\View\Renderer\PhpTemplateFunctionsInterface;
+use Status\Session\SessionUnlockPolicy;
 /** @var PhpTemplateFunctionsInterface $this */
 ?>
 <style>
@@ -48,8 +49,8 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
                     <?php $isMenuEditableMode=false; ?>
                     <?= $this->insertIf( $isMenuEditableMode, __DIR__.'/container/teloEditableMode.php', $context); ?>
                     <?= $this->insertIf( !$isMenuEditableMode, __DIR__.'/container/teloNoneditableMode.php', $context); ?>
-                    <?= $flash ?? '' ?>
-                    <?= $info ?? '' ?>
+                    <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>SessionUnlockPolicy::URI_FLASH,]) ?>
+                    <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"web/v1/component/infoBoard",]) ?>
                 </div>
                 <div class="row">
                     <footer id="footer">

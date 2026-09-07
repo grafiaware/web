@@ -18,6 +18,9 @@ const contentLoadedHooks = [];
 /** true během počátečního loadSubsequentElements() — reinicializace Tiny se provede až v body.js/initElements() */
 let cascadeInitialLoadInProgress = false;
 
+/** Poslední in-flight request na cascade element: {id, controller}. Nový fetch zruší předchozí. */
+const cascadeRequests = new WeakMap();
+
 /**
  * Registruje callback volaný po každém úspěšném načtení obsahu do cascade elementu.
  * Používá menuSwap.js pro připojení navigace v menu.
@@ -32,6 +35,20 @@ function notifyContentLoaded(element) {
     for (const hook of contentLoadedHooks) {
         hook(element);
     }
+}
+
+function startCascadeRequest(element) {
+    const prev = cascadeRequests.get(element);
+    if (prev) {
+        prev.controller.abort();
+    }
+    const state = {id: (prev?.id || 0) + 1, controller: new AbortController()};
+    cascadeRequests.set(element, state);
+    return state;
+}
+
+function isCurrentCascadeRequest(element, id) {
+    return cascadeRequests.get(element)?.id === id;
 }
 
 /**
@@ -82,31 +99,48 @@ function fetchCascadeContents(element) {
 export function fetchCascadeContent(parentElement) {
     let apiUri = getApiUri(parentElement);
     let cacheControl = getCacheControl(parentElement);
+    const request = startCascadeRequest(parentElement);
 
     return fetch(apiUri, {
         method: "GET",
         cache: cacheControl,
+        signal: request.controller.signal,
         headers: {
             [cascadeHeaderName()]: "do not store request",
         },
     }).then(response => {
+        if (!isCurrentCascadeRequest(parentElement, request.id)) {
+            return null;
+        }
         if (response.ok) {
             return response.text();
         } else {
             throw new Error(`cascade: HTTP error! Status: ${response.status}`);
         }
-    }).then(textPromise => {
+    }).then(html => {
+        if (html === null || !isCurrentCascadeRequest(parentElement, request.id)) {
+            return parentElement;
+        }
         console.log(`cascade: Loading content from ${apiUri}.`);
-        return replaceChildren(parentElement, textPromise);
+        return replaceChildren(parentElement, html);
     }).then(parentWithNewContent => {
+        if (!isCurrentCascadeRequest(parentElement, request.id)) {
+            return parentElement;
+        }
         notifyContentLoaded(parentWithNewContent);
         return fetchCascadeContents(parentWithNewContent);
     }).then(() => {
+        if (!isCurrentCascadeRequest(parentElement, request.id)) {
+            return;
+        }
         console.log(`cascade: Loaded content from ${apiUri}.`);
         if (!cascadeInitialLoadInProgress) {
             return reinitEditableContent();
         }
     }).catch(e => {
+        if (e.name === 'AbortError') {
+            return;
+        }
         throw new Error(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
     });
 }

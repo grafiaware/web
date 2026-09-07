@@ -1,314 +1,245 @@
 <?php
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 namespace Site;
 
-#### ZDE PONECH ODKOMENROVANOU JEN JEDNU DVOJICI #############################
-#
-
-//use Site\Grafia as Siteconfig;
-//const SITE_PATH = 'app/Site/Grafia/';
-
-use Site\NajdiSi as Siteconfig;
-const SITE_PATH = 'app/Site/NajdiSi/';
-
-//use Site\OtevreneAteliery as Siteconfig;
-//const SITE_PATH = 'app/Site/OtevreneAteliery/';
-
-//use Site\TydenZdravi as Siteconfig;
-//const SITE_PATH = 'app/Site/TydenZdravi/';
-
-//use Site\VeletrhPrace as Siteconfig;
-//const SITE_PATH = 'app/Site/VeletrhPrace/';
-
-#
-###########################################################################
-
-// konfigurace bootstrap se používá před nastavením autoloaderu
-include SITE_PATH.'ConfigurationConstants.php';
-include SITE_PATH.'ConfigurationBootstrap.php';
-
+use Site\Common\ActiveSite;
+use Site\Common\ConfigSchema;
+use Site\Common\SiteModules;
+use LogicException;
 
 /**
- * Cache konfigurace
+ * Cache konfigurace — aktivní site z app/Site/active-site.php (bez komentářového use/alias).
  *
- * změny při změně site:
- * - local/site/site-definitions.less - odkomentovat a zakomentovat definici site-definitions @sitename
+ * Moduly: Web vždy; Red / Auth / Events / Build jen pokud existuje příslušná Configuration* třída.
  *
- * @author pes2704
+ * DB připojení jsou rozdělena:
+ * - Red: api, dbUpgrade, hierarchy, web
+ * - Auth: dbOld (auth DB connection), login
+ * - Build: build
+ * - Events: dbEvents
+ * - StaticRegistry: sqlite
  */
 class ConfigurationCache {
 
-    private static $cache;
+    private static $cache = [];
+
+    public static function resetCache(): void {
+        self::$cache = [];
+    }
+
+    public static function activeSiteName(): string {
+        return ActiveSite::name();
+    }
+
+    /**
+     * Early include of Common helpers + site constants/bootstrap (before Composer autoload).
+     */
+    public static function includeBootstrapFiles(): void {
+        $projectRoot = dirname(__DIR__, 2); // app/Site → web
+        $common = $projectRoot . '/app/Site/Common';
+        foreach ([
+            'ConfigMerge.php',
+            'ActiveSite.php',
+            'SiteModules.php',
+            'ConfigSchema.php',
+            'ConfigurationBootstrap.php',
+        ] as $file) {
+            require_once $common . '/' . $file;
+        }
+
+        $rel = SiteModules::sitePath(ActiveSite::name());
+        $base = $projectRoot . '/' . $rel;
+        foreach (['ConfigurationConstants.php', 'ConfigurationBootstrap.php'] as $file) {
+            $path = $base . $file;
+            if (!is_file($path)) {
+                throw new LogicException("Missing bootstrap config file: $path");
+            }
+            require_once $path;
+        }
+    }
+
+    private static function resolve(string $facadeKey): array {
+        if (isset(self::$cache[$facadeKey])) {
+            return self::$cache[$facadeKey];
+        }
+        $map = ConfigSchema::facadeMap();
+        if (!isset($map[$facadeKey])) {
+            throw new LogicException("Unknown configuration facade key '$facadeKey'");
+        }
+        $module = $map[$facadeKey]['module'];
+        $classShort = $map[$facadeKey]['class'];
+        $method = $map[$facadeKey]['method'];
+        $site = ActiveSite::name();
+
+        if (!SiteModules::hasModule($site, $module)) {
+            throw new LogicException(
+                "Site '$site' does not enable module '$module' (missing class for facade '$facadeKey')."
+            );
+        }
+
+        $fqcn = SiteModules::siteNamespace($site) . '\\' . $classShort;
+        if (!class_exists($fqcn)) {
+            throw new LogicException("Configuration class $fqcn not found for facade '$facadeKey'");
+        }
+        if (!method_exists($fqcn, $method)) {
+            throw new LogicException("Method $fqcn::$method() not found for facade '$facadeKey'");
+        }
+
+        $result = $fqcn::$method();
+        if (!is_array($result)) {
+            throw new LogicException("$fqcn::$method() must return array");
+        }
+        return self::$cache[$facadeKey] = $result;
+    }
 
     public static function getConfigModule($name) {
-        if(!isset(self::$cache[$name])) {
-            switch ($name) {
-                ###############################
-                # configutation red
-                #
-                case 'bootstrap':
-                    self::$cache[$name] = Siteconfig\ConfigurationBootstrap::bootstrap();
-                    break;
-                case 'app':
-                    self::$cache[$name] = Siteconfig\ConfigurationWeb::app();
-                    break;
-                case 'webComponent':
-                    self::$cache[$name] = Siteconfig\ConfigurationWeb::webComponent();
-                    break;
-                case 'commonTemplates':
-                    self::$cache[$name] = Siteconfig\ConfigurationWeb::commonTemplates();
-                    break;                
-                case 'presentationStatus':
-                    self::$cache[$name] = Siteconfig\ConfigurationWeb::presentationStatus();
-                    break;
-                case 'layoutControler':
-                    self::$cache[$name] = Siteconfig\ConfigurationWeb::layoutControler();
-                    break;
-                case 'menu':
-                    self::$cache[$name] = Siteconfig\ConfigurationWeb::menu();
-                    break;
-                case 'itemActionControler':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::itemActionControler();
-                    break;
-                case 'auth':
-                    self::$cache[$name] = Siteconfig\ConfigurationAuth::auth();
-                    break;
-                case 'componentControler':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::componentControler();
-                    break;
-                case 'redTemplates':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::redTemplates();
-                    break;
-                case 'redUpload':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::redUploads();
-                    break;
-                case 'transformator':
-                    self::$cache[$name] = Siteconfig\ConfigurationWeb::transformator();
-                    break;
-                case 'mail':
-                    self::$cache[$name] = Siteconfig\ConfigurationWeb::mail();
-                    break;
-                case 'files':
-                    self::$cache[$name] = Siteconfig\ConfigurationWeb::files();
-                    break;
-                case 'eventsUploads':
-                    self::$cache[$name] = Siteconfig\ConfigurationEvents::eventsUploads();
-                    break;  
-                case 'eventTemplates':
-                    self::$cache[$name] = Siteconfig\ConfigurationEvents::eventTemplates();
-                    break;                
-                ###############################
-                # configutation db
-                #
-                case 'api':
-                    self::$cache[$name] = Siteconfig\ConfigurationDb::api();
-                    break;
-                case 'build':
-                    self::$cache[$name] = Siteconfig\ConfigurationDb::build();
-                    break;
-                case 'dbOld':
-                    self::$cache[$name] = Siteconfig\ConfigurationDb::dbOld();
-                    break;
-                case 'dbUpgrade':
-                    self::$cache[$name] = Siteconfig\ConfigurationDb::dbUpgrade();
-                    break;
-                case 'hierarchy':
-                    self::$cache[$name] = Siteconfig\ConfigurationDb::hierarchy();
-                    break;
-                case 'login':
-                    self::$cache[$name] = Siteconfig\ConfigurationDb::login();
-                    break;
-                case 'sqlite':
-                    self::$cache[$name] = Siteconfig\ConfigurationDb::sqlite();
-                    break;
-                case 'staticRegistry':
-                    self::$cache[$name] = Siteconfig\ConfigurationWeb::staticRegistry();
-                    break;
-                case 'staticRegistryEventsReceive':
-                    self::$cache[$name] = Siteconfig\ConfigurationWeb::staticRegistryEventsReceive();
-                    break;
-                case 'staticRegistryAuthReceive':
-                    self::$cache[$name] = Siteconfig\ConfigurationWeb::staticRegistryAuthReceive();
-                    break;
-                case 'web':
-                    self::$cache[$name] = Siteconfig\ConfigurationDb::web();
-                    break;
-                case 'rs':
-                    self::$cache[$name] = Siteconfig\ConfigurationDb::rs();
-                    break;
-                case 'dbEvents':
-                    self::$cache[$name] = Siteconfig\ConfigurationEvents::dbEvents();
-                    break;
-                ###############################
-                # configutation consent
-                #
-                case 'consent':
-                    self::$cache[$name] = Siteconfig\ConfigurationConsent::consent();
-                    break;
-                
-                ###############################
-                # configutation styles
-                #
-                case 'rendererDefaults':
-                    self::$cache[$name] = Siteconfig\ConfigurationStyles::rendererDefaults();
-                    break;
-                case 'renderer':
-                    self::$cache[$name] = Siteconfig\ConfigurationStyles::renderer();
-                    break;
-                case 'languageSelectRenderer':
-                    self::$cache[$name] = Siteconfig\ConfigurationStyles::languageSelectRenderer();
-                    break;
-            }
+        if ($name === 'redUpload') {
+            return self::resolve('redUpload');
         }
-        return self::$cache[$name];
+        return self::resolve($name);
     }
 
-    ### bootstrap ###
-    #
     public static function bootstrap() {
-        return self::getConfigModule('bootstrap');
+        return self::resolve('bootstrap');
     }
 
-    ### kontejner ###
-    #
     public static function api() {
-        return self::getConfigModule('api');
+        return self::resolve('api');
     }
 
     public static function app() {
-        return self::getConfigModule('app');
+        return self::resolve('app');
     }
 
     public static function build() {
-        return self::getConfigModule('build');
+        return self::resolve('build');
     }
 
     public static function webComponent() {
-        return self::getConfigModule('webComponent');
+        return self::resolve('webComponent');
     }
 
     public static function dbOld() {
-        return self::getConfigModule('dbOld');
+        return self::resolve('dbOld');
     }
 
     public static function dbUpgrade() {
-        return self::getConfigModule('dbUpgrade');
+        return self::resolve('dbUpgrade');
     }
 
     public static function hierarchy() {
-        return self::getConfigModule('hierarchy');
+        return self::resolve('hierarchy');
     }
 
     public static function login() {
-        return self::getConfigModule('login');
+        return self::resolve('login');
     }
 
     public static function rendererDefaults() {
-        return self::getConfigModule('rendererDefaults');
+        return self::resolve('rendererDefaults');
     }
 
     public static function renderer() {
-        return self::getConfigModule('renderer');
+        return self::resolve('renderer');
     }
 
     public static function sqlite() {
-        return self::getConfigModule('sqlite');
+        return self::resolve('sqlite');
     }
 
     public static function web() {
-        return self::getConfigModule('web');
+        return self::resolve('web');
     }
 
+    /**
+     * Legacy RS modul — není v běžných site konfiguracích po rozdělení ConfigurationDb.
+     */
     public static function rs() {
-        return self::getConfigModule('rs');
+        throw new LogicException(
+            'ConfigurationCache::rs() removed from ConfigurationDb. '
+            . 'Add Site\\{Site}\\ConfigurationRs::rs() and ConfigSchema facade mapping if needed.'
+        );
     }
 
     public static function dbEvents() {
-        return self::getConfigModule('dbEvents');
+        return self::resolve('dbEvents');
     }
-    
-    ### presentation ###
-    #
+
     public static function commonTemplates() {
-        return self::getConfigModule('commonTemplates');
+        return self::resolve('commonTemplates');
     }
+
     public static function presentationStatus() {
-        return self::getConfigModule('presentationStatus');
+        return self::resolve('presentationStatus');
     }
+
     public static function layoutControler() {
-        return self::getConfigModule('layoutControler');
+        return self::resolve('layoutControler');
     }
 
     public static function menu() {
-        return self::getConfigModule('menu');
+        return self::resolve('menu');
     }
 
     public static function itemActionControler() {
-        return self::getConfigModule('itemActionControler');
+        return self::resolve('itemActionControler');
     }
-    
+
     public static function auth() {
-        return self::getConfigModule('auth');
+        return self::resolve('auth');
     }
 
     public static function componentControler() {
-        return self::getConfigModule('componentControler');
+        return self::resolve('componentControler');
     }
 
     public static function redTemplates() {
-        return self::getConfigModule('redTemplates');
+        return self::resolve('redTemplates');
     }
 
     public static function redUploads() {
-        return self::getConfigModule('redUpload');
+        return self::resolve('redUpload');
     }
 
     public static function languageSelectRenderer() {
-        return self::getConfigModule('languageSelectRenderer');
+        return self::resolve('languageSelectRenderer');
     }
 
     public static function transformator() {
-        return self::getConfigModule('transformator');
+        return self::resolve('transformator');
     }
 
     public static function mail() {
-        return self::getConfigModule('mail');
+        return self::resolve('mail');
     }
 
     public static function files() {
-        return self::getConfigModule('files');
+        return self::resolve('files');
     }
 
     public static function eventsUploads() {
-        return self::getConfigModule('eventsUploads');
+        return self::resolve('eventsUploads');
     }
-    
+
     public static function eventTemplates() {
-        return self::getConfigModule('eventTemplates');
+        return self::resolve('eventTemplates');
     }
 
     public static function staticRegistry(): array {
-        return self::getConfigModule('staticRegistry');
+        return self::resolve('staticRegistry');
     }
 
     public static function staticRegistryEventsReceive(): array {
-        return self::getConfigModule('staticRegistryEventsReceive');
+        return self::resolve('staticRegistryEventsReceive');
     }
 
     public static function staticRegistryAuthReceive(): array {
-        return self::getConfigModule('staticRegistryAuthReceive');
+        return self::resolve('staticRegistryAuthReceive');
     }
-    
-    
-    
-    ### consent ###
-    #
-        public static function consent() {
-        return self::getConfigModule('consent');
-    }    
+
+    public static function consent() {
+        return self::resolve('consent');
+    }
 }
+
+ConfigurationCache::includeBootstrapFiles();

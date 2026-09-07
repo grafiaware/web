@@ -19,7 +19,10 @@ class ArticleRenderer extends HtmlRendererAbstract {
         /** @var ArticleViewModelInterface $viewModel */
         $article = $viewModel->getArticle();  // vrací ArticleInterface
 
-        $ret = Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templateArticle')],
+        $ret = Html::tag('div', ['class'=>[
+                        $this->classMap->get('Template', 'div.templateArticle'),
+                        $viewModel->isInTrash() ? 'trash' : '',
+                    ]],
                     Html::tag('article', ['data-red-renderer'=>'ArticleRenderer', "data-red-datasource"=> "article {$article->getId()} for item {$article->getMenuItemIdFk()}"],
                         [
                             $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '',

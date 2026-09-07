@@ -49,7 +49,7 @@ if  (count($chBlock)) {
 /** @var StatusPresentationRepo $statuSecurityRepo */
 $statuSecurityRepo = $container->get(StatusSecurityRepo::class);
 /** @var SecurityInterface $statusSecurity */
-$statusSecurity = $statuSecurityRepo->get();
+$statusSecurity = $statuSecurityRepo->getClone();    // jen ke čtení (po UnlockStatus::finish())
 if (true OR $statusSecurity->getEditorActions() && $statusSecurity->getEditorActions()->presentEditableContent()) {
     $errorLog = $katalogGenerator->getLog();
     if ($errorLog) {

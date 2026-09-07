@@ -18,6 +18,7 @@ use Red\Model\Repository\MenuItemRepoInterface;
 use Red\Model\Repository\ItemActionRepoInterface;
 
 use Red\Model\Repository\PaperAggregateSectionsRepo;
+use Red\Service\Menu\MenuItemLocationServiceInterface;
 
 use Red\Model\Enum\AuthoredTypeEnum;
 use Red\Middleware\Redactor\Controler\SectionsControler;
@@ -44,9 +45,10 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
             StatusViewModelInterface $status,
             MenuItemRepoInterface $menuItemRepo,
             ItemActionRepoInterface $itemActionRepo,
+            MenuItemLocationServiceInterface $menuItemLocationService,
             PaperAggregateSectionsRepo $paperAggregateRepo
             ) {
-        parent::__construct($status, $menuItemRepo, $itemActionRepo);
+        parent::__construct($status, $menuItemRepo, $itemActionRepo, $menuItemLocationService);
         $this->paperAggregateRepo = $paperAggregateRepo;
     }
 

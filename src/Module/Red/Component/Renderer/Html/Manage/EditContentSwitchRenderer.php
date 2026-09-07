@@ -16,32 +16,40 @@ class EditContentSwitchRenderer extends HtmlRendererAbstract {
         /** @var AuthoredViewModelInterface $viewModel */
         $menuItemId = $viewModel->getMenuItem()->getId();
         $userPerformActionWithContent = $viewModel->userPerformItemAction();
+        $inTrash = $viewModel->isInTrash();
         $editor = '';
-        $disabled = '';
-        $itemAction = $viewModel->getItemAction();
+        $disabled = false;
 
-        if($userPerformActionWithContent) {
+        if ($inTrash && !$userPerformActionWithContent) {
+            $disabled = true;
+            $tooltip = "Položka je v koši. Pro editaci ji přesuňte do jiného menu.";
+            $action = "red/v1/itemaction/$menuItemId/add";
+        } elseif ($userPerformActionWithContent) {
             $tooltip = "Vypnout editaci";
             $action = "red/v1/itemaction/$menuItemId/remove";
         } else {
             $itemAction = $viewModel->getItemAction();
             if (isset($itemAction)) {
                 $editor = $itemAction->getEditorLoginName() ?? '';
-                $disabled = 'disabled';
+                $disabled = true;
             }
             $tooltip = $editor ? "Nelze zapnout editaci (Obsah upravuje $editor)." :  "Zapnout editaci";
             $action = "red/v1/itemaction/$menuItemId/add";
         }
+        $buttonClassKey = $userPerformActionWithContent
+            ? 'button.offEditMode'
+            : ($disabled ? 'button.editMode.disabled' : 'button.editMode');
         return
             Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.itemAction')], //tlačítko "tužka" pro zvolení editace
                 Html::tag('form', ['class'=>'apiAction', 'method'=>'POST', 'action'=>$action],  // method POST = fallback bez JS; menuSwap.js odchytí .apiAction a pošle PUT
                     // class apiAction: selektor v menuSwap.js (listenFormsWithApiAction)
                     [
                         Html::tag('button', [
-                            'class'=>$this->classMap->resolve($userPerformActionWithContent, 'Buttons', 'button.offEditMode',  $disabled ? 'button.editMode.disabled':'button.editMode'),
+                            'class'=>$this->classMap->get('Buttons', $buttonClassKey),
                             'data-tooltip' => $tooltip,
                             'data-position' => 'bottom center',
-                            'type' => $disabled ? 'submit':'submit',  // $disabled ? 'button':'submit', 
+                            'type' => $disabled ? 'button' : 'submit',
+                            'disabled' => $disabled,
                             'formtarget' => '_self',
                             ],
                             Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.editMode')])

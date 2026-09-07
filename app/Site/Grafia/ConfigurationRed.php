@@ -8,6 +8,7 @@
 
 namespace Site\Grafia;
 
+use Pes\Database\Handler\DbTypeEnum;
 use Pes\Logger\FileLogger;
 
 /**
@@ -113,5 +114,113 @@ class ConfigurationRed extends ConfigurationConstants {
         return [
             'upload.red' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'upload/red/' : self::WEB_FILES_SITE.'upload/red/',
             ];
+    }
+
+    /**
+     * Konfigurace kontejneru - vrací parametry pro ApiContainerConfigurator
+     * @return array
+     */
+    public static function api() {
+        return [
+            #################################
+            # Sekce konfigurace účtů databáze pro api kontejner
+            # - konfigurováni dva uživatelé - jeden pro vývoj a druhý pro běh na produkčním stroji
+            #
+            # Konfigurace připojení k databázi je v delegate kontejneru.
+            # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
+            #
+            'red.db.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_USER_NAME' : 'gr_everyone',
+            'red.db.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrader' : 'gr_everyone',
+            'red.db.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_USER_NAME' : 'gr_auth',
+            'red.db.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrader' : 'gr_auth',
+            'red.db.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_USER_NAME' : 'gr_admin',
+            'red.db.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrader' : 'gr_admin',
+            #
+            ###################################
+            # Konfigurace logu databáze
+            #
+            'red.logs.view.directory' => 'Logs/Red',
+            'red.logs.view.file' => 'Render.log',
+            'red.logs.view.type' => FileLogger::FILE_PER_DAY
+            #
+            ###################################
+        ];
+    }
+
+    /**
+     * Konfigurace kontejneru - vrací parametry pro DbUpgradeContainerConfigurator
+     * @return array
+     */
+    public static function dbUpgrade() {
+        return [
+            #####################################
+            # Konfigurace připojení k databázi nového redakčního systému
+            #
+            # Konfigurována jsou dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
+            #
+            'red.db.type' => DbTypeEnum::MySQL,
+            'red.db.port' => '3306',
+            'red.db.charset' => 'utf8',
+            'red.db.collation' => 'utf8_general_ci',
+            'red.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_HOST' : '127.0.0.1' ,   // 'localhost' zbytečně překládá jméno,
+            'red.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_NAME' : 'gr_upgrade',
+            #
+            ###################################
+            # Konfigurace logu databáze
+            #
+            'red.logs.db.directory' => 'Logs/Red',
+            'red.logs.db.file' => 'Database.log',
+            'red.logs.db.type' => FileLogger::FILE_PER_DAY,
+            #
+            #################################
+
+        ];
+    }
+
+    /**
+     * Konfigurace kontejneru - vrací parametry pro HierarchyContainerConfigurator
+     * @return array
+     */
+    public static function hierarchy() {
+        return  [
+            ###################################
+            # Konfigurace hierarchy tabulek
+            #
+            'hierarchy.table' => 'hierarchy',
+            'hierarchy.view' => 'hierarchy_view',
+            'hierarchy.menu_item_table' => 'menu_item',
+            #
+            ##################################
+            # konfigurace menu
+            #
+            'hierarchy.new_title' => 'Nová položka',
+            #
+            #####################################
+        ];
+    }
+
+    /**
+     * Konfigurace kontejneru - vrací parametry pro WebContainerConfigurator
+     * @return array
+     */
+    public static function web() {
+        return [
+            #################################
+            # Sekce konfigurace uživatelů databáze nového redakčního systému
+            #
+            # Zde je konfigurace údajů uživatele pro připojení k databázi.
+            #
+            # Konfigurace připojení k databázi je v delegate kontejneru.
+            # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
+            #
+            'web.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxx' : 'gr_everyone',
+            'web.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrader' : 'gr_everyone',
+            'web.db.account.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxx' : 'gr_auth',
+            'web.db.account.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrader' : 'gr_auth',
+            'web.db.account.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxx' : 'gr_admin',
+            'web.db.account.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrader' : 'gr_admin',
+            #
+            ###################################
+        ];
     }
 }
