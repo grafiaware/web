@@ -1,14 +1,9 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Pes\Core\Text\Text;
-use Pes\Core\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
 ?>
 
 <?=
-        "<a href=\"#$chNazev\">$chNazev</a> |"              
+        "<a href=\"web/v1/page/item/$katalogUid#$chNazev\">$chNazev</a> |"
 ?>
- 
-
-
