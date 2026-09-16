@@ -18,12 +18,12 @@ $katalogGenerator = new Katalog($container);
 
 try {
     $katalog = $katalogGenerator->getKatalog();
+    $katalogUid = $katalogGenerator->getKatalogUid();    
 } catch (Exception $exc) {
     echo "<p style=\"background-color:yellow;\">{$exc->getMessage()}</p>";
     $katalog = [];
 }
 
-$katalogUid = $katalogGenerator->getKatalogUid();
 
 $volume = array_column($katalog, 'anchor');
 array_multisort($volume, SORT_ASC, $katalog);
