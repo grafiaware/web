@@ -1,13 +1,5 @@
 <?php
 
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
- */
-
-use Pes\Container\Container;
-
-
 use Status\Model\Repository\StatusPresentationRepo;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
@@ -15,76 +7,73 @@ use Red\Model\Repository\MenuItemAggregatePaperRepo;
 
 use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 
-
-// context
 use Pes\Model\Context\ContextProviderInterface;
 
 class Katalog {
-    
+
     private $container;
 
     private $langCode;
     private $katalogUid;
-    
-    private $lastKatalogUid;
 
     private $hierarchyDao;
-    
+
     private $log;
-    
+
     public function __construct($container) {
         $this->container = $container;
         $statusPresentationRepo = $container->get(StatusPresentationRepo::class);
         /** @var StatusPresentationRepo $statusPresentationRepo */
-        $statusPresentation = $statusPresentationRepo->getClone();    // jen ke čtení
+        $statusPresentation = $statusPresentationRepo->getClone();    // jen ke čtení (po UnlockStatus::finish())
         $this->langCode = $statusPresentation->getLanguageCode();
         $this->katalogUid = $statusPresentation->getMenuItem()->getUidFk();
     }
-    
-    public function getLastKatalogUid() {
-        if (!isset($this->lastKatalogUid)) {  // prázdné pole
-            throw new LogicException("Last katalog uid je generováno při generování katalogu. Je třeba nejprve volat metodu getKatalog().");            
-        }
-        return $this->lastKatalogUid;
+
+    public function getKatalogUid() {
+        return $this->katalogUid;
     }
-    
+
     public function getKatalog() {
         /** @var HierarchyAggregateReadonlyDao $this->hierarchyDao */
         $this->hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);
-        ####
-        # zde nastaveno čtení bez ohledu na kontext - čtou se i nepublikované položky ve všech repository (používají stejný context objekt
-        #
-        # - musí se nastavit zde, po zavolání $menuItemAggRepo->get() pro všechny $subTreeNodes se už v dalších metodách entity nečtou!
-        #
+
         /** @var ContextProviderInterface $contextProvider */
         $contextProvider = $this->container->get(ContextProviderInterface::class);
-        
-        // kontext pro čtení pomocí HierarchyAggregateReadonlyDao - i v editovatelném modu načte jen aktivní node
-        $contextProvider->forceShowOnlyPublished(true);
-        
+
+        #### kontroly položek menu ####
+        #
+        // kontext pro čtení pomocí HierarchyAggregateReadonlyDao pro účely kontroly - i v editovatelném modu načte jen aktivní (publikované) node
+        $contextProvider->forceShowOnlyPublished(true); // jen publikované
+
         $node = $this->hierarchyDao->get(['lang_code_fk'=>$this->langCode, 'uid_fk'=>$this->katalogUid]);
         if (!isset($node)) {
-            throw new LogicException("V databázi '{$this->hierarchyDao->getSchemaName()}' není PUBLIKOVANÁ (active) položka menu v jazyce '$this->langCode' s názvem '$this->title'");
-        }     
-        if (!$node['api_module_fk']=='red') {
-            throw new LogicException("Položka {$this->title} nemá hodnotu 'api_module_fk'=='red', není určena pro modul red.");            
-        }      
+            throw new LogicException("V databázi '{$this->hierarchyDao->getSchemaName()}' není PUBLIKOVANÁ (active) položka menu v jazyce '$this->langCode' s uid '{$this->katalogUid}'");
+        }
+        if ($node['api_module_fk'] !== 'red') {
+            throw new LogicException("Položka katalogu (uid '{$this->katalogUid}') nemá hodnotu 'api_module_fk'=='red', není určena pro modul red.");
+        }
         $subTreeNodes = $this->hierarchyDao->getSubTree($this->langCode, $this->katalogUid);
         array_shift($subTreeNodes);
         if (!$subTreeNodes) {  // prázdné pole
-            throw new LogicException("Položka menu s katalogem nemá publikované (aktivní) potomky.");            
+            throw new LogicException("Položka menu s katalogem nemá publikované (aktivní) potomky.");
         }
-        $menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);                
-        
-        // kontext pro čtení pomocí MenuItemAggregatePaperRepo - vždy načte i neaktivní menu item aggregate
-        $contextProvider->forceShowOnlyPublished(false);
-        
+        #
+        #### konec kontrol položek menu ####
+
+
+        /** @var MenuItemAggregatePaperRepo $menuItemAggRepo */
+        $menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);
+
+        // kontext pro čtení pomocí MenuItemAggregatePaperRepo - vždy načte i neaktivní (nepublikované) menu item
+        $contextProvider->forceShowOnlyPublished(false);    // publikované i nepublikované položky menu (a sekce v paperech)
+
+        #### kontoly typu položek a existentece publikované položky
         foreach ($subTreeNodes as $node) {
-            if (!$node['api_generator_fk']=='paper') {
-                throw new LogicException("Položka {$this->title} nemá hodnotu 'api_generator_fk'=='paper',  není typu paper.");            
-            }        
-            if (!$node['api_module_fk']=='red') {
-                throw new LogicException("Položka {$this->title} nemá hodnotu 'api_module_fk'=='red',  není určena pro modul red.");            
+            if ($node['api_generator_fk'] !== 'paper') {
+                throw new LogicException("Položka (uid '{$node['uid']}') nemá hodnotu 'api_generator_fk'=='paper',  není typu paper.");
+            }
+            if ($node['api_module_fk'] !== 'red') {
+                throw new LogicException("Položka (uid '{$node['uid']}') nemá hodnotu 'api_module_fk'=='red',  není určena pro modul red.");
             }
             try {
                 $menuItemAgg = $menuItemAggRepo->get($this->langCode, $node['uid']);
@@ -99,14 +88,18 @@ class Katalog {
             }
             $sections = $paper->getPaperSectionsArray();
             if (!$sections) {  // prázdné pole
-                throw new LogicException("Paper '{$paper->getHeadline()}' nemá publikované (aktivní) sekce.");            
+                throw new LogicException("Paper '{$paper->getHeadline()}' nemá publikované (aktivní) sekce.");
             }
-        }        
-        
+        }
+
+        #### generování list ####
+        // čte publikované i nepublikované sekce - v seznami $list předá informaci s klíčem "active"
+        // současný stav: v katalogu se aktivní položka zobrazuje červěně a jako odkaz, neaktivní černě a jen jako text - smyslem je,
+        // aby stránka katalogu nebala "chudá" ve chvíli, kdy je ještě málo hotových (publikovaných) profilů (sekcí)
         $list = [];
         $this->log = [];
         foreach ($subTreeNodes as $node) {
-            $menuItemAgg = $menuItemAggRepo->get($this->langCode, $node['uid']);            
+            $menuItemAgg = $menuItemAggRepo->get($this->langCode, $node['uid']);
             $paper = $menuItemAgg->getPaper();
             $sections = $paper->getPaperSectionsArray();
             foreach ($sections as $section) {
@@ -120,7 +113,7 @@ class Katalog {
                     preg_match_all($textPattern, $content, $textMatches);
                     if ($anchorMatches[1] && $textMatches[1]) {
                         foreach ($anchorMatches[1] as $key => $anchorMatch) {
-                            $list[] = ['uid'=>$menuItemAgg->getUidFk(), 'firstLetter'=> strtoupper($anchorMatch[0]), 'anchor'=>$anchorMatch, 'nazev'=>$textMatches[1][$key], 'nazevCs'=>html_entity_decode($textMatches[1][$key], ENT_HTML5), 'active'=>$section->getActive()];                        
+                            $list[] = ['uid'=>$menuItemAgg->getUidFk(), 'firstLetter'=> strtoupper($anchorMatch[0]), 'anchor'=>$anchorMatch, 'nazev'=>$textMatches[1][$key], 'nazevCs'=>html_entity_decode($textMatches[1][$key], ENT_HTML5), 'active'=>$section->getActive()];
                         }
                     } else {
                         if ($content) {  // ignoruje zcela prázdné sekce
@@ -132,7 +125,7 @@ class Katalog {
         }
         return $list;
     }
-    
+
     /**
      * Vrací pole, ve kterém jsou zapsány počátky obsahů sekcí, vekterých metoda getKatalog() nenašla právě jednu kontu a jeden text.
      * @return type
