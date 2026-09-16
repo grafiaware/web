@@ -2,7 +2,7 @@
 
 // template
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Pes\Text\Text;
+use Pes\Core\Text\Text;
 /** @var PhpTemplateRendererInterface $this */
 
 use Site\ConfigurationCache;
@@ -13,7 +13,7 @@ use Auth\Model\Entity\LoginAggregateFullInterface;
 use Status\Model\Repository\StatusSecurityRepo;
 use Red\Model\Repository\VisitorDataRepo;
 
-!! nová naše anketa v najdisi!
+// nová naše anketa v najdisi!
 
 //   zkrácené url https://forms.gle/w5NTnXbxEg6GGRLp7
 //    odkaz na formulář s předvyplněnými daty:
@@ -32,7 +32,7 @@ use Red\Model\Repository\VisitorDataRepo;
 
     $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
     /** @var StatusSecurityRepo $statusSecurityRepo */
-    $statusSecurity = $statusSecurityRepo->get();
+    $statusSecurity = $statusSecurityRepo->getClone();
     /** @var LoginAggregateFullInterface $loginAggregate */
     $loginAggregate = $statusSecurity->getLoginAggregate();
 

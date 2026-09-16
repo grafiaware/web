@@ -4,8 +4,8 @@ namespace Menu\Middleware\Menu\View\Factory;
 
 use Menu\Middleware\Menu\View\ItemView;
 
-use Pes\Dom\Node\Tag;
-use Pes\Dom\Node\Text;
+use Pes\View\Dom\Node\Tag;
+use Pes\View\Dom\Node\Text;
 
 use Menu\Psr\Container\ContainerInterface;
 //use Menu\Model\HierarchyHooks\MenuListStyles;

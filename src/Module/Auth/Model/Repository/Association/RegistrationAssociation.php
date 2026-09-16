@@ -1,9 +1,9 @@
 <?php
 namespace Auth\Model\Repository\Association;
 
-use Model\Repository\Association\AssociationOneToOneAbstract;
-use Model\Repository\Association\AssociationOneToOneInterface;
-use Model\Entity\PersistableEntityInterface;
+use Pes\Model\Repository\Association\AssociationOneToOneAbstract;
+use Pes\Model\Repository\Association\AssociationOneToOneInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
 
 use Auth\Model\Dao\RegistrationDao;
 

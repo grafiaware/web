@@ -1,7 +1,7 @@
 <?php
 namespace Status\Middleware\Component;
 
-use Pes\Middleware\AppMiddlewareAbstract;
+use Pes\Application\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
 
 use Pes\Router\RouteSegmentGenerator;
@@ -17,6 +17,8 @@ use Container\{
 };
 
 use \Status\Middleware\Component\Controler\FlashControler;
+
+use Status\Session\SessionUnlockPolicy;
 
 class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -56,7 +58,7 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
         $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
         #### ComponentControler ####
-        $routeGenerator->addRouteForAction('GET', '/web/v1/flash', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('GET', SessionUnlockPolicy::ROUTE_PATTERN_FLASH, function(ServerRequestInterface $request) {
             /** @var FlashControler $ctrl */
             $ctrl = $this->container->get(FlashControler::class);
             return $ctrl->flash($request);

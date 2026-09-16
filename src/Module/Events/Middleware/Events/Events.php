@@ -1,7 +1,7 @@
 <?php
 namespace Events\Middleware\Events;
 
-use Pes\Middleware\AppMiddlewareAbstract;
+use Pes\Application\Middleware\AppMiddlewareAbstract;
 
 use Pes\Router\RouteSegmentGenerator;
 use Pes\Router\RouterInterface;
@@ -23,6 +23,7 @@ use Events\Middleware\Events\Controler\VisitorJobRequestControler;
 use Events\Middleware\Events\Controler\FilterControler;
 use Events\Middleware\Events\Controler\SynchroControler;
 use Events\Middleware\Events\Controler\MaintenanceControler;
+use StaticRegistry\Middleware\Controler\StaticRegistryControler;
 
 class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -42,10 +43,15 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
         /** @var RouteSegmentGenerator $this->routeGenerator */
         $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
         
+        // PUT/DELETE přidané pro static registry push z red modulu (server-to-server)
         if ($request->getMethod()=="GET") {
             $this->prepareProcessGet();
         } elseif ($request->getMethod()=="POST") {
             $this->prepareProcessPost();
+        } elseif ($request->getMethod()=="PUT") {
+            $this->prepareProcessPut();
+        } elseif ($request->getMethod()=="DELETE") {
+            $this->prepareProcessDelete();
         } else {
             throw new UnexpectedRequestMethodException("Neznámá metoda HTTP request '{$request->getMethod()}'.");
         }
@@ -59,6 +65,25 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
 #### GET ################################
 
     private function prepareProcessGet() {
+
+        ###########################
+        ## StaticRegistryControler — před :staticName (router bere první match)
+        ###########################
+        $this->routeGenerator->addRouteForAction('GET', '/events/v1/static/registry', function(ServerRequestInterface $request) {
+            /** @var StaticRegistryControler $ctrl */
+            $ctrl = $this->container->get(StaticRegistryControler::class);
+            return $ctrl->list($request);
+        });
+        $this->routeGenerator->addRouteForAction('GET', '/events/v1/static/registry/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
+            /** @var StaticRegistryControler $ctrl */
+            $ctrl = $this->container->get(StaticRegistryControler::class);
+            return $ctrl->get($request, (int) $menuItemId);
+        });
+        $this->routeGenerator->addRouteForAction('GET', '/events/v1/static/templates', function(ServerRequestInterface $request) {
+            /** @var StaticRegistryControler $ctrl */
+            $ctrl = $this->container->get(StaticRegistryControler::class);
+            return $ctrl->templates($request);
+        });
 
         ###########################
         ## StaticControler
@@ -98,6 +123,28 @@ class Events extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->familyDataItem($request, $parentName, $parentId, $name, $id);
             });
         }
+
+#### PUT #################################
+# Upsert static metadat z red (StaticRegistryPushClient)
+
+    private function prepareProcessPut() {
+        $this->routeGenerator->addRouteForAction('PUT', '/events/v1/static/registry/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
+            /** @var StaticRegistryControler $ctrl */
+            $ctrl = $this->container->get(StaticRegistryControler::class);
+            return $ctrl->upsert($request, (int) $menuItemId);
+        });
+    }
+
+#### DELETE #################################
+# Smazání záznamu registry při delete menu položky v red
+
+    private function prepareProcessDelete() {
+        $this->routeGenerator->addRouteForAction('DELETE', '/events/v1/static/registry/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
+            /** @var StaticRegistryControler $ctrl */
+            $ctrl = $this->container->get(StaticRegistryControler::class);
+            return $ctrl->delete($request, (int) $menuItemId);
+        });
+    }
 
 #### POST #################################
 

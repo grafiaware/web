@@ -2,8 +2,8 @@
 
 namespace Events\Model\Entity;
 
-use Model\Entity\PersistableEntityAbstract;
-use Model\Entity\EntityGeneratedKeyInterface;
+use Pes\Model\Entity\PersistableEntityAbstract;
+use Pes\Model\Entity\EntityGeneratedKeyInterface;
 use Events\Model\Entity\EventContentInterface;
 
 /**

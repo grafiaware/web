@@ -1,15 +1,15 @@
 <?php
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 
 use Red\Model\Entity\StaticItemInterface;
 use Red\Model\Entity\StaticItemClass;
 use Red\Model\Dao\StaticItemDao;
-use Model\Dao\DaoReferenceUniqueInterface;
+use Pes\Model\Dao\DaoReferenceUniqueInterface;
 use Red\Model\Hydrator\StaticItemHydrator;
 
-use \Model\Repository\RepoAssotiatedOneTrait;
+use \Pes\Model\Repository\RepoAssotiatedOneTrait;
 
 /**
  * Description of StaticRepo
@@ -54,6 +54,15 @@ class StaticItemRepo extends RepoAbstract implements StaticItemRepoInterface {
 
     public function remove(StaticItemInterface $static) {
         $this->removeEntity($static);
+    }
+
+    /**
+     * Všechny static položky — pro push-sync do remote registry.
+     *
+     * @return StaticItemInterface[]
+     */
+    public function findAll(): array {
+        return $this->findEntities();
     }
 
     protected function createEntity() {

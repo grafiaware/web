@@ -1,16 +1,16 @@
 <?php
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 
 use Red\Model\Entity\PaperInterface;
 use Red\Model\Entity\Paper;
 use Red\Model\Dao\PaperDao;
-use Model\Dao\DaoReferenceUniqueInterface;
+use Pes\Model\Dao\DaoReferenceUniqueInterface;
 use Red\Model\Hydrator\PaperHydrator;
 
-use \Model\Repository\RepoAssotiatedOneTrait;
-//use \Model\Repository\RepoAssociatedWithJoinOneTrait;
+use \Pes\Model\Repository\RepoAssotiatedOneTrait;
+//use \Pes\Model\Repository\RepoAssociatedWithJoinOneTrait;
 /**
  * Description of Menu
  *

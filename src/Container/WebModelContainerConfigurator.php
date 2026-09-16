@@ -9,12 +9,12 @@ use Pes\Container\Container;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
 // sql builder
-use Model\Builder\Sql;
+use Pes\Model\Builder\Sql;
 // context
 use Red\Model\Context\ContextProvider;
-use Model\Context\ContextProviderInterface;
+use Pes\Model\Context\ContextProviderInterface;
 // model
-use Model\RowData\PdoRowData;
+use Pes\Model\RowData\PdoRowData;
 
 use Red\Model\Dao\BlockDao;
 use Red\Model\Hydrator\BlockHydrator;

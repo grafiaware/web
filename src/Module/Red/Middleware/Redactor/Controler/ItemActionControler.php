@@ -21,6 +21,8 @@ use Status\Model\Enum\FlashSeverityEnum;
 
 use Red\Service\ItemAction\ItemActionServiceInterface;
 use Red\Service\ItemAction\Exception\UnableToAddItemActionForItemException;
+use Red\Service\Menu\MenuItemLocationServiceInterface;
+use Red\Model\Repository\MenuItemRepoInterface;
 
 use DateInterval;
 /**
@@ -35,20 +37,31 @@ class ItemActionControler extends FrontControlerAbstract {
      * @var ItemActionServiceInterface
      */
     private $itemActionService;
+    private MenuItemRepoInterface $menuItemRepo;
+    private MenuItemLocationServiceInterface $menuItemLocationService;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            ItemActionServiceInterface $itemActionService) {
+            ItemActionServiceInterface $itemActionService,
+            MenuItemRepoInterface $menuItemRepo,
+            MenuItemLocationServiceInterface $menuItemLocationService) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->itemActionService = $itemActionService;
+        $this->menuItemRepo = $menuItemRepo;
+        $this->menuItemLocationService = $menuItemLocationService;
     }
 
     public function addUserItemAction(ServerRequestInterface $request, $itemId) {
         $statusSecurity = $this->statusSecurityRepo->get();
         $login = $statusSecurity->getLoginAggregate();
         if (isset($login)) {
+            $menuItem = $this->menuItemRepo->getById($itemId);
+            if ($menuItem && $this->menuItemLocationService->isInTrash($menuItem->getUidFk())) {
+                $this->addFlashMessage("Položka je v koši. Pro editaci ji přesuňte do jiného menu.", FlashSeverityEnum::WARNING);
+                return $this->createJsonOKResponse(["refresh"=>"closest"], 200);
+            }
             $loginName = $statusSecurity->getLoginAggregate()->getLoginName();
             // vyčištění starých item action
             $interval = new DateInterval(ConfigurationCache::itemActionControler()['timeout']);

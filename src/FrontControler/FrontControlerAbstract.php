@@ -30,14 +30,15 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Container\ContainerInterface;
 
 use Pes\Application\AppFactory;
-use Pes\Application\UriInfoInterface;
+use Pes\Http\Request;
+use Pes\Http\Helper\UriInfoInterface;
 use Pes\Http\Factory\ResponseFactory;
 use Pes\Http\Response\RedirectResponse;
 use Pes\Http\Response;
 use Pes\View\View;
 use Pes\View\ViewInterface;
 use Pes\View\Renderer\ImplodeRenderer;
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 use LogicException;
 use UnexpectedValueException;
@@ -97,7 +98,7 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     ### protected
     
     protected function addContentHeaders(ResponseInterface $response) {
-        $statusPresentation = $this->statusPresentationRepo->get();
+        $statusPresentation = $this->statusPresentationRepo->getClone();
         $languageCode = $statusPresentation->getLanguageCode();
         return $response->withHeader('Content-Language', $languageCode);
     }    
@@ -122,7 +123,7 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     }
 
     protected function getLoginUserName() {
-        $statusecurity = $this->statusSecurityRepo->get();
+        $statusecurity = $this->statusSecurityRepo->getClone();
         return $statusecurity->hasValidSecurityContext() ? $statusecurity->getLoginAggregate()->getLoginName() : '';
     }
     
@@ -241,9 +242,9 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @return UriInfoInterface
      */
     protected function getUriInfo(ServerRequestInterface $request): UriInfoInterface {
-        $uriInfo = $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME);
+        $uriInfo = $request->getAttribute(Request::URI_INFO_ATTRIBUTE_NAME);
         if (! $uriInfo instanceof UriInfoInterface) {
-            throw new LogicException("Atribut requestu ".AppFactory::URI_INFO_ATTRIBUTE_NAME." neobsahuje objekt typu ".UriInfoInterface::class.".");
+            throw new LogicException("Atribut requestu ".Request::URI_INFO_ATTRIBUTE_NAME." neobsahuje objekt typu ".UriInfoInterface::class.".");
         }
         return $uriInfo;
     }
@@ -255,7 +256,7 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @return type
      */
     protected function redirectSeeLastGet(ServerRequestInterface $request) {
-        $lastGet = $this->statusPresentationRepo->get();
+        $lastGet = $this->statusPresentationRepo->getClone();
         return $this->createResponseRedirectSeeOther($request, isset($lastGet) ? $lastGet->getLastGetResourcePath() : '/'); // 303 See Other
     }
     
@@ -293,7 +294,7 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      */
     protected function isAllowed($action): bool {
         $isAllowed = false;
-        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+        $loginAggregate = $this->statusSecurityRepo->getClone()->getLoginAggregate();
         $role = isset($loginAggregate) ? $loginAggregate->getCredentials()->getRoleFk() : null;
         $logged = isset($loginAggregate) ? true : false;
         $permissions = $this->getActionPermissions();

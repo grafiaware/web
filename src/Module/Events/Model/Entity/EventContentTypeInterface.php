@@ -2,8 +2,8 @@
 
 namespace Events\Model\Entity;
 
-use Model\Entity\PersistableEntityInterface;
-//use Model\Entity\EventContentTypeInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
+//use Pes\Model\Entity\EventContentTypeInterface;
 
 
 /**

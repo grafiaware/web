@@ -11,10 +11,12 @@ use Auth\Middleware\Login\Controler\PasswordControler;
 use Auth\Middleware\Login\Controler\AuthControler;
 use Auth\Middleware\Login\Controler\QrImageControler;
 use Auth\Middleware\Login\Controler\SynchroControler;
+use StaticRegistry\Middleware\Controler\StaticRegistryControler;
 
-use Pes\Middleware\AppMiddlewareAbstract;
+use Pes\Application\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
 
+use Container\AuthStaticRegistryContainerConfigurator;
 use Container\AuthContainerConfigurator;
 use Container\StaticItemContainerConfigurator;
 use Container\AuthDbContainerConfigurator;
@@ -42,12 +44,16 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
+        // AuthStaticRegistryContainerConfigurator: SQLite registry + StaticRegistryRepo
+        // (auth nemá red DB — StaticItem path/template se čte z lokální registry)
         $this->container =
             (new AuthContainerConfigurator())->configure(
-                (new StaticItemContainerConfigurator())->configure(                    
-                    (new AuthDbContainerConfigurator())->configure(
-                        (new MailContainerConfigurator())->configure(
-                            (new Container($this->getApp()->getAppContainer()))
+                (new StaticItemContainerConfigurator())->configure(
+                    (new AuthStaticRegistryContainerConfigurator())->configure(
+                        (new AuthDbContainerConfigurator())->configure(
+                            (new MailContainerConfigurator())->configure(
+                                (new Container($this->getApp()->getAppContainer()))
+                            )
                         )
                     )
                 )
@@ -72,12 +78,41 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
              
              
              
+        #### StaticRegistryControler — před :staticName (router bere první match) ####
+        $this->routeGenerator->addRouteForAction('GET', '/auth/v1/static/registry', function(ServerRequestInterface $request) {
+            /** @var StaticRegistryControler $ctrl */
+            $ctrl = $this->container->get(StaticRegistryControler::class);
+            return $ctrl->list($request);
+        });
+        $this->routeGenerator->addRouteForAction('GET', '/auth/v1/static/registry/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
+            /** @var StaticRegistryControler $ctrl */
+            $ctrl = $this->container->get(StaticRegistryControler::class);
+            return $ctrl->get($request, (int) $menuItemId);
+        });
+        $this->routeGenerator->addRouteForAction('GET', '/auth/v1/static/templates', function(ServerRequestInterface $request) {
+            /** @var StaticRegistryControler $ctrl */
+            $ctrl = $this->container->get(StaticRegistryControler::class);
+            return $ctrl->templates($request);
+        });
+
         #### StaticControler ####
         $this->routeGenerator->addRouteForAction('GET', '/auth/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
             /** @var ComponentStaticControler $ctrl */
             $ctrl = $this->container->get(ComponentStaticControler::class);
             return $ctrl->static($request, $staticName);
-            });     
+            });
+
+        // Upsert / delete z red StaticRegistryPushClient (server-to-server, token)
+        $this->routeGenerator->addRouteForAction('PUT', '/auth/v1/static/registry/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
+            /** @var StaticRegistryControler $ctrl */
+            $ctrl = $this->container->get(StaticRegistryControler::class);
+            return $ctrl->upsert($request, (int) $menuItemId);
+        });
+        $this->routeGenerator->addRouteForAction('DELETE', '/auth/v1/static/registry/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
+            /** @var StaticRegistryControler $ctrl */
+            $ctrl = $this->container->get(StaticRegistryControler::class);
+            return $ctrl->delete($request, (int) $menuItemId);
+        });
             
         #### ComponentControler ####
         $this->routeGenerator->addRouteForAction('GET', '/auth/v1/component/:name', function(ServerRequestInterface $request, $name) {

@@ -9,8 +9,8 @@ use Pes\Container\Container;
 use Container\EventsModelContainerConfigurator;
 use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
-use Model\RowData\RowData;
-use Model\RowData\RowDataInterface;
+use Pes\Model\RowData\RowData;
+use Pes\Model\RowData\RowDataInterface;
 
 use Events\Model\Dao\CompanyDao;
 use Events\Model\Dao\CompanyAddressDao;

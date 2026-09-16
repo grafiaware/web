@@ -2,7 +2,7 @@
 
 use Events\Middleware\Events\Controler\FilterControler;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 
 ?>

@@ -21,6 +21,7 @@ use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Access\AccessPresentationInterface;
 use Red\Model\Repository\MenuItemRepoInterface;
+use Red\Model\Repository\StaticItemRepoInterface;
 use Red\Service\Menu\DriverServiceInterface;
 
 // komponenty
@@ -32,10 +33,10 @@ use Red\Service\Menu\DriverService;
 
 ####################
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 ####################
-//use Pes\Debug\Timer;
+//use Pes\Core\Debug\Timer;
 use Pes\View\View;
 
 /**
@@ -46,6 +47,7 @@ use Pes\View\View;
 class MenuControler extends PresentationFrontControlerAbstract {
     
     private $menuItemRepo;
+    private $staticItemRepo;
     private $driverService;
 
     public function __construct(
@@ -54,10 +56,12 @@ class MenuControler extends PresentationFrontControlerAbstract {
             StatusPresentationRepo $statusPresentationRepo, 
             AccessPresentationInterface $accessPresentation,
             MenuItemRepoInterface $menuItemRepo,
+            StaticItemRepoInterface $staticItemRepo,
             DriverServiceInterface $driverService
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo, $accessPresentation);
         $this->menuItemRepo = $menuItemRepo;
+        $this->staticItemRepo = $staticItemRepo;
         $this->driverService = $driverService;
     }
     
@@ -74,7 +78,10 @@ class MenuControler extends PresentationFrontControlerAbstract {
     
     public function presentedDriver(ServerRequestInterface $request, $uid) {
         $driver = $this->createDriver($uid, true);
-        $this->setPresentationMenuItem($driver->getData()->getMenuItem());  // driver po kompletaci už má data
+        $menuItem = $driver->getData()->getMenuItem();  // driver po kompletaci už má data
+        // Session handoff: menuItem/staticItem se zapíší in-memory; do session až po handle (UnlockStatus reopen + PresentationStatus flush)
+        $this->setPresentationMenuItem($menuItem);
+        $this->setPresentationStaticItem($this->staticItemRepo->getByMenuItemId($menuItem->getId()));
         return $this->createStringOKResponseFromView($driver);
     }
     
@@ -84,23 +91,23 @@ class MenuControler extends PresentationFrontControlerAbstract {
     }
     
     private function getMenuItem($uid) {
-        return $this->menuItemRepo->get($this->statusPresentationRepo->get()->getLanguageCode(), $uid);        
+        return $this->menuItemRepo->get($this->statusPresentationRepo->getClone()->getLanguageCode(), $uid);        // status jen je čtení
     }    
     
     private function createDriver($uid, $isPresented): DriverComponentInterface {
         $menuItem = $this->getMenuItem($uid);
-        try {
-            $itemType = $this->driverService->getItemType($uid);
-        } catch (Exception $exc) {
-            throw $exc;
-        }
+//        try {
+//            $itemType = $this->driverService->getItemType($uid);
+//        } catch (Exception $exc) {
+//            throw $exc;
+//        }
 
 
         /** @var DriverComponent $driver */
         $driver = $this->container->get(DriverComponent::class);
         /** @var DriverServiceInterface $driverService */
         $driverService = $this->container->get(DriverService::class);
-        $driverService->completeDriverComponent($driver, $menuItem, $isPresented, $itemType);
+        $driverService->completeDriverComponent($driver, $menuItem, $isPresented);
         return $driver;
     }
 }

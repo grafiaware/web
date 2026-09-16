@@ -50,14 +50,24 @@ if (document.readyState === 'complete') {
         // https://stackoverflow.com/questions/10777684/how-to-use-queryselectorall-only-for-elements-that-have-a-specific-attribute-set
         const init = async () => {
             console.log("body: document ready state is complete, waiting for loadSubsequentElements()");
+
+            // cascade refactor: menuSwap.js jen pokud je v konfiguraci menuSwap.enabled (navConfig.menuSwapEnabled)
+            if (navConfig.menuSwapEnabled) {
+                const { initMenuSwap } = await import("./menu/menuSwap.js");
+                initMenuSwap();
+            }
+
             let resultComponents = await loadSubsequentElements(document, navConfig.cascadeClass);
             console.debug(resultComponents);
             console.log("body: load elements fullfilled");
-            
-            listenPopState();
-            
+
+            // listenPopState jen s menuSwap (pushState při přepínání položek menu)
+            if (navConfig.menuSwapEnabled) {
+                listenPopState();
+            }
+
             initElements();
-            showLoaded();            
+            showLoaded();
             console.log("body: init loaded elements finished");
             scrollToAnchorPosition();
         };
@@ -78,7 +88,7 @@ function showLoaded() {
 }
 
 /**
- * Vyvolá reload stránek s url uložených metodou pushState (používá se v cascade.js po načtení nového obsahu)
+ * Vyvolá reload stránek s url uložených metodou pushState (používá menuSwap.js po načtení nového obsahu)
  * 
  * To znamená, ne při stisku back nečtu (reload) celou stránku a do pushState se musí ukládat url s api pro načtení celé stránky - např web/v1/page/item/664230b979ccd
  * @returns {undefined}

@@ -13,8 +13,8 @@ use Events\Model\Dao\RepresentativeDao;
 use Events\Model\Dao\LoginDao;
 use Events\Model\Dao\CompanyDao;
 
-use Model\RowData\RowData;
-use Model\RowData\RowDataInterface;
+use Pes\Model\RowData\RowData;
+use Pes\Model\RowData\RowDataInterface;
 
 
 /**

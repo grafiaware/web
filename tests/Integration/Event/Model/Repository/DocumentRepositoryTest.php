@@ -13,8 +13,8 @@ use Events\Model\Entity\DocumentInterface;
 use Events\Model\Dao\DocumentDao;
 use Events\Model\Repository\DocumentRepo;
 
-use Model\Repository\Exception\OperationWithLockedEntityException;
-use Model\RowData\RowData;
+use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
+use Pes\Model\RowData\RowData;
 
 
 

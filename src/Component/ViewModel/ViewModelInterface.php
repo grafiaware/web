@@ -7,7 +7,7 @@
  */
 
 namespace Component\ViewModel;
-use Pes\Type\ContextDataInterface;
+use Pes\Core\Type\ContextDataInterface;
 
 /**
  *

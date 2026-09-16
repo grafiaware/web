@@ -8,18 +8,18 @@
 
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoAbstract;
-//use Model\Repository\RepoReadonlyInterface;
+use Pes\Model\Repository\RepoAbstract;
+//use Pes\Model\Repository\RepoReadonlyInterface;
 
 use Red\Model\Entity\PaperAggregatePaperSection;
 use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 use Red\Model\Dao\PaperDao;
 use Red\Model\Hydrator\PaperHydrator;
 
-use Model\Repository\RepoAssotiatedOneTrait;
-use Model\Repository\RepoAssotiatingManyTrait;
-use Model\Repository\RepoAssotiatedOneInterface;
-use Model\Repository\RepoAssotiatingManyInterface;
+use Pes\Model\Repository\RepoAssotiatedOneTrait;
+use Pes\Model\Repository\RepoAssotiatingManyTrait;
+use Pes\Model\Repository\RepoAssotiatedOneInterface;
+use Pes\Model\Repository\RepoAssotiatingManyInterface;
 
 /**
  * Description of Menu

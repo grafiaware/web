@@ -4,7 +4,7 @@ namespace Red\Component\Renderer\Html\Content\Authored\Article;
 use Red\Model\Entity\ArticleInterface;
 
 use Red\Component\ViewModel\Content\Authored\Article\ArticleViewModelInterface;
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 use Component\Renderer\Html\HtmlRendererAbstract;
 
 use Red\Component\View\Content\Authored\AuthoredComponentAbstract;
@@ -19,7 +19,10 @@ class ArticleRenderer extends HtmlRendererAbstract {
         /** @var ArticleViewModelInterface $viewModel */
         $article = $viewModel->getArticle();  // vrací ArticleInterface
 
-        $ret = Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templateArticle')],
+        $ret = Html::tag('div', ['class'=>[
+                        $this->classMap->get('Template', 'div.templateArticle'),
+                        $viewModel->isInTrash() ? 'trash' : '',
+                    ]],
                     Html::tag('article', ['data-red-renderer'=>'ArticleRenderer', "data-red-datasource"=> "article {$article->getId()} for item {$article->getMenuItemIdFk()}"],
                         [
                             $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '',

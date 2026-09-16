@@ -8,7 +8,7 @@
 
 namespace Component\ViewModel;
 
-use Model\Entity\EntityInterface;
+use Pes\Model\Entity\EntityInterface;
 use Component\ViewModel\ViewModelInterface;
 
 /**

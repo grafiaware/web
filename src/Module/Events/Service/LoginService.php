@@ -1,5 +1,4 @@
 <?php
-
 namespace Events\Service;
 
 use Events\Service\LoginServiceInterface;

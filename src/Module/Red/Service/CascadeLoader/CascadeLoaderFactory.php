@@ -58,7 +58,7 @@ class CascadeLoaderFactory implements CascadeLoaderFactoryInterface {
      * @param string $dataNavTargetId
      * @return type
      */
-    private function getLoader(string $id, string $dataRedApiUri, bool $httpCacheReloadOnNav, string $dataNavTargetId='') {
+    private function getLoader(string $id, string $dataRedApiUri, bool $httpCacheReloadOnNav) {     //, string $dataNavTargetId=''
         $view = $this->viewFactory->phpTemplateCompositeView(ConfigurationCache::layoutControler()['templates.loaderElement']);
         if ($httpCacheReloadOnNav) {
             $dataRedCacheControl = ConfigurationCache::layoutControler()['cascade.cacheReloadOnNav'];
@@ -70,7 +70,7 @@ class CascadeLoaderFactory implements CascadeLoaderFactoryInterface {
                         'dataRedCacheControl' => $dataRedCacheControl,
                         'id' => $id,
                         'dataRedApiUri' => $dataRedApiUri,
-                        'dataNavTargetId'=> ($dataNavTargetId ? $dataNavTargetId : '')
+//                        'dataNavTargetId'=> ($dataNavTargetId ? $dataNavTargetId : '')
                         ]);
         return $view;
         

@@ -13,8 +13,8 @@ use Events\Model\Repository\CompanyParameterRepo;
 use Events\Model\Entity\CompanyParameter;
 use Events\Model\Entity\CompanyParameterInterface;
 
-use Model\Repository\Exception\OperationWithLockedEntityException;
-use Model\RowData\RowData;
+use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
+use Pes\Model\RowData\RowData;
 
 
  /**

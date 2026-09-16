@@ -8,7 +8,7 @@ use Pes\View\View;
 use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\ImplodeTemplate;
 use Pes\View\CompositeView;
-use Pes\Text\FriendlyUrl;
+use Pes\Core\Text\FriendlyUrl;
 
 use Red\Component\View\Content\Authored\AuthoredComponentAbstract;
 use Red\Component\ViewModel\Content\Authored\Multipage\MultipageViewModelInterface;

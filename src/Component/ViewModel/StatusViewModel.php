@@ -19,6 +19,8 @@ use Status\Model\Entity\FlashInterface;
 
 /**
  * Description of StatusViewModel
+ * 
+ * Poskytuje komponentám status data (data ukládaná do session). Poskytuje data pouze ke čtení, session muže být již uzavřena (pro omezení session lock).
  *
  * @author pes2704
  */
@@ -42,6 +44,14 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
      */
     private $statusFlash;
 
+    /**
+     * Flash se čte přes mutable getClone(false) (getMessages má side-effect);
+     * spotřebovaný klon se vrátí do repo přes replaceEntityInMemory a po UnlockStatus::reopen() se flushne ve FlashStatus.
+     *
+     * @var StatusFlashRepo
+     */
+    private StatusFlashRepo $statusFlashRepo;
+
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
@@ -49,9 +59,10 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
             ) {
         parent::__construct();
 
-        $this->statusSecurity = $statusSecurityRepo->get();
-        $this->statusPresentation = $statusPresentationRepo->get();
-        $this->statusFlash = $statusFlashRepo->get();
+        $this->statusSecurity = $statusSecurityRepo->getClone();
+        $this->statusPresentation = $statusPresentationRepo->getClone();
+        $this->statusFlashRepo = $statusFlashRepo;
+        $this->statusFlash = $statusFlashRepo->getClone();
     }
 
     #[\Override]
@@ -62,7 +73,12 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
 
     #[\Override]
     public function getFlashMessages() {
-        return $this->statusFlash?->getMessages();
+        /** @var FlashInterface $flash */
+        $flash = $this->statusFlashRepo->getClone(false);
+        $messages = $flash->getMessages();
+        $this->statusFlashRepo->replaceEntityInMemory($flash);
+        $this->statusFlash = $flash;
+        return $messages;
     }
 
     #[\Override]

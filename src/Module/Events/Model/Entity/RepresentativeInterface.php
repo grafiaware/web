@@ -2,8 +2,7 @@
 
 namespace Events\Model\Entity;
 
-use Model\Entity\PersistableEntityInterface;
-use Events\Model\Entity\RepresentativeInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
 
 /**
  *

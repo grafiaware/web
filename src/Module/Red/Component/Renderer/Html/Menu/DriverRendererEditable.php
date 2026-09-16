@@ -5,7 +5,7 @@ use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Menu\DriverViewModelInterface;
 use Red\Component\View\Menu\DriverComponentInterface;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -60,8 +60,8 @@ class DriverRendererEditable extends HtmlRendererAbstract {
                     +$this->dataRedAttributes($viewModel),
                     $this->form($viewModel)
                     .
-                    // POZOR: závislost na edit.js
-                    // ve skriptu edit.js je element k editaci textu položky vybírán pravidlem (selektorem):
+                    // POZOR: závislost na title.js
+                    // ve skriptu title.js je element k editaci textu položky vybírán pravidlem (selektorem):
                     //  acceptedElement = targetElement.nodeName === 'P' && targetElement.parentNode.nodeName === 'DIV',
                     // t.j. selektor vybírá <p>, který má rodiče <div>
                     $pHtml

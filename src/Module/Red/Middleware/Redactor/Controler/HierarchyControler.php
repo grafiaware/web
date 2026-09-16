@@ -8,7 +8,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Model\Repository\MenuRootRepo;
+use Red\Service\StaticRegistry\StaticRegistryPushService;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
@@ -36,17 +38,23 @@ class HierarchyControler extends FrontControlerAbstract {
 
     private $editHierarchyDao;
     private $menuRootRepo;
+    /** Readonly hierarchy — načtení subtree před delete kvůli push DELETE do remote registry */
+    private $readonlyHierarchyDao;
+    private $staticRegistryPushService;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
             HierarchyAggregateEditDao $editHierarchyDao,
-            MenuRootRepo $menuRootRepo) {
+            MenuRootRepo $menuRootRepo,
+            HierarchyAggregateReadonlyDao $readonlyHierarchyDao,
+            StaticRegistryPushService $staticRegistryPushService) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        // TODO: vyměnit hierarchy Dao za Repo
         $this->editHierarchyDao = $editHierarchyDao;
         $this->menuRootRepo = $menuRootRepo;
+        $this->readonlyHierarchyDao = $readonlyHierarchyDao;
+        $this->staticRegistryPushService = $staticRegistryPushService;
     }
 
 /* non REST metody */
@@ -109,6 +117,9 @@ class HierarchyControler extends FrontControlerAbstract {
         $parentNode = $this->editHierarchyDao->getParentNodeHelper($uid);  // vrací jen node - bez položky menu
         $statusFlash = $this->statusFlashRepo->get();
         $success = false;
+        $pasteduid = null;
+        $transform = null;
+        $command = null;
         if (isset($parentNode)) {
             $postCommand = $statusFlash->getPostCommand();
             if (is_array($postCommand) ) {
@@ -136,13 +147,11 @@ class HierarchyControler extends FrontControlerAbstract {
         } else {
             $this->addFlashMessage('Unable to paste as siebling, item has no parent.', FlashSeverityEnum::WARNING);
         }
-//        if ($success ) {
-            return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($pasteduid), "newitemuid"=>$pasteduid]);
-//        } else {
-            return $this->createJsonOKResponse(["refresh"=>"navigation", "newitemuid"=>$uid]);  // refresh jen driver
-//        }
-        //TODO: POST version
-        return $success ? $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$pasteduid") : $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$uid");
+        if ($success) {
+            $focusUid = $this->resolvePastedFocusUid($command, $pasteduid, $transform);
+            return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($focusUid), "newitemuid"=>$focusUid]);
+        }
+        return $this->createJsonOKResponse(["refresh"=>"navigation", "newitemuid"=>$uid]);
     }
 
     /**
@@ -158,6 +167,9 @@ class HierarchyControler extends FrontControlerAbstract {
     public function pasteChild(ServerRequestInterface $request, $uid): ResponseInterface {
         $statusFlash = $this->statusFlashRepo->get();
         $success = false;
+        $pasteduid = null;
+        $transform = null;
+        $command = null;
         $postCommand = $statusFlash->getPostCommand();
         if (is_array($postCommand) ) {
             $command = array_key_first($postCommand);
@@ -180,13 +192,11 @@ class HierarchyControler extends FrontControlerAbstract {
         }else {
             $this->addFlashMessage("No post command.", FlashSeverityEnum::WARNING);
         }
-//        if ($success ) {
-            return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($pasteduid), "newitemuid"=>$pasteduid]);
-//        } else {
-            return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($uid), "newitemuid"=>$uid]);
-//        }
-        //TODO: POST version
-        return $success ? $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$pasteduid") : $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$uid");
+        if ($success) {
+            $focusUid = $this->resolvePastedFocusUid($command, $pasteduid, $transform);
+            return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($focusUid), "newitemuid"=>$focusUid]);
+        }
+        return $this->createJsonOKResponse(["refresh"=>"navigation", "targeturi"=> $this->getContentApiUri($uid), "newitemuid"=>$uid]);
     }
 
     /**
@@ -194,6 +204,9 @@ class HierarchyControler extends FrontControlerAbstract {
      *  - maže hierarchy pomocí DAO, hooked actor v metodě delete smaže menu_item a případný menu_item_asset a asset (nemaže soubory "assets") a menu_root
      *  - následně díky cizím klíčům s constraint On delete: CASCADE dojde i ke smazání řádku v article nebo paper včetně sections nebo multipage nebo static
      * Metoda smaže všechny jazykové verze (vybírá menu itemy jen podle uid).
+     *
+     * Před CASCADE delete v red DB pushne DELETE do auth/events static registry
+     * (remote SQLite by jinak zůstala orphan záznamy).
      * 
      * @param ServerRequestInterface $request
      * @param type $uid
@@ -201,6 +214,10 @@ class HierarchyControler extends FrontControlerAbstract {
      */
     public function delete(ServerRequestInterface $request, $uid): ResponseInterface {
         $parentNode = $this->editHierarchyDao->getParentNodeHelper($uid);
+        $langCode = $this->statusPresentationRepo->get()->getLanguageCode();
+        // Nejdřív remote registry, pak lokální DB (CASCADE v red nesynchronizuje auth/events)
+        $subTree = $this->readonlyHierarchyDao->getSubTree($langCode, $uid);
+        $this->staticRegistryPushService->deleteForSubTreeRows($subTree, $this->resolveBaseUrl($request));
         $this->editHierarchyDao->deleteSubTree($uid);
         $this->addFlashMessage('delete', FlashSeverityEnum::SUCCESS);
         $redirectUid = $parentNode['uid'];   // kořen trash
@@ -230,6 +247,16 @@ class HierarchyControler extends FrontControlerAbstract {
         return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$redirectUid");
     }
 
+    /**
+     * Po cut je focus původní (přesunutá) položka; po copy je focus nová položka z transformace sourceUid→newUid.
+     */
+    private function resolvePastedFocusUid($command, $pasteduid, $transform) {
+        if ($command === self::POST_COMMAND_COPY && is_array($transform) && isset($transform[$pasteduid])) {
+            return $transform[$pasteduid];
+        }
+        return $pasteduid;
+    }
+
     private function getContentApiUri($uid) {
         $langCode = $this->statusPresentationRepo->get()->getLanguageCode();
         $node = $this->editHierarchyDao->get(["lang_code_fk"=>$langCode, "uid_fk"=>$uid]);
@@ -237,6 +264,13 @@ class HierarchyControler extends FrontControlerAbstract {
             throw new Exception;
         }
         return "/red/v1/{$node['api_generator_fk']}/{$node['id']}";
+    }
+
+    private function resolveBaseUrl(ServerRequestInterface $request): string {
+        $scheme = $request->getUri()->getScheme();
+        $host = $request->getUri()->getHost();
+        $sp = $this->getUriInfo($request)->getSubdomainPath();
+        return "$scheme://$host$sp";
     }
     
 }

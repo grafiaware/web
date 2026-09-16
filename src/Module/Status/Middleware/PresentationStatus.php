@@ -12,7 +12,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 
-use Pes\Middleware\AppMiddlewareAbstract;
+use Pes\Application\Middleware\AppMiddlewareAbstract;
+use Pes\Http\Request;
+use Pes\Http\Helper\UriInfoInterface;
 
 use Application\WebAppFactory;
 use Site\ConfigurationCache;
@@ -20,7 +22,7 @@ use Site\ConfigurationCache;
 use Status\Model\Entity\Presentation;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Entity\PresentationInterface;
-use Red\Model\Entity\LanguageInterface;
+use Status\Session\SessionUnlockPolicy;
 
 use UnexpectedValueException;
 
@@ -44,6 +46,8 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
     #[\Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
         $container = $this->getApp()->getAppContainer();
+        /** @var SessionUnlockPolicy $unlockPolicy */
+        $unlockPolicy = $container->get(SessionUnlockPolicy::class);
         /** @var StatusPresentationRepo $statusPresentationRepo */
         $statusPresentationRepo = $container->get(StatusPresentationRepo::class);
         $statusPresentation = $statusPresentationRepo->get();
@@ -52,13 +56,20 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
             $statusPresentationRepo->add($statusPresentation);
         }
         $this->setPresentationLanguage($statusPresentation, $request);
-        $this->setLastGetPath($statusPresentation, $request); 
+        $this->setLastGetPath($statusPresentation, $request, $unlockPolicy);
 
         if ($request->getMethod() == 'GET') {
-            $statusPresentationRepo->flush();   // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
+            $statusPresentationRepo->flush();   // uloží lang/lastGet; fragment flag se shodí (entita zůstane v paměti)
         }
-        
+
         $response = $handler->handle($request);
+
+        // Po UnlockStatus::reopen() (flash / presenteddriver) zapsat in-memory změny (např. menuItem).
+        // U ostatních cascade GET (finish bez reopen) přeskočit — session je closed.
+        if (!$statusPresentationRepo->isFinished()) {
+            $statusPresentationRepo->flush();
+        }
+
         return $response;
     }
 
@@ -77,26 +88,24 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
     }
 
     /**
-     * Pro GET request uloží uri do StatusPresentation. 
-     * - Neukládá uri pokud request obsahuje hlavičku "X-Cascade", to je využito při kaskádním načítání, 
-     *   kdy se neuládají adresy GET requestů, kterými jsou načítány vložené komponenty stránky. 
-     * 
+     * Pro GET request uloží uri do StatusPresentation.
+     * Cascade fragmenty se neukládají — viz SessionUnlockPolicy::shouldRecordLastGet().
+     *
      * Poznámka: Použito pro přesměrování redirectLastGet a pro Transform!
-     * 
-     * @param type $statusPresentation
-     * @param type $request
      */
-    private function setLastGetPath(PresentationInterface $statusPresentation, ServerRequestInterface $request) {
-        if ($request->getMethod()=='GET') {
-            if (!$request->hasHeader("X-Cascade")) {
-                $statusPresentation->setLastGetResourcePath($this->getRestUri($request));
-            }
+    private function setLastGetPath(
+        PresentationInterface $statusPresentation,
+        ServerRequestInterface $request,
+        SessionUnlockPolicy $unlockPolicy
+    ): void {
+        if ($unlockPolicy->shouldRecordLastGet($request)) {
+            $statusPresentation->setLastGetResourcePath($this->getRestUri($request));
         }
     }
     
     private function getRestUri(ServerRequestInterface $request) {
         /** @var UriInfoInterface $uriInfo */
-        $uriInfo = $request->getAttribute(WebAppFactory::URI_INFO_ATTRIBUTE_NAME);
+        $uriInfo = $request->getAttribute(Request::URI_INFO_ATTRIBUTE_NAME);
         return $uriInfo->getRestUri();    
     }
     

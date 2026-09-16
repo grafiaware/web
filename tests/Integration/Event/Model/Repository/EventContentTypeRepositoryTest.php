@@ -10,12 +10,12 @@ use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\EventContentTypeDao;
 use Events\Model\Repository\EventContentTypeRepo;
-use Model\Repository\Exception\UnableAddEntityException;
-use Model\Repository\Exception\OperationWithLockedEntityException;
+use Pes\Model\Repository\Exception\UnableAddEntityException;
+use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
 
 use Events\Model\Entity\EventContentType;
 use Events\Model\Entity\EventContentTypeInterface;
-use Model\RowData\RowData;
+use Pes\Model\RowData\RowData;
 
 /**
  *

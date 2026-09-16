@@ -1,8 +1,5 @@
 <?php
-
 namespace Events\Service;
-
-use Events\Model\Entity\LoginInterface;
 
 /**
  *

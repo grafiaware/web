@@ -8,7 +8,7 @@
 
 namespace Web\Component\ViewModel\Flash;
 
-use Status\Model\Repository\StatusFlashRepo;
+use Component\ViewModel\StatusViewModelInterface;
 
 /**
  * Description of FlashViewModelForRenderer
@@ -17,14 +17,13 @@ use Status\Model\Repository\StatusFlashRepo;
  */
 class FlashViewModelForRenderer implements FlashViewModelForRendererInterface {
 
-    private $statusFlashRepo;
+    private StatusViewModelInterface $status;
 
-    public function __construct(StatusFlashRepo $statusFlashRepo) {
-        $this->statusFlashRepo = $statusFlashRepo;
+    public function __construct(StatusViewModelInterface $status) {
+        $this->status = $status;
     }
 
-    public function getMessage() {
-        $statusFlash = $this->statusFlashRepo->get();
-        return $statusFlash ? $statusFlash->getMessages() ?? 'no flash' : 'no flash message';
+    public function getMessages() {
+        return $this->status->getFlashMessages();
     }
 }

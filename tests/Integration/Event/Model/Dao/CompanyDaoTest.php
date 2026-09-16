@@ -15,8 +15,8 @@ use Events\Model\Dao\CompanyContactDao;
 use Events\Model\Dao\RepresentativeDao;
 use Events\Model\Dao\LoginDao;
 
-use Model\RowData\RowData;
-use Model\RowData\RowDataInterface;
+use Pes\Model\RowData\RowData;
+use Pes\Model\RowData\RowDataInterface;
 
 /**
  * Description of CompanyDaoTest
@@ -89,6 +89,7 @@ class CompanyDaoTest  extends AppRunner {
     public function testInsert() {
         $rowData = new RowData();
         $rowData->offsetSet('name', "testCompany-nameNNN");
+        $rowData->offsetSet('version_fk', "test");
 
         $this->dao->insert($rowData);
         self::$id =  $this->dao->getLastInsertedPrimaryKey(); //pro autoincrement

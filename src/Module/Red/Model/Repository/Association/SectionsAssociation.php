@@ -1,12 +1,12 @@
 <?php
 namespace Red\Model\Repository\Association;
 
-use Model\Repository\Association\AssociationOneToManyAbstract;
-use Model\Repository\Association\AssociationOneToManyInterface;
+use Pes\Model\Repository\Association\AssociationOneToManyAbstract;
+use Pes\Model\Repository\Association\AssociationOneToManyInterface;
 
 use Red\Model\Entity\PaperAggregatePaperSectionInterface;
-use Model\Entity\PersistableEntityInterface;
-use Model\RowData\RowDataInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
+use Pes\Model\RowData\RowDataInterface;
 
 use Red\Model\Dao\PaperSectionDao;
 

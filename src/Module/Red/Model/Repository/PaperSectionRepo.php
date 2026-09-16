@@ -8,14 +8,14 @@
 
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 
 use Red\Model\Entity\PaperSectionInterface;
 use Red\Model\Entity\PaperSection;
 use Red\Model\Dao\PaperSectionDao;
-use Model\Hydrator\HydratorInterface;
+use Pes\Model\Hydrator\HydratorInterface;
 
-use Model\Repository\RepoAssotiatedManyTrait;
+use Pes\Model\Repository\RepoAssotiatedManyTrait;
 
 /**
  * Description of Menu

@@ -45,6 +45,11 @@ use \Pes\View\ViewFactory;
 use Red\Service\ItemApi\ItemApiService;
 use Red\Service\CascadeLoader\CascadeLoaderFactory;
 use Red\Service\Menu\DriverService;
+use Red\Service\Menu\MenuItemLocationServiceInterface;
+use Red\Service\StaticRegistry\StaticRegistryTemplateListClient;
+use Red\Service\StaticRegistry\StaticRegistryTemplateListClientInterface;
+use Red\Service\StaticRegistry\StaticRegistryListClient;
+use Red\Service\StaticRegistry\StaticRegistryListClientInterface;
 
 // Access
 use Access\AccessPresentation;
@@ -68,7 +73,7 @@ use Red\Component\View\Menu\MenuComponentSupervisor;
 use Red\Component\View\Menu\MenuComponentEventsAdmin;
 use Red\Component\View\Menu\MenuComponentEventsRepresentative;
 use Red\Component\View\Menu\MenuComponentEventsVisitor;
-
+use Red\Component\View\Menu\MenuComponentRedAdmin;
 
 use Red\Component\View\Manage\EditMenuSwitchComponent;
 
@@ -178,6 +183,7 @@ use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\MenuItemApiRepo;
 use Red\Model\Repository\MenuRootRepo;
 use Red\Model\Repository\ItemActionRepo;
+use Red\Model\Repository\StaticItemRepo;
 use Red\Model\Repository\PaperRepo;
 use Red\Model\Repository\PaperAggregateSectionsRepo;
 use Red\Model\Repository\ArticleRepo;
@@ -211,11 +217,11 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
         return array_merge(
-                ConfigurationCache::web(),  //db
-                ConfigurationCache::webComponent(), // hodnoty jsou použity v kontejneru pro službu, která generuje ComponentConfiguration objekt (viz getSrvicecDefinitions)
+                ConfigurationCache::web(),
+                ConfigurationCache::webComponent(),
                 ConfigurationCache::menu(),
-//                Configuration::renderer(),
-                ConfigurationCache::redTemplates()
+                ConfigurationCache::redTemplates(),
+                ConfigurationCache::staticRegistry(),
                 );
     }
 
@@ -289,6 +295,12 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             MenuComponentEventsVisitor::class => function(ContainerInterface $c) {
                 $component = new MenuComponentEventsVisitor($c->get(ComponentConfiguration::class), $c);  // kontejner
+                $component->setRendererName(MenuRenderer::class);                
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
+            MenuComponentRedAdmin::class => function(ContainerInterface $c) {
+                $component = new MenuComponentRedAdmin($c->get(ComponentConfiguration::class), $c);  // kontejner
                 $component->setRendererName(MenuRenderer::class);                
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
@@ -408,7 +420,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             'menuSupervisor' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.services')['menuSupervisor'];
-                /** @var MenuComponentRed $component */
+                /** @var MenuComponentSupervisor $component */
                 $component = $c->get(MenuComponentSupervisor::class);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -486,6 +498,24 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 }
                 return $component;
             },
+            'menuRedAdmin' => function(ContainerInterface $c) {
+                $menuConfig = $c->get('menu.services')['menuRedAdmin'];
+                /** @var MenuComponentRedAdmin $component */
+                $component = $c->get(MenuComponentRedAdmin::class);
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                if($accessPresentation->isAllowed(MenuComponentRedAdmin::class, AccessPresentationEnum::DISPLAY)) {
+                    $component->setItemType($menuConfig['itemtype']);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
+                    /** @var MenuViewModel $viewModel */
+                    $viewModel = $c->get(MenuViewModel::class);
+                    $viewModel->setMenuRootName($menuConfig['rootName']);
+                    $component->setData($viewModel);
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                return $component;
+            },                    
             //bloky
             'menuBlocks' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.services')['menuBlocks'];
@@ -711,7 +741,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     if ($status->presentEditableContent() AND $accessPresentation->isAllowed(PaperComponent::class, AccessPresentationEnum::EDIT)) {
                         $editContentSwithComponent = $c->get(EditContentSwitchComponent::class); // komponent - view s buttonem zapni/vypni editaci (tužtička)
                         $component->appendComponentView($editContentSwithComponent, PaperComponent::BUTTON_EDIT_CONTENT);  // dědí data PaperComponent
-                        if ($viewModel->userPerformItemAction()) {   // v této chvíli musí mít komponent nastaveno setMenuItemId() - v kontroleru
+                        if ($viewModel->userPerformItemAction() && !$viewModel->isInTrash()) {   // v této chvíli musí mít komponent nastaveno setMenuItemId() - v kontroleru
                             $component->setRendererName(PaperRendererEditable::class);
                             $headline->setRendererName(HeadlineRendererEditable::class);
                             $perex->setRendererName(PerexRendererEditable::class);
@@ -781,7 +811,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     $status = $c->get(StatusViewModel::class);
                     if ($status->presentEditableContent() AND $accessPresentation->isAllowed(ArticleComponent::class, AccessPresentationEnum::EDIT)) {
                         $component->appendComponentView($c->get(EditContentSwitchComponent::class), ArticleComponent::BUTTON_EDIT_CONTENT);
-                        if($viewModel->userPerformItemAction()) {
+                        if($viewModel->userPerformItemAction() && !$viewModel->isInTrash()) {
                             $component->setRendererName(ArticleRendererEditable::class);
                             if (!$viewModel->hasContent()) {
                                 $component->appendComponentView($c->get(SelectTemplateComponent::class), ArticleComponent::SELECT_TEMPLATE);
@@ -821,7 +851,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                     $status = $c->get(StatusViewModel::class);
                     if ($status->presentEditableContent() AND $accessPresentation->isAllowed(MultipageComponent::class, AccessPresentationEnum::EDIT)) {
                         $component->appendComponentView($c->get(EditContentSwitchComponent::class), MultipageComponent::BUTTON_EDIT_CONTENT);
-                        if($viewModel->userPerformItemAction()) {
+                        if($viewModel->userPerformItemAction() && !$viewModel->isInTrash()) {
                             $component->setRendererName(MultipageRendererEditable::class);
                             $selectTemplateComponent = $c->get(SelectTemplateComponent::class);
                             $component->appendComponentView($selectTemplateComponent, PaperComponent::SELECT_TEMPLATE);
@@ -995,6 +1025,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class),
                         $c->get(AccessPresentation::class),
                         $c->get(MenuItemRepo::class),
+                        $c->get(StaticItemRepo::class),
                         $c->get(DriverService::class)
                         )
                     )->injectContainer($c);  // inject component kontejner
@@ -1026,6 +1057,20 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             ItemApiService::class => function(ContainerInterface $c) {
                 return new ItemApiService();
+            },
+            // Klient pro seznam šablon z remote auth/events — injektován do StaticItemViewModel
+            StaticRegistryTemplateListClientInterface::class => function(ContainerInterface $c) {
+                return new StaticRegistryTemplateListClient();
+            },
+            StaticRegistryTemplateListClient::class => function(ContainerInterface $c) {
+                return $c->get(StaticRegistryTemplateListClientInterface::class);
+            },
+            // Klient pro seznam záznamů SQLite registry — admin přehled static-registry
+            StaticRegistryListClientInterface::class => function(ContainerInterface $c) {
+                return new StaticRegistryListClient();
+            },
+            StaticRegistryListClient::class => function(ContainerInterface $c) {
+                return $c->get(StaticRegistryListClientInterface::class);
             },
             DriverService::class => function(ContainerInterface $c) {
                 return new DriverService(
@@ -1075,6 +1120,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusViewModel::class),
                             $c->get(MenuItemRepo::class),
                             $c->get(ItemActionRepo::class),
+                            $c->get(MenuItemLocationServiceInterface::class),
                             $c->get(PaperAggregateSectionsRepo::class)
                     );
             },
@@ -1083,6 +1129,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusViewModel::class),
                             $c->get(MenuItemRepo::class),
                             $c->get(ItemActionRepo::class),
+                            $c->get(MenuItemLocationServiceInterface::class),
                             $c->get(ArticleRepo::class)
                     );
             },
@@ -1091,6 +1138,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusViewModel::class),
                             $c->get(MenuItemRepo::class),
                             $c->get(ItemActionRepo::class),
+                            $c->get(MenuItemLocationServiceInterface::class),
                             $c->get(MultipageRepo::class),
                             $c->get(HierarchyJoinMenuItemRepo::class)
                     );
@@ -1100,6 +1148,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusViewModel::class),
                             $c->get(MenuItemRepo::class),
                             $c->get(ItemActionRepo::class),
+                            $c->get(MenuItemLocationServiceInterface::class),
                             $c->get(PaperAggregateSectionsRepo::class)
                     );
             },
@@ -1108,6 +1157,7 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusViewModel::class),
                             $c->get(MenuItemRepo::class),
                             $c->get(ItemActionRepo::class),
+                            $c->get(MenuItemLocationServiceInterface::class),
                             $c->get(MultipageRepo::class),
                             $c->get(HierarchyJoinMenuItemRepo::class)
                     );

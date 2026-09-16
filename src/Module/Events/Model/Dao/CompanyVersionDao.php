@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoEditAbstract;
+use Pes\Model\Dao\DaoEditAbstract;
 
 /**
  * Description of CompanyAddressDao
@@ -21,7 +21,7 @@ class CompanyVersionDao extends DaoEditAbstract {
     }
 
     public function getAttributes(): array {
-        return [version];
+        return ['version'];
     }
 
     public function getTableName(): string {

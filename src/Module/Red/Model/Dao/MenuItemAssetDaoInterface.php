@@ -7,7 +7,7 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoReferenceUniqueInterface;
+use Pes\Model\Dao\DaoReferenceUniqueInterface;
 
 /**
  *

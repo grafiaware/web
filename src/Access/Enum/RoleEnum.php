@@ -8,7 +8,7 @@
 
 namespace Access\Enum;
 
-use Pes\Type\Enum;
+use Pes\Core\Type\Enum;
 
 /**
  * Description of RoleEnum
@@ -23,4 +23,5 @@ class RoleEnum  extends Enum {
     const VISITOR = 'visitor';
     const REPRESENTATIVE = 'representative';
     const EVENTS_ADMINISTRATOR = 'events_administrator';
+    const RED_ADMINISTRATOR = 'red_administrator';
 }

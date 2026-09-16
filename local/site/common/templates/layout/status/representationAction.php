@@ -1,5 +1,5 @@
 <?php
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 use Events\Middleware\Events\Controler\RepresentationControler;
 
 $hasRepreCompany = (bool) $companyName ?? false;

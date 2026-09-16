@@ -24,8 +24,8 @@ use Events\Middleware\Events\ViewModel\JobViewModel;
 use Events\Model\Entity\CompanyAddressInterface;
 use Events\Model\Entity\CompanyContactInterface;
 
-use Pes\Text\Html;
-use Pes\Text\Text;
+use Pes\Core\Text\Html;
+use Pes\Core\Text\Text;
 
 use Component\ViewModel\StatusViewModelInterface;
 use Component\ViewModel\StatusViewModel;
@@ -80,7 +80,7 @@ use Auth\Model\Entity\LoginAggregateFullInterface;
         /** @var StatusSecurityRepo $statusSecurityRepo */
         $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
         /** @var Security $statusSecurity */
-        $statusSecurity = $statusSecurityRepo->get();
+        $statusSecurity = $statusSecurityRepo->getClone();
         /** @var LoginAggregateFullInterface $loginAggregate */
         $loginAggregate = $statusSecurity->getLoginAggregate();
         //------------------------------------------------------

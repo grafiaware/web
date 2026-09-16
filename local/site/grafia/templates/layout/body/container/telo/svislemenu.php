@@ -1,5 +1,5 @@
 <?php
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 ?>
         <div id="mySidenav">
             <div class="close-item" onclick="hamburger_close()"><a href="javascript:void(0)"><i class="times circle outline large icon"></i>Zavřít</a></div>

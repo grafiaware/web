@@ -6,7 +6,7 @@ use FrontControler\ComponentControlerAbstract;
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessActionEnum;
 
-//use Pes\Debug\Timer;
+//use Pes\Core\Debug\Timer;
 
 /**
  * Description of ComponentControler

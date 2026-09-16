@@ -1,7 +1,7 @@
 <?php
 namespace Red\Component\ViewModel\Menu\Enum;
 
-use Pes\Type\Enum;
+use Pes\Core\Type\Enum;
 
 /**
  * Description of MenuTypeEnum

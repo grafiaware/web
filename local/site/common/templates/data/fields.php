@@ -1,6 +1,6 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Pes\Text\Message;
+use Pes\Core\Text\Message;
 /** @var PhpTemplateRendererInterface $this */
 ?>
         <?= $fieldsInfoText ?? false ? "<p class='ui blue segment'>$fieldsInfoText</p>" : "" ?>

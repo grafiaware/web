@@ -1,7 +1,7 @@
 <?php
 use Events\Model\Entity\JobInterface;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 ?>
                    

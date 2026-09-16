@@ -2,9 +2,9 @@
 
 namespace Auth\Model\Dao;
 
-use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoEditKeyDbVerifiedInterface;
-use Model\RowData\RowDataInterface;
+use Pes\Model\Dao\DaoEditAbstract;
+use Pes\Model\Dao\DaoEditKeyDbVerifiedInterface;
+use Pes\Model\RowData\RowDataInterface;
 
 
 /**

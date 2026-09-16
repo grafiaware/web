@@ -8,8 +8,8 @@
 
 namespace Auth\Model\Repository;
 
-use Model\Hydrator\HydratorInterface;
-use Model\Repository\RepoAbstract;
+use Pes\Model\Hydrator\HydratorInterface;
+use Pes\Model\Repository\RepoAbstract;
 
 use Auth\Model\Entity\Login;
 use Auth\Model\Entity\LoginInterface;

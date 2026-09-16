@@ -5,8 +5,8 @@ use Site\ConfigurationCache;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 use Status\Model\Repository\StatusSecurityRepo;
 
-use Pes\Text\Text;
-use Pes\Text\Html;
+use Pes\Core\Text\Text;
+use Pes\Core\Text\Html;
 use Moje\MojeHTML;
 
 use Events\Model\Repository\JobToTagRepo;

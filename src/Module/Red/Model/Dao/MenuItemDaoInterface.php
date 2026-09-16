@@ -1,9 +1,9 @@
 <?php
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoContextualInterface;
-use Model\Dao\DaoReferenceNonuniqueInterface;
-use Model\Dao\DaoReferenceUniqueInterface;
+use Pes\Model\Dao\DaoContextualInterface;
+use Pes\Model\Dao\DaoReferenceNonuniqueInterface;
+use Pes\Model\Dao\DaoReferenceUniqueInterface;
 
 /**
  *

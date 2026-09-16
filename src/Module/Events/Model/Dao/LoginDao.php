@@ -2,8 +2,8 @@
 namespace Events\Model\Dao;
 
 
-use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoEditKeyDbVerifiedInterface;
+use Pes\Model\Dao\DaoEditAbstract;
+use Pes\Model\Dao\DaoEditKeyDbVerifiedInterface;
 
 
 /**

@@ -1,7 +1,7 @@
 <?php
 namespace Red\Model\Entity;
 
-use Model\Entity\PersistableEntityInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
 
 /**
  *

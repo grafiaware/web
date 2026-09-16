@@ -8,7 +8,7 @@
 
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 
 use Red\Model\Entity\LanguageInterface;
 use Red\Model\Entity\Language;

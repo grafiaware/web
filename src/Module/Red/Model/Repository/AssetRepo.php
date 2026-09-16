@@ -1,7 +1,7 @@
 <?php
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 use Red\Model\Repository\AssetRepoInterface;
 
 use Red\Model\Entity\AssetInterface;
@@ -9,7 +9,7 @@ use Red\Model\Entity\Asset;
 use Red\Model\Dao\AssetDaoInterface;
 use Red\Model\Hydrator\AssetHydrator;
 
-//use Model\Repository\Exception\UnableRecreateEntityException;
+//use Pes\Model\Repository\Exception\UnableRecreateEntityException;
 
 /**
  * Description of Menu

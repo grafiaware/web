@@ -3,7 +3,7 @@ namespace Red\Component\Renderer\Html\Manage;
 
 use Red\Component\ViewModel\Menu\DriverViewModelInterface;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of ButtonsItemManipulationRenderer

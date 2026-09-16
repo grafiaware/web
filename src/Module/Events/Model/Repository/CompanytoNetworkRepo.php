@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Repository;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 use Events\Model\Repository\CompanytoNetworkRepoInterface;
 
 use Events\Model\Entity\CompanytoNetworkInterface;
@@ -9,7 +9,7 @@ use Events\Model\Entity\CompanytoNetwork;
 use Events\Model\Dao\CompanyToNetworkDao;
 use Events\Model\Hydrator\CompanytoNetworkHydrator;
 
-//use Model\Repository\Exception\UnableRecreateEntityException;
+//use Pes\Model\Repository\Exception\UnableRecreateEntityException;
 
 /**
  * Description of JobToTagRepo

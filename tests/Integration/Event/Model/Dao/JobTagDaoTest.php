@@ -13,8 +13,8 @@ use Events\Model\Dao\JobTagDao;
 use Events\Model\Dao\JobToTagDao;
 use Events\Model\Dao\CompanyDao;
 
-use Model\RowData\RowData;
-use Model\RowData\RowDataInterface;
+use Pes\Model\RowData\RowData;
+use Pes\Model\RowData\RowDataInterface;
 use Pes\Database\Statement\Exception\ExecuteException;
 
 /**

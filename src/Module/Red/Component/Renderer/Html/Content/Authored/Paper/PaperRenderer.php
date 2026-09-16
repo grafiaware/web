@@ -5,7 +5,7 @@ use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
 use Red\Component\View\Content\Authored\Paper\PaperComponent;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of PaperRenderer
@@ -17,7 +17,10 @@ class PaperRenderer  extends HtmlRendererAbstract {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();  // vrací PaperAggregate
         if (isset($paperAggregate)) {
-            $html = Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templatePaper')],
+            $html = Html::tag('div', ['class'=>[
+                        $this->classMap->get('Template', 'div.templatePaper'),
+                        $viewModel->isInTrash() ? 'trash' : '',
+                    ]],
                         Html::tag('article', ['data-red-renderer'=>'PaperRenderer', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
                             [
                                 $viewModel->getContextVariable(PaperComponent::BUTTON_EDIT_CONTENT) ?? '',

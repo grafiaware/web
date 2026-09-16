@@ -8,7 +8,7 @@
 
 namespace Site\VeletrhPrace;
 
-use Application\WebAppFactory;
+use Pes\Application\SessionServicesConfigurator;
 use Red\Component\View\Generated\LanguageSelectComponent;
 use Red\Component\View\Generated\SearchPhraseComponent;
 use Web\Component\View\Flash\FlashComponent;
@@ -17,7 +17,7 @@ use Auth\Component\View\LogoutComponent;
 use Auth\Component\View\RegisterComponent;
 use Red\Component\View\Manage\EditorActionComponent;
 use Events\Component\View\Manage\RepresentativeActionComponent;
-use Red\Component\View\Manage\InfoBoardComponent;
+use Web\Component\View\Info\InfoBoardComponent;
 
 use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
@@ -35,15 +35,6 @@ class ConfigurationWeb extends ConfigurationConstants {
     const RED_TEMPLATES_SITE = 'local/site/'.self::WEB_SITE.'templates/red/';
     const RED_STATIC = 'local/site/'.self::WEB_SITE.'static/';
     
-    ### bootstrap ###
-    #
-    public static function bootstrap() {
-        return [
-            'bootstrap.logs.basepath' => self::WEB_BOOTSTRAP_LOGS,
-            'bootstrap.productionhost' => self::WEB_BOOTSTRAP_PRODUCTION_HOST,
-        ];
-    }
-
     ### kontejner ###
     #
 
@@ -64,7 +55,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             #################################
             # Konfigurace session loggeru
             #
-            WebAppFactory::SESSION_NAME_SERVICE => 'www_vp_session',
+            SessionServicesConfigurator::SESSION_NAME_SERVICE => 'www_vp_session',
             'app.logs.session.file' => 'Session.log',
             'app.logs.session.type' => FileLogger::REWRITE_LOG,
             #
@@ -105,13 +96,24 @@ class ConfigurationWeb extends ConfigurationConstants {
      */
     public static function webComponent() {
         return [
-            'webcomponent.logs.directory' => 'Logs/Web',
-            'webcomponent.logs.render' => 'Render.log',
-            'webcomponent.logs.type' => FileLogger::REWRITE_LOG,
-            'webcomponent.templates' =>
-                [
+            'logs.directory' => 'Logs/Components',
+            'logs.render' => 'Render.log',
+            'logs.type' => FileLogger::REWRITE_LOG,
+            'templates' => [
+                'gdpr' => self::WEB_TEMPLATES_COMMON.'layout/gdpr/gdpr.php',
+                'flash' => self::WEB_TEMPLATES_COMMON.'layout/info/flashMessages.php',
+                'login' => self::WEB_TEMPLATES_COMMON.'layout/status/login.php',
+                'logout' => self::WEB_TEMPLATES_COMMON.'layout/status/logout.php',
+                'editoraction' => self::WEB_TEMPLATES_COMMON.'layout/status/editorAction.php',
+                'representativeaction' => self::WEB_TEMPLATES_COMMON.'layout/status/representationAction.php',
+                'statusboard' => self::WEB_TEMPLATES_COMMON.'layout/info/statusBoard.php',
+            ],
+        ];
+    }
 
-                ]
+    public static function commonTemplates() {
+        return [
+            'templates' => self::WEB_TEMPLATES_COMMON,
         ];
     }
 
@@ -175,6 +177,8 @@ class ConfigurationWeb extends ConfigurationConstants {
 
             'urlTinyInit' => self::WEB_LINKS_COMMON.'js/tinyInit.js',
             'urlEditScript' => self::WEB_LINKS_COMMON . 'js/edit.js',
+            // cascade refactor: editace titulku položky menu (dříve v edit.js)
+            'urlTitleScript' => self::WEB_LINKS_COMMON . 'js/title.js',
 
             // linkEditorCss links
             'urlStylesCss' => self::WEB_LINKS_COMMON."css/old/styles.css",
@@ -182,8 +186,8 @@ class ConfigurationWeb extends ConfigurationConstants {
             'urlContentTemplatesCss' => self::WEB_LINKS_COMMON."css/templates.css",
             'urlMediaCss' => self::WEB_LINKS_COMMON."css/media.css",
             // home page
-            'home_page' => ['block', 'home'],
-//           'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
+            'homePageBlockName' => 'home',
+            'homePageFallbackBlockName' => 'home_fallback',
 
             'templates.poznamky' => self::WEB_TEMPLATES_COMMON.'layout/info/poznamky.php',
             'templates.loaderElement' => self::WEB_TEMPLATES_COMMON.'layout/cascade/loaderElement.php',
@@ -197,6 +201,8 @@ class ConfigurationWeb extends ConfigurationConstants {
             // "default" – fetch uses standard HTTP-cache rules and headers,
             'cascade.cacheLoadOnce' => 'default',
             'apiaction.class' => 'apiaction',
+            // cascade refactor: true = body.js načte menuSwap.js; false = jen cascade bez JS navigace v menu
+            'menuSwap.enabled' => true,
             
             // mapování komponent na proměnné kontextu v šablonách
             // contextLayoutMap - mapa komponent načtených pouze jednou při načtení webu a cachovaných - viz parametr 'cascade.cacheLoadOnce'
@@ -316,6 +322,29 @@ class ConfigurationWeb extends ConfigurationConstants {
             '@presenter' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE."presenter" : self::WEB_FILES_SITE."presenter",
 
         ];
+    }
+
+    /** Push config pro red modul (odesílání metadat na auth/events). */
+    public static function staticRegistry(): array {
+        return StaticRegistryConfiguration::pushConfig(rtrim(self::WEB_SITE, '/'));
+    }
+
+    /** Receive config pro Events — SQLite v sqlite/events/ (ne v _files). */
+    public static function staticRegistryEventsReceive(): array {
+        return StaticRegistryConfiguration::receiveConfig(
+            rtrim(self::WEB_SITE, '/'),
+            'events/',
+            'sqlite/events/static_registry.sqlite'
+        );
+    }
+
+    /** Receive config pro Auth — SQLite v sqlite/auth/ (ne v _files). */
+    public static function staticRegistryAuthReceive(): array {
+        return StaticRegistryConfiguration::receiveConfig(
+            rtrim(self::WEB_SITE, '/'),
+            'auth/',
+            'sqlite/auth/static_registry.sqlite'
+        );
     }
 
 }

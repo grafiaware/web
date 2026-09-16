@@ -4,25 +4,35 @@ export function initElements() {
     initLoadedElements();
     console.log("initElements: init loaded elements");
     if (isTinyMCEDefined()) {
-        loadAndInitTiny();    
+        loadAndInitTiny();
         console.log("initElements: init loaded editable elements");
     }
     initJqueryEvents();
     console.log("initElements: set jQuery events on loaded elements");
-    console.log("initElements: finished");        
+    console.log("initElements: finished");
+}
+
+/**
+ * Reinicializace TinyMCE a editačních widgetů po dynamickém načtení obsahu (cascade).
+ * Nevolá initLoadedElements/initJqueryEvents — ty se vážou jen při prvním loadu stránky v initElements().
+ */
+export async function reinitEditableContent() {
+    if (!isTinyMCEDefined()) {
+        return;
+    }
+    console.log("initElements: reinit editable content after cascade");
+    await loadAndInitTiny();
 }
 
 const loadAndInitTiny = async () => {
-        await import("../tinyinit/TinyInit.js")  // lazy import TinyInit
-            .then((tinyInitModule) => {
-                tinyInitModule.initEditors();
-        console.log('initElements: Load tiny init module.')
-            })
-            .catch((err) => {
-                console.error(err.fileName + ":" + err.message);
-            });
-
+    try {
+        const tinyInitModule = await import("../tinyinit/TinyInit.js");
+        tinyInitModule.initEditors();
+        console.log("initElements: Load tiny init module.");
         initLoadedEditableElements();
+    } catch (err) {
+        console.error((err.fileName ?? "tinyinit") + ":" + err.message);
+    }
 };
 
 /**

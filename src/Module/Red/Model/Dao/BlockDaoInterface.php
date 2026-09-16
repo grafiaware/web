@@ -7,7 +7,7 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoEditInterface;
+use Pes\Model\Dao\DaoEditInterface;
 
 /**
  *

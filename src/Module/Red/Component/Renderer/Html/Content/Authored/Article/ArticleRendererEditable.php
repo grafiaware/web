@@ -13,7 +13,7 @@ use Red\Component\View\Content\Authored\Article\ArticleComponent;
 
 use Red\Middleware\Redactor\Controler\ArticleControler;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of PaperRenderer
@@ -27,7 +27,7 @@ class ArticleRendererEditable extends AuthoredRendererAbstract {
         $article = $viewModel->getArticle();  // vrací PaperAggregate
 
         $html =
-                Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templateArticle')],
+                Html::tag('div', ['class'=>$this->authoredTemplateClass($viewModel, 'div.templateArticle')],
                     Html::tag('article', ['data-red-renderer'=>'ArticleRendererEditable', "data-red-datasource"=> "article {$article->getId()} for item {$article->getMenuItemIdFk()}"],
                         [
                             $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '',

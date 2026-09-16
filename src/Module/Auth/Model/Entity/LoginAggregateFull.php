@@ -3,7 +3,7 @@
 
 namespace Auth\Model\Entity;
 
-use Model\Entity\PersistableEntityAbstract;
+use Pes\Model\Entity\PersistableEntityAbstract;
 
 /**
  * Description of LoginAggregateCredentials

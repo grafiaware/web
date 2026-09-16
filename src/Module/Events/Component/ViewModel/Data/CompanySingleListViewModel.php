@@ -12,7 +12,7 @@ use Access\Enum\RoleEnum;
 
 use ArrayIterator;
 
-use Model\RowData\RowData;
+use Pes\Model\RowData\RowData;
 use Events\Model\Hydrator\CompanyHydrator;
 
 /**

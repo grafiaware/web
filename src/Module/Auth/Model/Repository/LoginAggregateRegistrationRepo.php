@@ -1,14 +1,14 @@
 <?php
 namespace Auth\Model\Repository;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 use Auth\Model\Repository\LoginAggregateRegistrationRepoInterface;
 
 use Auth\Model\Hydrator\LoginHydrator;
 use Auth\Model\Dao\LoginDao;
 use Auth\Model\Hydrator\LoginChildRegistrationHydrator;
 
-use Model\Repository\RepoAssotiatingOneTrait;
+use Pes\Model\Repository\RepoAssotiatingOneTrait;
 
 use Auth\Model\Entity\LoginAggregateRegistration;
 use Auth\Model\Entity\LoginAggregateRegistrationInterface;

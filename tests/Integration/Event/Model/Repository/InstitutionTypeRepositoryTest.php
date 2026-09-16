@@ -13,8 +13,8 @@ use Events\Model\Entity\InstitutionTypeInterface;
 use Events\Model\Dao\InstitutionTypeDao;
 use Events\Model\Repository\InstitutionTypeRepo;
 
-use Model\Repository\Exception\OperationWithLockedEntityException;
-use Model\RowData\RowData;
+use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
+use Pes\Model\RowData\RowData;
 
 
 

@@ -86,7 +86,7 @@ class PresentationActionControler extends FrontControlerAbstract {
     }
 
     private function isPresentedItemActive() {
-        $statusPresentation = $this->statusPresentationRepo->get();
+        $statusPresentation = $this->statusPresentationRepo->getClone();    // jen ke čtení
         $menuItem = $statusPresentation->getMenuItem();
         return $menuItem ? $menuItem->getActive() : false;
     }

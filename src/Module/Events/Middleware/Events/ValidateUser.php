@@ -6,10 +6,11 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 
-use Pes\Middleware\AppMiddlewareAbstract;
+use Pes\Application\Middleware\AppMiddlewareAbstract;
 
 use Pes\Container\Container;
 
+use Container\EventsStaticRegistryContainerConfigurator;
 use Container\StaticItemContainerConfigurator;
 use Container\EventsContainerConfigurator;
 use Container\EventsModelContainerConfigurator;
@@ -44,13 +45,17 @@ class ValidateUser extends AppMiddlewareAbstract implements MiddlewareInterface 
     
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
         
+        // EventsStaticRegistryContainerConfigurator: SQLite registry + StaticRegistryRepo
+        // (events nemá red DB — StaticItem path/template se čte z lokální registry)
         $this->container =
             (new EventsContainerConfigurator())->configure(
-                (new StaticItemContainerConfigurator())->configure(                    
-                    (new EventsModelContainerConfigurator())->configure(
-                        (new EventsDbContainerConfigurator())->configure(
-                            (new MailContainerConfigurator())->configure(
-                                new Container($this->getApp()->getAppContainer())
+                (new StaticItemContainerConfigurator())->configure(
+                    (new EventsStaticRegistryContainerConfigurator())->configure(
+                        (new EventsModelContainerConfigurator())->configure(
+                            (new EventsDbContainerConfigurator())->configure(
+                                (new MailContainerConfigurator())->configure(
+                                    new Container($this->getApp()->getAppContainer())
+                                )
                             )
                         )
                     )

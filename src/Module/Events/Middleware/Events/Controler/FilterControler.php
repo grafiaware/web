@@ -38,13 +38,13 @@ class FilterControler extends FrontControlerAbstract {
     const FILTER_TAGS = 'filter_tags';
     const FILTER_COMPANY = 'filter_company';
 
-
     public function filterJob(ServerRequestInterface $request) {
                 
         $tags = (new RequestParams())->getParsedBodyParam($request, self::FILTER_TAGS );  // když není žádný checkbox zaškrtnut => nejsou POST data => $data=null
         $selectCompanyId = (new RequestParams())->getParsedBodyParam($request, self::FILTER_COMPANY );   //AuthControler::NULL_VALUE;   
         
         $statusPresentation = $this->statusPresentationRepo->get();
+        $this->langCode = $statusPresentation->getLanguageCode();
         if (isset($statusPresentation) ) {
             $statusPresentation->setInfo(self::FILTER, [self::FILTER_TAGS=>$tags, self::FILTER_COMPANY=>$selectCompanyId]);  
         } else {
@@ -54,12 +54,10 @@ class FilterControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request);         
     }
     
-    
-    
-    
-     public function cleanFilterJob(ServerRequestInterface $request) {                
+    public function cleanFilterJob(ServerRequestInterface $request) {                
         
         $statusPresentation = $this->statusPresentationRepo->get();
+        $this->langCode = $statusPresentation->getLanguageCode();
         if (isset($statusPresentation) ) {
             $statusPresentation->setInfo(self::FILTER, [self::FILTER_TAGS=> null, self::FILTER_COMPANY=> '' ]);  
         } else {
@@ -68,8 +66,6 @@ class FilterControler extends FrontControlerAbstract {
         
         return $this->redirectSeeLastGet($request);         
     }
-        
-//            $this->addFlashMessage(" ");               
-          
+
 }
 

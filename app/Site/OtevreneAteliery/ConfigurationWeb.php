@@ -8,7 +8,7 @@
 
 namespace Site\OtevreneAteliery;
 
-use Application\WebAppFactory;
+use Pes\Application\SessionServicesConfigurator;
 use Red\Component\View\Generated\LanguageSelectComponent;
 use Red\Component\View\Generated\SearchPhraseComponent;
 
@@ -48,7 +48,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             #################################
             # Konfigurace session loggeru
             #
-            WebAppFactory::SESSION_NAME_SERVICE => 'www_oa_session',
+            SessionServicesConfigurator::SESSION_NAME_SERVICE => 'www_oa_session',
             'app.logs.session.file' => 'Session.log',
             'app.logs.session.type' => FileLogger::REWRITE_LOG,
             #
@@ -184,7 +184,7 @@ class ConfigurationWeb extends ConfigurationConstants {
      */
     public static function presentationStatus() {
         return [
-            'default_lang_code' => 'csQQQ',
+            'default_lang_code' => 'cs',
             'accepted_languages' => ['cs']
         ];
     }
@@ -232,6 +232,8 @@ class ConfigurationWeb extends ConfigurationConstants {
 
             'urlTinyInit' => self::WEB_LINKS_COMMON.'js/tinyInit.js',
             'urlEditScript' => self::WEB_LINKS_COMMON . 'js/edit.js',
+            // cascade refactor: editace titulku položky menu (dříve v edit.js)
+            'urlTitleScript' => self::WEB_LINKS_COMMON . 'js/title.js',
 
             // linkEditorCss links
             'urlStylesCss' => self::WEB_LINKS_COMMON."css/old/styles.css",
@@ -239,8 +241,8 @@ class ConfigurationWeb extends ConfigurationConstants {
             'urlContentTemplatesCss' => self::WEB_LINKS_COMMON."css/templates.css",
             'urlMediaCss' => self::WEB_LINKS_COMMON."css/media.css",
             // home page
-            'home_page' => ['block', 'home'],
-//           'home_page' => ['item', '659500ffe765e'],  // přednášky - pro test
+            'homePageBlockName' => 'home',  // jméno bloku v tabulce blocks
+            'homePageFallbackBlockName' => 'home_fallback',
 
             'templates.poznamky' => self::WEB_TEMPLATES_COMMON.'layout/info/poznamky.php',
             'templates.loaderElement' => self::WEB_TEMPLATES_COMMON.'layout/cascade/loaderElement.php',
@@ -254,6 +256,8 @@ class ConfigurationWeb extends ConfigurationConstants {
             // "default" – fetch uses standard HTTP-cache rules and headers,
             'cascade.cacheLoadOnce' => 'default',
             'apiaction.class' => 'apiaction',
+            // cascade refactor: true = body.js načte menuSwap.js; false = jen cascade bez JS navigace v menu
+            'menuSwap.enabled' => true,
             
             // mapování komponent na proměnné kontextu v šablonách
             // contextLayoutMap - mapa komponent načtených pouze jednou při načtení webu a cachovaných - viz parametr 'cascade.cacheLoadOnce'
@@ -377,7 +381,7 @@ class ConfigurationWeb extends ConfigurationConstants {
         return [
             'mail.logs.directory' => 'Logs/Mail',
             'mail.logs.file' => 'Mail.log',
-            // volba sady parametrů z Mail\ParamsTemplates
+            // volba sady parametrů z Pes\Mail\ParamsTemplates
 //            'mail.paramsname' => 'grafiaInterni', 
 //            'mail.paramsname' => 'najdisi', // funkční na hostingu
 //            'mail.paramsname' => 'najdisiWebSMTP',
@@ -401,6 +405,29 @@ class ConfigurationWeb extends ConfigurationConstants {
             '@presenter' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE."presenter" : self::WEB_FILES_SITE."presenter",
 
         ];
+    }
+
+    /** Push config pro red modul (odesílání metadat na auth/events). */
+    public static function staticRegistry(): array {
+        return StaticRegistryConfiguration::pushConfig(rtrim(self::WEB_SITE, '/'));
+    }
+
+    /** Receive config pro Events — SQLite v sqlite/events/ (ne v _files). */
+    public static function staticRegistryEventsReceive(): array {
+        return StaticRegistryConfiguration::receiveConfig(
+            rtrim(self::WEB_SITE, '/'),
+            'events/',
+            'sqlite/events/static_registry.sqlite'
+        );
+    }
+
+    /** Receive config pro Auth — SQLite v sqlite/auth/ (ne v _files). */
+    public static function staticRegistryAuthReceive(): array {
+        return StaticRegistryConfiguration::receiveConfig(
+            rtrim(self::WEB_SITE, '/'),
+            'auth/',
+            'sqlite/auth/static_registry.sqlite'
+        );
     }
 
 }

@@ -1,8 +1,7 @@
 <?php
 namespace Events\Model\Entity;
 
-use Model\Entity\PersistableEntityInterface;
-use Events\Model\Entity\CompanyVersionInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
 
 /**
  *

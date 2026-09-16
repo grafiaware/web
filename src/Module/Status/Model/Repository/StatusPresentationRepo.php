@@ -8,13 +8,17 @@
 
 namespace Status\Model\Repository;
 
-use Model\Repository\StatusRepositoryAbstract;
+use Pes\Model\Repository\StatusRepositoryAbstract;
 
 use Status\Model\Entity\PresentationInterface;
 
 /**
  * Description of StausPresentationRepo
  * Repository obsahuje vždy jen jednu entitu StatusPresentation.
+ *
+ * Po StatusDao::finish() get/add/remove vyhodí SessionFinishedException;
+ * pro read-only snapshot použijte isFinished() + getClone();
+ * pro odložený zápis (presenteddriver) getClone(false) + replaceEntityInMemory() a po reopen() flush ve PresentationStatus.
  *
  * @author pes2704
  */
@@ -29,6 +33,7 @@ class StatusPresentationRepo extends StatusRepositoryAbstract {
      * @return PresentationInterface
      */
     public function get(): ?PresentationInterface {
+        $this->assertSessionWritableForGet();
         if (! isset($this->entity)) {
             $this->load();
         }
@@ -41,6 +46,7 @@ class StatusPresentationRepo extends StatusRepositoryAbstract {
      * @param PresentationInterface $statusPresentation
      */
     public function add(PresentationInterface $statusPresentation) {
+        $this->assertSessionWritable('add');
         $this->entity = $statusPresentation;
     }
 
@@ -48,6 +54,7 @@ class StatusPresentationRepo extends StatusRepositoryAbstract {
      * Repository obsahuje vždy jen jednu entitu StatusPresentationInterface a ta je smazána.
      */
     public function remove() {
+        $this->assertSessionWritable('remove');
         $this->entity = NULL;
     }
 }

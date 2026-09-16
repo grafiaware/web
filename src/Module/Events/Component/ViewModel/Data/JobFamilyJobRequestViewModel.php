@@ -9,7 +9,7 @@ use Events\Model\Repository\VisitorJobRequestRepoInterface;
 use Events\Model\Repository\VisitorProfileRepoInterface;
 use Events\Model\Entity\VisitorJobRequestInterface;
 use Events\Model\Entity\VisitorProfileInterface;
-use Model\Entity\EntityInterface;
+use Pes\Model\Entity\EntityInterface;
 
 
 use Access\Enum\RoleEnum;

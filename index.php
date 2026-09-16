@@ -14,34 +14,31 @@ use Container\AppContainerConfigurator;
 use Pes\Container\Container;
 use Pes\Container\AutowiringContainer;
 
-use Pes\Middleware\Selector;
+use Pes\Application\Middleware\Selector;
 use Application\SelectorItems;
 
 use Pes\Http\Factory\EnvironmentFactory;
-use Pes\Middleware\UnprocessedRequestHandler;
-use Pes\Middleware\NoMatchedRouteRequestHandler;
+use Pes\Application\Middleware\UnprocessedRequestHandler;
+use Pes\Application\Middleware\NoMatchedRouteRequestHandler;
 
 use Pes\Http\ResponseSender;
 
 $deploy = false;
-if($deploy) {
-    error_reporting(E_ALL);     
-}
 
 define('PROJECT_PATH', str_replace("\\", "/", preg_replace('/^'.preg_quote($_SERVER['DOCUMENT_ROOT'], '/') . '/', '', __DIR__))."/");
 //define('PROJECT_PATH', realpath(__DIR__ . '/..'));
-include 'vendor/pes/pes/src/Bootstrap/Bootstrap.php';
 
-if($deploy) {
-    error_log("Error log available!", 0);
-    echo PES_RUNNING_ON_PRODUCTION_HOST ? "<p>Production host</p>" : "<p>No production host - connection error will occur!</p>";
-    echo "<p>host name: ".gethostname()."<p>";
-    echo 'PES_PRODUCTION_MACHINE_HOST_NAME: '.PES_PRODUCTION_MACHINE_HOST_NAME;//
-    echo "<p>\$_SERVER['DOCUMENT_ROOT']: ".$_SERVER['DOCUMENT_ROOT']."<p>";
-    echo "<p>PROJECT_PATH: ".constant('PROJECT_PATH')."<p>";
-    echo "<p>PES_BOOTSTRAP_LOGS_BASE_PATH: ".constant('PES_BOOTSTRAP_LOGS_BASE_PATH')."<p>";
+if ($deploy) {
+    require __DIR__ . '/deploy-diagnostics.php';
+    exit;
 }
 
+$bootstrapEntryFile = __DIR__ . '/vendor/pes/pes-bootstrap/src/BootstrapEntry.php';
+if (!is_readable($bootstrapEntryFile)) {
+    throw new RuntimeException('Missing bootstrap entry file: ' . $bootstrapEntryFile);
+}
+require_once $bootstrapEntryFile;
+Pes\Bootstrap\BootstrapEntry::load();
 
 $environment = (new EnvironmentFactory())->createFromGlobals();
 $app = (new WebAppFactory())->createFromEnvironment($environment);
@@ -55,18 +52,7 @@ $selector = $appContainer->get(Selector::class);
 // registrace api do ResourceRegistry, ResourceRegistry se zaregistrovaným api je dostupný v kontejneru aplikace
 $app->getAppContainer()->get(ApiRegistrator::class)->registerApi($app->getAppContainer()->get(ResourceRegistry::class));
 
-if($deploy) {
-    echo "<p>{$environment->get('REQUEST_URI')}</p>";
-//    $urihandler = fopen('uri.log', 'a+');   // !! proběhne commit do gitu!
-//    fwrite($urihandler, $environment->get('REQUEST_URI').PHP_EOL);
-//    fclose($urihandler);
-}
-
 $noMatchHandler = $appContainer->get(NoMatchedRouteRequestHandler::class);
 $response = $app->run($selector, $noMatchHandler);
-
-if($deploy) {
-    echo "<p>{$response->getStatusCode()}</p>";
-}
 
 (new ResponseSender())->send($response);

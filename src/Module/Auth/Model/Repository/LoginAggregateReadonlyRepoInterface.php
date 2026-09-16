@@ -8,7 +8,7 @@
 
 namespace Auth\Model\Repository;
 
-use Model\Repository\RepoReadonlyInterface;
+use Pes\Model\Repository\RepoReadonlyInterface;
 
 use Auth\Model\Entity\LoginAggregateCredentialsInterface;
 
@@ -17,6 +17,6 @@ use Auth\Model\Entity\LoginAggregateCredentialsInterface;
  * @author pes2704
  */
 interface LoginAggregateReadonlyRepoInterface  extends RepoReadonlyInterface {
-    public function get($loginName): ?LoginAggregateCredentialsInterface;
+    public function get($loginName): ?LoginAggregateFullInterface;
 
 }

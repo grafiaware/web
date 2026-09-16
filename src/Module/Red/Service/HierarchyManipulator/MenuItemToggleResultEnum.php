@@ -7,7 +7,7 @@
 
 namespace Red\Service\HierarchyManipulator;
 
-use Pes\Type\Enum;
+use Pes\Core\Type\Enum;
 
 /**
  * Description of MenuItemToggleResultEnum

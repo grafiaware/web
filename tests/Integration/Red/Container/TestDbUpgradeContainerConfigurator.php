@@ -15,7 +15,7 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 use Pes\Database\Manipulator\Manipulator;
 
 // context
-use Model\Context\ContextProviderInterface;
+use Pes\Model\Context\ContextProviderInterface;
 use Test\Integration\Red\Model\Context\ContextProviderMock;
 
 use Pes\Database\Handler\Account;
@@ -42,7 +42,7 @@ class TestDbUpgradeContainerConfigurator extends DbUpgradeContainerConfigurator 
                 ###################################
                 # Konfigurace logu databáze pro test
                 #
-                'red.logs.db.directory' => 'TestLogs/Red',
+                'red.logs.db.directory' => 'Logs/Red',
                 'red.logs.db.file' => 'Database.log',
                 #
                 #################################

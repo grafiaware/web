@@ -19,7 +19,7 @@ use Auth\Service\Qr\QrImageGenerator;
 use Endroid\QrCode\Writer\Result\ResultInterface;
 
 use Pes\View\View;
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of QrImageControler

@@ -8,7 +8,7 @@
 
 namespace Test\Integration\Red\Model\Context;
 
-use Model\Context\ContextProviderInterface;
+use Pes\Model\Context\ContextProviderInterface;
 
 /**
  * Description of ContextFactory

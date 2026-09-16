@@ -5,7 +5,7 @@ use Events\Service\ValidatingServiceInterface;
 
 use Events\Service\ValidatingException;
 
-use Pes\Application\UriInfoInterface;
+use Pes\Http\Helper\UriInfoInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Status\Model\Repository\StatusSecurityRepo;
@@ -19,7 +19,7 @@ use Events\Model\Entity\LoginInterface;
 use Events\Model\Entity\Login;
 use Access\Enum\RoleEnum;
 
-use Pes\Application\AppFactory;
+use Pes\Http\Request;
 use LogicException;
 
 
@@ -152,9 +152,9 @@ class ValidatingService implements ValidatingServiceInterface {
      * @return UriInfoInterface
      */
      private function getUriInfo(ServerRequestInterface $request): UriInfoInterface {
-        $uriInfo = $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME);
+        $uriInfo = $request->getAttribute(Request::URI_INFO_ATTRIBUTE_NAME);
         if (! $uriInfo instanceof UriInfoInterface) {
-            throw new LogicException("Atribut requestu ".AppFactory::URI_INFO_ATTRIBUTE_NAME." neobsahuje objekt typu ".UriInfoInterface::class.".");
+            throw new LogicException("Atribut requestu ".Request::URI_INFO_ATTRIBUTE_NAME." neobsahuje objekt typu ".UriInfoInterface::class.".");
         }
         return $uriInfo;
     }

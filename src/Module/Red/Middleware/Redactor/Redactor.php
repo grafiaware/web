@@ -1,7 +1,7 @@
 <?php
 namespace Red\Middleware\Redactor;
 
-use Pes\Middleware\AppMiddlewareAbstract;
+use Pes\Application\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
 
 use Pes\Router\RouteSegmentGenerator;
@@ -32,8 +32,11 @@ use Red\Middleware\Redactor\Controler\SectionsControler;
 use Red\Middleware\Redactor\Controler\MultipageControler;
 use Red\Middleware\Redactor\Controler\FilesUploadControler;
 use Red\Middleware\Redactor\Controler\StaticControler;
+use Red\Middleware\Redactor\Controler\StaticRegistryPushSyncControler;
 
 use Red\Middleware\Redactor\Controler\Exception\UnexpectedRequestMethodException;
+
+use Status\Session\SessionUnlockPolicy;
 
 class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -143,7 +146,7 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
             });
             
         #### MenuControler ####
-        $this->routeGenerator->addRouteForAction('GET', '/red/v1/presenteddriver/:uid', function(ServerRequestInterface $request, $uid) {
+        $this->routeGenerator->addRouteForAction('GET', SessionUnlockPolicy::ROUTE_PATTERN_PRESENTED_DRIVER, function(ServerRequestInterface $request, $uid) {
             /** @var MenuControler $ctrl */
             $ctrl = $this->container->get(MenuControler::class);
             return $ctrl->presentedDriver($request, $uid);
@@ -226,16 +229,16 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 return $ctrl->removeUserItemAction($request, $itemId);
         });
         //TODO: POST version
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/itemaction/:itemId/add', function(ServerRequestInterface $request, $itemId) {
-                /** @var ItemActionControler $ctrl */
-                $ctrl = $this->container->get(ItemActionControler::class);
-                return $ctrl->addUserItemAction($request, $itemId);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/red/v1/itemaction/:itemId/remove', function(ServerRequestInterface $request, $itemId) {
-                /** @var ItemActionControler $ctrl */
-                $ctrl = $this->container->get(ItemActionControler::class);
-                return $ctrl->removeUserItemAction($request, $itemId);
-        });
+//        $this->routeGenerator->addRouteForAction('POST', '/red/v1/itemaction/:itemId/add', function(ServerRequestInterface $request, $itemId) {
+//                /** @var ItemActionControler $ctrl */
+//                $ctrl = $this->container->get(ItemActionControler::class);
+//                return $ctrl->addUserItemAction($request, $itemId);
+//        });
+//        $this->routeGenerator->addRouteForAction('POST', '/red/v1/itemaction/:itemId/remove', function(ServerRequestInterface $request, $itemId) {
+//                /** @var ItemActionControler $ctrl */
+//                $ctrl = $this->container->get(ItemActionControler::class);
+//                return $ctrl->removeUserItemAction($request, $itemId);
+//        });
         
         #### PaperControler ####
         $this->routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/template', function(ServerRequestInterface $request, $paperId) {
@@ -379,6 +382,18 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 /** @var StaticControler $ctrl */
                 $ctrl = $this->container->get(StaticControler::class);
                 return $ctrl->update($request, $staticId);
+        });
+        // Sync: upsert všech static položek modulu + smazání orphanů v remote registry
+        $this->routeGenerator->addRouteForAction('POST', '/red/v1/static/registry/push-sync', function(ServerRequestInterface $request) {
+                /** @var StaticRegistryPushSyncControler $ctrl */
+                $ctrl = $this->container->get(StaticRegistryPushSyncControler::class);
+                return $ctrl->pushSync($request);
+        });
+        // Admin UI: stejný sync + flash + PRG zpět na last GET
+        $this->routeGenerator->addRouteForAction('POST', '/red/v1/static/registry/push-sync-ui', function(ServerRequestInterface $request) {
+                /** @var StaticRegistryPushSyncControler $ctrl */
+                $ctrl = $this->container->get(StaticRegistryPushSyncControler::class);
+                return $ctrl->pushSyncUi($request);
         });
         
         #### EditItemControler ####

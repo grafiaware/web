@@ -20,7 +20,7 @@ interface BlockAggregateMenuItemInterface extends BlockInterface {
 
     /**
      * Vrací MenuItemInterface nebo null - komponenta obsahuje item, kerý není aktivní nebo aktuální
-     * @return \Model\Entity\MenuItemInterface|null
+     * @return \Pes\Model\Entity\MenuItemInterface|null
      */
     public function getMenuItem(): ?MenuItemInterface;
 

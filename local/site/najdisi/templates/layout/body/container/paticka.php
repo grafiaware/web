@@ -1,7 +1,7 @@
 <?php
 use Site\ConfigurationCache;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Pes\Text\Text;
+use Pes\Core\Text\Text;
 
 /** @var PhpTemplateRendererInterface $this */
 ?>

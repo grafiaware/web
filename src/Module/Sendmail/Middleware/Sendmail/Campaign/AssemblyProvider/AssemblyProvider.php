@@ -8,19 +8,16 @@ use FrontControler\PresentationFrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-use Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
 
-use Mail\Assembly;
-use Mail\AssemblyInterface;
+use Pes\Mail\Assembly;
+use Pes\Mail\AssemblyInterface;
 
-use Mail\Assembly\Host;
-use Mail\Assembly\Encryption;
-use Mail\Assembly\SmtpConnection;
-use Mail\Assembly\Party;
-use Mail\Assembly\Content;
-use Mail\Assembly\Attachment;
-use Mail\Assembly\Headers;
+use Pes\Mail\Assembly\SmtpConnection;
+use Pes\Mail\Assembly\Party;
+use Pes\Mail\Assembly\Content;
+use Pes\Mail\Assembly\Attachment;
+use Pes\Mail\Assembly\Headers;
 
 use Sendmail\Middleware\Sendmail\Campaign\AssemblyProvider\AssemblyProviderInterface;
 
@@ -60,7 +57,10 @@ class AssemblyProvider implements AssemblyProviderInterface {
 //                    $attachments = [
 //                            (new Attachment())
 //                            ->setFileName(ConfigurationCache::mail()['mail.attachments'].'nejakePdf.pdf')
-//                            ->setAltText('pdf k rozeslání'), ];                            
+//                            ->setAltText('pdf k rozeslání'), ];   
+//                    (new Attachment())
+//                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'Katalog veletrhPRACE.online 2021.pdf')
+//                                        ->setAltText('Katalog veletrhPRACE.online 2021'),
                     $assembly = (new Assembly())
                         ->setContent(  (new Content())
                                      ->setSubject($subject)

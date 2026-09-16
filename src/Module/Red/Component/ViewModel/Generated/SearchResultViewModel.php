@@ -123,7 +123,7 @@ class SearchResultViewModel extends ViewModelAbstract implements SearchResultVie
         }
     }
 
-    public function getIterator(): \Traversable {
+    public function getIterator(): \Iterator {
         $this->appendData(
                 ['searchedMenuItems' => $this->getSearchedMenuItems()]
                 );

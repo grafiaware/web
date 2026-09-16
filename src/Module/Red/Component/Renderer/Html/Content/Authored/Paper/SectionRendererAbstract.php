@@ -8,7 +8,7 @@ use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 use Red\Model\Entity\PaperSectionInterface;
 use Red\Middleware\Redactor\Controler\SectionsControler;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 use DateTimeInterface;
 /**
  * Description of SectionRendererAbstract

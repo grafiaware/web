@@ -16,9 +16,10 @@ use Red\Service\Asset\AssetServiceInterface;
 use Pes\Http\Factory\ResponseFactory;
 
 use Exception;
-use Pes\Utils\Exception\CreateDirectoryFailedException;
+use Pes\Core\Directory\Exception\CreateDirectoryFailedException;
 use Pes\Http\Exception\UploadException;
 use FrontControler\Exception\UploadFileException;
+use Red\Middleware\Redactor\Controler\Exception\NoEditedItemIdException;
 
 /**
  * Description of NestedFilesUpload
@@ -81,27 +82,31 @@ class FilesUploadControler extends FilesUploadControlerAbstract {
             $uploadedKey,
             $maxFileSize,
             $acceptedExtensions = []) {
+        
         try {
             $uploadedFile = $this->getAndValidateUploadedFile($request, $uploadedKey, $maxFileSize, $acceptedExtensions);
         } catch (UploadFileException $e) {
             $httpStatus = $e->getCode(); // http status kód byl předán do Exception->code v getAndValidateUploadedFile()
-            $httpError =  $e->getMessage();
+            $statusText =  $e->getMessage();
         } catch (CreateDirectoryFailedException $e) {
             $httpStatus = 500; // 500 Internal Server Error
-            $httpError =  $e->getMessage();
+            $statusText =  $e->getMessage();
         } catch (Exception $e) {
             $httpStatus = 500; // 500 Internal Server Error
             if($e->getMessage()) {
-                $httpError =  $e->getMessage();
+                $statusText =  $e->getMessage();
             } else {
-                $httpError = get_class($e);   // vypíše typ exception - typicky PDO exception nemá message
+                $statusText = get_class($e);   // vypíše typ exception - typicky PDO exception nemá message
             }
         }
 
-        if (isset($httpError)) {
-            $response = $this->errorResponse($request, $httpError, $httpStatus);
+        if (isset($statusText)) {
+            $response = $this->errorResponse($httpStatus, $statusText);
         } else {
-            $editedItemId = $this->getEditedItemId($request);
+            $editedItemId = $this->paramValue($request, 'edited_item_id');
+            if (!$editedItemId) {    
+                throw new NoEditedItemIdException("Not Acceptable. Request has no 'edited_item_id' parameter.");
+            }              
             $editor = $this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName();
             $targetFilepath = $this->assetService->storeAsset($uploadedFile, $editedItemId, $editor);
             $response = $this->okTinyJsonResponse($targetFilepath);
@@ -110,27 +115,13 @@ class FilesUploadControler extends FilesUploadControlerAbstract {
         return $response;
     }
     
-    private function getEditedItemId(ServerRequestInterface $request) {
-        $editedItemId = $this->paramValue($request, 'edited_item_id');
-        if ($editedItemId) {    
-            return $editedItemId;
-        }else {
-            throw new UploadFileException("Not Acceptable. Redactor: Request has no 'edited_item_id' variable.", 406);
-        }    
-    }
-    
-    private function errorResponse($httpError, $httpStatus=null) {
-        return $this->addCacheHeaders((new ResponseFactory())->createResponse()->withStatus($httpStatus ?? 404, $httpError));
+    private function errorResponse(?int $httpStatus=null, ?string$statusText='' ) {
+        return $this->addCacheHeaders((new ResponseFactory())->createResponse()->withStatus($httpStatus ?? 404, $statusText));
     }
     
     private function okTinyJsonResponse($targetFilepath) {
         // response pro TinyMCE - musí obsahovat json s informací o cestě a jménu uloženého souboru
         // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
-//        $json = json_encode(['location' => $targetFilepath]);  //
-//        
-//        $response = $this->createStringOKResponse($json);
-//        return $response->withHeader('Content-Type', 'application/json');
-        
         return $this->createJsonOKResponse(['location' => $targetFilepath]);
     }
 

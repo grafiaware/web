@@ -16,8 +16,8 @@ use Events\Model\Repository\DocumentRepo;
 use Events\Model\Repository\DocumentRepoInterface;
 use Events\Model\Entity\DocumentInterface;
 
-use Pes\Text\Html;
-use Pes\Text\Text;
+use Pes\Core\Text\Html;
+use Pes\Core\Text\Text;
 
 use Component\ViewModel\StatusViewModelInterface;
 use Component\ViewModel\StatusViewModel;

@@ -46,13 +46,13 @@ use Pes\Http\Request\RequestParams;
 use Pes\Http\Factory\ResponseFactory;
 use Pes\Http\Response;
 
-use Mail\Mail;
+use Pes\Mail\MailInterface;
 use Mail\MessageFactory\HtmlMessage;
-use Mail\Assembly;
-use Mail\Assembly\Content;
-use Mail\Assembly\Attachment; 
-use Mail\Assembly\StringAttachment;
-use Mail\Assembly\Party;
+use Pes\Mail\Assembly;
+use Pes\Mail\Assembly\Content;
+use Pes\Mail\Assembly\Attachment; 
+use Pes\Mail\Assembly\StringAttachment;
+use Pes\Mail\Assembly\Party;
 
 
 
@@ -442,8 +442,8 @@ class VisitorJobRequestControler extends FrontControlerAbstract {
                             $mailPrihlasenehoRepresentanta,
                             $namePrihlasenehoRepresentanta                           
             ) {
-        /** @var Mail $mail */
-        $mail = $this->container->get(Mail::class);
+        /** @var MailInterface $mail */
+        $mail = $this->container->get(MailInterface::class);
         /** @var HtmlMessage $mailMessageFactory */
         $mailMessageFactory = $this->container->get(HtmlMessage::class);
 

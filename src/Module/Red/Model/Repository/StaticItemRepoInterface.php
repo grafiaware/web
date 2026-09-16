@@ -2,7 +2,7 @@
 
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoAssotiatedOneInterface;
+use Pes\Model\Repository\RepoAssotiatedOneInterface;
 use Red\Model\Entity\StaticItemInterface;
 
 /**

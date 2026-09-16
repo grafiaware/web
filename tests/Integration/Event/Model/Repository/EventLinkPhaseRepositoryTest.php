@@ -13,8 +13,8 @@ use Events\Model\Repository\EventLinkPhaseRepo;
 use Events\Model\Entity\EventLinkPhase;
 use Events\Model\Entity\EventLinkPhaseInterface;
 
-use Model\Repository\Exception\OperationWithLockedEntityException;
-use Model\RowData\RowData;
+use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
+use Pes\Model\RowData\RowData;
 
 
 

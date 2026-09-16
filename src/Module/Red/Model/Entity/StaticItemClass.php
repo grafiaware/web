@@ -9,7 +9,7 @@
 namespace Red\Model\Entity;
 
 use Red\Model\Entity\StaticItemInterface;
-use Model\Entity\PersistableEntityAbstract;
+use Pes\Model\Entity\PersistableEntityAbstract;
 use DateTime;
 
 /**

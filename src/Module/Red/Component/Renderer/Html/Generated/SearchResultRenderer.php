@@ -13,8 +13,8 @@ use Red\Component\ViewModel\Generated\SearchResultViewModel;
 use Red\Model\Entity\MenuItemInterface;
 
 use Pes\View\Renderer\RendererModelAwareInterface;
-use Pes\Text\Html;
-use Pes\Text\Message;
+use Pes\Core\Text\Html;
+use Pes\Core\Text\Message;
 
 /**
  * Description of LanguageSelectRenderer

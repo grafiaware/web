@@ -1,7 +1,7 @@
 <?php
 namespace Sendmail\Middleware\Sendmail\Campaign\AssemblyProvider;
 
-use Mail\AssemblyInterface;
+use Pes\Mail\AssemblyInterface;
 
 /**
  *

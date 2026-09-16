@@ -5,7 +5,8 @@ use Site\ConfigurationCache;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Application\AppFactory;
-use Pes\Application\UriInfoInterface;
+use Pes\Http\Request;
+use Pes\Http\Helper\UriInfoInterface;
 
 use Red\Model\Dao\MenuItemDaoInterface;
 use Status\Model\Entity\PresentationInterface;
@@ -177,9 +178,9 @@ class Replace implements ReplaceInterface {
      * @return UriInfoInterface
      */
     private function getUriInfo(ServerRequestInterface $request): UriInfoInterface {
-        $uriInfo = $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME);
+        $uriInfo = $request->getAttribute(Request::URI_INFO_ATTRIBUTE_NAME);
         if (! $uriInfo instanceof UriInfoInterface) {
-            throw new LogicException("Atribut requestu ".AppFactory::URI_INFO_ATTRIBUTE_NAME." neobsahuje objekt typu ".UriInfoInterface::class.".");
+            throw new LogicException("Atribut requestu ".Request::URI_INFO_ATTRIBUTE_NAME." neobsahuje objekt typu ".UriInfoInterface::class.".");
         }
         return $uriInfo;
     }

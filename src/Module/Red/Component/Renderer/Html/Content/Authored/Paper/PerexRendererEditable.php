@@ -12,7 +12,7 @@ use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
 use Red\Middleware\Redactor\Controler\PaperControler;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of PerexEditableRenderer

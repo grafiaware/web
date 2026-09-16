@@ -8,7 +8,7 @@
 
 namespace Site\NajdiSi;
 
-use Application\WebAppFactory;
+use Pes\Application\SessionServicesConfigurator;
 
 use Red\Component\ViewModel\Menu\Enum\ItemTypeEnum;
 
@@ -46,7 +46,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             #################################
             # Konfigurace session loggeru
             #
-            WebAppFactory::SESSION_NAME_SERVICE => 'www_na_session',
+            SessionServicesConfigurator::SESSION_NAME_SERVICE => 'www_na_session',
             'app.logs.session.file' => 'Session.log',
             'app.logs.session.type' => FileLogger::REWRITE_LOG,
             #
@@ -229,6 +229,8 @@ class ConfigurationWeb extends ConfigurationConstants {
 
             'urlTinyInit' => self::WEB_LINKS_COMMON.'js/tinyInit.js',
             'urlEditScript' => self::WEB_LINKS_COMMON . 'js/edit.js',
+            // cascade refactor: editace titulku položky menu (dříve v edit.js)
+            'urlTitleScript' => self::WEB_LINKS_COMMON . 'js/title.js',
 
             // linkEditorCss links
             'urlStylesCss' => self::WEB_LINKS_COMMON."css/old/styles.css",
@@ -251,6 +253,8 @@ class ConfigurationWeb extends ConfigurationConstants {
             // "default" – fetch uses standard HTTP-cache rules and headers,
             'cascade.cacheLoadOnce' => 'default',
             'apiaction.class' => 'apiaction',
+            // cascade refactor: true = body.js načte menuSwap.js; false = jen cascade bez JS navigace v menu
+            'menuSwap.enabled' => true,
             
             // mapování komponent na proměnné kontextu v šablonách
             // contextLayoutMap - mapa komponent načtených pouze jednou při načtení webu a cachovaných - viz parametr 'cascade.cacheLoadOnce'
@@ -278,7 +282,7 @@ class ConfigurationWeb extends ConfigurationConstants {
                 ],
             //  název proměnné v šabloně => hodnota targetId příslušná k menu z položky 'contextMenuMap'
             'contextTargetMap' => [
-                    'content'=>['id'=>'menusvisle_target'],  
+                    'content'=>['id'=>'menu_target'],  
                 ],
             'contextMenuMap' => [
 //                    'menuSvisle' => ['service'=>'menuVertical', 'targetContext'=>'content'],
@@ -293,8 +297,9 @@ class ConfigurationWeb extends ConfigurationConstants {
     }
     public static function menu() {
             // menu
-            // 'identifikátor parametrů' => [parametry menu]
+            // konfigurace pro kontejner
             // parametry se použijí v kontejneru: $c->get('menu.services')['identifikátor parametrů']
+            // 
             // parametry menu jsou:
             //      'rootName' => jméno kořene menu v db tabulce root_name, podle root name se najde uid kořene v hierarchii položek menu a načte se podstrom položek patřících do menu
             //      'itemtype' => jedna z hodnot ItemTypeEnum - určuje výběr rendereru menu item
@@ -310,54 +315,67 @@ class ConfigurationWeb extends ConfigurationConstants {
          */
         
         return [
+            // konfigurace menu komponent v kontejneru
             'menu.services' => [
-
+                    'menuSupervisor' => [
 //            menuSupervisor:
 //            - nástroj jak vůbec umět přidávat menu
 //            - právo display jen supervisor
 //            - rootName - root - nutno přidat do menu root položku root -> ?? přidat do menu_supervisor položku static pro změny menu_root
-//            - 
-                    'menuSupervisor' => [
                         'rootName' => 'root',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        'targetId'=>'content',
                         ],
                     'menuEventsAdmin' => [
                         'rootName' => 'menu events admin',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        'targetId'=>'content',
                         ],
                     'menuEventsRepresentative' => [
                         'rootName' => 'menu representative',
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        'targetId'=>'content',
                         ],
                     'menuEventsVisitor' => [
                         'rootName' => 'menu visitor',
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        'targetId'=>'content',
+                        ],
+                    'menuRedAdmin' => [
+                        'rootName' => 'menu red admin',
+                        'itemtype' => ItemTypeEnum::MULTILEVEL,
+                        'levelRenderer' => 'menuVertical.levelRenderer',
+                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        'targetId'=>'content',
                         ],
                     'menuVertical' => [
                         'rootName' => 'menu vertical',
                         'itemtype' => ItemTypeEnum::MULTILEVEL,
                         'levelRenderer' => 'menuVertical.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        'targetId'=>'content',
                         ],
                     'menuBlocks' => [
                         'rootName' => 'blocks',
                         'itemtype' => ItemTypeEnum::ONELEVEL,
                         'levelRenderer' => 'menuBlocks.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',  // pro editable mode menuVertical
+                        'targetId'=>'content',
                         ],
                     'menuTrash' => [
                         'rootName' => 'trash',
                         'itemtype' => ItemTypeEnum::TRASH,
                         'levelRenderer' => 'menuTrash.levelRenderer',
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',  // pro editable mode menuVertical
+                        'targetId'=>'content',
                         ],
                 ],
 
@@ -386,7 +404,7 @@ class ConfigurationWeb extends ConfigurationConstants {
         return [
             'mail.logs.directory' => 'Logs/Mail',
             'mail.logs.file' => 'Mail.log',
-            // volba sady parametrů z Mail\ParamsTemplates
+            // volba sady parametrů z Pes\Mail\ParamsTemplates
 //            'mail.paramsname' => 'grafiaInterni', 
 //            'mail.paramsname' => 'najdisi', // funkční na hostingu
 //            'mail.paramsname' => 'najdisiWebSMTP',
@@ -411,6 +429,29 @@ class ConfigurationWeb extends ConfigurationConstants {
             '@presenter' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE."presenter" : self::WEB_FILES_SITE."presenter",
 
         ];
+    }
+
+    /** Push config pro red modul (odesílání metadat na auth/events). */
+    public static function staticRegistry(): array {
+        return StaticRegistryConfiguration::pushConfig(rtrim(self::WEB_SITE, '/'));
+    }
+
+    /** Receive config pro Events — SQLite v sqlite/events/ (ne v _files). */
+    public static function staticRegistryEventsReceive(): array {
+        return StaticRegistryConfiguration::receiveConfig(
+            rtrim(self::WEB_SITE, '/'),
+            'events/',
+            'sqlite/events/static_registry.sqlite'
+        );
+    }
+
+    /** Receive config pro Auth — SQLite v sqlite/auth/ (ne v _files). */
+    public static function staticRegistryAuthReceive(): array {
+        return StaticRegistryConfiguration::receiveConfig(
+            rtrim(self::WEB_SITE, '/'),
+            'auth/',
+            'sqlite/auth/static_registry.sqlite'
+        );
     }
 
 }

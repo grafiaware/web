@@ -8,6 +8,8 @@ use Pes\Router\UrlPatternValidator;
 use Pes\Router\Resource\Resource;
 use Pes\Router\Resource\ResourceRegistryInterface;
 
+use Status\Session\SessionUnlockPolicy;
+
 /**
  * Description of ApiFactory
  *
@@ -26,6 +28,7 @@ class ApiRegistrator {
         $this->getPrototype = $this->prototype->withHttpMethod('GET');
         $this->postPrototype = $this->prototype->withHttpMethod('POST');
         $this->putPrototype = $this->prototype->withHttpMethod('PUT');
+        $this->deletePrototype = $this->prototype->withHttpMethod('DELETE');
     }
 
     public function registerApi(ResourceRegistryInterface $registry): void {
@@ -34,7 +37,13 @@ class ApiRegistrator {
     #
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/logout'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/login'));
-        $registry->register($this->getPrototype->withUrlPattern('/auth/v1/static/:staticName'));        
+        $registry->register($this->getPrototype->withUrlPattern('/auth/v1/static/:staticName'));
+        // Static registry API (server-to-server sync z red + template list pro editor)
+        $registry->register($this->putPrototype->withUrlPattern('/auth/v1/static/registry/:menuItemId'));
+        $registry->register($this->deletePrototype->withUrlPattern('/auth/v1/static/registry/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/auth/v1/static/registry')); // seznam SQLite registry
+        $registry->register($this->getPrototype->withUrlPattern('/auth/v1/static/registry/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/auth/v1/static/templates'));        
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/register'));
         $registry->register($this->getPrototype->withUrlPattern('/auth/v1/registerapplication/:loginname'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/register1'));
@@ -67,7 +76,7 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/block/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/searchresult'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/component/:name'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/flash'));
+        $registry->register($this->getPrototype->withUrlPattern(SessionUnlockPolicy::ROUTE_PATTERN_FLASH));
 
     ### red module ###
     #
@@ -75,7 +84,7 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/service/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/component/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/driver/:uid'));
-        $registry->register($this->getPrototype->withUrlPattern('/red/v1/presenteddriver/:uid'));
+        $registry->register($this->getPrototype->withUrlPattern(SessionUnlockPolicy::ROUTE_PATTERN_PRESENTED_DRIVER));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/root/:menuItemId'));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/empty/:menuItemId'));
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/static/:name'));
@@ -141,6 +150,8 @@ class ApiRegistrator {
         
         #### StaticControler ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/static/:staticId'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/static/registry/push-sync')); // sync remote registry JSON
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/static/registry/push-sync-ui')); // sync + PRG flash pro admin stránku
         
         #### EditItemControler ####
         $registry->register($this->putPrototype->withUrlPattern('/red/v1/menu/:menuItemUidFk/toggle'));
@@ -178,6 +189,12 @@ class ApiRegistrator {
     #
         #### EventsStaticControler ####
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/static/:staticName'));
+        // Static registry API (server-to-server sync z red + template list pro editor)
+        $registry->register($this->putPrototype->withUrlPattern('/events/v1/static/registry/:menuItemId'));
+        $registry->register($this->deletePrototype->withUrlPattern('/events/v1/static/registry/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/events/v1/static/registry')); // seznam SQLite registry
+        $registry->register($this->getPrototype->withUrlPattern('/events/v1/static/registry/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/events/v1/static/templates'));
 
         #### ComponentControler ####
         $registry->register($this->getPrototype->withUrlPattern('/events/v1/component/:name'));

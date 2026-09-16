@@ -9,12 +9,12 @@ use Pes\Container\Container;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
 // sql builder
-use Model\Builder\Sql;
+use Pes\Model\Builder\Sql;
 // context
 use Red\Model\Context\ContextProvider;
-use Model\Context\ContextProviderInterface;
+use Pes\Model\Context\ContextProviderInterface;
 // model
-use Model\RowData\PdoRowData;
+use Pes\Model\RowData\PdoRowData;
 
 use Red\Model\Dao\BlockDao;
 use Red\Model\Hydrator\BlockHydrator;
@@ -157,7 +157,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
         // components
             // FlashComponent s vlastním rendererem
 //            FlashComponent::class => function(ContainerInterface $c) {
-//                $viewModel = new FlashViewModelForRenderer($c->get(StatusFlashRepo::class));
+//                $viewModel = new FlashViewModelForRenderer($c->get(StatusViewModel::class));
 //                return (new FlashComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(FlashRenderer::class);
 //            },
 

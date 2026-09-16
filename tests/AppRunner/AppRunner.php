@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Test\AppRunner;
 
+use Test\Support\ApplicationBootstrap;
 use PHPUnit\Framework\TestCase;
 
 use Pes\Http\Factory\EnvironmentFactory;
@@ -10,7 +11,13 @@ use Pes\Http\Environment;
 use Application\WebAppFactory;
 use Application\SelectorItems;
 
-use Pes\Middleware\NoMatchedRouteRequestHandler;
+use Pes\Application\Middleware\NoMatchedRouteRequestHandler;
+
+use Pes\Http\Request;
+use Pes\Http\Helper\UriInfoInterface;
+
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UriInterface;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -28,17 +35,7 @@ class AppRunner extends TestCase {
     protected static $inputStream;
 
     public static function bootstrapBeforeClass(): void {
-        if ( !defined('PES_DEVELOPMENT') AND !defined('PES_PRODUCTION') ) {
-            if ( !defined('PES_FORCE_DEVELOPMENT')) {
-                define('PES_FORCE_DEVELOPMENT', 'force_development');
-            }
-            //// nebo
-            //define('PES_FORCE_PRODUCTION', 'force_production');
-
-            define('PROJECT_PATH', 'c:/ApacheRoot/web/');
-
-            include '../vendor/pes/pes/src/Bootstrap/Bootstrap.php';
-        }
+        ApplicationBootstrap::load();
 
         // input stream je možné otevřít jen jednou
         self::$inputStream = fopen('php://temp', 'w+');  // php://temp will store its data in memory but will use a temporary file once the amount of data stored hits a predefined limit (the default is 2 MB). The location of this temporary file is determined in the same way as the sys_get_temp_dir() function.
@@ -83,6 +80,26 @@ class AppRunner extends TestCase {
                 ['HTTP_USER_AGENT'=>'AppRunner']
 
                 );
+    }
+
+    protected function createPostRequest(array $parsedBody, string $path = '/', string $rootPath = '/'): ServerRequestInterface
+    {
+        $uri = $this->createMock(UriInterface::class);
+        $uri->method('getPath')->willReturn($path);
+
+        $uriInfo = $this->createMock(UriInfoInterface::class);
+        $uriInfo->method('getRootAbsolutePath')->willReturn($rootPath);
+        $uriInfo->method('getSubdomainPath')->willReturn($rootPath);
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getMethod')->willReturn('POST');
+        $request->method('getUri')->willReturn($uri);
+        $request->method('getParsedBody')->willReturn($parsedBody);
+        $request->method('getAttribute')->willReturnCallback(
+            static fn(string $name) => $name === Request::URI_INFO_ATTRIBUTE_NAME ? $uriInfo : null
+        );
+
+        return $request;
     }
 
     /**

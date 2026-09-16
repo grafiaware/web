@@ -9,7 +9,7 @@ use Component\ViewModel\StatusViewModelInterface;
 
 use Events\Model\Repository\DocumentRepoInterface;
 use Events\Model\Entity\DocumentInterface;
-use Model\Entity\EntityInterface;
+use Pes\Model\Entity\EntityInterface;
 use Events\Model\Entity\VisitorProfileInterface;
 use Events\Model\Repository\VisitorProfileRepoInterface;
 use Events\Model\Repository\VisitorProfileRepo;

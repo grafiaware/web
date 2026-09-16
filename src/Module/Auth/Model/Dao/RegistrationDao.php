@@ -2,11 +2,11 @@
 
 namespace Auth\Model\Dao;
 
-use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoEditKeyDbVerifiedInterface;
-use Model\Dao\DaoReferenceUniqueInterface;
-use Model\Dao\DaoReferenceUniqueTrait;
-use Model\RowData\RowDataInterface;
+use Pes\Model\Dao\DaoEditAbstract;
+use Pes\Model\Dao\DaoEditKeyDbVerifiedInterface;
+use Pes\Model\Dao\DaoReferenceUniqueInterface;
+use Pes\Model\Dao\DaoReferenceUniqueTrait;
+use Pes\Model\RowData\RowDataInterface;
 
 use Pes\Database\Handler\HandlerInterface;
 

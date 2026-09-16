@@ -4,7 +4,7 @@ namespace Red\Component\Renderer\Html\Content\Authored;
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Content\Authored\AuthoredViewModelInterface;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of AuthoredRendererAbstract
@@ -89,5 +89,15 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
 
     protected function renderButtonsDiv(array $buttons) {
         return Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttons')], implode('', $buttons));
+    }
+
+    /**
+     * CSS třída obalu authored obsahu; v koši přidá "trash" (šedý filtr z author.less).
+     */
+    protected function authoredTemplateClass(AuthoredViewModelInterface $viewModel, string $classMapKey): array {
+        return [
+            $this->classMap->get('Template', $classMapKey),
+            $viewModel->isInTrash() ? 'trash' : '',
+        ];
     }
 }

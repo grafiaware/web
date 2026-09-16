@@ -8,7 +8,7 @@ use Events\Component\ViewModel\Data\RepresentativeTrait;
 
 use Events\Model\Repository\CompanyRepoInterface;
 use Events\Model\Entity\CompanyInterface;
-use Model\Entity\EntityInterface;
+use Pes\Model\Entity\EntityInterface;
 
 use ArrayIterator;
 use Exception;

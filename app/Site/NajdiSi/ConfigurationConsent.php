@@ -7,20 +7,10 @@
 
 namespace Site\NajdiSi;
 
-use Pes\Logger\FileLogger;
-
 /**
  * Description of ConfigurationConsent
  *
  * @author pes2704
  */
-class ConfigurationConsent {
-    public static function consent() {
-        return [
-            'consent.logs.directory' => 'PersistentLogs/Consent',
-            'consent.logs.file' => 'CookieConsent.log',
-            'consent.logs.type' => FileLogger::APPEND_TO_LOG,            
-        ];
-        
-    }
+class ConfigurationConsent extends \Site\Common\ConfigurationConsent {
 }
