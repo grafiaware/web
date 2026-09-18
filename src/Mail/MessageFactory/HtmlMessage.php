@@ -36,7 +36,7 @@ class HtmlMessage {
         foreach ($context as $hodnota) {
             // Pokud narazíme na vnořené pole, prohledáme ho rekurzivně
             if (is_array($hodnota)) {
-                if (obsahujePrazdneHodnoty($hodnota)) {
+                if ($this->obsahujePrazdneHodnoty($hodnota)) {
                     return true;
                 }
             } 
@@ -66,7 +66,7 @@ class HtmlMessage {
 
             if (is_array($hodnota)) {
                 // Rekurzivně spojíme nalezené chyby z podřízeného pole
-                $chyby = array_merge($chyby, najdiNevalidniHodnoty($hodnota, $novaCesta));
+                $chyby = array_merge($chyby, $this->najdiNevalidniHodnoty($hodnota, $novaCesta));
             } 
             elseif ($hodnota === null) {
                 $chyby[] = [
