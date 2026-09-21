@@ -29,9 +29,9 @@ export const filePickerCallback = (callback, value, meta) => {
         const reader = new FileReader();
         reader.addEventListener('load', () => {
             // vytváří blobInfo a ukládám do blobCache - tiny by to udělal sám, ale zde vytvářím 
-            // - blobInfo s unikátním jménem souboru (s tím se odesílá na server)
-            // - původní jméno souboru (ze souborového systému - načteno dialogem) uschovám pro nastavení atributů html elementu - nastaví tiny sám pomocí callback
-            const originalName = file.name.split('.').pop();  // split('.').pop - jméno souboru bez přípony
+            // - blobInfo s unikátním id (blobCache klíč, s tím se odesílá na server)
+            // - původní jméno souboru (ze souborového systému) uschovám v meta pro dialog / html atributy
+            const originalName = file.name;
             const uniqueName = image_unique_name(originalName);
             const blobCache =  tinymce.activeEditor.editorUpload.blobCache;
             const base64 = reader.result.split(',')[1];  // reader.result konvertuje image na base64 string // Ignorujeme první prvek (před čárkou), extrahujeme druhý //const [, druhy] = str.split(','); 
@@ -39,12 +39,11 @@ export const filePickerCallback = (callback, value, meta) => {
             blobCache.add(blobInfo);
             
             /* call the callback and populate the Title field with the file name */
-            // For the link dialog    
+            // For the link dialog / custom urlinput filetype=file
             if (meta.filetype === 'file') {
-//                callback(blobInfo.blobUri(), { title: originalName, text: 'Download: '+originalName , url: 'File: '+originalName});
-                // první parametr callback je text, který bude vložen  do inputu a zobrazen při zobrazení html
-                // pro tento případ - type=='file' druhý parametr je předán a lze jej získat v pluginu jako api.getData()
-                callback(file.name, { fileName: file.name, originalName: originalName, blobInfo: blobInfo, id: id});
+                // první parametr callback je hodnota urlinput (zobrazí se v poli)
+                // druhý parametr TinyMCE uloží do data.<fieldname>.meta — čte ho attachment plugin v getData()
+                callback(file.name, { fileName: file.name, originalName: originalName, blobInfo: blobInfo, id: uniqueName });
             }
             // For the image dialog
             if (meta.filetype === 'image') {
