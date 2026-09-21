@@ -17,7 +17,7 @@ use Application\WebAppFactory;
 use Pes\Container\Container;
 
 use Container\AuthContainerConfigurator;
-use Container\AuthDbContainerConfigurator;
+use Test\Integration\Auth\Container\TestAuthDbContainerConfigurator;
 
 use Pes\Model\Dao\Exception\DaoKeyVerificationFailedException;
 
@@ -55,7 +55,7 @@ class LoginAggregateCredentialsRepositoryTest extends AppRunner {
 
         $container =
             (new AuthContainerConfigurator())->configure(
-                (new AuthDbContainerConfigurator())->configure(
+                (new TestAuthDbContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
                         )
@@ -83,7 +83,7 @@ class LoginAggregateCredentialsRepositoryTest extends AppRunner {
 
         $this->container =
             (new AuthContainerConfigurator())->configure(
-                (new AuthDbContainerConfigurator())->configure(
+                (new TestAuthDbContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
                         )

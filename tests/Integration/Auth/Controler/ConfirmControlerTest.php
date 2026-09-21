@@ -9,7 +9,7 @@ use Auth\Model\Dao\RegistrationDao;
 use Auth\Model\Repository\LoginAggregateCredentialsRepo;
 use Auth\Model\Repository\RegistrationRepo;
 use Container\AuthContainerConfigurator;
-use Container\AuthDbContainerConfigurator;
+use Test\Integration\Auth\Container\TestAuthDbContainerConfigurator;
 use Pes\Container\Container;
 use Pes\Core\Security\Password\Password;
 use Pes\Model\RowData\RowData;
@@ -131,7 +131,7 @@ final class ConfirmControlerTest extends AppRunner
     private static function seedPendingRegistration(): void
     {
         $container = (new AuthContainerConfigurator())->configure(
-            (new AuthDbContainerConfigurator())->configure(new Container())
+            (new TestAuthDbContainerConfigurator())->configure(new Container())
         );
 
         /** @var LoginDao $loginDao */
@@ -156,7 +156,7 @@ final class ConfirmControlerTest extends AppRunner
     private static function cleanup(): void
     {
         $container = (new AuthContainerConfigurator())->configure(
-            (new AuthDbContainerConfigurator())->configure(new Container())
+            (new TestAuthDbContainerConfigurator())->configure(new Container())
         );
 
         /** @var \Auth\Model\Dao\CredentialsDao $credentialsDao */

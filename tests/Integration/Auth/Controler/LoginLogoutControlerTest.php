@@ -9,7 +9,7 @@ use Auth\Model\Dao\CredentialsDao;
 use Auth\Model\Dao\LoginDao;
 use Auth\Model\Repository\LoginAggregateFullRepo;
 use Container\AuthContainerConfigurator;
-use Container\AuthDbContainerConfigurator;
+use Test\Integration\Auth\Container\TestAuthDbContainerConfigurator;
 use Pes\Container\Container;
 use Pes\Model\RowData\RowData;
 use Site\Common\ActiveSite;
@@ -47,7 +47,7 @@ final class LoginLogoutControlerTest extends AppRunner
     protected function setUp(): void
     {
         $container = (new AuthContainerConfigurator())->configure(
-            (new AuthDbContainerConfigurator())->configure(new Container())
+            (new TestAuthDbContainerConfigurator())->configure(new Container())
         );
         $this->loginRepo = $container->get(LoginAggregateFullRepo::class);
     }
@@ -177,7 +177,7 @@ final class LoginLogoutControlerTest extends AppRunner
     private static function seedUser(): void
     {
         $container = (new AuthContainerConfigurator())->configure(
-            (new AuthDbContainerConfigurator())->configure(new Container())
+            (new TestAuthDbContainerConfigurator())->configure(new Container())
         );
 
         /** @var LoginDao $loginDao */
@@ -200,7 +200,7 @@ final class LoginLogoutControlerTest extends AppRunner
     private static function cleanup(): void
     {
         $container = (new AuthContainerConfigurator())->configure(
-            (new AuthDbContainerConfigurator())->configure(new Container())
+            (new TestAuthDbContainerConfigurator())->configure(new Container())
         );
 
         /** @var CredentialsDao $credentialsDao */

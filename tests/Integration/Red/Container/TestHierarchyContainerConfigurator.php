@@ -20,6 +20,7 @@ use Test\Integration\Red\Model\Context\ContextProviderMock;
 
 use Pes\Database\Handler\Account;
 use Pes\Database\Manipulator\Manipulator;
+use Test\Support\TestDatabaseEnv;
 
 /**
  * Description of MenuContainerFactory
@@ -28,8 +29,9 @@ use Pes\Database\Manipulator\Manipulator;
  */
 class TestHierarchyContainerConfigurator extends RedModelContainerConfigurator {
     public function getParams(): iterable {
-        return ConfigurationCache::web()
-                +parent::getParams();
+        return TestDatabaseEnv::redConnectionParams()
+                + ConfigurationCache::web()
+                + parent::getParams();
     }
 
     public function getAliases(): iterable {

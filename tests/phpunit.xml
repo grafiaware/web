@@ -15,9 +15,4 @@
             <directory suffix="Test.php">Integration/Mail</directory>
         </testsuite>
     </testsuites>
-    <groups>
-        <exclude>
-            <group>mail-integration</group>
-        </exclude>
-    </groups>
 </phpunit>

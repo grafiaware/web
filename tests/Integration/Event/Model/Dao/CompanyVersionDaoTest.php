@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Test\Integration\Event\Model\Dao;
 
-use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestEventsModelContainerConfigurator;
 use Events\Model\Dao\CompanyVersionDao;
 use Pes\Container\Container;
 use Pes\Model\RowData\RowData;
@@ -25,7 +25,7 @@ final class CompanyVersionDaoTest extends AppRunner
 
     protected function setUp(): void
     {
-        $container = (new EventsModelContainerConfigurator())->configure(
+        $container = (new TestEventsModelContainerConfigurator())->configure(
             (new TestDbEventsContainerConfigurator())->configure(new Container())
         );
         $this->dao = $container->get(CompanyVersionDao::class);
@@ -53,7 +53,7 @@ final class CompanyVersionDaoTest extends AppRunner
 
     private static function cleanup(): void
     {
-        $container = (new EventsModelContainerConfigurator())->configure(
+        $container = (new TestEventsModelContainerConfigurator())->configure(
             (new TestDbEventsContainerConfigurator())->configure(new Container())
         );
         /** @var CompanyVersionDao $dao */

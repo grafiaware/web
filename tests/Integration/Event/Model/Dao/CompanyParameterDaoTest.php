@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Test\Integration\Event\Model\Dao;
 
-use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestEventsModelContainerConfigurator;
 use Events\Model\Dao\CompanyDao;
 use Events\Model\Dao\CompanyParameterDao;
 use Pes\Container\Container;
@@ -20,7 +20,7 @@ final class CompanyParameterDaoTest extends AppRunner
     public static function setUpBeforeClass(): void
     {
         self::bootstrapBeforeClass();
-        $container = (new EventsModelContainerConfigurator())->configure(
+        $container = (new TestEventsModelContainerConfigurator())->configure(
             (new TestDbEventsContainerConfigurator())->configure(new Container())
         );
 
@@ -35,7 +35,7 @@ final class CompanyParameterDaoTest extends AppRunner
 
     protected function setUp(): void
     {
-        $container = (new EventsModelContainerConfigurator())->configure(
+        $container = (new TestEventsModelContainerConfigurator())->configure(
             (new TestDbEventsContainerConfigurator())->configure(new Container())
         );
         $this->dao = $container->get(CompanyParameterDao::class);
@@ -43,7 +43,7 @@ final class CompanyParameterDaoTest extends AppRunner
 
     public static function tearDownAfterClass(): void
     {
-        $container = (new EventsModelContainerConfigurator())->configure(
+        $container = (new TestEventsModelContainerConfigurator())->configure(
             (new TestDbEventsContainerConfigurator())->configure(new Container())
         );
 

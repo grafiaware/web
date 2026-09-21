@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Test\Integration\Event\Model\Repository;
 
-use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestEventsModelContainerConfigurator;
 use Events\Model\Dao\CompanyDao;
 use Events\Model\Entity\CompanyVersion;
 use Events\Model\Repository\CompanyAddressRepo;
@@ -33,12 +33,12 @@ final class CompanyArchiveTest extends AppRunner
     {
         self::bootstrapBeforeClass();
         self::deleteRecords(
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(new Container())
             )
         );
         self::insertRecords(
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(new Container())
             )
         );
@@ -72,7 +72,7 @@ final class CompanyArchiveTest extends AppRunner
 
     protected function setUp(): void
     {
-        $this->container = (new EventsModelContainerConfigurator())->configure(
+        $this->container = (new TestEventsModelContainerConfigurator())->configure(
             (new TestDbEventsContainerConfigurator())->configure(new Container())
         );
         $this->companyRepo = $this->container->get(CompanyRepo::class);
@@ -94,7 +94,7 @@ final class CompanyArchiveTest extends AppRunner
     public static function tearDownAfterClass(): void
     {
         self::deleteRecords(
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(new Container())
             )
         );

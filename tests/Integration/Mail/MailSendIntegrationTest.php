@@ -46,15 +46,47 @@ final class MailSendIntegrationTest extends TestCase {
         if (!Smtp4devHelper::isAvailable()) {
             $this->markTestSkipped('smtp4dev neni dostupny na localhost:25');
         }
+        if (!Smtp4devHelper::isApiAvailable()) {
+            $this->markTestSkipped('smtp4dev API neni dostupne na http://localhost:5000');
+        }
     }
 
-    
-    
+    /**
+     * @param list<string> $htmlFragments
+     * @param list<string> $sourceFragments
+     */
+    private function assertMailCapturedBySmtp4dev(
+        string $subject,
+        array $htmlFragments = [],
+        array $sourceFragments = []
+    ): void {
+        $found = Smtp4devHelper::waitForMessage(
+            static fn(array $message): bool => Smtp4devHelper::messageSubject($message) === $subject
+        );
+        $id = $found['id'];
+
+        $html = Smtp4devHelper::getMessageHtml($id);
+        $this->assertNotNull($html, 'smtp4dev nevratil HTML telo mailu');
+        foreach ($htmlFragments as $fragment) {
+            $this->assertStringContainsString($fragment, $html);
+        }
+
+        if ($sourceFragments !== []) {
+            $source = Smtp4devHelper::getMessageSource($id);
+            $this->assertNotNull($source, 'smtp4dev nevratil MIME source mailu');
+            foreach ($sourceFragments as $fragment) {
+                $this->assertStringContainsString($fragment, $source);
+            }
+        }
+    }
+
     //*************************************************
     public function testRegistrationMailSendsViaSmtp4dev(): void
     {
         $this->skipWithoutSmtp4dev();
+        Smtp4devHelper::clearMessages();
 
+        $subject = 'Veletrh prace - Registrace [integration test]';
         $body = (new HtmlMessage())->create(
             MailTemplateFixtures::authMessage('registration.php'),
             MailTemplateFixtures::registrationContext()
@@ -62,47 +94,52 @@ final class MailSendIntegrationTest extends TestCase {
 
         $assembly = (new Assembly())
             ->setContent((new Content())
-                ->setSubject('Veletrh prace - Registrace [integration test]')
+                ->setSubject($subject)
                 ->setHtml($body))
             ->setParty((new Party())
                 ->setFrom('info@najdisi.cz', 'integration test')
                 ->addTo('integration-test@example.cz', 'Integration Test'));
 
-//        $M = $this->createMail();        
-//        $Mbool = $M->mail($assembly);
-        
-        $this->assertTrue(true);
         $this->assertTrue($this->createMail()->mail($assembly));
+        $this->assertMailCapturedBySmtp4dev($subject, [
+            'https://test.example/auth/v1/confirm/abc123',
+            'Potvrďte registraci',
+        ]);
     }
 
-    
-    
-    
     //*****************************
     public function testForgottenPasswordMailSendsViaSmtp4dev(): void
     {
         $this->skipWithoutSmtp4dev();
+        Smtp4devHelper::clearMessages();
 
+        $subject = 'Veletrh prace - Nove heslo [integration test]';
         $body = (new HtmlMessage())->create(
-                 MailTemplateFixtures::authMessage('forgottenpassword.php'),          
+                 MailTemplateFixtures::authMessage('forgottenpassword.php'),
                  MailTemplateFixtures::forgottenPasswordContext()
         );
 
         $assembly = (new Assembly())
             ->setContent((new Content())
-                ->setSubject('Veletrh prace - Nove heslo [integration test]')
+                ->setSubject($subject)
                 ->setHtml($body))
             ->setParty((new Party())
                 ->setFrom('info@najdisi.cz', 'integration test')
                 ->addTo('integration-test@example.cz', 'Integration Test'));
 
         $this->assertTrue($this->createMail()->mail($assembly));
+        $this->assertMailCapturedBySmtp4dev($subject, [
+            'jan.novak',
+            'NoveHeslo456',
+        ]);
     }
 
     public function testVisitorJobRequestMailSendsViaSmtp4dev(): void
     {
         $this->skipWithoutSmtp4dev();
+        Smtp4devHelper::clearMessages();
 
+        $subject = 'Veletrh prace - zajemce o pozici [integration test]';
         $body = (new HtmlMessage())->create(
             MailTemplateFixtures::eventsMessage('pracovni-udaje-navstevnika.php'),
             MailTemplateFixtures::visitorJobRequestContext()
@@ -110,37 +147,40 @@ final class MailSendIntegrationTest extends TestCase {
 
         $assembly = (new Assembly())
             ->setContent((new Content())
-                ->setSubject('Veletrh prace - zajemce o pozici [integration test]')
+                ->setSubject($subject)
                 ->setHtml($body))
             ->setParty((new Party())
                 ->setFrom('info@najdisi.cz', 'integration test')
                 ->addTo('integration-test@example.cz', 'Integration Test'));
 
         $this->assertTrue($this->createMail()->mail($assembly));
+        $this->assertMailCapturedBySmtp4dev($subject, [
+            'jan@example.cz',
+            'Programator PHP',
+        ]);
     }
 
-    
     public function testMailWithAttachmentFixturesSendsViaSmtp4dev(): void
     {
         $this->skipWithoutSmtp4dev();
+        Smtp4devHelper::clearMessages();
 
         $attachmentsDir = MailTemplateFixtures::attachmentsDir();
-        
- //       try {
-            $body = (new HtmlMessage())->create(
-                MailTemplateFixtures::sendmailControlerMessage('podekovani-odkazy-igelitka.php'),
-                MailTemplateFixtures::podekovaniContext()
-            );           
+        $subject = 'Veletrh prace - podekovani [integration test]';
+
+        $body = (new HtmlMessage())->create(
+            MailTemplateFixtures::sendmailControlerMessage('podekovani-odkazy-igelitka.php'),
+            MailTemplateFixtures::podekovaniContext()
+        );
 
         $assembly = (new Assembly())
             ->setContent((new Content())
-                ->setSubject('Veletrh prace - podekovani [integration test]')
-                ->setHtml($body)                
-               // ->setAttachments([ $priloha1, $priloha2 ])                        
-                ->setAttachments([            
+                ->setSubject($subject)
+                ->setHtml($body)
+                ->setAttachments([
                     (new Attachment())
                         ->setFileName($attachmentsDir . 'logo_grafia.png')
-                        ->setAltText('Logo Grafia.png'),                    
+                        ->setAltText('Logo Grafia.png'),
                     (new Attachment())
                         ->setFileName($attachmentsDir . 'sample-catalog.pdf')
                         ->setAltText('Katalog test.pdf'),
@@ -150,7 +190,12 @@ final class MailSendIntegrationTest extends TestCase {
                 ->setFrom('info@najdisi.cz', 'integration test')
                 ->addTo('integration-test@example.cz', 'Integration Test'));
 
-        $this->assertTrue($this->createMail()->mail($assembly));                     
+        $this->assertTrue($this->createMail()->mail($assembly));
+        $this->assertMailCapturedBySmtp4dev(
+            $subject,
+            ['navstevnik.test'],
+            ['sample-catalog.pdf', 'logo_grafia.png']
+        );
     }
     
     
@@ -216,6 +261,7 @@ final class MailSendIntegrationTest extends TestCase {
     public function testCampaignMailSenderAnketa2025ViaSmtp4dev(): void
     {
         $this->skipWithoutSmtp4dev();
+        Smtp4devHelper::clearMessages();
 
         $csvPath = MailTemplateFixtures::campaignDir() . 'target.csv';
         copy(
@@ -245,5 +291,10 @@ final class MailSendIntegrationTest extends TestCase {
         $exported = file_get_contents($csvPath);
         $this->assertIsString($exported);
         $this->assertStringContainsString(AssemblyProviderInterface::ASSEMBLY_ANKETA_2025, $exported);
+
+        $found = Smtp4devHelper::waitForMessage(static fn(array $message): bool => true);
+        $html = Smtp4devHelper::getMessageHtml($found['id']);
+        $this->assertNotNull($html);
+        $this->assertNotSame('', trim($html));
     }
 }

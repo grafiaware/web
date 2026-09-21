@@ -7,7 +7,7 @@ use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
 use Pes\Database\Statement\Exception\ExecuteException;
 
-use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestEventsModelContainerConfigurator;
 use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\InstitutionDao;
@@ -38,7 +38,7 @@ class InstitutionDaoTest extends AppRunner {
 
     protected function setUp(): void {
         $this->container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
         $this->dao = $this->container->get(InstitutionDao::class);  // vždy nový objekt

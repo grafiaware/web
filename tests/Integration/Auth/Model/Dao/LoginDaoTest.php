@@ -6,7 +6,7 @@ namespace Test\Integration\Auth\Model\Dao;
 use Access\Enum\RoleEnum;
 use Auth\Model\Dao\LoginDao;
 use Container\AuthContainerConfigurator;
-use Container\AuthDbContainerConfigurator;
+use Test\Integration\Auth\Container\TestAuthDbContainerConfigurator;
 use Pes\Container\Container;
 use Pes\Model\RowData\RowData;
 use Pes\Model\RowData\RowDataInterface;
@@ -28,7 +28,7 @@ final class LoginDaoTest extends AppRunner
     protected function setUp(): void
     {
         $container = (new AuthContainerConfigurator())->configure(
-            (new AuthDbContainerConfigurator())->configure(new Container())
+            (new TestAuthDbContainerConfigurator())->configure(new Container())
         );
         $this->dao = $container->get(LoginDao::class);
     }
@@ -57,7 +57,7 @@ final class LoginDaoTest extends AppRunner
     private static function cleanup(): void
     {
         $container = (new AuthContainerConfigurator())->configure(
-            (new AuthDbContainerConfigurator())->configure(new Container())
+            (new TestAuthDbContainerConfigurator())->configure(new Container())
         );
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);

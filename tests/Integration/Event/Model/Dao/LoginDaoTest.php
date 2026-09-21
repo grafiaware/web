@@ -5,7 +5,7 @@ namespace Test\Integration\Dao;
 use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
-use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestEventsModelContainerConfigurator;
 use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\CompanyDao;
@@ -49,7 +49,7 @@ class LoginDaoTest extends AppRunner {
         self::bootstrapBeforeClass();
         self::removeRcords();
         $container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
 
@@ -74,7 +74,7 @@ class LoginDaoTest extends AppRunner {
 
     private static function removeRcords() {
         $container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
         //napred smazat vsechny zavisle, pak smazat login
@@ -101,7 +101,7 @@ class LoginDaoTest extends AppRunner {
 
     protected function setUp(): void {
         $this->container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
         $this->dao = $this->container->get(LoginDao::class);  // vždy nový objekt

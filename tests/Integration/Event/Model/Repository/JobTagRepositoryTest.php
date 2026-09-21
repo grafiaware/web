@@ -5,7 +5,7 @@ namespace Test\Integration\Event\Model\Repository;
 use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
 
-use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestEventsModelContainerConfigurator;
 use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\JobTagDao;
@@ -40,7 +40,7 @@ class JobTagRepositoryTest extends AppRunner {
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
         $container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(
                     (new Container( ) )  )
             );
@@ -77,7 +77,7 @@ class JobTagRepositoryTest extends AppRunner {
 
     protected function setUp(): void {
         $this->container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
         $this->jobTagRepo = $this->container->get( JobTagRepo::class);
@@ -91,7 +91,7 @@ class JobTagRepositoryTest extends AppRunner {
 
     public static function tearDownAfterClass(): void {
         $container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
 

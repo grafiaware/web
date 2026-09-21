@@ -1,39 +1,144 @@
-name: PHP Composer
+name: PHP Tests
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "master_tests" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "master_tests" ]
 
 permissions:
   contents: read
 
 jobs:
-  build:
-
+  unit:
+    name: Unit tests
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate --strict
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: pdo_mysql
+          coverage: none
+          tools: composer
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v3
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
 
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
 
-    # - name: Run test suite
-    #   run: composer run-script test
+      - name: Run unit tests
+        run: composer test:unit
+
+  integration:
+    name: Integration tests (DB)
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: web_red_test
+        ports:
+          - 3307:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+    env:
+      TEST_DB_HOST: 127.0.0.1
+      TEST_DB_PORT: 3307
+      TEST_DB_USER: webtest
+      TEST_DB_PASSWORD: webtest
+      TEST_DB_RED: web_red_test
+      TEST_DB_EVENTS: events_test
+      TEST_DB_AUTH: auth_test
+      # Schema import is not wired in CI yet — AppRunner skips until this is 1.
+      TEST_DB_SCHEMA_READY: "0"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: pdo_mysql
+          coverage: none
+          tools: composer
+
+      - name: Install MySQL client
+        run: sudo apt-get update && sudo apt-get install -y mysql-client
+
+      - name: Init test databases and users
+        run: mysql -h 127.0.0.1 -P 3307 -uroot -proot < tests/docker/mysql-init/01-create-test-databases.sql
+
+      - name: Cache Composer packages
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run integration tests
+        run: composer test:integration
+
+  mail:
+    name: Mail integration (smtp4dev)
+    runs-on: ubuntu-latest
+    services:
+      smtp4dev:
+        image: rnwood/smtp4dev:v3
+        ports:
+          - 25:25
+          - 5000:80
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          coverage: none
+          tools: composer
+
+      - name: Cache Composer packages
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Wait for smtp4dev API
+        run: |
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:5000/api/Messages >/dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "smtp4dev API not ready" >&2
+          exit 1
+
+      - name: Run mail integration tests
+        run: composer test:mail

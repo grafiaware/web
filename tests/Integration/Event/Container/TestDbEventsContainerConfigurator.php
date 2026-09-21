@@ -23,6 +23,7 @@ use Pes\Database\Handler\AttributesProvider\AttributesProvider;
 use Pes\Database\Handler\Handler;
 use Pes\Database\Handler\HandlerInterface;
 use Pes\Logger\FileLogger;
+use Test\Support\TestDatabaseEnv;
 
 
 /**
@@ -33,7 +34,7 @@ use Pes\Logger\FileLogger;
 class TestDbEventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
-        return [
+        return TestDatabaseEnv::eventsConnectionParams() + [
             #####################################
             # Konfigurace připojení k databázi Events
             #
@@ -118,4 +119,3 @@ class TestDbEventsContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 }
-

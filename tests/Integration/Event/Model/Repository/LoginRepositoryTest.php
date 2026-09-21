@@ -5,7 +5,7 @@ namespace Test\Integration\Event\Model\Repository;
 use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
 
-use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestEventsModelContainerConfigurator;
 use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
 use Pes\Model\RowData\RowData;
@@ -37,7 +37,7 @@ class LoginRepositoryTest extends AppRunner {
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
         $container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(
                     (new Container( ) ) )
             );
@@ -72,7 +72,7 @@ class LoginRepositoryTest extends AppRunner {
 
     protected function setUp(): void {
         $this->container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(
                     (new Container(  ) )  )
             );
@@ -87,7 +87,7 @@ class LoginRepositoryTest extends AppRunner {
 
     public static function tearDownAfterClass(): void {
         $container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(
                     (new Container( ) ) )
             );

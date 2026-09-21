@@ -1,3 +1,5 @@
+# Prefer docker-compose.test.yml (MySQL + smtp4dev).
+# This file keeps a mail-only profile for lighter local smtp4dev runs.
 services:
   smtp4dev:
     image: rnwood/smtp4dev:v3

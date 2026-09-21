@@ -5,7 +5,7 @@ namespace Test\Integration\Event\Model\Repository;
 
 use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
-use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestEventsModelContainerConfigurator;
 use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
@@ -42,7 +42,7 @@ class VisitorProfileRepositoryTest extends AppRunner {
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
         $container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
         // mazání - zde jen pro případ, že minulý test nebyl dokončen
@@ -127,7 +127,7 @@ class VisitorProfileRepositoryTest extends AppRunner {
 
     protected function setUp(): void {
         $this->container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
         $this->visitorProfileRepo = $this->container->get(VisitorProfileRepo::class);
@@ -139,7 +139,7 @@ class VisitorProfileRepositoryTest extends AppRunner {
 
     public static function tearDownAfterClass(): void {
         $container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
         self::deleteRecords($container);

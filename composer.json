@@ -69,5 +69,13 @@
 
             "Test\\": "tests"
         }
+    },
+    "scripts": {
+        "test": "phpunit -c tests/phpunit.xml --testsuite=unit",
+        "test:unit": "phpunit -c tests/phpunit.xml --testsuite=unit",
+        "test:integration": "phpunit -c tests/phpunit.xml --testsuite=integration",
+        "test:mail": "phpunit -c tests/phpunit.xml --testsuite=mail-integration",
+        "test:all": "phpunit -c tests/phpunit.xml",
+        "test:env": "docker compose -f docker-compose.test.yml up -d"
     }
 }

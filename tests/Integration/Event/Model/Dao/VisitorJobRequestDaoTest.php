@@ -6,7 +6,7 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Container\EventsModelContainerConfigurator;   //EventsContainerConfigurator
+use Test\Integration\Event\Container\TestEventsModelContainerConfigurator;   //EventsContainerConfigurator
 use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\VisitorJobRequestDao;
@@ -37,7 +37,7 @@ class VisitorJobRequestDaoTest  extends AppRunner {
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
         $container =
-            (new EventsModelContainerConfigurator())->configure(   (new TestDbEventsContainerConfigurator())->configure( (new Container()   )     )
+            (new TestEventsModelContainerConfigurator())->configure(   (new TestDbEventsContainerConfigurator())->configure( (new Container()   )     )
             );
 
         // nový login login_name, company, job
@@ -71,7 +71,7 @@ class VisitorJobRequestDaoTest  extends AppRunner {
 
     protected function setUp(): void {
         $this->container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(
                     (new Container(  )  )
                 )
@@ -86,7 +86,7 @@ class VisitorJobRequestDaoTest  extends AppRunner {
 
     public static function tearDownAfterClass(): void {
         $container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(
                     (new Container( ) )
                 )

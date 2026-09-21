@@ -12,7 +12,7 @@ use Auth\Model\Entity\LoginAggregateFull;
 use Auth\Model\Entity\Registration;
 use Auth\Model\Repository\LoginAggregateFullRepo;
 use Container\AuthContainerConfigurator;
-use Container\AuthDbContainerConfigurator;
+use Test\Integration\Auth\Container\TestAuthDbContainerConfigurator;
 use Pes\Container\Container;
 use Pes\Model\RowData\RowData;
 use Test\AppRunner\AppRunner;
@@ -33,7 +33,7 @@ final class LoginAggregateFullRepositoryTest extends AppRunner
     protected function setUp(): void
     {
         $container = (new AuthContainerConfigurator())->configure(
-            (new AuthDbContainerConfigurator())->configure(new Container())
+            (new TestAuthDbContainerConfigurator())->configure(new Container())
         );
         $this->repo = $container->get(LoginAggregateFullRepo::class);
     }
@@ -88,7 +88,7 @@ final class LoginAggregateFullRepositoryTest extends AppRunner
     private static function cleanup(): void
     {
         $container = (new AuthContainerConfigurator())->configure(
-            (new AuthDbContainerConfigurator())->configure(new Container())
+            (new TestAuthDbContainerConfigurator())->configure(new Container())
         );
 
         /** @var RegistrationDao $registrationDao */

@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Test\AppRunner;
 
 use Test\Support\ApplicationBootstrap;
+use Test\Support\TestDatabaseEnv;
 use PHPUnit\Framework\TestCase;
 
 use Pes\Http\Factory\EnvironmentFactory;
@@ -36,6 +37,10 @@ class AppRunner extends TestCase {
 
     public static function bootstrapBeforeClass(): void {
         ApplicationBootstrap::load();
+
+        // Docker/CI test DB: skip celé AppRunner třídy, dokud není DB+schéma připravené.
+        // Bez TEST_DB_HOST se chová jako dřív (lokální DB).
+        TestDatabaseEnv::skipIfTestDatabaseUnavailable(null, 'red');
 
         // input stream je možné otevřít jen jednou
         self::$inputStream = fopen('php://temp', 'w+');  // php://temp will store its data in memory but will use a temporary file once the amount of data stored hits a predefined limit (the default is 2 MB). The location of this temporary file is determined in the same way as the sys_get_temp_dir() function.

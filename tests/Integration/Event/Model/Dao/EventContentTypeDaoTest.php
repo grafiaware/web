@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Test\Integration\Dao;
 
 use Test\AppRunner\AppRunner;
-use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestEventsModelContainerConfigurator;
 use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Events\Model\Dao\EventContentTypeDao;
@@ -42,7 +42,7 @@ class EventContentTypeDaoTest extends AppRunner {
 
     protected function setUp(): void {
         $this->container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
         $this->dao = $this->container->get(EventContentTypeDao::class);  // vždy nový objekt
@@ -53,7 +53,7 @@ class EventContentTypeDaoTest extends AppRunner {
 
     public static function tearDownAfterClass(): void {
         $container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(new Container())
         );
 

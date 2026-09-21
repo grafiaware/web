@@ -22,6 +22,7 @@ use Pes\Database\Handler\Account;
 use Pes\Database\Handler\Handler;
 use Pes\Database\Handler\HandlerInterface;
 use Pes\Database\Handler\DbTypeEnum;
+use Test\Support\TestDatabaseEnv;
 
 /**
  * Description of MenuContainerFactory
@@ -32,6 +33,8 @@ class TestDbUpgradeContainerConfigurator extends DbUpgradeContainerConfigurator 
 
     public function getParams(): iterable {
         return
+            TestDatabaseEnv::redConnectionParams()
+            +
             [
                 #####################################
                 # Konfigurace připojení k databázi pro test
@@ -47,7 +50,8 @@ class TestDbUpgradeContainerConfigurator extends DbUpgradeContainerConfigurator 
                 #
                 #################################
 
-            ]+
+            ]
+            +
             parent::getParams();
     }
 

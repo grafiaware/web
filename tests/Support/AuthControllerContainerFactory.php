@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Test\Support;
 
 use Container\AuthContainerConfigurator;
-use Container\AuthDbContainerConfigurator;
+use Test\Integration\Auth\Container\TestAuthDbContainerConfigurator;
 use Mail\MessageFactory\HtmlMessage;
 use Pes\Container\Container;
 use Pes\Mail\MailInterface;
@@ -16,7 +16,7 @@ final class AuthControllerContainerFactory
     {
         $mailSpy = new MailSpy();
         $container = (new AuthContainerConfigurator())->configure(
-            (new AuthDbContainerConfigurator())->configure(new Container())
+            (new TestAuthDbContainerConfigurator())->configure(new Container())
         );
         $container->set(MailInterface::class, $mailSpy);
         $container->set(HtmlMessage::class, new HtmlMessage());

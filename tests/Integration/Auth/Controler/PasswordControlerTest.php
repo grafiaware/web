@@ -11,7 +11,7 @@ use Auth\Model\Dao\RegistrationDao;
 use Auth\Model\Entity\LoginAggregateFull;
 use Auth\Model\Repository\LoginAggregateFullRepo;
 use Container\AuthContainerConfigurator;
-use Container\AuthDbContainerConfigurator;
+use Test\Integration\Auth\Container\TestAuthDbContainerConfigurator;
 use Pes\Container\Container;
 use Pes\Core\Security\Password\Password;
 use Pes\Model\RowData\RowData;
@@ -51,7 +51,7 @@ final class PasswordControlerTest extends AppRunner
     protected function setUp(): void
     {
         $container = (new AuthContainerConfigurator())->configure(
-            (new AuthDbContainerConfigurator())->configure(new Container())
+            (new TestAuthDbContainerConfigurator())->configure(new Container())
         );
         $this->loginRepo = $container->get(LoginAggregateFullRepo::class);
     }
@@ -181,7 +181,7 @@ final class PasswordControlerTest extends AppRunner
     private static function seedUser(): void
     {
         $container = (new AuthContainerConfigurator())->configure(
-            (new AuthDbContainerConfigurator())->configure(new Container())
+            (new TestAuthDbContainerConfigurator())->configure(new Container())
         );
 
         /** @var LoginDao $loginDao */
@@ -215,7 +215,7 @@ final class PasswordControlerTest extends AppRunner
     private static function cleanup(): void
     {
         $container = (new AuthContainerConfigurator())->configure(
-            (new AuthDbContainerConfigurator())->configure(new Container())
+            (new TestAuthDbContainerConfigurator())->configure(new Container())
         );
 
         /** @var RegistrationDao $registrationDao */

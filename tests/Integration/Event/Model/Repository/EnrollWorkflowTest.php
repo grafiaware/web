@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Test\Integration\Event\Model\Repository;
 
-use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestEventsModelContainerConfigurator;
 use Events\Model\Dao\EnrollDao;
 use Events\Model\Dao\EventDao;
 use Events\Model\Dao\LoginDao;
@@ -26,7 +26,7 @@ final class EnrollWorkflowTest extends AppRunner
     public static function setUpBeforeClass(): void
     {
         self::bootstrapBeforeClass();
-        $container = (new EventsModelContainerConfigurator())->configure(
+        $container = (new TestEventsModelContainerConfigurator())->configure(
             (new TestDbEventsContainerConfigurator())->configure(new Container())
         );
 
@@ -50,7 +50,7 @@ final class EnrollWorkflowTest extends AppRunner
 
     protected function setUp(): void
     {
-        $container = (new EventsModelContainerConfigurator())->configure(
+        $container = (new TestEventsModelContainerConfigurator())->configure(
             (new TestDbEventsContainerConfigurator())->configure(new Container())
         );
         $this->enrollRepo = $container->get(EnrollRepo::class);
@@ -63,7 +63,7 @@ final class EnrollWorkflowTest extends AppRunner
 
     public static function tearDownAfterClass(): void
     {
-        $container = (new EventsModelContainerConfigurator())->configure(
+        $container = (new TestEventsModelContainerConfigurator())->configure(
             (new TestDbEventsContainerConfigurator())->configure(new Container())
         );
 
@@ -97,7 +97,7 @@ final class EnrollWorkflowTest extends AppRunner
 
         $this->assertTrue($enroll->isPersisted());
 
-        $container = (new EventsModelContainerConfigurator())->configure(
+        $container = (new TestEventsModelContainerConfigurator())->configure(
             (new TestDbEventsContainerConfigurator())->configure(new Container())
         );
         /** @var EnrollDao $enrollDao */

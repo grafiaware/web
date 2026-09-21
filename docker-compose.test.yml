@@ -1,0 +1,34 @@
+# Local / CI test dependencies: MySQL (integration) + smtp4dev (mail).
+# Usage:
+#   docker compose -f docker-compose.test.yml up -d
+#   copy tests/.env.testing.example values into your shell, then:
+#   composer test:unit
+#   composer test:integration   # needs TEST_DB_SCHEMA_READY=1 after schema import
+#   composer test:mail
+
+services:
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: web_red_test
+    volumes:
+      - ./tests/docker/mysql-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  smtp4dev:
+    image: rnwood/smtp4dev:v3
+    ports:
+      - "25:25"
+      - "5000:80"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:80/api/Messages >/dev/null 2>&1 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20

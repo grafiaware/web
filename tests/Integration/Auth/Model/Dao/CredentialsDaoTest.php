@@ -7,7 +7,7 @@ use Auth\Model\Dao\CredentialsDao;
 use Auth\Model\Dao\LoginDao;
 use Auth\Model\Dao\RoleDao;
 use Container\AuthContainerConfigurator;
-use Container\AuthDbContainerConfigurator;
+use Test\Integration\Auth\Container\TestAuthDbContainerConfigurator;
 use Pes\Container\Container;
 use Pes\Model\RowData\RowData;
 use Pes\Model\RowData\RowDataInterface;
@@ -96,7 +96,7 @@ final class CredentialsDaoTest extends AppRunner
     private static function authContainer(): Container
     {
         return (new AuthContainerConfigurator())->configure(
-            (new AuthDbContainerConfigurator())->configure(new Container())
+            (new TestAuthDbContainerConfigurator())->configure(new Container())
         );
     }
 

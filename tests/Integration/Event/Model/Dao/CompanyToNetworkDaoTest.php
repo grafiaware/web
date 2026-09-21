@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Test\Integration\Event\Model\Dao;
 
-use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestEventsModelContainerConfigurator;
 use Events\Model\Dao\CompanyDao;
 use Events\Model\Dao\CompanyToNetworkDao;
 use Events\Model\Dao\NetworkDao;
@@ -23,7 +23,7 @@ final class CompanyToNetworkDaoTest extends AppRunner
     {
         self::bootstrapBeforeClass();
         self::$companyName = 'CompanyToNetworkDaoTest_' . uniqid();
-        $container = (new EventsModelContainerConfigurator())->configure(
+        $container = (new TestEventsModelContainerConfigurator())->configure(
             (new TestDbEventsContainerConfigurator())->configure(new Container())
         );
 
@@ -51,7 +51,7 @@ final class CompanyToNetworkDaoTest extends AppRunner
 
     protected function setUp(): void
     {
-        $container = (new EventsModelContainerConfigurator())->configure(
+        $container = (new TestEventsModelContainerConfigurator())->configure(
             (new TestDbEventsContainerConfigurator())->configure(new Container())
         );
         $this->dao = $container->get(CompanyToNetworkDao::class);
@@ -59,7 +59,7 @@ final class CompanyToNetworkDaoTest extends AppRunner
 
     public static function tearDownAfterClass(): void
     {
-        $container = (new EventsModelContainerConfigurator())->configure(
+        $container = (new TestEventsModelContainerConfigurator())->configure(
             (new TestDbEventsContainerConfigurator())->configure(new Container())
         );
 

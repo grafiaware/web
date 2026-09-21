@@ -7,7 +7,7 @@ use Test\AppRunner\AppRunner;
 use Pes\Container\Container;
 
 use Container\AuthContainerConfigurator;
-use Container\AuthDbContainerConfigurator;
+use Test\Integration\Auth\Container\TestAuthDbContainerConfigurator;
 
 use Auth\Model\Entity\Role;
 use Auth\Model\Entity\RoleInterface;
@@ -42,7 +42,7 @@ class RoleRepositoryTest  extends AppRunner {
         
         $container =
             (new AuthContainerConfigurator())->configure(
-                (new AuthDbContainerConfigurator())->configure(
+                (new TestAuthDbContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
                         )
@@ -85,7 +85,7 @@ class RoleRepositoryTest  extends AppRunner {
 
         $container =
             (new AuthContainerConfigurator())->configure(
-                (new AuthDbContainerConfigurator())->configure(
+                (new TestAuthDbContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
                         )
@@ -109,7 +109,7 @@ class RoleRepositoryTest  extends AppRunner {
         
         $container =
             (new AuthContainerConfigurator())->configure(
-                (new AuthDbContainerConfigurator())->configure(
+                (new TestAuthDbContainerConfigurator())->configure(
                     (new Container(
 //                            $this->getApp()->getAppContainer()       bez app kontejneru
                         )

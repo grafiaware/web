@@ -6,7 +6,7 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Container\EventsModelContainerConfigurator;
+use Test\Integration\Event\Container\TestEventsModelContainerConfigurator;
 use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
 use Pes\Model\RowData\RowData;
@@ -34,7 +34,7 @@ class CompanyAddressDaoTest  extends AppRunner {
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
         $container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure( (new Container( ) ) ) );
 
         // nova company - priprava potrebne propojene tabulky
@@ -50,7 +50,7 @@ class CompanyAddressDaoTest  extends AppRunner {
     //-------------------------------------------------------------------------
     protected function setUp(): void {
         $this->container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(  (new Container(  )  ) ) );
 
         $this->dao = $this->container->get(CompanyAddressDao::class);  // vždy nový objekt
@@ -61,7 +61,7 @@ class CompanyAddressDaoTest  extends AppRunner {
 
     public static function tearDownAfterClass(): void {
         $container =
-            (new EventsModelContainerConfigurator())->configure(
+            (new TestEventsModelContainerConfigurator())->configure(
                 (new TestDbEventsContainerConfigurator())->configure(new Container())
             );
         /** @var CompanyDao $companyDao */
