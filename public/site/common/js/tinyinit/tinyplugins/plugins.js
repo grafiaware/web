@@ -20,7 +20,7 @@ export const attachmentPlugin = (editor, url) => {
       type: 'panel',
       // items:
       // pokud je filetype jeden z typů uvedených v parametru tiny init file_picker_types - volá se událost "change" on input v filePickerCallback
-      // parametr meta v filePickerCallback(callback, value, meta) pak obsahuje {fieldname: "hodnoty name v items", filefiletype: "hodnota filetype v items"}
+      // parametr meta v filePickerCallback(callback, value, meta) pak obsahuje {fieldname: "hodnota name v items", filetype: "hodnota filetype v items"}
       items: [
         {
             type: 'htmlpanel',
@@ -39,6 +39,10 @@ export const attachmentPlugin = (editor, url) => {
         }
       ]
     },
+    initialData: {
+      textToDisplay: '',
+      fileInput: { value: '', meta: {} }
+    },
     buttons: [
         // 'submit' or 'cancel' or 'custom' or 'menu'
       {
@@ -54,14 +58,18 @@ export const attachmentPlugin = (editor, url) => {
     ],
     onSubmit: (dialogApi) => {   // https://www.tiny.cloud/docs/ui-components/dialog/#dialoginstanceapi
         const data = dialogApi.getData();
-        // meta: { originalName: originalName, blobInfo: blobInfo)
+        const fileInput = data.fileInput || { value: '', meta: {} };
+        const meta = fileInput.meta || {};
         /* Insert content when the window form is submitted */
-        // url.meta pbsahuje objekt předaný jako druhý parametr callback() v filesupload - příklad: data.fileInput.meta.fileName
-        const fileName = data.fileInput.meta.fileName;
+        // urlinput: getData() vrací { value, meta }; meta je druhý argument callback() z file_picker_callback
+        const fileName = meta.fileName || fileInput.value;
         const textToDisplay = data.textToDisplay;
-        const blobInfoFromFileupload = data.fileInput.meta.blobInfo;
-        const blobCache =  tinymce.activeEditor.editorUpload.blobCache;
-        const file = blobCache.get(data.fileInput.meta.id);
+        const blobCache = editor.editorUpload.blobCache;
+        const blobInfoFromFileupload = meta.blobInfo || (meta.id ? blobCache.get(meta.id) : undefined);
+        if (!blobInfoFromFileupload) {
+            tinyNotification.warning('Nejprve vyberte soubor.');
+            return;
+        }
         attachmentUploadHandler(blobInfoFromFileupload)
         .then(
             function(value) {
