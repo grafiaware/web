@@ -85,9 +85,23 @@ class FilesUploadControler extends FilesUploadControlerAbstract {
         
         try {
             $uploadedFile = $this->getAndValidateUploadedFile($request, $uploadedKey, $maxFileSize, $acceptedExtensions);
+            $editedItemId = $this->paramValue($request, 'edited_item_id');
+            if (!$editedItemId) {    
+                throw new NoEditedItemIdException("Not Acceptable. Request has no 'edited_item_id' parameter.");
+            }
+            $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+            if (!$loginAggregate) {
+                throw new UploadFileException('Unauthorized. User is not logged in.', 401);
+            }
+            $editor = $loginAggregate->getLoginName();
+            $targetFilepath = $this->assetService->storeAsset($uploadedFile, $editedItemId, $editor);
+            return $this->okTinyJsonResponse($targetFilepath);
         } catch (UploadFileException $e) {
             $httpStatus = $e->getCode(); // http status kód byl předán do Exception->code v getAndValidateUploadedFile()
             $statusText =  $e->getMessage();
+        } catch (NoEditedItemIdException $e) {
+            $httpStatus = 406;
+            $statusText = $e->getMessage();
         } catch (CreateDirectoryFailedException $e) {
             $httpStatus = 500; // 500 Internal Server Error
             $statusText =  $e->getMessage();
@@ -100,19 +114,7 @@ class FilesUploadControler extends FilesUploadControlerAbstract {
             }
         }
 
-        if (isset($statusText)) {
-            $response = $this->errorResponse($httpStatus, $statusText);
-        } else {
-            $editedItemId = $this->paramValue($request, 'edited_item_id');
-            if (!$editedItemId) {    
-                throw new NoEditedItemIdException("Not Acceptable. Request has no 'edited_item_id' parameter.");
-            }              
-            $editor = $this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName();
-            $targetFilepath = $this->assetService->storeAsset($uploadedFile, $editedItemId, $editor);
-            $response = $this->okTinyJsonResponse($targetFilepath);
-        }
-
-        return $response;
+        return $this->errorResponse($httpStatus, $statusText);
     }
     
     private function errorResponse(?int $httpStatus=null, ?string$statusText='' ) {

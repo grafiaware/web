@@ -1,6 +1,13 @@
 {
+  "scripts": {
+    "less:build": "node scripts/compile-less.js",
+    "less:watch": "node scripts/compile-less.js --watch"
+  },
   "dependencies": {
     "fomantic-ui": "^2.9.2",
     "vanilla-cookieconsent": "^3.0.1"
+  },
+  "devDependencies": {
+    "less": "^4.9.1"
   }
 }

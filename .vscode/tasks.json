@@ -1,0 +1,60 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compile all LESS",
+            "type": "npm",
+            "script": "less:build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "focus": false
+            },
+            "problemMatcher": {
+                "owner": "less",
+                "fileLocation": "absolute",
+                "pattern": {
+                    "regexp": "^.+ in (.+) on line (\\d+), column (\\d+):",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "message": 0
+                }
+            }
+        },
+        {
+            "label": "Watch LESS",
+            "type": "npm",
+            "script": "less:watch",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "focus": false
+            },
+            "problemMatcher": {
+                "owner": "less",
+                "fileLocation": "absolute",
+                "pattern": {
+                    "regexp": "^.+ in (.+) on line (\\d+), column (\\d+):",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "message": 0
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^Watching LESS",
+                    "endsPattern": "^(Compiled |LESS compile failed)"
+                }
+            },
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
+        }
+    ]
+}

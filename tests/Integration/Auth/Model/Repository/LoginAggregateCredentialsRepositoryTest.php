@@ -25,6 +25,7 @@ use Auth\Model\Dao\LoginDao;
 use Auth\Model\Dao\CredentialsDao;
 use Auth\Model\Repository\LoginAggregateCredentialsRepo;
 
+use Access\Enum\RoleEnum;
 use Auth\Model\Entity\LoginAggregateCredentials;
 use Auth\Model\Entity\Credentials;
 
@@ -74,7 +75,7 @@ class LoginAggregateCredentialsRepositoryTest extends AppRunner {
         /** @var RegistrationDao $credentialsDao */
         $credentialsDao = $container->get(CredentialsDao::class);
         $rowData = new RowData();
-        $rowData->import(['login_name_fk'=> self::LOGIN_NAME1, 'password_hash'=>"testHeslosetUpBeforeClass", "role_fk"=>"panákZTestu"]);
+        $rowData->import(['login_name_fk'=> self::LOGIN_NAME1, 'password_hash'=>"testHeslosetUpBeforeClass", "role_fk"=>RoleEnum::VISITOR]);
         $credentialsDao->insert($rowData);
     }
 

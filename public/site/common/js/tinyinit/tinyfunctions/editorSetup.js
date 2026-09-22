@@ -6,6 +6,55 @@
 
 /* global tinymce */
 
+/** true během fetch uložení — zabrání dvojímu POST z blur + tlačítka Save */
+let savingEditor = false;
+
+/**
+ * Uloží obsah TinyMCE POST-em přes fetch (ne nativní form.submit).
+ * Plugin Save i blur handler používají tuto funkci.
+ *
+ * Server u perex/headline/article vrací 204 No Content. Firefox u navigace
+ * formuláře s 204 hlásí NS_BINDING_ABORTED a v DevTools není vidět odpověď,
+ * i když se data uložila. fetch 204 zpracuje bez navigace.
+ *
+ * @param {object} editor TinyMCE editor
+ * @returns {Promise<void>}
+ */
+export const saveRedEditor = (editor) => {
+    if (!editor || savingEditor) {
+        return Promise.resolve();
+    }
+    const form = editor.formElement;
+    if (!form) {
+        console.error('saveRedEditor: editor has no formElement');
+        return Promise.resolve();
+    }
+    savingEditor = true;
+    editor.save();
+    const formData = new FormData(form);
+    formData.set(editor.id, editor.getContent());
+    const action = form.getAttribute('action');
+    return fetch(action, {
+        method: (form.getAttribute('method') || 'POST').toUpperCase(),
+        body: formData,
+        credentials: 'same-origin'
+    }).then((response) => {
+        if (response.status === 204 || response.ok) {
+            editor.setDirty(false);
+            return;
+        }
+        throw new Error('HTTP ' + response.status + ' ' + response.statusText);
+    }).catch((error) => {
+        console.error('saveRedEditor: ' + error.message);
+        editor.notificationManager.open({
+            text: 'Uložení selhalo: ' + error.message,
+            type: 'error'
+        });
+    }).finally(() => {
+        savingEditor = false;
+    });
+};
+
 /**
  * Callback funkce nastavená parametrem v konfiguraci TinyMCE setup: editorFunction. Volá se před inicializací instance TinyMCE.
  *
@@ -13,26 +62,17 @@
  * @returns {undefined}
  */
 export const redEditorSetup = (editor) => {
-    let form;
-    let val;
-
-    editor.on('focus', function(e) {
-        val = editor.getContent();
-        form = editor.formElement;
-    });
     editor.on('blur', (e) => {
+        if (savingEditor) {
+            return;
+        }
         if (editor.isDirty()) {
             if (confirm("Uložit změny?")) {
-                editor.save();  // vloží obsah do příslušného hidden inputu
-//                removeItemAction(editor);  // post request - ukončení editace
-                form.submit();
+                saveRedEditor(editor);
             } else {
                 if (confirm("Opravdu chcete ukončit editaci a zahodit změny?")) {
-//                    removeItemAction(editor);  // post request - ukončení editace, nerefreshne se stránka, není vidět odhlášení
-//                    editor.resetContent();
-                    // nadbytečný submit - posílá původní obsah, slouží pouze pro vyncené refreshe obsahu 
-                    // (post redirect get) a tím zajistí správné zobrazení tlačítka Zapnout/Vypnout editaci
-                    form.submit();
+                    editor.resetContent();
+                    editor.setDirty(false);
                 } else {
                     editor.focus();
                 }

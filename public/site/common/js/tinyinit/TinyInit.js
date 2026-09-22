@@ -5,7 +5,7 @@
 
 /* global tinyConfig */
 
-import {redEditorSetup, setupUserInputEditor, initInstanceUserInputEditor, pastePreprocessUserInput} from "./tinyfunctions/editorSetup.js";
+import {redEditorSetup, saveRedEditor, setupUserInputEditor, initInstanceUserInputEditor, pastePreprocessUserInput} from "./tinyfunctions/editorSetup.js";
 import {filePickerCallback, redImageUploadHandler} from "./tinyfunctions/fileupload.js";
 import {attachmentPlugin} from "./tinyplugins/plugins.js";
 
@@ -146,7 +146,9 @@ const editCommonConfig = {
  
     language : tinyConfig.toolbarsLang,
     document_base_url : tinyConfig.basePath,
-    content_css: tinyConfig.contentCss,    
+    content_css: tinyConfig.contentCss,
+    // TinyMCE Save jinak volá nativní form.submit(); 204 od serveru Firefox abortne (NS_BINDING_ABORTED)
+    save_onsavecallback: saveRedEditor
 };
 
 const editRedConfig = {
@@ -170,7 +172,8 @@ const editFormRepresentative = {
     menubar: false,  // bez vypnutí se zobeazí default menu
     plugins: ['save', 'cancel', 'lists', 'autolink'], // mobile
     toolbar: ['save', 'cancel', 'undo', 'bold', 'italic', 'styles'], // mobile
-    setup: redEditorSetup   
+    setup: redEditorSetup,
+    save_onsavecallback: saveRedEditor
     //plugin wordcount
     
 };
