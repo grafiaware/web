@@ -79,6 +79,7 @@ class ConfigurationRed extends ConfigurationConstants {
                 ],
                 'author' => [
                     [ 'title' => 'Profil umělce', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/profil_umelce'],
+                    [ 'title' => 'Profil umělce', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/profil_atelieru'],
                     [ 'title' => 'Profil instituce', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/profil_instituce'],
                     [ 'title' => 'Profil místa', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/profil_mista'],
                     [ 'title' => 'Podprofil umělec', 'description' => 'Vložení lorem ipsum', 'url' => 'red/v1/authortemplate/podprofil_umelec'],
