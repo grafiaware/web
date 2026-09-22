@@ -49,14 +49,8 @@ class AssetService implements AssetServiceInterface {
 //     * @throws \InvalidArgumentException if the $targetPath specified is invalid.
 //     * @throws \RuntimeException on any error during the move operation, or on  
 //     *     the second or subsequent call to the method.
-        try {
-            $uploadedFile->moveTo($targetFilepath);
-            $this->recordAsset($clientFileName, $clientMime, $editedItemId, $editor);              
-        } catch (InvalidArgumentException $exc) {
-            echo $exc->getTraceAsString();
-        } catch (RuntimeException $exc) {
-            echo $exc->getTraceAsString();
-        }
+        $uploadedFile->moveTo($targetFilepath);
+        $this->recordAsset($clientFileName, $clientMime, $editedItemId, $editor);
 
 
         
@@ -72,6 +66,11 @@ class AssetService implements AssetServiceInterface {
     private function prepareAssetTargetFilePath($clientFileName) {
         // relativní cesta vzhledem k rootu
         $baseFilepath = ConfigurationCache::redUploads()['upload.red'];
+        if (!is_dir($baseFilepath)) {
+            if (!@mkdir($baseFilepath, 0775, true) && !is_dir($baseFilepath)) {
+                throw new RuntimeException("Cannot create upload directory: $baseFilepath");
+            }
+        }
         return $baseFilepath.$clientFileName;        
     }
     
