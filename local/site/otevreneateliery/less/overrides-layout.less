@@ -94,7 +94,7 @@ body{
         margin-left: 40px;
     }
     .profil-oa, .podprofil-oa{ //.blok_text_obrazek, //.blok_text_obrazek.vnor 
-        &.i-umelec, &.i-instituce, &.i-misto{
+        &.i-atelier, &.i-umelec, &.i-instituce, &.i-misto{
             > :first-child::before{
                 font-family: Icons;
                 font-weight: 400;
@@ -104,6 +104,9 @@ body{
         }
         &.i-umelec > :first-child::before{
             content: "\f53f";
+        }
+        &.i-atelier > :first-child::before{
+            content: "\f54f";
         }
         &.i-instituce > :first-child::before{
             content: "\f66f";
@@ -121,8 +124,7 @@ body{
                 margin: 0 3px 0 3px;
             }
         }
-    }
-    
+    }    
     //article pro umělce
 /*    article {
       scroll-snap-type: y mandatory; // y proximity
