@@ -35,7 +35,7 @@ export const filePickerCallback = (callback, value, meta) => {
             const uniqueName = image_unique_name(originalName);
             const blobCache =  tinymce.activeEditor.editorUpload.blobCache;
             const base64 = reader.result.split(',')[1];  // reader.result konvertuje image na base64 string // Ignorujeme první prvek (před čárkou), extrahujeme druhý //const [, druhy] = str.split(','); 
-            const blobInfo = blobCache.create(uniqueName, file, base64);
+            const blobInfo = blobCache.create(uniqueName, file, base64, originalName, originalName);
             blobCache.add(blobInfo);
             
             /* call the callback and populate the Title field with the file name */
