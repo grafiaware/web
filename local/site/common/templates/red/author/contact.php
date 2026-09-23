@@ -7,7 +7,7 @@
                 <p>Mobil: +420 774 484 850</p>
                 <p>E-mail: <a href="mailto:info@grafia.cz">info@grafia.cz</a></p>
                 <p>Fax: 378 771 211</p>
-                <p>Kancelář: Budilova 4, Plzeň</p>
+                <p>Kancelář: Houškova 35, Plzeň</p>
             </div>
         </div>
     </div>
