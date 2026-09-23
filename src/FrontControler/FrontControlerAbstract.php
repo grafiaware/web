@@ -14,34 +14,25 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Enum\FlashSeverityEnum;
 
 use FrontControler\StatusEnum;
+use FrontControler\Response\HttpResponseFactory;
+use FrontControler\Response\ResponseFactoryInterface;
 
 use Access\Enum\RoleEnum;
-use Access\Enum\AccessActionEnum;
-use Access\AccessPresentationInterface;
-
 
 use Component\View\ComponentInterface;
-
-use Red\Model\Repository\ItemActionRepo;
-use Red\Model\Repository\ItemActionRepoInterface;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Container\ContainerInterface;
 
-use Pes\Application\AppFactory;
 use Pes\Http\Request;
 use Pes\Http\Helper\UriInfoInterface;
-use Pes\Http\Factory\ResponseFactory;
-use Pes\Http\Response\RedirectResponse;
-use Pes\Http\Response;
 use Pes\View\View;
 use Pes\View\ViewInterface;
 use Pes\View\Renderer\ImplodeRenderer;
 use Pes\Core\Text\Html;
 
 use LogicException;
-use UnexpectedValueException;
 
 /**
  * Description of ControlerAbstract
@@ -73,6 +64,13 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     protected $statusPresentationRepo;
 
     /**
+     * Skládání HTTP response (status, hlavičky, body). Viz {@see ResponseFactoryInterface}.
+     *
+     * @var ResponseFactoryInterface
+     */
+    protected $responseFactory;
+
+    /**
      *
      * @param StatusSecurityRepo $statusSecurityRepo
      */
@@ -84,6 +82,11 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         $this->statusSecurityRepo = $statusSecurityRepo;
         $this->statusFlashRepo = $statusFlashRepo;
         $this->statusPresentationRepo = $statusPresentationRepo;
+        $this->responseFactory = new HttpResponseFactory(
+            $statusPresentationRepo,
+            fn(ResponseInterface $response) => $this->addCacheHeaders($response),
+            fn(ResponseInterface $response) => $this->addContentHeaders($response),
+        );
     }
 
     public function injectContainer(ContainerInterface $componentContainer): FrontControlerInterface {
@@ -93,6 +96,10 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
 
     public function setConfiguration($configuration): FrontControlerInterface {
         throw new LogicException("Implementace kontroleru musí implementovat vlastní metodu setConfiguration.");
+    }
+
+    protected function getResponseFactory(): ResponseFactoryInterface {
+        return $this->responseFactory;
     }
     
     ### protected
@@ -126,11 +133,8 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         $statusecurity = $this->statusSecurityRepo->getClone();
         return $statusecurity->hasValidSecurityContext() ? $statusecurity->getLoginAggregate()->getLoginName() : '';
     }
-    
-    private function statusCode($statusEnumValue) {
-        return (new StatusEnum())($statusEnumValue);
-    }
-    /// create response helpers ///
+
+    /// create response helpers — delegace na HttpResponseFactory ///
 
     /**
      * 
@@ -139,13 +143,7 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @return ResponseInterface
      */
     protected function createStringOKResponseFromView(ViewInterface $view, $status = StatusEnum::_200_OK): ResponseInterface {
-        $statusEnumValue = $this->statusCode($status);
-        $stringContent = $view->getString();
-        if(is_null($stringContent)) {
-            $cls = get_class($view);
-            $stringContent = "No string content returned by $cls method getString().";
-        }
-        return $this->createStringOKResponse($stringContent, $statusEnumValue);
+        return $this->responseFactory->createStringOKResponseFromView($view, $status);
     }
 
     /**
@@ -155,51 +153,23 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @return ResponseInterface
      */
     protected function createStringOKResponse($stringContent, $status = StatusEnum::_200_OK): ResponseInterface {
-        $statusEnumValue = $this->statusCode($status);
-        $response = (new ResponseFactory())->createResponse($statusEnumValue);
-
-        ####  hlavičky  ####
-        $response = $this->addContentHeaders($response);
-        $response = $this->addCacheHeaders($response);
-
-        ####  body  ####
-        $body = $response->getBody();
-        $body->write($stringContent);
-        $body->rewind();
-        return $response;
+        return $this->responseFactory->createStringOKResponse($stringContent, $status);
     }
     
     protected function createJsonOKResponse($array, $status = StatusEnum::_200_OK): ResponseInterface {
-        $statusEnumValue = $this->statusCode($status);
-        $json = $this->jsonEncode($array);
-        $response = $this->createStringOKResponse($json)->withStatus($statusEnumValue);
-        return $response->withHeader('Content-Type', 'application/json');
+        return $this->responseFactory->createJsonOKResponse($array, $status);
     }
     
     protected function createPutNoContentResponse($status = StatusEnum::_204_NoContent): ResponseInterface {
-        $statusEnumValue = $this->statusCode($status);
-        $response = (new ResponseFactory())->createResponse($statusEnumValue);
-        ####  hlavičky  ####
-        return $this->addCacheHeaders($response);  // 204 respnse je cacheable        
+        return $this->responseFactory->createPutNoContentResponse($status);
     }
     
     protected function createJsonPostCreatedResponse($array, $status = StatusEnum::_201_Created): ResponseInterface {
-        $statusEnumValue = $this->statusCode($status);
-        $json = $this->jsonEncode($array);
-        $response = $this->createStringOKResponse($json)->withStatus($statusEnumValue);
-        return $response->withHeader('Content-Type', 'application/json');
+        return $this->responseFactory->createJsonPostCreatedResponse($array, $status);
     }    
     
-    private function jsonEncode($array) {
-        $json = json_encode($array);
-        if ($json===false) {
-            throw new UnexpectedValueException("invalid value foe creating json.");
-        }
-        return $json;
-    }
-    
     protected function createUnauthorizedResponse() {
-        return (new ResponseFactory())->createResponse()->withStatus(401);  // Unauthorized
+        return $this->responseFactory->createUnauthorizedResponse();
     }
     
     /**
@@ -209,8 +179,7 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @return Response
      */
     protected function createResponseRedirectSeeOther(ServerRequestInterface $request, $restUri): ResponseInterface {
-        $newPath = $this->getUriInfo($request)->getRootAbsolutePath().ltrim($restUri, '/');
-        return RedirectResponse::withPostRedirectGet(new Response(), $newPath); // 303 See Other
+        return $this->responseFactory->createResponseRedirectSeeOther($request, $restUri);
     }
 
     ### protected methods ###############
@@ -256,8 +225,7 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @return type
      */
     protected function redirectSeeLastGet(ServerRequestInterface $request) {
-        $lastGet = $this->statusPresentationRepo->getClone();
-        return $this->createResponseRedirectSeeOther($request, isset($lastGet) ? $lastGet->getLastGetResourcePath() : '/'); // 303 See Other
+        return $this->responseFactory->redirectSeeLastGet($request);
     }
     
     ####
