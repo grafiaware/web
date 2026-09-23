@@ -22,8 +22,8 @@ $corporateContacts = [
     ]
 ]; 
 $corporateAddress = [
-    'pobockaFirmyUlice' => 'Budilova 4',
-    'pobockaFirmyMesto' => '301 00 Plzeň',
+    'pobockaFirmyUlice' => 'Houškova 35',
+    'pobockaFirmyMesto' => '326 00 Plzeň 2',
     
 ]
 
