@@ -6,6 +6,9 @@ use LogicException;
 
 /**
  * Detekce dostupných modulů site podle existence konfiguračních tříd.
+ *
+ * Používá {@see \Application\DeployComposition} pro výběr selector stacků
+ * a API katalogů (fáze 3 — whitelist jen pro zapnuté moduly).
  */
 final class SiteModules {
 

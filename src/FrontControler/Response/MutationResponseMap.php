@@ -3,9 +3,13 @@
 namespace FrontControler\Response;
 
 /**
- * Katalog mutací (POST/PUT/DELETE): jaký klientský režim a jaký typ response.
+ * @deprecated Fáze 0: transient. Nové mutace nedávej sem — `responseMode` patří do
+ *             {@see \Application\Api\RouteDefinition} v modulových katalozích
+ *             (`Application\Api\Catalog\*`). Tento katalog se nepoužívá za běhu;
+ *             hodnoty byly překlopeny do katalogů při generování. Odstranit po
+ *             dokončení vynucení response z RouteDefinition.
  *
- * Krok 2 restrukturalizace — dokumentace a lookup; vynucení v kontrolerech přijde později.
+ * Katalog mutací (POST/PUT/DELETE): jaký klientský režim a jaký typ response.
  * Výchozí mapování mode → kind: {@see self::defaultKindFor()}.
  */
 final class MutationResponseMap {

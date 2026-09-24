@@ -46,11 +46,15 @@ $appContainer =(new AppContainerConfigurator())->configure(new Container());  //
 $app->setAppContainer($appContainer);
 
 $selector = $appContainer->get(Selector::class);
-(new SelectorItems($app))->addItems($selector);
+$selectorItems = new SelectorItems($app);
+$selectorItems->addItems($selector);
 
-//TODO: ApiRegistrator do pes, volání ->registerApi do AppFactory - APPFactory musí dostat app kontejner do konstruktoru
-// registrace api do ResourceRegistry, ResourceRegistry se zaregistrovaným api je dostupný v kontejneru aplikace
-$app->getAppContainer()->get(ApiRegistrator::class)->registerApi($app->getAppContainer()->get(ResourceRegistry::class));
+//TODO: ApiRegistrator do pes / AppFactory
+// whitelist ResourceRegistry = API katalogy zapnutých modulů (DeployComposition ← SiteModules)
+$app->getAppContainer()->get(ApiRegistrator::class)->registerApi(
+    $app->getAppContainer()->get(ResourceRegistry::class),
+    $selectorItems->getEnabledApiModuleIds()
+);
 
 $noMatchHandler = $appContainer->get(NoMatchedRouteRequestHandler::class);
 $response = $app->run($selector, $noMatchHandler);
