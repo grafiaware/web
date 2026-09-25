@@ -2,8 +2,10 @@
 
 namespace Application\Api;
 
+use FrontControler\FrontControlerAbstract;
 use Pes\Router\RouteSegmentGenerator;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use ReflectionMethod;
 use InvalidArgumentException;
 
@@ -37,9 +39,15 @@ final class RouteCatalogWiring {
             $generator->addRouteForAction(
                 $def->httpMethod,
                 $def->urlPattern,
-                static function () use ($container, $class, $method) {
+                static function () use ($container, $class, $method, $def) {
                     $ctrl = $container->get($class);
+                    if ($ctrl instanceof FrontControlerAbstract) {
+                        $ctrl->bindRouteResponse($def);
+                    }
                     $args = func_get_args();
+                    if (isset($args[0]) && $args[0] instanceof ServerRequestInterface) {
+                        $args[0] = $args[0]->withAttribute(RouteDefinition::REQUEST_ATTRIBUTE, $def);
+                    }
                     $ref = new ReflectionMethod($ctrl, $method);
                     $argc = $ref->getNumberOfParameters();
                     return $ref->invokeArgs($ctrl, array_slice($args, 0, $argc));

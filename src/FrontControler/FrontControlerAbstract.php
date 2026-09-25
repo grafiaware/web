@@ -13,9 +13,12 @@ use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Enum\FlashSeverityEnum;
 
+use Application\Api\RouteDefinition;
 use FrontControler\StatusEnum;
 use FrontControler\Response\HttpResponseFactory;
 use FrontControler\Response\ResponseFactoryInterface;
+use FrontControler\Response\ResponseKind;
+use FrontControler\Response\ResponseModePolicy;
 
 use Access\Enum\RoleEnum;
 
@@ -71,6 +74,11 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     protected $responseFactory;
 
     /**
+     * Routa právě volané akce. null = bez vynucení kind (GET / mutace bez responseMode).
+     */
+    private ?RouteDefinition $boundRoute = null;
+
+    /**
      *
      * @param StatusSecurityRepo $statusSecurityRepo
      */
@@ -87,6 +95,14 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
             fn(ResponseInterface $response) => $this->addCacheHeaders($response),
             fn(ResponseInterface $response) => $this->addContentHeaders($response),
         );
+    }
+
+    /**
+     * Volá {@see \Application\Api\RouteCatalogWiring} před akcí.
+     * responseMode z definice se vynucuje v create* helperách.
+     */
+    public function bindRouteResponse(RouteDefinition $definition): void {
+        $this->boundRoute = $definition;
     }
 
     public function injectContainer(ContainerInterface $componentContainer): FrontControlerInterface {
@@ -143,6 +159,7 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @return ResponseInterface
      */
     protected function createStringOKResponseFromView(ViewInterface $view, $status = StatusEnum::_200_OK): ResponseInterface {
+        $this->assertResponseKind(ResponseKind::HTML);
         return $this->responseFactory->createStringOKResponseFromView($view, $status);
     }
 
@@ -153,22 +170,27 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @return ResponseInterface
      */
     protected function createStringOKResponse($stringContent, $status = StatusEnum::_200_OK): ResponseInterface {
+        $this->assertResponseKind(ResponseKind::HTML);
         return $this->responseFactory->createStringOKResponse($stringContent, $status);
     }
     
     protected function createJsonOKResponse($array, $status = StatusEnum::_200_OK): ResponseInterface {
+        $this->assertResponseKind(ResponseKind::JSON);
         return $this->responseFactory->createJsonOKResponse($array, $status);
     }
     
     protected function createPutNoContentResponse($status = StatusEnum::_204_NoContent): ResponseInterface {
+        $this->assertResponseKind(ResponseKind::NO_CONTENT);
         return $this->responseFactory->createPutNoContentResponse($status);
     }
     
     protected function createJsonPostCreatedResponse($array, $status = StatusEnum::_201_Created): ResponseInterface {
+        $this->assertResponseKind(ResponseKind::JSON);
         return $this->responseFactory->createJsonPostCreatedResponse($array, $status);
     }    
     
     protected function createUnauthorizedResponse() {
+        $this->assertResponseKind(ResponseKind::UNAUTHORIZED);
         return $this->responseFactory->createUnauthorizedResponse();
     }
     
@@ -179,6 +201,7 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @return Response
      */
     protected function createResponseRedirectSeeOther(ServerRequestInterface $request, $restUri): ResponseInterface {
+        $this->assertResponseKind(ResponseKind::REDIRECT_SEE_OTHER);
         return $this->responseFactory->createResponseRedirectSeeOther($request, $restUri);
     }
 
@@ -225,7 +248,23 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @return type
      */
     protected function redirectSeeLastGet(ServerRequestInterface $request) {
+        $this->assertResponseKind(ResponseKind::REDIRECT_SEE_OTHER);
         return $this->responseFactory->redirectSeeLastGet($request);
+    }
+
+    private function assertResponseKind(string $kind): void {
+        $mode = $this->boundRoute?->responseMode;
+        if ($mode === null || $mode === '') {
+            return;
+        }
+        $allowed = ResponseModePolicy::allowedKinds($mode, $this->boundRoute->httpMethod);
+        if (!in_array($kind, $allowed, true)) {
+            $pattern = $this->boundRoute->httpMethod . ' ' . $this->boundRoute->urlPattern;
+            throw new LogicException(
+                "Response kind '{$kind}' is not allowed for responseMode '{$mode}' on {$pattern}. "
+                . 'Allowed: ' . implode(', ', $allowed) . '.'
+            );
+        }
     }
     
     ####

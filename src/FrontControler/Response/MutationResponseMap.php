@@ -10,7 +10,7 @@ namespace FrontControler\Response;
  *             dokončení vynucení response z RouteDefinition.
  *
  * Katalog mutací (POST/PUT/DELETE): jaký klientský režim a jaký typ response.
- * Výchozí mapování mode → kind: {@see self::defaultKindFor()}.
+ * Výchozí mapování mode → kind žije v {@see ResponseModePolicy}; {@see self::defaultKindFor()} jen deleguje.
  */
 final class MutationResponseMap {
 
@@ -18,13 +18,7 @@ final class MutationResponseMap {
      * Default ResponseKind pro MutationResponseMode (bez výjimek typu DELETE → 204).
      */
     public static function defaultKindFor(string $mode): string {
-        return match ($mode) {
-            MutationResponseMode::BROWSER_FORM => ResponseKind::REDIRECT_SEE_OTHER,
-            MutationResponseMode::EDITOR_FETCH => ResponseKind::JSON,
-            MutationResponseMode::MACHINE_API => ResponseKind::JSON,
-            MutationResponseMode::INLINE_SAVE => ResponseKind::NO_CONTENT,
-            default => throw new \InvalidArgumentException("Unknown MutationResponseMode: {$mode}"),
-        };
+        return ResponseModePolicy::defaultKind($mode);
     }
 
     /**
