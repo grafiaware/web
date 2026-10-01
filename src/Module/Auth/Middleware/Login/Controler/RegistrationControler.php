@@ -320,8 +320,8 @@ class RegistrationControler extends LoginControlerAbstract
                 }  
 
         }   
-    
-        return $this->createStringOKResponse("Mail odeslán", 200); // 303 See Other
+        $this->addFlashMessage("Mail odeslán");
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
     
     
@@ -368,6 +368,7 @@ class RegistrationControler extends LoginControlerAbstract
                         throw $exc;
                     }
 
-        return $this->createStringOKResponse("Mail odeslán", 200); // 303 See Other
+        $this->addFlashMessage("Mail odeslán");
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 }
