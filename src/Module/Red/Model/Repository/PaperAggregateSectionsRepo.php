@@ -69,7 +69,7 @@ class PaperAggregateSectionsRepo extends RepoAbstract implements RepoAssotiatedO
     #### protected ###########
 
     protected function indexFromEntity(PaperAggregatePaperSectionInterface $paperAggSection) {
-        return $paperAggSection->getId;
+        return $paperAggSection->getId();
     }
 
     protected function indexFromRow($row) {
