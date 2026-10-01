@@ -14,6 +14,9 @@ class ResponseKind extends Enum {
     /** 200 HTML / text body (typicky GET prezentace, cascade fragmenty). */
     const HTML = 'html';
 
+    /** 200 HTML/text — report výsledku POST příkazu (Build, Sendmail). Není to prezentace ani 303. */
+    const HTML_REPORT = 'html_report';
+
     /** 200/201/4xx s Content-Type: application/json. */
     const JSON = 'json';
 

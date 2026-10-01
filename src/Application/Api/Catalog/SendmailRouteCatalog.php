@@ -4,6 +4,7 @@ namespace Application\Api\Catalog;
 
 use Application\Api\ModuleRouteCatalogInterface;
 use Application\Api\RouteDefinition;
+use FrontControler\Response\MutationResponseMode;
 use Sendmail\Middleware\Sendmail\Controler\MailControler;
 
 /**
@@ -13,10 +14,9 @@ final class SendmailRouteCatalog implements ModuleRouteCatalogInterface {
 
     public static function definitions(): array {
         return [
-            // HTML/text body. Žádný MutationResponseMode to nepovolí.
-            new RouteDefinition('POST', '/sendmail/v1/validate/:campaign', MailControler::class, 'validate', null),
-            new RouteDefinition('POST', '/sendmail/v1/campaign/:campaign', MailControler::class, 'send', null),
-            new RouteDefinition('POST', '/sendmail/v1/send/:campaign', MailControler::class, 'sendCampaign', null),
+            new RouteDefinition('POST', '/sendmail/v1/validate/:campaign', MailControler::class, 'validate', MutationResponseMode::HTML_REPORT),
+            new RouteDefinition('POST', '/sendmail/v1/campaign/:campaign', MailControler::class, 'send', MutationResponseMode::HTML_REPORT),
+            new RouteDefinition('POST', '/sendmail/v1/send/:campaign', MailControler::class, 'sendCampaign', MutationResponseMode::HTML_REPORT),
         ];
     }
 }

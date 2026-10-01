@@ -173,6 +173,14 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         $this->assertResponseKind(ResponseKind::HTML);
         return $this->responseFactory->createStringOKResponse($stringContent, $status);
     }
+
+    /**
+     * 200 s HTML/text reportem výsledku POST. Skládání je stejné jako u HTML prezentace, kind je jiný.
+     */
+    protected function createHtmlReportResponse($stringContent, $status = StatusEnum::_200_OK): ResponseInterface {
+        $this->assertResponseKind(ResponseKind::HTML_REPORT);
+        return $this->responseFactory->createStringOKResponse($stringContent, $status);
+    }
     
     protected function createJsonOKResponse($array, $status = StatusEnum::_200_OK): ResponseInterface {
         $this->assertResponseKind(ResponseKind::JSON);
@@ -250,6 +258,19 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     protected function redirectSeeLastGet(ServerRequestInterface $request) {
         $this->assertResponseKind(ResponseKind::REDIRECT_SEE_OTHER);
         return $this->responseFactory->redirectSeeLastGet($request);
+    }
+
+    /**
+     * Jedna akce, dvě odpovědi: PUT (editor fetch) → JSON, nativní POST → 303.
+     * $redirectRestUri null = PRG na last GET.
+     */
+    protected function editorFetchOrPostRedirect(ServerRequestInterface $request, array $json, ?string $redirectRestUri = null): ResponseInterface {
+        if (strtoupper($request->getMethod()) === 'POST') {
+            return $redirectRestUri === null
+                ? $this->redirectSeeLastGet($request)
+                : $this->createResponseRedirectSeeOther($request, $redirectRestUri);
+        }
+        return $this->createJsonOKResponse($json);
     }
 
     private function assertResponseKind(string $kind): void {

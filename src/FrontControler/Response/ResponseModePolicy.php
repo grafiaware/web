@@ -7,7 +7,7 @@ use InvalidArgumentException;
 /**
  * Povolené {@see ResponseKind} pro {@see MutationResponseMode} z {@see \Application\Api\RouteDefinition}.
  *
- * Jediné místo mapování mode → kind za běhu. {@see MutationResponseMap} se nepoužívá.
+ * Jediné místo mapování mode → kind za běhu.
  * Výjimka: DELETE + machine_api smí 204 (úspěch) i JSON (chyba). 401 je povolený u každého módu.
  */
 final class ResponseModePolicy {
@@ -18,6 +18,7 @@ final class ResponseModePolicy {
             MutationResponseMode::EDITOR_FETCH => ResponseKind::JSON,
             MutationResponseMode::MACHINE_API => ResponseKind::JSON,
             MutationResponseMode::INLINE_SAVE => ResponseKind::NO_CONTENT,
+            MutationResponseMode::HTML_REPORT => ResponseKind::HTML_REPORT,
             default => throw new InvalidArgumentException("Unknown MutationResponseMode: {$mode}"),
         };
     }

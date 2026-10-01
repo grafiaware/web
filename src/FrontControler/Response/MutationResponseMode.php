@@ -34,4 +34,10 @@ class MutationResponseMode extends Enum {
      * @see ResponseKind::NO_CONTENT
      */
     const INLINE_SAVE = 'inline_save';
+
+    /**
+     * POST příkaz, jehož výsledek je HTML/text report v těle odpovědi (ne PRG).
+     * @see ResponseKind::HTML_REPORT
+     */
+    const HTML_REPORT = 'html_report';
 }
