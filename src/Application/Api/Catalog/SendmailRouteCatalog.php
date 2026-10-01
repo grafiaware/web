@@ -13,6 +13,7 @@ final class SendmailRouteCatalog implements ModuleRouteCatalogInterface {
 
     public static function definitions(): array {
         return [
+            // HTML/text body. Žádný MutationResponseMode to nepovolí.
             new RouteDefinition('POST', '/sendmail/v1/validate/:campaign', MailControler::class, 'validate', null),
             new RouteDefinition('POST', '/sendmail/v1/campaign/:campaign', MailControler::class, 'send', null),
             new RouteDefinition('POST', '/sendmail/v1/send/:campaign', MailControler::class, 'sendCampaign', null),

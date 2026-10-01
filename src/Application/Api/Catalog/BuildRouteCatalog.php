@@ -15,6 +15,7 @@ final class BuildRouteCatalog implements ModuleRouteCatalogInterface {
     public static function definitions(): array {
         return [
             new RouteDefinition('GET', '/build', ControlPanelControler::class, 'panel', null),
+            // HTML report (helper nebo přímo Response). Žádný MutationResponseMode to nepovolí.
             new RouteDefinition('POST', '/build/listconfig', DatabaseControler::class, 'listConfig', null),
             new RouteDefinition('POST', '/build/createdb', DatabaseControler::class, 'createDb', null),
             new RouteDefinition('POST', '/build/dropdb', DatabaseControler::class, 'dropDb', null),

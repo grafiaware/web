@@ -23,6 +23,7 @@ final class AuthRouteCatalog implements ModuleRouteCatalogInterface {
 
     public static function definitions(): array {
         return [
+            // Text body „Mail odeslán“ (HTML kind). Žádný MutationResponseMode to nepovolí — browser_form vyžaduje 303.
             new RouteDefinition('POST', '/auth/v1/testmail', RegistrationControler::class, 'testMail', null),
             new RouteDefinition('POST', '/auth/v1/mailCompletRegistrationRepre', RegistrationControler::class, 'sendMailCompletRegistrationRepre', null),
             new RouteDefinition('GET', '/auth/v1/static/registry', StaticRegistryControler::class, 'list', null),
