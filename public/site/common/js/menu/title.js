@@ -1,5 +1,6 @@
 /**
- * Inline editace titulku položky menu (contenteditable).
+ * title.js je samostatný skript: titulek položky menu posílá vlastním POST a z odpovědi čte JSON (pole message).
+ * Inline editace titulku (contenteditable).
  * Závislost na DriverRendererEditable: <p> uvnitř <div> s atributy data-red-item-title-uri a data-original-title.
  */
 

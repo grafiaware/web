@@ -1,4 +1,9 @@
 // viz local\site\common\templates\layout\cascade\loaderElement.php
+/**
+ * cascade.js umí jen GET. Vezme HTML a vymění jím děti cascade elementu.
+ * Ke každému takovému GET přidá hlavičku X-Cascade.
+ * Request s touto hlavičkou se neukládá jako poslední GET.
+ */
 import {reinitEditableContent} from "../initLoadedElements/initElements.js";
 
 const conf = {

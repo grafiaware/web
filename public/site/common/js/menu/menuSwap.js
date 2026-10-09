@@ -1,3 +1,18 @@
+/**
+ * menuSwap.js přepíná stránky přes history.pushState a cascade, bez nového dokumentu.
+ * Adresa v liště se změní, uložený last GET ne.
+ * U formuláře s třídou apiAction klik zastaví a pošle PUT.
+ * Z odpovědi čte JSON a podle refresh udělá jednu z těchto věcí:
+ *
+ *   refresh      co se stane
+ *   ---------    -------------------------------------------------
+ *   norefresh    stránka zůstane
+ *   closest      znovu se načte nejbližší cascade element
+ *   item         přepne se položka menu a její obsah
+ *   navigation   znovu se načtou menu a pak položka
+ *   document     window.location.reload() aktuální adresy v liště
+ *   jiné         také reload aktuální adresy
+ */
 import {
     fetchCascadeContent,
     setApiUri,
