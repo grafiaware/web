@@ -1,12 +1,8 @@
 <?php
 namespace Consent\Middleware\ConsentLogger;
 
-use Auth\Middleware\Login\Controler\LoginLogoutControler;
-use Auth\Middleware\Login\Controler\AuthStaticControler;
-use Auth\Middleware\Login\Controler\RegistrationControler;
-use Auth\Middleware\Login\Controler\ConfirmControler;
-use Auth\Middleware\Login\Controler\PasswordControler;
-use Auth\Middleware\Login\Controler\AuthControler;
+use Application\Api\Catalog\ConsentRouteCatalog;
+use Application\Api\RouteCatalogWiring;
 
 use Pes\Application\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
@@ -20,8 +16,6 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-
-use Consent\Middleware\ConsentLogger\Controler\LogControler;
 
 class ConsentLogger extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -43,13 +37,13 @@ class ConsentLogger extends AppMiddlewareAbstract implements MiddlewareInterface
         /** @var RouteSegmentGenerator $routeGenerator */
         $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
-        // LoginLogoutControler
-        $routeGenerator->addRouteForAction('POST', '/consent/v1/log', function(ServerRequestInterface $request) {
-            /** @var LogControler $ctrl */
-            $ctrl = $this->container->get(LogControler::class);
-            return $ctrl->logConsent($request);
-            });
-        
+        RouteCatalogWiring::wire(
+            $routeGenerator,
+            $this->container,
+            ConsentRouteCatalog::definitions(),
+            ['POST']
+        );
+
         /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);
         $router->exchangeRoutes($routeGenerator);
@@ -57,5 +51,3 @@ class ConsentLogger extends AppMiddlewareAbstract implements MiddlewareInterface
         return $router->process($request, $handler) ;
     }
 }
-
-

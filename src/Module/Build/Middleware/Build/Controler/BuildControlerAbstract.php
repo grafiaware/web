@@ -15,9 +15,6 @@ use Pes\View\Renderer\InterpolateRenderer;
 use Pes\Database\Manipulator\Manipulator;
 use Pes\Database\Statement\StatementInterface;
 use Pes\Core\Debug\Timer;
-use Pes\Http\Headers;
-use Pes\Http\Body;
-use Pes\Http\Response;
 
 use Exception;
 
@@ -72,9 +69,7 @@ class BuildControlerAbstract  extends FrontControlerAbstract  implements BuildCo
 
     }
     protected function createResponseFromReport() {
-        $body = new Body(fopen('php://temp', 'r+'));
-        $body->write($this->createReport());
-        return new Response(200, new Headers(), $body);
+        return $this->createHtmlReportResponse($this->createReport());
     }
 
     protected function setTimeLimit() {

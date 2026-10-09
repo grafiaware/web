@@ -244,9 +244,13 @@ try {
     $deployEcho('session_status po SessionStatusHandler', $deploySessionStatusLabel());
 
     $selector = $appContainer->get(Selector::class);
-    (new SelectorItems($app))->addItems($selector);
+    $selectorItems = new SelectorItems($app);
+    $selectorItems->addItems($selector);
 
-    $app->getAppContainer()->get(ApiRegistrator::class)->registerApi($app->getAppContainer()->get(ResourceRegistry::class));
+    $app->getAppContainer()->get(ApiRegistrator::class)->registerApi(
+        $app->getAppContainer()->get(ResourceRegistry::class),
+        $selectorItems->getEnabledApiModuleIds()
+    );
 
     echo '<p>REQUEST_URI: ' . htmlspecialchars($environment->get('REQUEST_URI'), ENT_QUOTES, 'UTF-8') . '</p>';
 

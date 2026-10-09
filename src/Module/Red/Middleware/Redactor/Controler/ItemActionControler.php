@@ -60,7 +60,7 @@ class ItemActionControler extends FrontControlerAbstract {
             $menuItem = $this->menuItemRepo->getById($itemId);
             if ($menuItem && $this->menuItemLocationService->isInTrash($menuItem->getUidFk())) {
                 $this->addFlashMessage("Položka je v koši. Pro editaci ji přesuňte do jiného menu.", FlashSeverityEnum::WARNING);
-                return $this->createJsonOKResponse(["refresh"=>"closest"], 200);
+                return $this->editorFetchOrPostRedirect($request, ["refresh"=>"closest"]);
             }
             $loginName = $statusSecurity->getLoginAggregate()->getLoginName();
             // vyčištění starých item action
@@ -74,9 +74,7 @@ class ItemActionControler extends FrontControlerAbstract {
                 $this->addFlashMessage("Položku (item) $itemId upravuje $activeEditor.", FlashSeverityEnum::WARNING);
             }
         }            
-        return $this->createJsonOKResponse(["refresh"=>"closest"], 200);
-        //TODO: POST version        
-//        return $this->redirectSeeLastGet($request); // 303 See Other
+        return $this->editorFetchOrPostRedirect($request, ["refresh"=>"closest"]);
     }
 
     public function removeUserItemAction(ServerRequestInterface $request, $itemId) {
@@ -88,8 +86,6 @@ class ItemActionControler extends FrontControlerAbstract {
             $statusSecurity->getEditorActions()->removeItemAction($itemId);
             $this->addFlashMessage("Ukončena úprava položky (item $itemId)", FlashSeverityEnum::INFO);
         }
-        return $this->createJsonOKResponse(["refresh"=>"closest"], 200);
-        //TODO: POST version        
-//        return $this->redirectSeeLastGet($request); // 303 See Other
+        return $this->editorFetchOrPostRedirect($request, ["refresh"=>"closest"]);
     }
 }

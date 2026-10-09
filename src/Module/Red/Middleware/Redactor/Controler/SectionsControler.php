@@ -456,8 +456,7 @@ class SectionsControler extends FrontControlerAbstract {
         }
         $this->paperSectionRepo->add($this->createNewContent($paperId, $max+1));
         $this->addFlashMessage("Section add - Nová sekce, priorita $max+1", FlashSeverityEnum::SUCCESS);
-        return $this->createJsonOKResponse(["refresh"=>"document"]);        
-        return $this->redirectSeeLastGet($request); // 303 See Other
+        return $this->editorFetchOrPostRedirect($request, ["refresh"=>"document"]);
     }
 
     /**

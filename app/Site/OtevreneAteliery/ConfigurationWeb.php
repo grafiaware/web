@@ -233,7 +233,7 @@ class ConfigurationWeb extends ConfigurationConstants {
             'urlTinyInit' => self::WEB_LINKS_COMMON.'js/tinyInit.js',
             'urlEditScript' => self::WEB_LINKS_COMMON . 'js/edit.js',
             // cascade refactor: editace titulku položky menu (dříve v edit.js)
-            'urlTitleScript' => self::WEB_LINKS_COMMON . 'js/title.js',
+            'urlTitleScript' => self::WEB_LINKS_COMMON . 'js/menu/title.js',
 
             // linkEditorCss links
             'urlStylesCss' => self::WEB_LINKS_COMMON."css/old/styles.css",

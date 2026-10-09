@@ -98,7 +98,7 @@ class MailControler extends PresentationFrontControlerAbstract {
             <h4>Validation:</h4>
             <pre>$dataPrint</pre>
         ";
-        return $this->createStringOKResponse($html);
+        return $this->createHtmlReportResponse($html);
     }
     
     public function  sendCampaign( ServerRequestInterface $request, string $campaignName) {
@@ -114,7 +114,7 @@ class MailControler extends PresentationFrontControlerAbstract {
         $html .= "<p>Proběhl pokus o odeslánÍ $sended mailů.</p><hr/>";
         $html .= "<pre>".print_r($report,true)."</pre>";
         
-        return $this->createStringOKResponse($html);       
+        return $this->createHtmlReportResponse($html); 
     }
     
     /**
@@ -186,6 +186,6 @@ class MailControler extends PresentationFrontControlerAbstract {
                 }
             }
         }        
-        return $this->createStringOKResponse("Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");
+        return $this->createHtmlReportResponse("Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");
     }
 }

@@ -36,6 +36,10 @@ class PaperAggregateSectionsRepo extends RepoAbstract implements RepoAssotiatedO
     use RepoAssotiatedOneTrait;  // pro get podle menu item id
     use RepoAssotiatingManyTrait; // pro paper section
 
+    public function flush(): void {
+        parent::flush();
+    }
+    
     protected function createEntity() {
         return new PaperAggregatePaperSection();
     }
@@ -69,7 +73,7 @@ class PaperAggregateSectionsRepo extends RepoAbstract implements RepoAssotiatedO
     #### protected ###########
 
     protected function indexFromEntity(PaperAggregatePaperSectionInterface $paperAggSection) {
-        return $paperAggSection->getId;
+        return $paperAggSection->getId();
     }
 
     protected function indexFromRow($row) {
