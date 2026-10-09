@@ -36,13 +36,11 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         return 
             Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],
                 [
-                    Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
-                        Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
-                                [
-                                $this->renderRibbon($paperSection),
-                                $this->renderSectionButtons($viewModel, $paperSection)  
-                                ]
-                        )
+                    Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
+                            [
+                            $this->renderRibbon($paperSection),
+                            $this->renderSectionButtons($viewModel, $paperSection)
+                            ]
                     ),
                     $this->renderContentEditable($viewModel, $paperSection)
                 ]
@@ -298,17 +296,22 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         $active = $paperSection->getActive();
         $actual = $paperSection->getActual();
 
-        $btnAktivni = Html::tag('button',
-                    ['class'=>$this->classMap->get('Buttons', 'button'),
-                    'data-tooltip'=>'Aktivní/neaktivní obsah',
-                    'data-position'=>'bottom center',
-                    'type'=>'submit',
-                    'name'=>'button',
-                    'value' => 'toggle',
-                    'formmethod'=>'post',
-                    'formaction'=>"red/v1/section/$sectionId/toggle",
+        $btnAktivni = Html::tag('form', [
+                    'class'=>'apiAction',
+                    'method'=>'POST',
+                    'action'=>"red/v1/section/$sectionId/toggle",
+                    'style'=>'display:inline',
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->resolve($active, 'Icons', 'icon.notpublish', 'icon.publish')])
+                    Html::tag('button',
+                        ['class'=>$this->classMap->get('Buttons', 'button'),
+                        'data-tooltip'=>'Aktivní/neaktivní obsah',
+                        'data-position'=>'bottom center',
+                        'type'=>'submit',
+                        'name'=>'button',
+                        'value' => 'toggle',
+                        ],
+                        Html::tag('i', ['class'=>$this->classMap->resolve($active, 'Icons', 'icon.notpublish', 'icon.publish')])
+                    )
                 );
         $btnDoKose = Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
@@ -539,10 +542,17 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         
         #############
         
+        $trashForm = Html::tag('form', [
+                    'method'=>'POST',
+                    'action'=>'javascript:void(0);',
+                    'style'=>'display:inline',
+                    ],
+                    $btnDoKose
+                );
         $sectionButtons1 = 
             [
                 Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
-                    $btnAktivni.$btnDoKose
+                    $btnAktivni.$trashForm
                     ),
                 Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
                     $btnDatumyZobrazeni.$btnDatumyUdalosti
@@ -603,7 +613,12 @@ abstract class SectionRendererAbstract extends HtmlRendererAbstract {
         
         return
         Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.wrapContent')],
-                array_merge($sectionButtons1, $sectionButtons2, $sectionButtons3)
+                [
+                    $sectionButtons1[0],
+                    Html::tag('form', ['method'=>'POST', 'action'=>'javascript:void(0);'],
+                        array_merge([$sectionButtons1[1]], $sectionButtons2, $sectionButtons3)
+                    ),
+                ]
         );
     }
 
