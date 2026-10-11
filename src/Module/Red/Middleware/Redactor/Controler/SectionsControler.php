@@ -91,7 +91,7 @@ class SectionsControler extends FrontControlerAbstract {
         $active = $section->getActive() ? 0 : 1;  //active je integer
         $section->setActive($active);
         $this->addFlashMessage("Section toggle(".($active?'true':'false').")", FlashSeverityEnum::SUCCESS);
-        return $this->redirectSeeLastGet($request); // 303 See Other
+        return $this->editorFetchOrPostRedirect($request, ["refresh"=>"closest"]);
     }
 
     /**
@@ -456,7 +456,7 @@ class SectionsControler extends FrontControlerAbstract {
         }
         $this->paperSectionRepo->add($this->createNewContent($paperId, $max+1));
         $this->addFlashMessage("Section add - Nová sekce, priorita $max+1", FlashSeverityEnum::SUCCESS);
-        return $this->editorFetchOrPostRedirect($request, ["refresh"=>"document"]);
+        return $this->editorFetchOrPostRedirect($request, ["refresh"=>"closest"]);
     }
 
     /**

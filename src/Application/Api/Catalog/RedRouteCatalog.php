@@ -61,6 +61,7 @@ final class RedRouteCatalog implements ModuleRouteCatalogInterface {
             new RouteDefinition('PUT', '/red/v1/paper/:paperId/section', SectionsControler::class, 'add', MutationResponseMode::EDITOR_FETCH),
             new RouteDefinition('POST', '/red/v1/paper/:paperId/section', SectionsControler::class, 'add', MutationResponseMode::BROWSER_FORM),
             new RouteDefinition('POST', '/red/v1/section/:sectionId', SectionsControler::class, 'update', MutationResponseMode::INLINE_SAVE),
+            new RouteDefinition('PUT', '/red/v1/section/:sectionId/toggle', SectionsControler::class, 'toggle', MutationResponseMode::EDITOR_FETCH),
             new RouteDefinition('POST', '/red/v1/section/:sectionId/toggle', SectionsControler::class, 'toggle', MutationResponseMode::BROWSER_FORM),
             new RouteDefinition('POST', '/red/v1/section/:sectionId/actual', SectionsControler::class, 'actual', MutationResponseMode::BROWSER_FORM),
             new RouteDefinition('POST', '/red/v1/section/:sectionId/event', SectionsControler::class, 'event', MutationResponseMode::BROWSER_FORM),

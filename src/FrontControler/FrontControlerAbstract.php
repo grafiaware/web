@@ -74,7 +74,11 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     protected $responseFactory;
 
     /**
-     * Routa právě volané akce. null = bez vynucení kind (GET / mutace bez responseMode).
+     * Definice routy právě volané akce.
+     *
+     * Poslední parametr routy je responseMode (ne samotný druh odpovědi).
+     * RouteCatalogWiring ho sem uloží v {@see bindRouteResponse()} ještě před akcí.
+     * null znamená, že se druh odpovědi nevynucuje: GET a mutace, které responseMode nemají.
      */
     private ?RouteDefinition $boundRoute = null;
 
@@ -98,8 +102,11 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     }
 
     /**
-     * Volá {@see \Application\Api\RouteCatalogWiring} před akcí.
-     * responseMode z definice se vynucuje v create* helperách.
+     * Uloží definici routy pro tuto akci.
+     *
+     * Volá {@see \Application\Api\RouteCatalogWiring} před spuštěním akce.
+     * Samo o sobě odpověď neskládá. responseMode se porovná až ve chvíli,
+     * kdy akce zavolá helper create*, redirectSeeLastGet() nebo editorFetchOrPostRedirect().
      */
     public function bindRouteResponse(RouteDefinition $definition): void {
         $this->boundRoute = $definition;
@@ -150,7 +157,15 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         return $statusecurity->hasValidSecurityContext() ? $statusecurity->getLoginAggregate()->getLoginName() : '';
     }
 
-    /// create response helpers — delegace na HttpResponseFactory ///
+    /**
+     * Skládání odpovědi.
+     *
+     * Každý helper zná svůj ResponseKind a před odesláním zavolá {@see assertResponseKind()}.
+     * Ta z responseMode routy (přes ResponseModePolicy) zjistí povolené druhy.
+     * editor_fetch smí JSON, browser_form 303, inline_save 204, html_report HTML report.
+     * 401 je povolená u každého módu. Neshoda je LogicException.
+     * Odpověď složená mimo tyto helpery se proti responseMode nekontroluje.
+     */
 
     /**
      * 
@@ -261,8 +276,12 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     }
 
     /**
-     * Jedna akce, dvě odpovědi: PUT (editor fetch) → JSON, nativní POST → 303.
-     * $redirectRestUri null = PRG na last GET.
+     * Jedna akce, dvě odpovědi podle metody requestu.
+     *
+     * PUT (editor fetch z menuSwap.js) vrací JSON a kontroluje se jako editor_fetch.
+     * Nativní POST vrací 303 a kontroluje se jako browser_form.
+     * K tomu musí mít v katalogu každá metoda vlastní routu se svým responseMode.
+     * $redirectRestUri null = 303 na poslední GET, jinak 303 na zadanou adresu.
      */
     protected function editorFetchOrPostRedirect(ServerRequestInterface $request, array $json, ?string $redirectRestUri = null): ResponseInterface {
         if (strtoupper($request->getMethod()) === 'POST') {
@@ -273,6 +292,13 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         return $this->createJsonOKResponse($json);
     }
 
+    /**
+     * Porovná druh právě skládané odpovědi s responseMode uložené routy.
+     *
+     * responseMode null nebo prázdný: kontrola se přeskočí.
+     * Jinak ResponseModePolicy::allowedKinds() vrátí druhy povolené pro tento mód a HTTP metodu.
+     * Druh, který mezi nimi není, skončí LogicException s metodou, vzorem routy a seznamem povolených druhů.
+     */
     private function assertResponseKind(string $kind): void {
         $mode = $this->boundRoute?->responseMode;
         if ($mode === null || $mode === '') {
