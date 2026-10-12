@@ -182,4 +182,4 @@ Docker Desktop zapnutý
   → znovu Stav — pending prázdné (nebo jen očekávané nové soubory)
 ```
 
-Pro agenta navíc: `agent worker start` v repo + běžící Docker.
+Pro agenta navíc: `agent worker start` (ne `cursor worker start`) v repo + běžící Docker.
