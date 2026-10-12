@@ -132,26 +132,42 @@ Cloud Agent v Cursor cloudu **nemá** váš Docker Desktop. Aby agent mohl bez i
 ### Co nainstalovat / spustit
 
 1. **Docker Desktop** — musí běžet (ikona Docker aktivní), jinak `docker compose` z agenta selže.
-2. **Cursor CLI** (pokud ještě není):
+2. **Cursor Agent CLI** — příkaz `agent` (Windows je v pořádku; samotný editor Cursor CLI `agent` do PATH nepřidá).
 
-```bash
-curl https://cursor.com/install -fsS | bash
+#### Windows (PowerShell) — když `agent` není v PATH
+
+V **PowerShell** (ne cmd):
+
+```powershell
+irm 'https://cursor.com/install?win32=true' | iex
 ```
 
-3. Přihlášení (jednou):
+Pak **zavřete a otevřete nový terminál** (PATH se načte až v nové session), ověřte a přihlaste se:
 
-```bash
+```powershell
+agent --version
 agent login
 ```
 
-(Na stroji bez prohlížeče: `agent worker start --api-key "$CURSOR_API_KEY" --name "web-migrations"`.)
+Z kořene repo spusťte worker a **nechte okno otevřené**:
 
-4. Z kořene tohoto repo spusťte worker a **nechte ho běžet**:
+```powershell
+cd C:\cesta\k\web
+agent worker start --name "web-migrations"
+```
+
+#### macOS / Linux / WSL
 
 ```bash
+curl https://cursor.com/install -fsS | bash
+# nový terminál
+agent --version
+agent login
 cd /cesta/k/web
 agent worker start --name "web-migrations"
 ```
+
+(Na stroji bez prohlížeče: `agent worker start --api-key "$CURSOR_API_KEY" --name "web-migrations"`.)
 
 **Finální příkaz (oficiální Agent CLI):** `agent worker start`  
 Alternativa ze stejného CLI: `cursor agent worker start` (ekvivalent).
