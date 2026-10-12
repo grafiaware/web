@@ -156,6 +156,8 @@ cd C:\cesta\k\web
 agent worker start --name "web-migrations"
 ```
 
+> **Known bug (Windows native, CLI 2026.10.01):** `agent worker start` může spadnout na `better-sqlite3` (NODE_MODULE_VERSION **127 vs 137**). Reinstalace CLI typicky nepomůže. Workaround: spusťte worker ve **WSL** (`agent worker start` z linuxové session), nebo ověřujte Compose/Build panel **ručně** bez lokálního workera.
+
 #### macOS / Linux / WSL
 
 ```bash
