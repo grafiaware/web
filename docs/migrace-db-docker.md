@@ -148,7 +148,13 @@ cd /cesta/k/web
 agent worker start --name "web-migrations"
 ```
 
-Dokumentace Cursor: [Self-Hosted Machines](https://cursor.com/docs/cloud-agent/self-hosted) — příkaz je `agent worker start` (My Machines). Pro sdílený team pool: `agent worker --pool start` + service account klíč.
+**Finální příkaz (oficiální Agent CLI):** `agent worker start`  
+Alternativa ze stejného CLI: `cursor agent worker start` (ekvivalent).
+
+**Nepoužívejte** `cursor worker start` — to je editor CLI, Cursor se jen otevře a **worker se nespustí** ([forum](https://forum.cursor.com/t/worker-start-does-not-start/173384), [My Machines](https://cursor.com/docs/cloud-agent/self-hosted/my-machines)).
+
+Dokumentace: [Self-Hosted Machines](https://cursor.com/docs/cloud-agent/self-hosted) / [My Machines](https://cursor.com/docs/cloud-agent/self-hosted/my-machines).  
+Team pool: `agent worker --pool start` + service account klíč.
 
 ### Důležité podmínky
 
