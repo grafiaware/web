@@ -25,4 +25,9 @@ Inkrementální změny MySQL schématu pro cíle **red**, **auth** a **events**.
 
 Produkční dump → vývojová DB → **Baseline 2025** (pokud schema odpovídá prod) → **Spusť migrace**.
 
-Historické `SqlSources/` zůstávají archivem. Podrobnosti: Agent Store `docs/migrace-db.md`.
+Historické `SqlSources/` zůstávají archivem.
+
+**Lokální ověření (Docker MySQL + Build panel + self-hosted worker):**  
+viz [`docs/migrace-db-docker.md`](../docs/migrace-db-docker.md).
+
+Strategický plán projektu: Agent Store `docs/migrace-db.md`.
