@@ -35,7 +35,17 @@ class ControlPanelControler  extends BuildControlerAbstract {
         foreach ($prikazy as $title => $uri) {
             $html[] = $this->form($title, $uri);
         }
-        $html[] = "</div>" ;
+        $html[] = "</div>";
+        $html[] = "<h3>Migrace databází</h3>";
+        $html[] = "<p>Verzeované SQL z <code>migrations/{red|auth|events}/</code>. "
+            . "Na existující produkci nejdřív <strong>baseline</strong>, pak jen <strong>migrate</strong>.</p>";
+        $html[] = "<div>";
+        foreach (['red', 'auth', 'events'] as $target) {
+            $html[] = $this->migrationForm('Stav migrací (' . $target . ')', 'build/migrations/status', $target);
+            $html[] = $this->migrationForm('Spusť migrace (' . $target . ')', 'build/migrations/migrate', $target);
+            $html[] = $this->migrationForm('Baseline bez SQL (' . $target . ')', 'build/migrations/baseline', $target);
+        }
+        $html[] = "</div>";
         return $this->createStringOKResponse($this->page($html));
     }
     
@@ -55,5 +65,17 @@ class ControlPanelControler  extends BuildControlerAbstract {
             Html::tag("form", ["method"=>"POST", "action"=>$uri],
                     Html::input("uri", $title, ["uri"=>$uri], ["type"=>"submit", "size"=>"8", "maxlength"=>"10", 'style'=>'margin-left: 1em;'], [])
                 );
+    }
+
+    private function migrationForm(string $title, string $uri, string $target): string
+    {
+        $safeTitle = htmlspecialchars($title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        $safeUri = htmlspecialchars($uri, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        $safeTarget = htmlspecialchars($target, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+
+        return '<form method="POST" action="' . $safeUri . '" style="margin-bottom: 0.5em;">'
+            . '<input type="hidden" name="target" value="' . $safeTarget . '">'
+            . '<input type="submit" value="' . $safeTitle . '" style="margin-left: 1em;">'
+            . '</form>';
     }
 }

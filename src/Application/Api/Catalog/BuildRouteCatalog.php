@@ -6,6 +6,7 @@ use Application\Api\ModuleRouteCatalogInterface;
 use Application\Api\RouteDefinition;
 use Build\Middleware\Build\Controler\ControlPanelControler;
 use Build\Middleware\Build\Controler\DatabaseControler;
+use Build\Middleware\Build\Controler\MigrationControler;
 use FrontControler\Response\MutationResponseMode;
 
 /**
@@ -25,6 +26,9 @@ final class BuildRouteCatalog implements ModuleRouteCatalogInterface {
             new RouteDefinition('POST', '/build/make', DatabaseControler::class, 'make', MutationResponseMode::HTML_REPORT),
             new RouteDefinition('POST', '/build/convert', DatabaseControler::class, 'convert', MutationResponseMode::HTML_REPORT),
             new RouteDefinition('POST', '/build/import', DatabaseControler::class, 'import', MutationResponseMode::HTML_REPORT),
+            new RouteDefinition('POST', '/build/migrations/status', MigrationControler::class, 'status', MutationResponseMode::HTML_REPORT),
+            new RouteDefinition('POST', '/build/migrations/migrate', MigrationControler::class, 'migrate', MutationResponseMode::HTML_REPORT),
+            new RouteDefinition('POST', '/build/migrations/baseline', MigrationControler::class, 'baseline', MutationResponseMode::HTML_REPORT),
         ];
     }
 }
