@@ -9,6 +9,7 @@ use Build\Migration\MigrationRunner;
 use Build\Migration\MigrationScanner;
 use Build\Migration\MigrationTarget;
 use Build\Migration\PdoSqlExecutor;
+use Build\Migration\ReleaseBaseline;
 use PDO;
 use PHPUnit\Framework\TestCase;
 
@@ -37,7 +38,6 @@ final class MigrationRunnerTest extends TestCase
             $this->tmpRoot . '/red/20250101000001_first.sql',
             'CREATE TABLE t1 (id INTEGER PRIMARY KEY);'
         );
-        // neplatný název — scanner ignoruje
         file_put_contents($this->tmpRoot . '/red/notes.sql', 'CREATE TABLE ignored (id INTEGER);');
 
         $pdo = new PDO('sqlite::memory:');
@@ -70,25 +70,52 @@ final class MigrationRunnerTest extends TestCase
         );
     }
 
-    public function testBaselineRecordsWithoutExecutingSql(): void
+    public function testBaseline2025CoversOlderFilesLeaves2026Pending(): void
     {
         file_put_contents(
-            $this->tmpRoot . '/red/20260101000001_destructive.sql',
-            'CREATE TABLE should_not_exist (id INTEGER PRIMARY KEY);'
+            $this->tmpRoot . '/red/20240101000001_old.sql',
+            'CREATE TABLE t_old (id INTEGER PRIMARY KEY);'
+        );
+        file_put_contents(
+            $this->tmpRoot . '/red/20250101000001_year.sql',
+            'CREATE TABLE t_2025 (id INTEGER PRIMARY KEY);'
+        );
+        file_put_contents(
+            $this->tmpRoot . '/red/20260101000001_next.sql',
+            'CREATE TABLE t_2026 (id INTEGER PRIMARY KEY);'
         );
 
         $pdo = new PDO('sqlite::memory:');
         $runner = $this->runner($pdo);
 
-        $recorded = $runner->baseline(MigrationTarget::Red);
-        $this->assertSame(['20260101000001_destructive'], $recorded);
+        $recorded = $runner->baseline(MigrationTarget::Red, ReleaseBaseline::PRODUCTION);
+        $this->assertSame(['2025'], $recorded);
 
         $tables = $pdo->query(
-            "SELECT name FROM sqlite_master WHERE type='table' AND name='should_not_exist'"
+            "SELECT name FROM sqlite_master WHERE type='table' AND name LIKE 't_%'"
         )->fetchAll(PDO::FETCH_COLUMN);
         $this->assertSame([], $tables);
 
-        $this->assertSame([], $runner->migrate(MigrationTarget::Red));
+        $status = $runner->status(MigrationTarget::Red);
+        $this->assertSame(['2025'], $status['release_baselines']);
+        $this->assertSame(['20260101000001_next'], $status['pending']);
+
+        $applied = $runner->migrate(MigrationTarget::Red);
+        $this->assertSame(['20260101000001_next'], $applied);
+        $this->assertSame(
+            ['t_2026'],
+            $pdo->query(
+                "SELECT name FROM sqlite_master WHERE type='table' AND name LIKE 't_%' ORDER BY name"
+            )->fetchAll(PDO::FETCH_COLUMN)
+        );
+    }
+
+    public function testBaselineIsIdempotentPerDbJournal(): void
+    {
+        $pdo = new PDO('sqlite::memory:');
+        $runner = $this->runner($pdo);
+        $this->assertSame(['2025'], $runner->baseline(MigrationTarget::Red));
+        $this->assertSame([], $runner->baseline(MigrationTarget::Red));
     }
 
     private function runner(PDO $pdo): MigrationRunner

@@ -8,6 +8,7 @@ use Build\Migration\MigrationPaths;
 use Build\Migration\MigrationRunner;
 use Build\Migration\MigrationScanner;
 use Build\Migration\MigrationTarget;
+use Build\Migration\ReleaseBaseline;
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\AttributesProvider\AttributesProvider;
 use Pes\Database\Handler\ConnectionInfo;
@@ -21,6 +22,9 @@ use Site\ConfigurationCache;
 
 /**
  * Spouštění verzovaných SQL migrací z Build panelu.
+ *
+ * Žurnál je vždy v připojené DB (per instance). Stejný modul může běžet
+ * proti více serverům — baseline/migrate se musí spustit na každé relevantní DB.
  */
 class MigrationControler extends BuildControlerAbstract
 {
@@ -33,8 +37,11 @@ class MigrationControler extends BuildControlerAbstract
         $html = [];
         $html[] = '<h3>Stav migrací — ' . htmlspecialchars($target->value) . '</h3>';
         $html[] = '<p>Kořen: <code>' . htmlspecialchars(MigrationPaths::defaultRoot()) . '/' . $target->value . '</code></p>';
-        $html[] = $this->renderVersionList('Aplikované', $status['applied']);
-        $html[] = $this->renderVersionList('Čekající (pending)', $status['pending']);
+        $html[] = '<p>Žurnál je <strong>per DB instance</strong> (tabulka <code>schema_migrations</code> v této databázi). '
+            . 'Jeden modul webu může mít stejnou logickou DB na více serverech — stav se nešíří mezi servery.</p>';
+        $html[] = $this->renderVersionList('Release baseline markery', $status['release_baselines']);
+        $html[] = $this->renderVersionList('Záznamy v žurnálu (applied)', $status['applied']);
+        $html[] = $this->renderVersionList('Čekající soubory (pending)', $status['pending']);
         $html[] = $this->renderVersionList('V žurnálu bez souboru (unknown)', $status['unknown']);
 
         return $this->createHtmlReportResponse(implode(PHP_EOL, $html));
@@ -49,7 +56,7 @@ class MigrationControler extends BuildControlerAbstract
         $html = [];
         $html[] = '<h3>Migrace dokončena — ' . htmlspecialchars($target->value) . '</h3>';
         if ($applied === []) {
-            $html[] = '<p>Žádné pending migrace.</p>';
+            $html[] = '<p>Žádné pending migrace (soubory pokryté žurnálem nebo release baseline).</p>';
         } else {
             $html[] = $this->renderVersionList('Nově aplikované', $applied);
         }
@@ -62,17 +69,23 @@ class MigrationControler extends BuildControlerAbstract
     public function baseline(ServerRequestInterface $request)
     {
         $target = $this->resolveTarget($request);
+        $release = $this->resolveRelease($request);
         $runner = $this->createRunner($target);
-        $recorded = $runner->baseline($target);
+        $recorded = $runner->baseline($target, $release);
 
         $html = [];
-        $html[] = '<h3>Baseline — ' . htmlspecialchars($target->value) . '</h3>';
-        $html[] = '<p>Verze zapsány do <code>schema_migrations</code> bez spuštění SQL.</p>';
+        $html[] = '<h3>Baseline ' . htmlspecialchars($release) . ' — ' . htmlspecialchars($target->value) . '</h3>';
+        $html[] = '<p>Do <code>schema_migrations</code> se zapisuje release marker <code>'
+            . htmlspecialchars($release) . '</code> (rok YYYY, ne timestamp souboru). SQL se nespouští.</p>';
+        $html[] = '<p>Souborové migrace s rokem ≤ ' . htmlspecialchars($release)
+            . ' se považují za pokryté. Novější (např. 2026…) zůstanou pending.</p>';
         if ($recorded === []) {
-            $html[] = '<p>Nic nového k zápisu (vše už bylo v žurnálu).</p>';
+            $html[] = '<p>Marker už v žurnálu byl — nic nového.</p>';
         } else {
             $html[] = $this->renderVersionList('Nově zapsané', $recorded);
         }
+        $status = $runner->status($target);
+        $html[] = $this->renderVersionList('Pending po baseline', $status['pending']);
 
         return $this->createHtmlReportResponse(implode(PHP_EOL, $html));
     }
@@ -89,6 +102,20 @@ class MigrationControler extends BuildControlerAbstract
         }
 
         return $target;
+    }
+
+    private function resolveRelease(ServerRequestInterface $request): string
+    {
+        $body = $request->getParsedBody();
+        $raw = is_array($body) ? ($body['release'] ?? ReleaseBaseline::PRODUCTION) : ReleaseBaseline::PRODUCTION;
+        $release = is_string($raw) ? trim($raw) : ReleaseBaseline::PRODUCTION;
+        if (!ReleaseBaseline::isValid($release)) {
+            throw new \InvalidArgumentException(
+                'Release baseline musí být rok YYYY (produkční výchozí: ' . ReleaseBaseline::PRODUCTION . ').'
+            );
+        }
+
+        return $release;
     }
 
     private function createRunner(MigrationTarget $target): MigrationRunner

@@ -4,23 +4,25 @@ Inkrementální změny MySQL schématu pro cíle **red**, **auth** a **events**.
 
 ## Konvence
 
-- Soubor: `{YYYYMMDDHHMMSS}_{slug}.sql`
-- `version` v žurnálu = název souboru bez `.sql`
-- Žurnál: tabulka `schema_migrations` v cílové databázi
-- Spuštění: Build panel (`/build`) → Stav / Spusť / Baseline
+| Typ | Formát | Příklad |
+|-----|--------|---------|
+| Release baseline | `YYYY` | `2025` (produkční výchozí) |
+| Soubor | `{YYYYMMDDHHMMSS}_{slug}.sql` | `20260101000015_alter_menu_item_pretty_uri` |
+
+- Žurnál: tabulka `schema_migrations` **v cílové DB** (stav per DB instance, ne per app server).
+- Baseline `2025` pokryje soubory s rokem ≤ 2025; novější zůstanou pending.
+- Spuštění: Build panel (`/build`) — Stav / Spusť / Baseline 2025.
 
 ## Cíle
 
-| Adresář | Databáze (site config) |
-|---------|------------------------|
-| `red/` | `ConfigurationRed::dbUpgrade()` |
-| `auth/` | `ConfigurationAuth::dbOld()` |
-| `events/` | `ConfigurationEvents::dbEvents()` |
+| Adresář | Databáze (site config) | Poznámka |
+|---------|------------------------|----------|
+| `red/` | `ConfigurationRed::dbUpgrade()` | počáteční sada z AlterRedDatabase |
+| `auth/` | `ConfigurationAuth::dbOld()` | **od teď** — bez dohánění historie |
+| `events/` | `ConfigurationEvents::dbEvents()` | alter + alter26 |
 
-## Baseline
+## Typický scénář
 
-Pokud cílová DB už obsahuje změny z historických `SqlSources` ALTER skriptů, jednou spusť **Baseline bez SQL**, pak už jen **Spusť migrace**.
+Produkční dump → vývojová DB → **Baseline 2025** (pokud schema odpovídá prod) → **Spusť migrace**.
 
-Historické `src/Module/Build/Middleware/Build/SqlSources/` zůstávají archivem / Build make-convert; nové změny patří sem.
-
-Podrobnosti: projektový plán migrace (Agent Store `docs/migrace-db.md`).
+Historické `SqlSources/` zůstávají archivem. Podrobnosti: Agent Store `docs/migrace-db.md`.

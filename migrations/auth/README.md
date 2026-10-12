@@ -1,5 +1,7 @@
 # Auth migrace
 
-Historické skripty v `SqlSources/auth/` jsou jednorázové / vázané na konkrétní jméno DB — zatím sem nepřevádíme.
+**Rozhodnutí: verzovat od teď.** Historické skripty v `SqlSources/auth/` se sem nepřevádějí.
 
-Nové změny auth schématu od teď verzuj zde jako `{YYYYMMDDHHMMSS}_{slug}.sql`.
+- Nové změny: `{YYYYMMDDHHMMSS}_{slug}.sql` v tomto adresáři.
+- Na existující auth DB (schema „jak je“ u produkční verze) stačí Build → **Baseline 2025** (marker v žurnálu této DB instance).
+- Žurnál je per DB instance — při více serverech / kopiích DB baseline/migrate na každé zvlášť.
