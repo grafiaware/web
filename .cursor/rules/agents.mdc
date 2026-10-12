@@ -1,0 +1,8 @@
+---
+description: Společná pravidla projektu pro lidi i agenty
+alwaysApply: true
+---
+
+Před prací v tomto repu přečti a dodržuj `AGENTS.md` v kořeni repa.
+U projektu Veletrh práce navíc `docs/vp/README.md` a zadání balíku v `docs/vp/zadani/`.
+SQL piš vždy tak, aby běželo na MySQL i MariaDB.
