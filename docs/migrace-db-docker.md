@@ -42,14 +42,15 @@ docker compose -f docker-compose.migrations.yml up -d
 docker compose -f docker-compose.migrations.yml ps
 ```
 
-4. Ověřte připojení (volitelně):
+4. Ověřte připojení (volitelně) — **jeden řádek** (funguje v bash i PowerShell):
 
 ```bash
-docker compose -f docker-compose.migrations.yml exec mysql \
-  mysql -uroot -proot -e "SHOW DATABASES;"
+docker compose -f docker-compose.migrations.yml exec mysql mysql -uroot -proot -e "SHOW DATABASES;"
 ```
 
 Měli byste vidět mimo jiné `najdisi`, `single_login`, `events`.
+
+> **Pokračování řádku:** v bash je to `\`, v PowerShell **backtick** `` ` ``. Na Windows příkaz `...\ exec mysql \ mysql ...` selže (`exec: "\\"`), protože `\` není pokračování řádku. Preferujte jednofádkové příkazy výše.
 
 5. Spusťte **stávající lokální PHP/web** tak, jak obvykle (active site např. NajdiSi). Host DB je `127.0.0.1`, port `3306` — sedí s `ConfigurationRed` / `Auth` / `Events`.
 
@@ -70,12 +71,16 @@ Typický scénář migrací: **schema (a data) z produkční verze na vývoj**.
 
 1. Z produkce (nebo anonymizovaného stagingu) exportujte dump cílové DB (`najdisi` / `single_login` / `events` — podle toho, co testujete).
 2. Soubor uložte např. do `docker/migrations/dumps/` (do gitu nedávejte osobní údaje).
-3. Import do běžícího kontejneru:
+3. Import do běžícího kontejneru (příklad red DB `najdisi`):
 
 ```bash
-# příklad: red DB
-docker compose -f docker-compose.migrations.yml exec -T mysql \
-  mysql -uroot -proot najdisi < docker/migrations/dumps/najdisi.sql
+# bash / Git Bash / WSL
+docker compose -f docker-compose.migrations.yml exec -T mysql mysql -uroot -proot najdisi < docker/migrations/dumps/najdisi.sql
+```
+
+```powershell
+# PowerShell (přesměrování < u docker compose bývá nespolehlivé — použijte pipe)
+Get-Content docker/migrations/dumps/najdisi.sql -Raw | docker compose -f docker-compose.migrations.yml exec -T mysql mysql -uroot -proot najdisi
 ```
 
 4. Po importu je žurnál `schema_migrations` buď:
