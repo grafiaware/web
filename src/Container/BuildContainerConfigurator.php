@@ -109,15 +109,15 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                         ]
                         );
                     },
-//                'build.config.convert' => function(ContainerInterface $c) {
-//                    return [
-//                        'copy' =>  ConfigurationCache::build()['build.config.convert.copy'] ?? [], 
-//                        'repairs' => ConfigurationCache::build()['build.config.convert.repairs'] ?? [],
-//                        'final' => ConfigurationCache::build()['build.config.convert.final'] ?? [],                        
-//                        'updatestranky' =>  ConfigurationCache::build()['build.config.convert.updatestranky'],
-//                        'home' =>  ConfigurationCache::build()['build.config.convert.home'],
-//                        ];
-//                    },
+                'build.config.convert' => function(ContainerInterface $c) {
+                    return [
+                        'copy' =>  ConfigurationCache::build()['build.config.convert.copy'] ?? [], 
+                        'repairs' => ConfigurationCache::build()['build.config.convert.repairs'] ?? [],
+                        'final' => ConfigurationCache::build()['build.config.convert.final'] ?? [],                        
+                        'updatestranky' =>  ConfigurationCache::build()['build.config.convert.updatestranky'],
+                        'home' =>  ConfigurationCache::build()['build.config.convert.home'],
+                        ];
+                    },
                 ];
     }
 
