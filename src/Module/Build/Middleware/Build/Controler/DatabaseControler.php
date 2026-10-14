@@ -404,7 +404,9 @@ class DatabaseControler extends BuildControlerAbstract {
                             }
                         }                        
                     } catch (\Exception $e) {
-                        throw new HierarchyStepFailedException("Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při transformaci adjacency list na nested tree.", 0, $e);
+                        $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při transformaci adjacency list na nested tree.";
+                        $this->reportMessage[] = $message;
+                        throw new HierarchyStepFailedException($message, 0, $e);
                     }
                     $this->reportMessage[] = "Skriptem pomocí Hierarchy vygenerována tabulka 'menu_nested_set' z dat tabulky 'menu_adjlist'.";
                     $this->reportMessage[] = $this->timer->interval();
@@ -549,9 +551,12 @@ class DatabaseControler extends BuildControlerAbstract {
         
         $this->setTimeLimit();
         $this->reportMessage[] = "Záznam o vytvoření a konverzi databáze ".(new \DateTime("now"))->format("d.m.Y H:i:s"). ' '. $mark;
-        
-        
-        $this->executeSteps($conversionSteps);
+
+        try {
+            $this->executeSteps($conversionSteps);
+        } catch (\Throwable $e) {
+            $this->appendExceptionToReport($e);
+        }
         return $this->createResponseFromReport();
     }
     
