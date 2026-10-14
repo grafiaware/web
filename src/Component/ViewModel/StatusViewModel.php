@@ -17,6 +17,8 @@ use Status\Model\Entity\SecurityInterface;
 use Status\Model\Entity\PresentationInterface;
 use Status\Model\Entity\FlashInterface;
 
+use LogicException;
+
 /**
  * Description of StatusViewModel
  * 
@@ -59,10 +61,23 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
             ) {
         parent::__construct();
 
-        $this->statusSecurity = $statusSecurityRepo->getClone();
-        $this->statusPresentation = $statusPresentationRepo->getClone();
+        // getClone() vyžaduje entitu už načtenou (SecurityStatus / FlashStatus / PresentationStatus).
+        // Na stacku bez příslušného middleware vrací null místo fatal LogicException.
+        $this->statusSecurity = $this->cloneOrNull(fn() => $statusSecurityRepo->getClone());
+        $this->statusPresentation = $this->cloneOrNull(fn() => $statusPresentationRepo->getClone());
         $this->statusFlashRepo = $statusFlashRepo;
-        $this->statusFlash = $statusFlashRepo->getClone();
+        $this->statusFlash = $this->cloneOrNull(fn() => $statusFlashRepo->getClone());
+    }
+
+    /**
+     * @param callable(): mixed $getClone
+     */
+    private function cloneOrNull(callable $getClone): mixed {
+        try {
+            return $getClone();
+        } catch (LogicException $e) {
+            return null;
+        }
     }
 
     #[\Override]
@@ -73,8 +88,11 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
 
     #[\Override]
     public function getFlashMessages() {
-        /** @var FlashInterface $flash */
-        $flash = $this->statusFlashRepo->getClone(false);
+        /** @var ?FlashInterface $flash */
+        $flash = $this->cloneOrNull(fn() => $this->statusFlashRepo->getClone(false));
+        if ($flash === null) {
+            return [];
+        }
         $messages = $flash->getMessages();
         $this->statusFlashRepo->replaceEntityInMemory($flash);
         $this->statusFlash = $flash;
