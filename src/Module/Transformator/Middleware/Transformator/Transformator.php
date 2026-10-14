@@ -108,10 +108,8 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
     }
     
     private function flashAndLogNotFound($requestUri, ListValueNotFoundInDatabaseException $e) {
-        /** @var StatusFlashRepo $statusFlashRepo */
-        $statusFlashRepo = $this->container->get(StatusFlashRepo::class);
         if (PES_DEVELOPMENT) {
-            $statusFlashRepo->get()->setMessage($e->getMessage());
+            $this->setDevelopmentFlashMessage($e->getMessage());
         }
         if ($this->hasLogger()) {
             $this->getLogger()->notice("Pro uri $requestUri - {$e->getMessage()}");
@@ -119,13 +117,34 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
     }
     
     private function flashAndLogIncorrectHtmlSyntax($requestUri, InvalidHtmlSourceException $e) { 
-        /** @var StatusFlashRepo $statusFlashRepo */
-        $statusFlashRepo = $this->container->get(StatusFlashRepo::class);        
         if (PES_DEVELOPMENT) {
-            $statusFlashRepo->get()->setMessage($e->getMessage());
+            $this->setDevelopmentFlashMessage($e->getMessage());
         }
         if ($this->hasLogger()) {
             $this->getLogger()->notice("{$e->getMessage()} Nalezen počáteční řetězec a nenalezen konec pro $requestUri.");
+        }
+    }
+
+    /**
+     * Flash v development: otevřená session → get(); po UnlockStatus::finish() (cascade)
+     * → getClone(false) + replaceEntityInMemory (get() by hodilo SessionFinishedException).
+     * Flush do session jen pokud UnlockStatus později reopenne (flash / presenteddriver);
+     * u běžného paper cascade zůstane hláška v logu a obsah stránky se stejně vrátí.
+     */
+    private function setDevelopmentFlashMessage(string $message): void {
+        /** @var StatusFlashRepo $statusFlashRepo */
+        $statusFlashRepo = $this->container->get(StatusFlashRepo::class);
+        if ($statusFlashRepo->isFinished()) {
+            $flash = $statusFlashRepo->getClone(false);
+            if ($flash !== null) {
+                $flash->setMessage($message);
+                $statusFlashRepo->replaceEntityInMemory($flash);
+            }
+            return;
+        }
+        $flash = $statusFlashRepo->get();
+        if ($flash !== null) {
+            $flash->setMessage($message);
         }
     }
 }
