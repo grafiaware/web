@@ -20,7 +20,7 @@ export const attachmentPlugin = (editor, url) => {
       type: 'panel',
       // items:
       // pokud je filetype jeden z typů uvedených v parametru tiny init file_picker_types - volá se událost "change" on input v filePickerCallback
-      // parametr meta v filePickerCallback(callback, value, meta) pak obsahuje {fieldname: "hodnoty name v items", filefiletype: "hodnota filetype v items"}
+      // parametr meta v filePickerCallback(callback, value, meta) pak obsahuje {fieldname: "hodnota name v items", filetype: "hodnota filetype v items"}
       items: [
         {
             type: 'htmlpanel',
@@ -39,6 +39,10 @@ export const attachmentPlugin = (editor, url) => {
         }
       ]
     },
+    initialData: {
+      textToDisplay: '',
+      fileInput: { value: '', meta: {} }
+    },
     buttons: [
         // 'submit' or 'cancel' or 'custom' or 'menu'
       {
@@ -54,14 +58,18 @@ export const attachmentPlugin = (editor, url) => {
     ],
     onSubmit: (dialogApi) => {   // https://www.tiny.cloud/docs/ui-components/dialog/#dialoginstanceapi
         const data = dialogApi.getData();
-        // meta: { originalName: originalName, blobInfo: blobInfo)
+        const fileInput = data.fileInput || { value: '', meta: {} };
+        const meta = fileInput.meta || {};
         /* Insert content when the window form is submitted */
-        // url.meta pbsahuje objekt předaný jako druhý parametr callback() v filesupload - příklad: data.fileInput.meta.fileName
-        const fileName = data.fileInput.meta.fileName;
+        // urlinput: getData() vrací { value, meta }; meta je druhý argument callback() z file_picker_callback
+        const fileName = meta.fileName || fileInput.value;
         const textToDisplay = data.textToDisplay;
-        const blobInfoFromFileupload = data.fileInput.meta.blobInfo;
-        const blobCache =  tinymce.activeEditor.editorUpload.blobCache;
-        const file = blobCache.get(data.fileInput.meta.id);
+        const blobCache = editor.editorUpload.blobCache;
+        const blobInfoFromFileupload = meta.blobInfo || (meta.id ? blobCache.get(meta.id) : undefined);
+        if (!blobInfoFromFileupload) {
+            tinyNotification.warning('Nejprve vyberte soubor.');
+            return;
+        }
         attachmentUploadHandler(blobInfoFromFileupload)
         .then(
             function(value) {
@@ -143,14 +151,26 @@ const attachmentUploadHandler = (blobInfo) => new Promise((resolve, reject) => {
         if (xhr.status < 200 || xhr.status >= 300) {
             const message = 'Upload failed due to a HTTP error - HTTP status: ' + xhr.status + ', message: ' + xhr.statusText;
             tinyNotification.error(message);
-            console.error('assetUploadHandler: ' + message);
+            console.error('assetUploadHandler: ' + message, xhr.responseText);
+            reject(message);
             return;
         }
-        const json = JSON.parse(xhr.responseText);
+        let json;
+        try {
+            json = JSON.parse(xhr.responseText);
+        } catch (e) {
+            const preview = (xhr.responseText || '').slice(0, 300);
+            const message = 'Upload failed - server nevrátil JSON.';
+            tinyNotification.error(message);
+            console.error('assetUploadHandler: JSON.parse failed', e, preview);
+            reject(message + ' ' + preview);
+            return;
+        }
         if (!json || typeof json.location !== 'string') {
             const message = 'Upload failed - message: ' + xhr.responseText;
             tinyNotification.error(message);
             console.error('assetUploadHandler: ' + message);
+            reject(message);
             return;
         }
         resolve(json.location);
@@ -158,20 +178,23 @@ const attachmentUploadHandler = (blobInfo) => new Promise((resolve, reject) => {
     xhr.onerror = () => {
         tinyNotification.error('Upload failed due to a XHR Transport error. Code: ' + xhr.status);
         console.error('assetUploadHandler: failed upload - ' + xhr.status);
+        reject('XHR Transport error. Code: ' + xhr.status);
     };
 
     const formData = new FormData();
-    // blobinfo se vytváří v file_picker_callback, blobInfo.blob() vrací typ File (podtyp Blob) - byl tam zapsán v file_picker_callback
-    // pokud druhý parametr formData.append() je File, pak default hodnota vlastnosti filename objektu File je jméno souboru
-    formData.append('file', blobInfo.blob()); 
+    // blobinfo se vytváří v file_picker_callback, blobInfo.blob() vrací typ File (podtyp Blob)
+    // třetí parametr append nastaví originalní jméno souboru (přípona musí projít ATTACHMENT_ACCEPTED_EXTENSIONS)
+    formData.append('file', blobInfo.blob(), blobInfo.filename());
     const editedElementId =  tinymce.activeEditor.id;
     const editedElement =  tinymce.activeEditor.getElement();
     const editedMenuItemId =  editedElement.getAttribute('data-red-menuitemid');
     if(null === editedMenuItemId) {
         const msg = 'error image_upload_handler - element id ' + editedElementId + 'has no attribute data-red-menuitemid.';
         console.warn('assetUploadHandler: ' + msg);
-    } else {
-        formData.append('edited_item_id', editedMenuItemId);
+        tinyNotification.error('Nelze nahrát soubor — chybí data-red-menuitemid.');
+        reject(msg);
+        return;
     }
+    formData.append('edited_item_id', editedMenuItemId);
     xhr.send(formData);
 });

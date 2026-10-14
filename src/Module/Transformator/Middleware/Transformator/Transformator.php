@@ -108,8 +108,10 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
     }
     
     private function flashAndLogNotFound($requestUri, ListValueNotFoundInDatabaseException $e) {
+        /** @var StatusFlashRepo $statusFlashRepo */
+        $statusFlashRepo = $this->container->get(StatusFlashRepo::class);
         if (PES_DEVELOPMENT) {
-            throw $e;
+            $statusFlashRepo->get()->setMessage($e->getMessage());
         }
         if ($this->hasLogger()) {
             $this->getLogger()->notice("Pro uri $requestUri - {$e->getMessage()}");
@@ -117,8 +119,10 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
     }
     
     private function flashAndLogIncorrectHtmlSyntax($requestUri, InvalidHtmlSourceException $e) { 
+        /** @var StatusFlashRepo $statusFlashRepo */
+        $statusFlashRepo = $this->container->get(StatusFlashRepo::class);        
         if (PES_DEVELOPMENT) {
-            throw $e;
+            $statusFlashRepo->get()->setMessage($e->getMessage());
         }
         if ($this->hasLogger()) {
             $this->getLogger()->notice("{$e->getMessage()} Nalezen počáteční řetězec a nenalezen konec pro $requestUri.");

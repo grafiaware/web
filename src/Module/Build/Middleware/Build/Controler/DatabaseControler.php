@@ -30,7 +30,7 @@ class DatabaseControler extends BuildControlerAbstract {
         }
         $factories = "<h3>Factories values</h3><pre>".print_r($factoriesValuesList, true)."</pre>";
         $html = "<div>".$params.PHP_EOL.$factories."</div>" ;
-        return $this->createStringOKResponse($html);
+        return $this->createHtmlReportResponse($html);
     }
 
     public function dropDb() {

@@ -1,6 +1,9 @@
 <?php
 namespace Sendmail\Middleware\Sendmail;
 
+use Application\Api\Catalog\SendmailRouteCatalog;
+use Application\Api\RouteCatalogWiring;
+
 use Pes\Application\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
 
@@ -16,12 +19,7 @@ use Container\MailContainerConfigurator;
 use Container\AuthContainerConfigurator;
 use Container\AuthDbContainerConfigurator;
 
-use Sendmail\Middleware\Sendmail\Controler\MailControler;
-
 class Sendmail extends AppMiddlewareAbstract implements MiddlewareInterface {
-
-    ## proměnné třídy - pro dostupnost v Closure definovaných v routách ##
-    private $request;
 
     private $container;
 
@@ -32,8 +30,6 @@ class Sendmail extends AppMiddlewareAbstract implements MiddlewareInterface {
      * @return Response
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-
-        $this->request = $request;
 
         // middleware kontejner:
         //      nový kontejner konfigurovaný MenuContainerConfigurator
@@ -50,29 +46,16 @@ class Sendmail extends AppMiddlewareAbstract implements MiddlewareInterface {
                 )
             );
 
-####################################
         /** @var RouteSegmentGenerator $routeGenerator */
         $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
-        
-        $routeGenerator->addRouteForAction('POST', '/sendmail/v1/validate/:campaign', function(ServerRequestInterface $request, $campaign) {
-            /** @var MailControler $ctrl */
-            $ctrl = $this->container->get(MailControler::class);
-            return $ctrl->validate($request, $campaign);
-        });
-        
-        $routeGenerator->addRouteForAction('POST', '/sendmail/v1/campaign/:campaign', function(ServerRequestInterface $request, $campaign) {
-            /** @var MailControler $ctrl */
-            $ctrl = $this->container->get(MailControler::class);
-            return $ctrl->send($request, $campaign);
-        });
-        
-        $routeGenerator->addRouteForAction('POST', '/sendmail/v1/send/:campaign', function(ServerRequestInterface $request, $campaign) {
-            /** @var MailControler $ctrl */
-            $ctrl = $this->container->get(MailControler::class);
-            return $ctrl->sendCampaign($request, $campaign);
-        });
-        
-####################################
+
+        RouteCatalogWiring::wire(
+            $routeGenerator,
+            $this->container,
+            SendmailRouteCatalog::definitions(),
+            ['POST']
+        );
+
         /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);
         $router->exchangeRoutes($routeGenerator);
@@ -80,5 +63,3 @@ class Sendmail extends AppMiddlewareAbstract implements MiddlewareInterface {
         return $router->process($request, $handler) ;
     }
 }
-
-

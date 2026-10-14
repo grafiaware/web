@@ -1,7 +1,7 @@
                 <div class="ui six column stackable centered grid">
                     <div class="fifteen wide mobile five wide tablet four wide computer three wide large screen column"> 
                         <p><b>&copy; GRAFIA, s.r.o. 2020</b></p>
-                        <p>Budilova 4, 301 00 Plzeň</p>
+                        <p>Houškova 35, 326 00 Plzeň 2</p>
                     </div>
                     <div class="fifteen wide mobile five wide tablet four wide computer three wide large screen column">
                         <p>Tel./fax: +420 377 227 701</p>

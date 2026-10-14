@@ -29,22 +29,21 @@ export const filePickerCallback = (callback, value, meta) => {
         const reader = new FileReader();
         reader.addEventListener('load', () => {
             // vytváří blobInfo a ukládám do blobCache - tiny by to udělal sám, ale zde vytvářím 
-            // - blobInfo s unikátním jménem souboru (s tím se odesílá na server)
-            // - původní jméno souboru (ze souborového systému - načteno dialogem) uschovám pro nastavení atributů html elementu - nastaví tiny sám pomocí callback
-            const originalName = file.name.split('.').pop();  // split('.').pop - jméno souboru bez přípony
+            // - blobInfo s unikátním id (blobCache klíč, s tím se odesílá na server)
+            // - původní jméno souboru (ze souborového systému) uschovám v meta pro dialog / html atributy
+            const originalName = file.name;
             const uniqueName = image_unique_name(originalName);
             const blobCache =  tinymce.activeEditor.editorUpload.blobCache;
             const base64 = reader.result.split(',')[1];  // reader.result konvertuje image na base64 string // Ignorujeme první prvek (před čárkou), extrahujeme druhý //const [, druhy] = str.split(','); 
-            const blobInfo = blobCache.create(uniqueName, file, base64);
+            const blobInfo = blobCache.create(uniqueName, file, base64, originalName, originalName);
             blobCache.add(blobInfo);
             
             /* call the callback and populate the Title field with the file name */
-            // For the link dialog    
+            // For the link dialog / custom urlinput filetype=file
             if (meta.filetype === 'file') {
-//                callback(blobInfo.blobUri(), { title: originalName, text: 'Download: '+originalName , url: 'File: '+originalName});
-                // první parametr callback je text, který bude vložen  do inputu a zobrazen při zobrazení html
-                // pro tento případ - type=='file' druhý parametr je předán a lze jej získat v pluginu jako api.getData()
-                callback(file.name, { fileName: file.name, originalName: originalName, blobInfo: blobInfo, id: id});
+                // první parametr callback je hodnota urlinput (zobrazí se v poli)
+                // druhý parametr TinyMCE uloží do data.<fieldname>.meta — čte ho attachment plugin v getData()
+                callback(file.name, { fileName: file.name, originalName: originalName, blobInfo: blobInfo, id: uniqueName });
             }
             // For the image dialog
             if (meta.filetype === 'image') {
@@ -90,15 +89,41 @@ export const filePickerCallback = (callback, value, meta) => {
   };
   
   /**
-   * Připojí ke jménu '@blobid' + timestamp v milisekundách
-   * 
+   * Připojí ke jménu unikátní id. crypto.randomUUID() je jen v secure context
+   * (HTTPS / localhost) — na http://vscode/ proto musí být fallback.
+   *
    * @param {type} originalName
    * @returns {String}
    */
     function image_unique_name(originalName) {
-//        return originalName + '@blobid' + (new Date()).getTime();  // timestamp v milisekundách (čas od 1.1.1970)
-        
-        return originalName + '@uuid' + crypto.randomUUID();// crypto.randomUUID() -> 36 znaků
+        return originalName + '@uuid' + createUniqueId();
+    };
+
+    /**
+     * Unikátní id pro blobCache. Pořadí variant podle dostupnosti Web Crypto:
+     * 1. crypto.randomUUID() — nativní UUID v4, jen v secure context: HTTPS, localhost, 127.0.0.1.
+     *    Na HTTP s vlastním vhostem (např. http://vscode/) funkce neexistuje → TypeError.
+     * 2. crypto.getRandomValues() — kryptograficky náhodné bajty, v prohlížeči i na HTTP (nejen HTTPS).
+     *    Složí se z nich UUID v4 stejného tvaru jako randomUUID().
+     * 3. Date.now() + Math.random() — nouzový fallback bez Web Crypto (staré prohlížeče).
+     *
+     * @returns {String}
+     */
+    function createUniqueId() {
+        // HTTPS / localhost: nativní UUID
+        if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+            return crypto.randomUUID();
+        }
+        // HTTP (včetně http://vscode/): getRandomValues je dostupné i mimo secure context
+        if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
+            const bytes = crypto.getRandomValues(new Uint8Array(16));
+            bytes[6] = (bytes[6] & 0x0f) | 0x40;
+            bytes[8] = (bytes[8] & 0x3f) | 0x80;
+            const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
+            return hex.slice(0, 8) + '-' + hex.slice(8, 12) + '-' + hex.slice(12, 16) + '-' + hex.slice(16, 20) + '-' + hex.slice(20);
+        }
+        // bez Web Crypto
+        return Date.now().toString(16) + '-' + Math.random().toString(16).slice(2, 15);
     };
     
 /////////////////////////////////////////

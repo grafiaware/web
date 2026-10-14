@@ -32,7 +32,11 @@ class PaperSectionRepo extends RepoAbstract implements PaperSectionRepoInterface
     }
 
     use RepoAssotiatedManyTrait;
-
+    
+    public function flush(): void {
+        parent::flush();
+    }
+        
     /**
      *
      * @param int $contentId

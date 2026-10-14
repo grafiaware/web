@@ -29,6 +29,11 @@ class PaperRepo extends RepoAbstract implements PaperRepoInterface {
     }
 
     use RepoAssotiatedOneTrait;
+    
+    public function flush(): void {
+        parent::flush();
+    }
+    
 //    use RepoAssociatedWithJoinOneTrait;
     /**
      *
