@@ -17,9 +17,12 @@ use Red\Model\Dao\MenuItemDaoInterface;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Entity\PresentationInterface;
 use Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Enum\FlashSeverityEnum;
 
 use Pes\Http\Body;
 use Pes\Core\Debug\Timer;
+use Pes\Model\Dao\StatusDao;
 
 use Replace\Replace;
 use Replace\Exception\InvalidHtmlSourceException;
@@ -108,8 +111,8 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
     }
     
     private function flashAndLogNotFound($requestUri, ListValueNotFoundInDatabaseException $e) {
-        if (PES_DEVELOPMENT) {
-            $this->setDevelopmentFlashMessage($e->getMessage());
+        if ($this->isPresentationEditable()) {
+            $this->setEditorFlashMessage($e->getMessage());
         }
         if ($this->hasLogger()) {
             $this->getLogger()->notice("Pro uri $requestUri - {$e->getMessage()}");
@@ -117,8 +120,8 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
     }
     
     private function flashAndLogIncorrectHtmlSyntax($requestUri, InvalidHtmlSourceException $e) { 
-        if (PES_DEVELOPMENT) {
-            $this->setDevelopmentFlashMessage($e->getMessage());
+        if ($this->isPresentationEditable()) {
+            $this->setEditorFlashMessage($e->getMessage());
         }
         if ($this->hasLogger()) {
             $this->getLogger()->notice("{$e->getMessage()} Nalezen počáteční řetězec a nenalezen konec pro $requestUri.");
@@ -126,25 +129,32 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
     }
 
     /**
-     * Flash v development: otevřená session → get(); po UnlockStatus::finish() (cascade)
-     * → getClone(false) + replaceEntityInMemory (get() by hodilo SessionFinishedException).
-     * Flush do session jen pokud UnlockStatus později reopenne (flash / presenteddriver);
-     * u běžného paper cascade zůstane hláška v logu a obsah stránky se stejně vrátí.
+     * Globální editační režim prezentace ({@see \Red\Model\Entity\EditorActions::presentEditableContent()}),
+     * ne item action „tužtička“ u konkrétního paperu.
      */
-    private function setDevelopmentFlashMessage(string $message): void {
+    private function isPresentationEditable(): bool {
+        /** @var StatusSecurityRepo $statusSecurityRepo */
+        $statusSecurityRepo = $this->container->get(StatusSecurityRepo::class);
+        $editorActions = $statusSecurityRepo->getClone()?->getEditorActions();
+        return $editorActions ? $editorActions->presentEditableContent() : false;
+    }
+
+    /**
+     * Flash pro editora: otevřená session → get(); po UnlockStatus::finish() (cascade)
+     * nejdřív StatusDao::reopen(), aby get() nespadlo a FlashStatus mohl flushnout
+     * (u paper cascade UnlockStatus sám reopen nedělá).
+     */
+    private function setEditorFlashMessage(string $message): void {
         /** @var StatusFlashRepo $statusFlashRepo */
         $statusFlashRepo = $this->container->get(StatusFlashRepo::class);
         if ($statusFlashRepo->isFinished()) {
-            $flash = $statusFlashRepo->getClone(false);
-            if ($flash !== null) {
-                $flash->setMessage($message);
-                $statusFlashRepo->replaceEntityInMemory($flash);
-            }
-            return;
+            /** @var StatusDao $statusDao */
+            $statusDao = $this->container->get(StatusDao::class);
+            $statusDao->reopen();
         }
         $flash = $statusFlashRepo->get();
         if ($flash !== null) {
-            $flash->setMessage($message);
+            $flash->setMessage($message, FlashSeverityEnum::WARNING);
         }
     }
 }
