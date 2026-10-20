@@ -161,6 +161,7 @@ class SelectorItems {
             '/consent' =>
             function () {
                 return [
+                    new PresentationStatus(),      // consent je první request - musí vzniknout status
                     new ConsentLogger(),
                 ];
             },
