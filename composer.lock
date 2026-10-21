@@ -243,16 +243,16 @@
         },
         {
             "name": "pes/pes",
-            "version": "v8.27.0",
+            "version": "v8.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "1c9f4b158b35d7aa0bca03b87e66928d0ac35205"
+                "reference": "fa868eb05455ae20ac795c2457086e9f6a70abb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/1c9f4b158b35d7aa0bca03b87e66928d0ac35205",
-                "reference": "1c9f4b158b35d7aa0bca03b87e66928d0ac35205",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/fa868eb05455ae20ac795c2457086e9f6a70abb1",
+                "reference": "fa868eb05455ae20ac795c2457086e9f6a70abb1",
                 "shasum": ""
             },
             "require": {
@@ -305,7 +305,7 @@
             "authors": [
                 {
                     "name": "Petr Svoboda",
-                    "email": "svoboda@grafia.cz"
+                    "email": "pesbox@email.cz"
                 }
             ],
             "description": "Psí framework pro PHP 8.4.",
@@ -318,20 +318,20 @@
                 "issues": "https://github.com/box4pes/pes/issues",
                 "source": "https://github.com/box4pes/pes"
             },
-            "time": "2026-10-15T09:42:18+00:00"
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-application",
-            "version": "v8.27.0",
+            "version": "v8.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-application.git",
-                "reference": "ad032e9b15419ff0d79835ec382af612adb0a117"
+                "reference": "4dc4ad193d8ff9d7388212ae8de7bce02c1d3417"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes-application/zipball/ad032e9b15419ff0d79835ec382af612adb0a117",
-                "reference": "ad032e9b15419ff0d79835ec382af612adb0a117",
+                "url": "https://api.github.com/repos/box4pes/pes-application/zipball/4dc4ad193d8ff9d7388212ae8de7bce02c1d3417",
+                "reference": "4dc4ad193d8ff9d7388212ae8de7bce02c1d3417",
                 "shasum": ""
             },
             "require": {
@@ -364,7 +364,7 @@
             "authors": [
                 {
                     "name": "Petr Svoboda",
-                    "email": "svoboda@grafia.cz"
+                    "email": "pesbox@email.cz"
                 }
             ],
             "description": "Application bootstrap, middleware, and HTTP app wiring for Pes.",
@@ -378,20 +378,20 @@
                 "issues": "https://github.com/box4pes/pes-application/issues",
                 "source": "https://github.com/box4pes/pes-application"
             },
-            "time": "2026-10-15T08:37:13+00:00"
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-bootstrap",
-            "version": "v8.27.0",
+            "version": "v8.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-bootstrap.git",
-                "reference": "f66662ba56fad2f6b5da9dea5b7566ec369ecfb0"
+                "reference": "c738c1bdd1788da7ac956f11371f045622fcfc91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes-bootstrap/zipball/f66662ba56fad2f6b5da9dea5b7566ec369ecfb0",
-                "reference": "f66662ba56fad2f6b5da9dea5b7566ec369ecfb0",
+                "url": "https://api.github.com/repos/box4pes/pes-bootstrap/zipball/c738c1bdd1788da7ac956f11371f045622fcfc91",
+                "reference": "c738c1bdd1788da7ac956f11371f045622fcfc91",
                 "shasum": ""
             },
             "require": {
@@ -417,7 +417,7 @@
             "authors": [
                 {
                     "name": "Petr Svoboda",
-                    "email": "svoboda@grafia.cz"
+                    "email": "pesbox@email.cz"
                 }
             ],
             "description": "Procedurální bootstrap skripty pro Pes (autoloader, prostředí, error handlery, logy).",
@@ -430,20 +430,20 @@
                 "issues": "https://github.com/box4pes/pes-bootstrap/issues",
                 "source": "https://github.com/box4pes/pes-bootstrap"
             },
-            "time": "2026-10-15T08:37:13+00:00"
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-core",
-            "version": "v8.27.0",
+            "version": "v8.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-core.git",
-                "reference": "0b6fd124da6c0135964363eef86f06af3301c408"
+                "reference": "c8229f883b7d7237d3d4d1c902c2b97382f017ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes-core/zipball/0b6fd124da6c0135964363eef86f06af3301c408",
-                "reference": "0b6fd124da6c0135964363eef86f06af3301c408",
+                "url": "https://api.github.com/repos/box4pes/pes-core/zipball/c8229f883b7d7237d3d4d1c902c2b97382f017ed",
+                "reference": "c8229f883b7d7237d3d4d1c902c2b97382f017ed",
                 "shasum": ""
             },
             "require": {
@@ -468,7 +468,7 @@
             "authors": [
                 {
                     "name": "Petr Svoboda",
-                    "email": "svoboda@grafia.cz"
+                    "email": "pesbox@email.cz"
                 }
             ],
             "description": "Core primitives for Pes (security, validation, collections, types, text).",
@@ -481,20 +481,20 @@
                 "issues": "https://github.com/box4pes/pes-core/issues",
                 "source": "https://github.com/box4pes/pes-core"
             },
-            "time": "2026-10-15T08:37:13+00:00"
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-database",
-            "version": "v8.27.0",
+            "version": "v8.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-database.git",
-                "reference": "4e96b038f2c966a1c3034330e700d7e62f94cefc"
+                "reference": "1a4301a0eae1bc3f34c9436a263e401163708505"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes-database/zipball/4e96b038f2c966a1c3034330e700d7e62f94cefc",
-                "reference": "4e96b038f2c966a1c3034330e700d7e62f94cefc",
+                "url": "https://api.github.com/repos/box4pes/pes-database/zipball/1a4301a0eae1bc3f34c9436a263e401163708505",
+                "reference": "1a4301a0eae1bc3f34c9436a263e401163708505",
                 "shasum": ""
             },
             "require": {
@@ -522,7 +522,7 @@
             "authors": [
                 {
                     "name": "Petr Svoboda",
-                    "email": "svoboda@grafia.cz"
+                    "email": "pesbox@email.cz"
                 }
             ],
             "description": "Database access and query criteria for Pes.",
@@ -536,20 +536,20 @@
                 "issues": "https://github.com/box4pes/pes-database/issues",
                 "source": "https://github.com/box4pes/pes-database"
             },
-            "time": "2026-10-15T08:37:13+00:00"
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-di",
-            "version": "v8.27.0",
+            "version": "v8.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-di.git",
-                "reference": "1f8d153fc41ebeebbcdf992f24c91547ef7ae231"
+                "reference": "cf9640b575ef140aaf21bbae32d11e82f35b7599"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes-di/zipball/1f8d153fc41ebeebbcdf992f24c91547ef7ae231",
-                "reference": "1f8d153fc41ebeebbcdf992f24c91547ef7ae231",
+                "url": "https://api.github.com/repos/box4pes/pes-di/zipball/cf9640b575ef140aaf21bbae32d11e82f35b7599",
+                "reference": "cf9640b575ef140aaf21bbae32d11e82f35b7599",
                 "shasum": ""
             },
             "require": {
@@ -575,7 +575,7 @@
             "authors": [
                 {
                     "name": "Petr Svoboda",
-                    "email": "svoboda@grafia.cz"
+                    "email": "pesbox@email.cz"
                 }
             ],
             "description": "Dependency injection container for Pes (Pes\\Container).",
@@ -590,20 +590,20 @@
                 "issues": "https://github.com/box4pes/pes-di/issues",
                 "source": "https://github.com/box4pes/pes-di"
             },
-            "time": "2026-10-15T08:37:13+00:00"
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-http",
-            "version": "v8.27.0",
+            "version": "v8.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-http.git",
-                "reference": "21c2d3e053228f503d22c41fa98b495576be8bf6"
+                "reference": "a79106c76d7b6b4b0eb5247f3bdb1f0b1eaa6e21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes-http/zipball/21c2d3e053228f503d22c41fa98b495576be8bf6",
-                "reference": "21c2d3e053228f503d22c41fa98b495576be8bf6",
+                "url": "https://api.github.com/repos/box4pes/pes-http/zipball/a79106c76d7b6b4b0eb5247f3bdb1f0b1eaa6e21",
+                "reference": "a79106c76d7b6b4b0eb5247f3bdb1f0b1eaa6e21",
                 "shasum": ""
             },
             "require": {
@@ -632,7 +632,7 @@
             "authors": [
                 {
                     "name": "Petr Svoboda",
-                    "email": "svoboda@grafia.cz"
+                    "email": "pesbox@email.cz"
                 }
             ],
             "description": "HTTP stack for Pes (PSR-7 environment, factories, cookies, URI helpers).",
@@ -646,20 +646,20 @@
                 "issues": "https://github.com/box4pes/pes-http/issues",
                 "source": "https://github.com/box4pes/pes-http"
             },
-            "time": "2026-10-15T08:37:13+00:00"
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-logger",
-            "version": "v8.27.0",
+            "version": "v8.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-logger.git",
-                "reference": "73c186bab11d082d72580781a03910b9b7bc4615"
+                "reference": "89e35f580c75e9754915605119f7d3180bfae3c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes-logger/zipball/73c186bab11d082d72580781a03910b9b7bc4615",
-                "reference": "73c186bab11d082d72580781a03910b9b7bc4615",
+                "url": "https://api.github.com/repos/box4pes/pes-logger/zipball/89e35f580c75e9754915605119f7d3180bfae3c1",
+                "reference": "89e35f580c75e9754915605119f7d3180bfae3c1",
                 "shasum": ""
             },
             "require": {
@@ -686,7 +686,7 @@
             "authors": [
                 {
                     "name": "Petr Svoboda",
-                    "email": "svoboda@grafia.cz"
+                    "email": "pesbox@email.cz"
                 }
             ],
             "description": "File and array loggers for Pes (extends PSR-3).",
@@ -700,20 +700,20 @@
                 "issues": "https://github.com/box4pes/pes-logger/issues",
                 "source": "https://github.com/box4pes/pes-logger"
             },
-            "time": "2026-10-15T08:37:13+00:00"
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-mail",
-            "version": "v8.27.0",
+            "version": "v8.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-mail.git",
-                "reference": "461b9138679510dc5d6c62c4c5720abddf3f5a4c"
+                "reference": "8bb17116daf9e57dae2b5c78d2c0e7bd948d8bdb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes-mail/zipball/461b9138679510dc5d6c62c4c5720abddf3f5a4c",
-                "reference": "461b9138679510dc5d6c62c4c5720abddf3f5a4c",
+                "url": "https://api.github.com/repos/box4pes/pes-mail/zipball/8bb17116daf9e57dae2b5c78d2c0e7bd948d8bdb",
+                "reference": "8bb17116daf9e57dae2b5c78d2c0e7bd948d8bdb",
                 "shasum": ""
             },
             "require": {
@@ -740,7 +740,7 @@
             "authors": [
                 {
                     "name": "Petr Svoboda",
-                    "email": "svoboda@grafia.cz"
+                    "email": "pesbox@email.cz"
                 }
             ],
             "description": "Mail sending layer for Pes (PHPMailer wrapper, assembly, SMTP configuration).",
@@ -754,20 +754,20 @@
                 "issues": "https://github.com/box4pes/pes-mail/issues",
                 "source": "https://github.com/box4pes/pes-mail"
             },
-            "time": "2026-10-15T08:37:13+00:00"
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-model",
-            "version": "v8.27.0",
+            "version": "v8.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-model.git",
-                "reference": "904991990bf83b90ac3830a0d5e9de36ae3ed889"
+                "reference": "545169ea7229abd070cac267c5c0f8322a7075ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes-model/zipball/904991990bf83b90ac3830a0d5e9de36ae3ed889",
-                "reference": "904991990bf83b90ac3830a0d5e9de36ae3ed889",
+                "url": "https://api.github.com/repos/box4pes/pes-model/zipball/545169ea7229abd070cac267c5c0f8322a7075ca",
+                "reference": "545169ea7229abd070cac267c5c0f8322a7075ca",
                 "shasum": ""
             },
             "require": {
@@ -794,7 +794,7 @@
             "authors": [
                 {
                     "name": "Petr Svoboda",
-                    "email": "svoboda@grafia.cz"
+                    "email": "pesbox@email.cz"
                 }
             ],
             "description": "Data model layer for Pes (DAO, repository, entity, hydrator, row data).",
@@ -809,20 +809,20 @@
                 "issues": "https://github.com/box4pes/pes-model/issues",
                 "source": "https://github.com/box4pes/pes-model"
             },
-            "time": "2026-10-15T08:37:13+00:00"
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-router",
-            "version": "v8.27.0",
+            "version": "v8.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-router.git",
-                "reference": "44fbdb3d99a8c76c8737711f105ba045b7763fd6"
+                "reference": "cc229355e190a324d768213b86b8a5b750d2f5fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes-router/zipball/44fbdb3d99a8c76c8737711f105ba045b7763fd6",
-                "reference": "44fbdb3d99a8c76c8737711f105ba045b7763fd6",
+                "url": "https://api.github.com/repos/box4pes/pes-router/zipball/cc229355e190a324d768213b86b8a5b750d2f5fe",
+                "reference": "cc229355e190a324d768213b86b8a5b750d2f5fe",
                 "shasum": ""
             },
             "require": {
@@ -853,7 +853,7 @@
             "authors": [
                 {
                     "name": "Petr Svoboda",
-                    "email": "svoboda@grafia.cz"
+                    "email": "pesbox@email.cz"
                 }
             ],
             "description": "HTTP routing for Pes.",
@@ -867,20 +867,20 @@
                 "issues": "https://github.com/box4pes/pes-router/issues",
                 "source": "https://github.com/box4pes/pes-router"
             },
-            "time": "2026-10-15T08:37:13+00:00"
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-session",
-            "version": "v8.27.0",
+            "version": "v8.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-session.git",
-                "reference": "cdca0d77d11e87290b242600891f80f16db1f343"
+                "reference": "a2895d79b4ff12db9c6a3648df0fb670bd5eeafe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes-session/zipball/cdca0d77d11e87290b242600891f80f16db1f343",
-                "reference": "cdca0d77d11e87290b242600891f80f16db1f343",
+                "url": "https://api.github.com/repos/box4pes/pes-session/zipball/a2895d79b4ff12db9c6a3648df0fb670bd5eeafe",
+                "reference": "a2895d79b4ff12db9c6a3648df0fb670bd5eeafe",
                 "shasum": ""
             },
             "require": {
@@ -911,7 +911,7 @@
             "authors": [
                 {
                     "name": "Petr Svoboda",
-                    "email": "svoboda@grafia.cz"
+                    "email": "pesbox@email.cz"
                 }
             ],
             "description": "PHP session handling for Pes (SessionStatusHandler, save handlers).",
@@ -924,20 +924,20 @@
                 "issues": "https://github.com/box4pes/pes-session/issues",
                 "source": "https://github.com/box4pes/pes-session"
             },
-            "time": "2026-10-15T08:37:13+00:00"
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-view",
-            "version": "v8.27.0",
+            "version": "v8.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-view.git",
-                "reference": "41e3a126b7713dd620de995b9d3dd9bab06c5a06"
+                "reference": "4ee6f8ba47aa91e834a624bd78afba37608c11e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes-view/zipball/41e3a126b7713dd620de995b9d3dd9bab06c5a06",
-                "reference": "41e3a126b7713dd620de995b9d3dd9bab06c5a06",
+                "url": "https://api.github.com/repos/box4pes/pes-view/zipball/4ee6f8ba47aa91e834a624bd78afba37608c11e1",
+                "reference": "4ee6f8ba47aa91e834a624bd78afba37608c11e1",
                 "shasum": ""
             },
             "require": {
@@ -965,7 +965,7 @@
             "authors": [
                 {
                     "name": "Petr Svoboda",
-                    "email": "svoboda@grafia.cz"
+                    "email": "pesbox@email.cz"
                 }
             ],
             "description": "View layer for Pes (templates, renderers, DOM nodes).",
@@ -979,7 +979,7 @@
                 "issues": "https://github.com/box4pes/pes-view/issues",
                 "source": "https://github.com/box4pes/pes-view"
             },
-            "time": "2026-10-15T08:37:13+00:00"
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
