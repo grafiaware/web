@@ -7,9 +7,9 @@ use Sendmail\Middleware\Sendmail\Csv\CampaignDataInterface;
 
 use Sendmail\Middleware\Sendmail\Campaign\CampaignConfigInterface;
 use Sendmail\Middleware\Sendmail\Recipients\MailRecipientsInterface;
-use Mail\Mail;
-use Pes\Debug\Timer;
-use Mail\Exception\MailException;
+use Pes\Mail\MailInterface;
+use Pes\Core\Debug\Timer;
+use Pes\Mail\Exception\MailException;
 
 /**
  * Description of MailSender
@@ -23,7 +23,7 @@ class MailSender implements MailSenderInterface {
     private $campaignData;
 
     public function __construct(
-            Mail $mail,
+            MailInterface $mail,
             AssemblyProviderInterface $assemblyProvider,
             CampaignDataInterface $campaignData
             

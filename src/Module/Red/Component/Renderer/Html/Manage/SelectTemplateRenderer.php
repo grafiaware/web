@@ -3,7 +3,7 @@ namespace Red\Component\Renderer\Html\Manage;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 use Red\Component\ViewModel\Content\Authored\AuthoredViewModelInterface;
 
 /**
@@ -12,7 +12,7 @@ use Red\Component\ViewModel\Content\Authored\AuthoredViewModelInterface;
  * @author pes2704
  */
 class SelectTemplateRenderer extends HtmlRendererAbstract {
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         /** @var AuthoredViewModelInterface $viewModel */
         $contentTemplateName = $viewModel->getAuthoredTemplateName();
         $authoredContentId = $viewModel->getAuthoredContentId();

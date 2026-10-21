@@ -138,21 +138,31 @@ class CompanyControler extends FrontControlerAbstract {
     }
   
     //TODO: permissions jen pokud je zapnuta editace, oddělit administratora - pro add update remove Company
-    private function hasPermissions(LoginAggregateFullInterface $loginAggregateCredentials, $companyId) {
-        $loginName = $loginAggregateCredentials->getLoginName();            
-        $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';         
-        $isRepresentative = false;
-        if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {               
-            if ( $this->representativeRepo->get($loginName, $companyId ) )   {
-                $isRepresentative = true; 
+    private function hasPermissions(?LoginAggregateFullInterface $loginAggregateCredentials = null, $companyId) {
+        if (isset($loginAggregateCredentials)) {
+            $loginName = $loginAggregateCredentials->getLoginName();            
+            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';         
+            $isRepresentative = false;
+            if(isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative']) ) {               
+                if ( $this->representativeRepo->get($loginName, $companyId ) )   {
+                    $isRepresentative = true; 
+                }
             }
-        }            
-        return ( $isRepresentative OR ($role ==  ConfigurationCache::auth()['roleEventsAdministrator']) );      
+            $hasPermissions = ( $isRepresentative OR ($role ==  ConfigurationCache::auth()['roleEventsAdministrator']) );
+        } else {
+            $hasPermissions = false;
+        }
+        return $hasPermissions;
     }
     
-    private function hasAdminPermissions(LoginAggregateFullInterface $loginAggregateCredentials) {
-        $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';         
-        return (isset($role) AND ($role ==  ConfigurationCache::auth()['roleEventsAdministrator']) );            
+    private function hasAdminPermissions(?LoginAggregateFullInterface $loginAggregateCredentials = null) {
+        if (isset($loginAggregateCredentials)) {
+            $role = $loginAggregateCredentials->getCredentials()->getRoleFk() ?? '';         
+            $hasPermissions = (isset($role) AND ($role ==  ConfigurationCache::auth()['roleEventsAdministrator']) );
+        } else {
+            $hasPermissions = false;
+        }
+        return $hasPermissions;
     }
     
     private function checkParentId($companyId) {
@@ -174,7 +184,7 @@ class CompanyControler extends FrontControlerAbstract {
         if ($this->hasAdminPermissions($this->getStatusLoginAggregate())) {
             /** @var CompanyInterface $company */                        
             $company = new Company();
-            $company->setName( (new RequestParams())->getParsedBodyParam($request, 'name') );                
+            $company->setName( trim((new RequestParams())->getParsedBodyParam($request, 'name')));   // alespoň trim - název company se používá pro hledání souborů (smyčky pdf, obrázky stánku)
             $company->setVersionFk( (new RequestParams())->getParsedBodyParam($request, 'version_fk') );    //TODO: SV QUERY - testovací implementace                
             $this->companyRepo->add($company);
         } else {

@@ -4,6 +4,8 @@ namespace Web\Component\ViewModel\Flash;
 use Component\ViewModel\ViewModelAbstract;
 use Component\ViewModel\StatusViewModelInterface;
 
+use ArrayIterator;
+
 /**
  * Description of FlashVieModel
  *
@@ -17,7 +19,7 @@ class FlashViewModel extends ViewModelAbstract implements FlashViewModelInterfac
         $this->status = $status;
     }
 
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         $this->appendData( [
                     'flashMessages' => $this->status->getFlashMessages(),
                 ]

@@ -8,7 +8,7 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\PersistableEntityInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
 use DateTime;
 /**
  * Description of PaperInterface
@@ -39,6 +39,6 @@ interface ArticleInterface extends PersistableEntityInterface {
 
     public function setEditor($editor): ArticleInterface;
 
-    public function setUpdated(DateTime $updated=null): ArticleInterface;
+    public function setUpdated(?DateTime $updated=null): ArticleInterface;
 
 }

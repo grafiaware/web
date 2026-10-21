@@ -1,9 +1,8 @@
 <?php
 namespace Component\ViewModel\RouteSegment;
-
-use Component\ViewModel\RouteSegment\FamilyRouteSegmentInterface;
  
 use UnexpectedValueException;
+
 /**
  * Description of FamilyRouteSegment
  *
@@ -48,7 +47,7 @@ class FamilyRouteSegment implements FamilyRouteSegmentInterface {
      * 
      * @param string $id
      */
-    public function setChildId(string $id=null) {
+    public function setChildId(?string $id=null) {
         $this->childId = $id;
     }
     

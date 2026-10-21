@@ -22,8 +22,8 @@ use Laminas\Diactoros\Response\RedirectResponse;
 final class LoginController
 {
     public function __construct(
-        UserRepositoryInterface $users,     // private UserRepositoryInterface $users,
-        QrLoginService $qrLogin     // private QrLoginService $qrLogin
+        private UserRepositoryInterface $users,
+        private QrLoginService $qrLogin
     ) {}
 
     /**

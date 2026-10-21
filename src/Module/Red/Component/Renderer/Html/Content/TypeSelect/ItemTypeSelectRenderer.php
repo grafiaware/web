@@ -4,8 +4,8 @@ namespace Red\Component\Renderer\Html\Content\TypeSelect;
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Middleware\Redactor\Controler\ItemEditControler;
 use Red\Component\ViewModel\Content\TypeSelect\ItemTypeSelectViewModelInterface;
-use Pes\Text\Message;
-use Pes\Text\Html;
+use Pes\Core\Text\Message;
+use Pes\Core\Text\Html;
 
 /**
  * Description of ItemTypeSelectRendere
@@ -14,7 +14,7 @@ use Pes\Text\Html;
  */
 class ItemTypeSelectRenderer extends HtmlRendererAbstract {
 
-    public function render(iterable $viewModel = NULL) {
+    public function render(?iterable $viewModel = NULL) {
         /** @var ItemTypeSelectViewModelInterface $viewModel */
         $menuItemUidFk = $viewModel->getMenuItem()->getUidFk();
         $contentGeneratorsTypes = $viewModel->getTypeGenerators();

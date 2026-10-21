@@ -14,8 +14,8 @@ use Events\Model\Repository\JobRepo;
 use Events\Model\Entity\Job;
 use Events\Model\Entity\JobInterface;
 
-use Model\Repository\Exception\OperationWithLockedEntityException;
-use Model\RowData\RowData;
+use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
+use Pes\Model\RowData\RowData;
 
 
  /**

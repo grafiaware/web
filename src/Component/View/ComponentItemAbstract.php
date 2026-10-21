@@ -10,7 +10,7 @@ use Component\ViewModel\ViewModelItemInterface;
 
 use Configuration\ComponentConfigurationInterface;
 
-use Pes\Type\ContextDataInterface;
+use Pes\Core\Type\ContextDataInterface;
 
 use LogicException;
 

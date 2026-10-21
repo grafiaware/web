@@ -1,19 +1,13 @@
 <?php
 namespace Auth\Middleware\Login;
 
-use Auth\Middleware\Login\Controler\ComponentStaticControler;
-use Auth\Middleware\Login\Controler\ComponentAuthControler;
+use Application\Api\Catalog\AuthRouteCatalog;
+use Application\Api\RouteCatalogWiring;
 
-use Auth\Middleware\Login\Controler\LoginLogoutControler;
-use Auth\Middleware\Login\Controler\RegistrationControler;
-use Auth\Middleware\Login\Controler\ConfirmControler;
-use Auth\Middleware\Login\Controler\PasswordControler;
-use Auth\Middleware\Login\Controler\AuthControler;
-use Auth\Middleware\Login\Controler\SynchroControler;
-
-use Pes\Middleware\AppMiddlewareAbstract;
+use Pes\Application\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
 
+use Container\AuthStaticRegistryContainerConfigurator;
 use Container\AuthContainerConfigurator;
 use Container\StaticItemContainerConfigurator;
 use Container\AuthDbContainerConfigurator;
@@ -41,12 +35,16 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
+        // AuthStaticRegistryContainerConfigurator: SQLite registry + StaticRegistryRepo
+        // (auth nemá red DB — StaticItem path/template se čte z lokální registry)
         $this->container =
             (new AuthContainerConfigurator())->configure(
-                (new StaticItemContainerConfigurator())->configure(                    
-                    (new AuthDbContainerConfigurator())->configure(
-                        (new MailContainerConfigurator())->configure(
-                            (new Container($this->getApp()->getAppContainer()))
+                (new StaticItemContainerConfigurator())->configure(
+                    (new AuthStaticRegistryContainerConfigurator())->configure(
+                        (new AuthDbContainerConfigurator())->configure(
+                            (new MailContainerConfigurator())->configure(
+                                (new Container($this->getApp()->getAppContainer()))
+                            )
                         )
                     )
                 )
@@ -54,131 +52,17 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         /** @var RouteSegmentGenerator $this->routeGenerator */
         $this->routeGenerator = $this->container->get(RouteSegmentGenerator::class);
-        
-        // TEST MAIL RegistrationControler
-        $this->routeGenerator->addRouteForAction('POST', '/auth/v1/testmail', function(ServerRequestInterface $request) {
-            /** @var RegistrationControler $ctrl */
-            $ctrl = $this->container->get(RegistrationControler::class);
-            return $ctrl->testMail($request);
-            });        
-             
-        //  MAIL RegistrationControler  = při nastavení reprezentanta(zástupce) firmy
-        $this->routeGenerator->addRouteForAction('POST', '/auth/v1/mailCompletRegistrationRepre',  function(ServerRequestInterface $request) {
-            /** @var RegistrationControler $ctrl */
-            $ctrl = $this->container->get(RegistrationControler::class);
-            return $ctrl->sendMailCompletRegistrationRepre($request);
-            });             
-             
-             
-             
-        #### StaticControler ####
-        $this->routeGenerator->addRouteForAction('GET', '/auth/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
-            /** @var ComponentStaticControler $ctrl */
-            $ctrl = $this->container->get(ComponentStaticControler::class);
-            return $ctrl->static($request, $staticName);
-            });     
-            
-        #### ComponentControler ####
-        $this->routeGenerator->addRouteForAction('GET', '/auth/v1/component/:name', function(ServerRequestInterface $request, $name) {
-            /** @var ComponentAuthControler $ctrl */
-            $ctrl = $this->container->get(ComponentAuthControler::class);
-            $comp = $ctrl->component($request, $name);
-            return $comp;
-            });
 
-        // LoginLogoutControler
-        $this->routeGenerator->addRouteForAction('POST', '/auth/v1/logout', function(ServerRequestInterface $request) {
-            /** @var LoginLogoutControler $ctrl */
-            $ctrl = $this->container->get(LoginLogoutControler::class);
-            return $ctrl->logout($request);
-            });
-        $this->routeGenerator->addRouteForAction('POST', '/auth/v1/login', function(ServerRequestInterface $request) {
-            /** @var LoginLogoutControler $ctrl */
-            $ctrl = $this->container->get(LoginLogoutControler::class);
-            return $ctrl->login($request);
-            });
-            
-        // RegistrationControler
-        $this->routeGenerator->addRouteForAction('POST', '/auth/v1/register', function(ServerRequestInterface $request) {
-            /** @var RegistrationControler $ctrl */
-            $ctrl = $this->container->get(RegistrationControler::class);
-            return $ctrl->register($request);
-            });
-        $this->routeGenerator->addRouteForAction('POST', '/auth/v1/register1', function(ServerRequestInterface $request) {
-            /** @var RegistrationControler $ctrl */
-            $ctrl = $this->container->get(RegistrationControler::class);
-            return $ctrl->register1($request);
-            });
-        $this->routeGenerator->addRouteForAction('GET', '/auth/v1/registerapplication/:loginname', function(ServerRequestInterface $request, $loginname) {
-            /** @var RegistrationControler $ctrl */
-            $ctrl = $this->container->get(RegistrationControler::class);
-            return $ctrl->registerapplication($request, $loginname);
-            });
-            
-        // ConfirmControler
-        $this->routeGenerator->addRouteForAction('GET', '/auth/v1/confirm/:uid', function(ServerRequestInterface $request, $uid) {
-            /** @var ConfirmControler $ctrl */
-            $ctrl = $this->container->get(ConfirmControler::class);
-            return $ctrl->confirm($request, $uid);
-            });
-            
-        // PasswordControler    
-        $this->routeGenerator->addRouteForAction('POST', '/auth/v1/forgottenpassword', function(ServerRequestInterface $request) {
-            /** @var PasswordControler $ctrl */
-            $ctrl = $this->container->get(PasswordControler::class);
-            return $ctrl->forgottenPassword($request);
-            });
-        $this->routeGenerator->addRouteForAction('POST', '/auth/v1/changepassword', function(ServerRequestInterface $request) {
-            /** @var PasswordControler $ctrl */
-            $ctrl = $this->container->get(PasswordControler::class);
-            return $ctrl->changePassword($request);
-            });
-       
-        //AuthControler        
-        $this->routeGenerator->addRouteForAction('POST', '/auth/v1/credentials/:loginnamefk', function(ServerRequestInterface $request, $loginnamefk) {
-            /** @var AuthControler $ctrl */
-            $ctrl = $this->container->get(AuthControler::class);
-            return $ctrl->updateCredentials($request, $loginnamefk);
-        });
-        
-        $this->routeGenerator->addRouteForAction('POST', '/auth/v1/role', function(ServerRequestInterface $request) {
-            /** @var AuthControler $ctrl */
-            $ctrl = $this->container->get(AuthControler::class);
-            return $ctrl->addRole($request);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/auth/v1/role/:role', function(ServerRequestInterface $request, $role) {
-            /** @var AuthControler $ctrl */
-            $ctrl = $this->container->get(AuthControler::class);
-            return $ctrl->updateRole($request, $role);
-        });
-        $this->routeGenerator->addRouteForAction('POST', '/auth/v1/role/:role/remove', function(ServerRequestInterface $request, $role ) {
-            /** @var AuthControler $ctrl */
-            $ctrl = $this->container->get(AuthControler::class);
-            return $ctrl->removeRole($request, $role);
-        });   
-        
-              
-        // SynchroControler       
-        $this->routeGenerator->addRouteForAction('POST', '/auth/v1/synchro', function(ServerRequestInterface $request) {
-            /** @var SynchroControler $ctrl */
-            $ctrl = $this->container->get(SynchroControler::class);
-            return $ctrl->synchro($request);
-        });   
-        $this->routeGenerator->addRouteForAction('POST', '/auth/v1/ladimsynchro', function(ServerRequestInterface $request) {
-            /** @var SynchroControler $ctrl */
-            $ctrl = $this->container->get(SynchroControler::class);
-            return $ctrl->synchro($request);
-        });   
-        
-        
-        
-        
-        /** @var $router RouterInterface */
+        RouteCatalogWiring::wire(
+            $this->routeGenerator,
+            $this->container,
+            AuthRouteCatalog::definitions(),
+            ['GET', 'POST', 'PUT', 'DELETE']
+        );
+
+        /** @var RouterInterface $router */
         $router = $this->container->get(RouterInterface::class);
         $router->exchangeRoutes($this->routeGenerator);
-
-        return $router->process($request, $handler) ;
+        return $router->process($request, $handler);
     }
 }
-
-

@@ -12,8 +12,8 @@ use Events\Model\Repository\CompanyRepo;
 use Events\Model\Entity\Company;
 use Events\Model\Entity\CompanyInterface;
 
-use Model\Repository\Exception\OperationWithLockedEntityException;
-use Model\RowData\RowData;
+use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
+use Pes\Model\RowData\RowData;
 
 
  /**

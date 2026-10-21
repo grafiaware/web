@@ -2,9 +2,9 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoEditAbstract;
-use \Model\Dao\DaoAutoincrementTrait;
-use \Model\Dao\DaoReferenceUniqueTrait;
+use Pes\Model\Dao\DaoEditAbstract;
+use \Pes\Model\Dao\DaoAutoincrementTrait;
+use \Pes\Model\Dao\DaoReferenceUniqueTrait;
 
 /**
  * Description of RsDao

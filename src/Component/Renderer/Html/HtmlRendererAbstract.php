@@ -29,7 +29,7 @@ abstract class HtmlRendererAbstract implements RendererInterface {
      *
      * @param ClassMapInterface $menuClassMap
      */
-    public function __construct(ClassMapInterface $menuClassMap=NULL) {
+    public function __construct(?ClassMapInterface $menuClassMap=NULL) {
         $this->classMap = $menuClassMap;
     }
 }

@@ -21,7 +21,10 @@ use QrLogin\Services\QRLoginManager;
  */
 class AuthController
 {
-    public function __construct(OAuthManager $om, OAuthUserMapper $mapper, QRLoginManager $qr) {}   // (private OAuthManager $om, private OAuthUserMapper $mapper, private QRLoginManager $qr)
+    public function __construct(
+            private OAuthManager $om, 
+            private OAuthUserMapper $mapper, 
+            private QRLoginManager $qr) {}
 
     public function start(array $params) {
         $provider = $params['provider'] ?? null;
@@ -31,33 +34,17 @@ class AuthController
         $p = $this->om->provider($provider);
         session_start();
         $_SESSION['oauth_provider'] = $provider;
-        if ($token) $_SESSION['qr_token'] = $token;
-
-//        $scopes = match($provider) {
-//            'google' => ['openid','email','profile'],
-//            'github' => ['user:email'],
-//            'microsoft' => ['User.Read'],
-//            'facebook' => ['email'],
-//            default => []
-//        };
-        
-        switch ($provider) {
-            case 'google':
-                $scopes = ['openid','email','profile'];
-                break;
-            case 'google':
-                $scopes = ['user:email'];
-                break;
-            case 'google':
-                $scopes = ['User.Read'];
-                break;
-            case 'google':
-                $scopes = ['email'];
-                break;            
-            default:
-                $scopes = [];                
-                break;
+        if ($token) {
+            $_SESSION['qr_token'] = $token;
         }
+
+        $scopes = match($provider) {
+            'google' => ['openid','email','profile'],
+            'github' => ['user:email'],
+            'microsoft' => ['User.Read'],
+            'facebook' => ['email'],
+            default => []
+        };
 
         $authUrl = $p->getAuthorizationUrl(['scope'=>$scopes]);
         $_SESSION['oauth_state'] = $p->getState();

@@ -8,11 +8,11 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoEditAbstract;
+use Pes\Model\Dao\DaoEditAbstract;
 
-use Model\Dao\DaoAutoincrementTrait;
-use Model\Dao\DaoReferenceNonuniqueTrait;
-use Model\RowData\RowDataInterface;
+use Pes\Model\Dao\DaoAutoincrementTrait;
+use Pes\Model\Dao\DaoReferenceNonuniqueTrait;
+use Pes\Model\RowData\RowDataInterface;
 /**
  * Description of RsDao
  *

@@ -5,7 +5,7 @@ use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Menu\ItemViewModelInterface;
 use Red\Component\View\Menu\ItemComponentInterface;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of ItemRendererEditable
@@ -20,7 +20,7 @@ class ItemRendererEditableQQQ extends HtmlRendererAbstract {
      */
     protected $viewModel;
 
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         return $this->renderEditableItem($viewModel);
     }
 

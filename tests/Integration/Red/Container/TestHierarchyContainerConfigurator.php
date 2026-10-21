@@ -15,7 +15,7 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 use Site\ConfigurationCache;
 
 // context
-use Model\Context\ContextProviderInterface;
+use Pes\Model\Context\ContextProviderInterface;
 use Test\Integration\Red\Model\Context\ContextProviderMock;
 
 use Pes\Database\Handler\Account;

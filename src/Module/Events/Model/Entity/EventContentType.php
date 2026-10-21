@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Entity;
 
-use Model\Entity\PersistableEntityAbstract;
+use Pes\Model\Entity\PersistableEntityAbstract;
 use Events\Model\Entity\EventContentTypeInterface;
 
 /**

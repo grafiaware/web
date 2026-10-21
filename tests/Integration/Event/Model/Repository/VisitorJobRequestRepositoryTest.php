@@ -7,8 +7,8 @@ use Pes\Container\Container;
 use Container\EventsModelContainerConfigurator;
 use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 
-use Model\Repository\Exception\OperationWithLockedEntityException;
-use Model\RowData\RowData;
+use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
+use Pes\Model\RowData\RowData;
 
 use Events\Model\Dao\LoginDao;
 use Events\Model\Dao\JobDao;

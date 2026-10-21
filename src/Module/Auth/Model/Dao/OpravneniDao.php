@@ -8,7 +8,7 @@
 
 namespace Auth\Model\Dao;
 
-use Model\Dao\DaoAbstract;
+use Pes\Model\Dao\DaoAbstract;
 
 /**
  * Description of RsDao

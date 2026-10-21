@@ -6,6 +6,55 @@
 
 /* global tinymce */
 
+/** true během fetch uložení — zabrání dvojímu POST z blur + tlačítka Save */
+let savingEditor = false;
+
+/**
+ * Uloží obsah TinyMCE POST-em přes fetch (ne nativní form.submit).
+ * Plugin Save i blur handler používají tuto funkci.
+ *
+ * Server u perex/headline/article vrací 204 No Content. Firefox u navigace
+ * formuláře s 204 hlásí NS_BINDING_ABORTED a v DevTools není vidět odpověď,
+ * i když se data uložila. fetch 204 zpracuje bez navigace.
+ *
+ * @param {object} editor TinyMCE editor
+ * @returns {Promise<void>}
+ */
+export const saveRedEditor = (editor) => {
+    if (!editor || savingEditor) {
+        return Promise.resolve();
+    }
+    const form = editor.formElement;
+    if (!form) {
+        console.error('saveRedEditor: editor has no formElement');
+        return Promise.resolve();
+    }
+    savingEditor = true;
+    editor.save();
+    const formData = new FormData(form);
+    formData.set(editor.id, editor.getContent());
+    const action = form.getAttribute('action');
+    return fetch(action, {
+        method: (form.getAttribute('method') || 'POST').toUpperCase(),
+        body: formData,
+        credentials: 'same-origin'
+    }).then((response) => {
+        if (response.status === 204 || response.ok) {
+            editor.setDirty(false);
+            return;
+        }
+        throw new Error('HTTP ' + response.status + ' ' + response.statusText);
+    }).catch((error) => {
+        console.error('saveRedEditor: ' + error.message);
+        editor.notificationManager.open({
+            text: 'Uložení selhalo: ' + error.message,
+            type: 'error'
+        });
+    }).finally(() => {
+        savingEditor = false;
+    });
+};
+
 /**
  * Callback funkce nastavená parametrem v konfiguraci TinyMCE setup: editorFunction. Volá se před inicializací instance TinyMCE.
  *
@@ -13,26 +62,17 @@
  * @returns {undefined}
  */
 export const redEditorSetup = (editor) => {
-    var form;
-    var val;
-
-    editor.on('focus', function(e) {
-        val = editor.getContent();
-        form = editor.formElement;
-    });
     editor.on('blur', (e) => {
+        if (savingEditor) {
+            return;
+        }
         if (editor.isDirty()) {
             if (confirm("Uložit změny?")) {
-                editor.save();  // vloží obsah do příslušného hidden inputu
-//                removeItemAction(editor);  // post request - ukončení editace
-                form.submit();
+                saveRedEditor(editor);
             } else {
                 if (confirm("Opravdu chcete ukončit editaci a zahodit změny?")) {
-//                    removeItemAction(editor);  // post request - ukončení editace, nerefreshne se stránka, není vidět odhlášení
-//                    editor.resetContent();
-                    // nadbytečný submit - posílá původní obsah, slouží pouze pro vyncené refreshe obsahu 
-                    // (post redirect get) a tím zajistí správné zobrazení tlačítka Zapnout/Vypnout editaci
-                    form.submit();
+                    editor.resetContent();
+                    editor.setDirty(false);
                 } else {
                     editor.focus();
                 }
@@ -87,18 +127,18 @@ export const setupUserInputEditor = (editor) => {
     const allowedKeys = [10, 13, 16, 17, 18, 20];
     const maxChars = editor.getParam('max_chars');
     editor.on('keydown', function (e) {
-        let ctrl = e.ctrlKey ? e.ctrlKey : ((e.keyCode === 17) ? true : false); // ctrl detection        
+        const ctrl = e.ctrlKey ? e.ctrlKey : ((e.keyCode === 17) ? true : false); // ctrl detection        
         if (e.keyCode === 86 && ctrl)  return true;   // ctrl + v
         if (allowedKeys.indexOf(e.keyCode) !== -1) return true;
-        let editor = activeEditor();
-        let max = editor.getParam('max_chars');
-        let len = activeEditorContentLength();
+        const activeEditorInstance = activeEditor();
+        const max = activeEditorInstance.getParam('max_chars');
+        const len = activeEditorContentLength();
         if (len + 1 > max) {
             e.preventDefault();
             e.stopPropagation();
             return false;
         }
-        tinymce_updateCharCounter(editor, len+1);
+        tinymce_updateCharCounter(activeEditorInstance, len+1);
         return true;
     });
     editor.on('keyup', (e) => {
@@ -135,12 +175,12 @@ export const initInstanceUserInputEditor = function () { // initialize counter d
  * @returns {undefined}
  */
 export const pastePreprocessUserInput = function (plugin, args) {
-    let editor = activeEditor();
-    let len = activeEditorContentLength();
-    let max = editor.getParam('max_chars');    
+    const editor = activeEditor();
+    const len = activeEditorContentLength();
+    const max = editor.getParam('max_chars');    
     if (len + args.content.length > max) {
         alert('Překročen maximální počet znaků / Maximum number of characters exceeded. Maximum:' + max + '.');
-        let shrinked = args.content.substring(0,max-len);
+        const shrinked = args.content.substring(0,max-len);
         args.content = shrinked;
     }
     tinymce_updateCharCounter(editor, len + args.content.length);

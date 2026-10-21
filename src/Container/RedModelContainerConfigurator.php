@@ -27,21 +27,24 @@ use Auth\Model\Entity\LoginAggregateFullInterface;
 
 // context
 use Red\Model\Context\ContextProvider;
-use Model\Context\ContextProviderInterface;
+use Pes\Model\Context\ContextProviderInterface;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 
 // rowdata
-use Model\RowData\PdoRowData;
+use Pes\Model\RowData\PdoRowData;
 
 //builder
-use Model\Builder\Sql;
+use Pes\Model\Builder\Sql;
 
 // data manager
-use Model\DataManager\DataManagerAbstract;
+use Pes\Model\DataManager\DataManagerAbstract;
 
 // dao
 use Red\Model\Dao\Hierarchy\HierarchyDao;
+use Red\Model\Dao\Hierarchy\HierarchyDaoInterface;
+use Red\Service\Menu\MenuItemLocationService;
+use Red\Service\Menu\MenuItemLocationServiceInterface;
 
 //dao + hydrator + repo
 
@@ -138,7 +141,9 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             ContextProviderInterface::class => ContextProvider::class,
             HierarchyAggregateEditDaoInterface::class => HierarchyAggregateEditDao::class,
+            HierarchyDaoInterface::class => HierarchyDao::class,
             CredentialsInterface::class => Credentials::class,
+            MenuItemLocationServiceInterface::class => MenuItemLocationService::class,
         ];
     }
 
@@ -157,6 +162,11 @@ class RedModelContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(HandlerInterface::class),
                         $c->get(Sql::class),
                         PdoRowData::class);
+            },
+            MenuItemLocationService::class => function(ContainerInterface $c) {
+                return new MenuItemLocationService(
+                        $c->get(MenuRootRepo::class),
+                        $c->get(HierarchyDao::class));
             },
             MenuRootDao::class => function(ContainerInterface $c) {
                 return new MenuRootDao(

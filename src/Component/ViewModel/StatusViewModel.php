@@ -2,6 +2,9 @@
 
 namespace Component\ViewModel;
 
+use Component\ViewModel\ViewModelAbstract;
+use Component\ViewModel\StatusViewModelInterface;
+
 use Red\Model\Entity\EditorActionsInterface;
 use Events\Model\Entity\RepresentationActionsInterface;
 use Red\Model\Entity\MenuItemInterface;
@@ -10,34 +13,46 @@ use Red\Model\Entity\StaticItemInterface;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Entity\SecurityInterface;
+use Status\Model\Entity\PresentationInterface;
+use Status\Model\Entity\FlashInterface;
+
+use LogicException;
 
 /**
- * Description of StatusViewModelAbstract
+ * Description of StatusViewModel
+ * 
+ * Poskytuje komponentám status data (data ukládaná do session). Poskytuje data pouze ke čtení, session muže být již uzavřena (pro omezení session lock).
  *
  * @author pes2704
  */
 class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterface {
-
-    /**
-     * @var StatusSecurityRepo
-     */
-    protected $statusSecurityRepo;
-
-    /**
-     * @var StatusPresentationRepo
-     */
-    protected $statusPresentationRepo;
-
-    /**
-     * @var StatusFlashRepo
-     */
-    protected $statusFlashRepo;
     
+    /**
+     * 
+     * @var ?SecurityInterface
+     */
     private $statusSecurity;
     
+    /**
+     * 
+     * @var ?PresentationInterface
+     */
     private $statusPresentation;
     
+    /**
+     * 
+     * @var ?FlashInterface
+     */
     private $statusFlash;
+
+    /**
+     * Flash se čte přes mutable getClone(false) (getMessages má side-effect);
+     * spotřebovaný klon se vrátí do repo přes replaceEntityInMemory a po UnlockStatus::reopen() se flushne ve FlashStatus.
+     *
+     * @var StatusFlashRepo
+     */
+    private StatusFlashRepo $statusFlashRepo;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
@@ -45,46 +60,71 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
             StatusFlashRepo $statusFlashRepo
             ) {
         parent::__construct();
-        $this->statusSecurityRepo = $statusSecurityRepo;
-        $this->statusPresentationRepo = $statusPresentationRepo;
+
+        // getClone() vyžaduje entitu už načtenou (SecurityStatus / FlashStatus / PresentationStatus).
+        // Na stacku bez příslušného middleware vrací null místo fatal LogicException.
+        $this->statusSecurity = $this->cloneOrNull(fn() => $statusSecurityRepo->getClone());
+        $this->statusPresentation = $this->cloneOrNull(fn() => $statusPresentationRepo->getClone());
         $this->statusFlashRepo = $statusFlashRepo;
-        $this->statusSecurity = $this->statusSecurityRepo->get();
-        $this->statusPresentation = $this->statusPresentationRepo->get();
-        $this->statusFlash = $this->statusFlashRepo->get();
+        $this->statusFlash = $this->cloneOrNull(fn() => $statusFlashRepo->getClone());
+    }
+
+    /**
+     * @param callable(): mixed $getClone
+     */
+    private function cloneOrNull(callable $getClone): mixed {
+        try {
+            return $getClone();
+        } catch (LogicException $e) {
+            return null;
         }
-
-    public function getFlashCommand($key) {
-        $flashCommand = $this->statusFlashRepo->get()->getCommand();
-        return $flashCommand[$key] ?? '';
     }
 
+    #[\Override]
     public function getFlashPostCommand($key) {
-        $flashCommand = $this->statusFlashRepo->get()->readPostCommand();
+        $flashCommand = $this->statusFlash?->readPostCommand();
         return $flashCommand[$key] ?? '';
     }
 
+    #[\Override]
     public function getFlashMessages() {
-        return $this->statusFlashRepo->get()->getMessages();
+        /** @var ?FlashInterface $flash */
+        $flash = $this->cloneOrNull(fn() => $this->statusFlashRepo->getClone(false));
+        if ($flash === null) {
+            return [];
+        }
+        $messages = $flash->getMessages();
+        $this->statusFlashRepo->replaceEntityInMemory($flash);
+        $this->statusFlash = $flash;
+        return $messages;
     }
 
+    #[\Override]
     public function getUserRole(): ?string {
-        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+        $loginAggregate = $this->statusSecurity?->getLoginAggregate();
         return isset($loginAggregate) ? $loginAggregate->getCredentials()->getRoleFk() : null;
     }
 
+    #[\Override]
     public function getUserLoginName(): ?string {
-        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+        $loginAggregate = $this->statusSecurity?->getLoginAggregate();
         return isset($loginAggregate) ? $loginAggregate->getLoginName() : null;
     }
+
+    #[\Override]
     public function getUserLoginHash(): ?string {
-        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+        $loginAggregate = $this->statusSecurity?->getLoginAggregate();
         return isset($loginAggregate) ? $loginAggregate->getLoginNameHash() : null;
     }
+
+    #[\Override]
     public function getUserEmail(): ?string {
-        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+        $loginAggregate = $this->statusSecurity?->getLoginAggregate();
         $registration = isset($loginAggregate) ? $loginAggregate->getRegistration() : null;  
         return isset($registration) ? $registration->getEmail() : null;
     }
+
+    #[\Override]
     public function isUserLoggedIn(): bool {
         $loginAggregate = $this->getUserLoginName();
         return isset($loginAggregate) ? true : false;
@@ -97,37 +137,45 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
      *
      * @return bool
      */
+    #[\Override]
     public function presentEditableContent(): bool {
-        $editorActions = $this->statusSecurityRepo->get()->getEditorActions();
+        $editorActions = $this->statusSecurity?->getEditorActions();
         return $editorActions ? $editorActions->presentEditableContent() : false;
     }
 
+    #[\Override]
     public function getPresentedLanguageCode(): ?string {
-        return $this->statusPresentationRepo->get()->getLanguageCode();
+        return $this->statusPresentation?->getLanguageCode();
     }
 
+    #[\Override]
     public function getEditorActions(): ?EditorActionsInterface {
-        return $this->statusSecurityRepo->get()->getEditorActions();
+        return $this->statusSecurity?->getEditorActions();
     }
     
+    #[\Override]
     public function getRepresentativeActions(): ?RepresentationActionsInterface {
-        return $this->statusSecurityRepo->get()->getRepresentativeActions();   
+        return $this->statusSecurity?->getRepresentativeActions();   
     }
 
+    #[\Override]
     public function getPresentedMenuItem(): ?MenuItemInterface {
-        return $this->statusPresentationRepo->get()->getMenuItem();
+        return $this->statusPresentation?->getMenuItem();
     }
     
+    #[\Override]
     public function getPresentedStaticItem(): ?StaticItemInterface {
-        return $this->statusPresentationRepo->get()->getStaticItem();
+        return $this->statusPresentation?->getStaticItem();
     }
     
+    #[\Override]
     public function getSecurityInfos(): array {
-        return $this->statusSecurityRepo->get()->getInfos();
+        return $this->statusSecurity?->getInfos();
     }
     
+    #[\Override]
     public function getPresentationInfos(): array {
-        return $this->statusPresentationRepo->get()->getInfos();
+        return $this->statusPresentation?->getInfos();
     }
     
 }

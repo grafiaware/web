@@ -26,7 +26,7 @@ class LoginViewModel extends ViewModelAbstract implements LoginViewModelInterfac
         return isset($loginAggregate) ? true : false;
     }
 
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         return new ArrayIterator([
             'userName' => $this->status->getUserLoginName()
         ]);

@@ -10,7 +10,7 @@ use Red\Component\View\Content\Authored\AuthoredComponentAbstract;
 
 use Red\Model\Entity\MultipageInterface;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of PaperRenderer
@@ -19,12 +19,12 @@ use Pes\Text\Html;
  */
 class MultipageRendererEditable  extends AuthoredRendererAbstract {
 
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         /** @var MultipageViewModelInterface $viewModel */
         $multipage = $viewModel->getMultipage();
 
         $html =
-                Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templateMultipage')],
+                Html::tag('div', ['class'=>$this->authoredTemplateClass($viewModel, 'div.templateMultipage')],
                   Html::tag('div', ['data-red-renderer'=>'MultipageRendererEditable', "data-red-datasource"=> "multipage {$multipage->getId()} for item {$multipage->getMenuItemIdFk()}"],
                         [
                             $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '',

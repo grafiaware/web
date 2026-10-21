@@ -9,7 +9,7 @@ use Events\Model\Repository\VisitorJobRequestRepoInterface;
 use Events\Model\Repository\VisitorProfileRepoInterface;
 use Events\Model\Entity\VisitorJobRequestInterface;
 use Events\Model\Entity\VisitorProfileInterface;
-use Model\Entity\EntityInterface;
+use Pes\Model\Entity\EntityInterface;
 
 
 use Access\Enum\RoleEnum;
@@ -17,6 +17,7 @@ use Access\Enum\RoleEnum;
 use UnexpectedValueException;
 use LogicException;
 use TypeError;
+use ArrayIterator;
 
 /**
  * Description of RepresentativeActionViewModel
@@ -120,7 +121,7 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
     }
 
 
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
          $this->loadJobRequest();
         $visitorEmail = $this->status->getUserEmail();
 

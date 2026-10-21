@@ -3,9 +3,7 @@
 
 namespace Events\Model\Entity;
 
-use Model\Entity\PersistableEntityInterface;
-use Events\Model\Entity\VisitorJobRequestInterface;
-
+use Pes\Model\Entity\PersistableEntityInterface;
 
 /**
  *

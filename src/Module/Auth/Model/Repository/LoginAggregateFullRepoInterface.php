@@ -1,7 +1,7 @@
 <?php
 namespace Auth\Model\Repository;
 
-use Model\Repository\RepoAssotiatingOneInterface;
+use Pes\Model\Repository\RepoAssotiatingOneInterface;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
 

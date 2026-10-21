@@ -8,16 +8,16 @@
 
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 
-use Model\Entity\PersistableEntityInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
 use Red\Model\Entity\MultipageInterface;
 use Red\Model\Entity\Multipage;
 use Red\Model\Dao\MultipageDao;
-use Model\Dao\DaoReferenceUniqueInterface;
+use Pes\Model\Dao\DaoReferenceUniqueInterface;
 use Red\Model\Hydrator\MultipageHydrator;
 
-use \Model\Repository\RepoAssotiatedOneTrait;
+use \Pes\Model\Repository\RepoAssotiatedOneTrait;
 
 /**
  * Description of Menu

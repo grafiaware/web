@@ -8,7 +8,7 @@
 
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoAssociatedWithJoinOneInterface;
+use Pes\Model\Repository\RepoAssociatedWithJoinOneInterface;
 
 use Red\Model\Entity\MenuItemInterface;
 

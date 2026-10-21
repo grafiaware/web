@@ -47,7 +47,7 @@ class SingleRouteSegment implements SingleRouteSegmentInterface {
      * 
      * @param string $id
      */
-    public function setChildId(string $id=null) {
+    public function setChildId(?string $id=null) {
         $this->childId = $id;
     }
     

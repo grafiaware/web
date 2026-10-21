@@ -7,7 +7,7 @@ use Pes\Database\Handler\HandlerInterface;
 
 use Red\Model\Dao\Hierarchy\HookedMenuItemActorInterface;
 
-use Pes\Text\FriendlyUrl;
+use Pes\Core\Text\FriendlyUrl;
 
 /**
  * Třída pro editaci nested set hierarchie.

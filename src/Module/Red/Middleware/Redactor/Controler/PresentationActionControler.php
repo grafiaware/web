@@ -53,7 +53,7 @@ class PresentationActionControler extends FrontControlerAbstract {
         $requestedLangCode = (new RequestParams())->getParsedBodyParam($request, 'langcode');
         $language = $this->languageRepo->get($requestedLangCode);
         if (isset($language)) {
-            $this->statusPresentationRepo->get()->setLanguageCode($language);
+            $this->statusPresentationRepo->get()->setLanguageCode($language->getLangCode());
         } else{
             throw new UnexpectedLanguageException("Požadavek a nastavení neznámého jazyka aplikace s kódem $requestedLangCode.");
         }
@@ -86,7 +86,7 @@ class PresentationActionControler extends FrontControlerAbstract {
     }
 
     private function isPresentedItemActive() {
-        $statusPresentation = $this->statusPresentationRepo->get();
+        $statusPresentation = $this->statusPresentationRepo->getClone();    // jen ke čtení
         $menuItem = $statusPresentation->getMenuItem();
         return $menuItem ? $menuItem->getActive() : false;
     }

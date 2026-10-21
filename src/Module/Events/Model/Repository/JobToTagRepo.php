@@ -1,14 +1,14 @@
 <?php
 namespace Events\Model\Repository;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 
 use Events\Model\Entity\JobToTagInterface;
 use Events\Model\Entity\JobToTag;
 use Events\Model\Dao\JobToTagDao;
 use Events\Model\Hydrator\JobToTagHydrator;
 
-//use Model\Repository\Exception\UnableRecreateEntityException;
+//use Pes\Model\Repository\Exception\UnableRecreateEntityException;
 
 /**
  * Description of JobToTagRepo

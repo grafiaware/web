@@ -15,7 +15,9 @@ use Domain\Auth\Repository\QrLoginRepositoryInterface;
  */
 final class QrLoginService
 {
-    public function __construct(QrLoginRepositoryInterface $repo) {}    // (private QrLoginRepositoryInterface $repo)
+    public function __construct(
+        private QrLoginRepositoryInterface $repo
+    ) {}
 
     /**
      * Vytvoří nový token pro QR login.

@@ -16,6 +16,7 @@ use Red\Model\Entity\MultipageInterface;
 use Red\Model\Entity\MenuItemAggregateHierarchyInterface;
 
 use Red\Model\Enum\AuthoredTypeEnum;
+use Red\Service\Menu\MenuItemLocationServiceInterface;
 /**
  * Description of PaperViewModelAnstract
  *
@@ -43,10 +44,11 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
             StatusViewModelInterface $status,
             MenuItemRepoInterface $menuItemRepo,
             ItemActionRepoInterface $itemActionRepo,
+            MenuItemLocationServiceInterface $menuItemLocationService,
             MultipageRepo $multipageRepo,
             HierarchyJoinMenuItemRepo $hierarchyRepo
             ) {
-        parent::__construct($status, $menuItemRepo, $itemActionRepo);
+        parent::__construct($status, $menuItemRepo, $itemActionRepo, $menuItemLocationService);
         $this->multipageRepo = $multipageRepo;
         $this->hierarchyRepo = $hierarchyRepo;
     }

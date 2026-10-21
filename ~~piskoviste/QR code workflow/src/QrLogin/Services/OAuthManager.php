@@ -22,10 +22,10 @@ class OAuthManager
     private $providers = [];  // private array $providers = [];
 
     public function __construct(array $cfg) {       //  (private array $cfg)
-        $this->providers['google'] = function($cfg) {return new Google($cfg['oauth']['google']);}; // fn() => new Google($cfg['oauth']['google']);
-        $this->providers['github'] = function($cfg) {return new Github($cfg['oauth']['github']);};// fn() => new Github($cfg['oauth']['github']);
-        $this->providers['facebook'] = function($cfg) {return new Facebook($cfg['oauth']['facebook']);};// fn() => new Facebook($cfg['oauth']['facebook']);
-        $this->providers['microsoft'] = function($cfg) {return new Microsoft($cfg['oauth']['microsoft']);};// fn() => new Microsoft($cfg['oauth']['microsoft']);
+        $this->providers['google'] = fn() => new Google($cfg['oauth']['google']);
+        $this->providers['github'] = fn() => new Github($cfg['oauth']['github']);
+        $this->providers['facebook'] = fn() => new Facebook($cfg['oauth']['facebook']);
+        $this->providers['microsoft'] = fn() => new Microsoft($cfg['oauth']['microsoft']);
     }
 
     public function provider(string $name) {

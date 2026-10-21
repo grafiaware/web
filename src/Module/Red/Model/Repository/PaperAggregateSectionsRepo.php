@@ -8,18 +8,18 @@
 
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoAbstract;
-//use Model\Repository\RepoReadonlyInterface;
+use Pes\Model\Repository\RepoAbstract;
+//use Pes\Model\Repository\RepoReadonlyInterface;
 
 use Red\Model\Entity\PaperAggregatePaperSection;
 use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 use Red\Model\Dao\PaperDao;
 use Red\Model\Hydrator\PaperHydrator;
 
-use Model\Repository\RepoAssotiatedOneTrait;
-use Model\Repository\RepoAssotiatingManyTrait;
-use Model\Repository\RepoAssotiatedOneInterface;
-use Model\Repository\RepoAssotiatingManyInterface;
+use Pes\Model\Repository\RepoAssotiatedOneTrait;
+use Pes\Model\Repository\RepoAssotiatingManyTrait;
+use Pes\Model\Repository\RepoAssotiatedOneInterface;
+use Pes\Model\Repository\RepoAssotiatingManyInterface;
 
 /**
  * Description of Menu
@@ -36,6 +36,10 @@ class PaperAggregateSectionsRepo extends RepoAbstract implements RepoAssotiatedO
     use RepoAssotiatedOneTrait;  // pro get podle menu item id
     use RepoAssotiatingManyTrait; // pro paper section
 
+    public function flush(): void {
+        parent::flush();
+    }
+    
     protected function createEntity() {
         return new PaperAggregatePaperSection();
     }
@@ -69,7 +73,7 @@ class PaperAggregateSectionsRepo extends RepoAbstract implements RepoAssotiatedO
     #### protected ###########
 
     protected function indexFromEntity(PaperAggregatePaperSectionInterface $paperAggSection) {
-        return $paperAggSection->getId;
+        return $paperAggSection->getId();
     }
 
     protected function indexFromRow($row) {

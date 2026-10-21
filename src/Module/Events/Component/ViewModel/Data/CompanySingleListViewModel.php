@@ -12,7 +12,7 @@ use Access\Enum\RoleEnum;
 
 use ArrayIterator;
 
-use Model\RowData\RowData;
+use Pes\Model\RowData\RowData;
 use Events\Model\Hydrator\CompanyHydrator;
 
 /**
@@ -94,7 +94,7 @@ class CompanySingleListViewModel extends ViewModelSingleListAbstract implements 
      * Poskytuje data pro šablonu list - pro šablonu, která obaluje pro jednotlivé položky
      * @return ArrayIterator
      */
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         $array = [         
             'listHeadline'=>'Firmy', 
             'items' => $this->getArrayCopy()];

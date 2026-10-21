@@ -12,7 +12,7 @@ use Component\Renderer\Html\HtmlRendererAbstract;
 
 use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of HeadlineRenderer
@@ -20,7 +20,7 @@ use Pes\Text\Html;
  * @author pes2704
  */
 class HeadlineRenderer extends HtmlRendererAbstract {
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paper = $viewModel->getPaper();
         if (isset($paper)) {

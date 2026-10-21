@@ -5,8 +5,8 @@ use Site\ConfigurationCache;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 use Status\Model\Repository\StatusSecurityRepo;
 
-use Pes\Text\Text;
-use Pes\Text\Html;
+use Pes\Core\Text\Text;
+use Pes\Core\Text\Html;
 
 use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyAddressRepo;
@@ -34,7 +34,7 @@ if ($userRole == RoleEnum::EVENTS_ADMINISTRATOR)  {
                 // asi navic 
                 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
                 /** @var StatusSecurityRepo $statusSecurityRepo */
-                $statusSecurity = $statusSecurityRepo->get();
+                $statusSecurity = $statusSecurityRepo->getClone();
                 /** @var LoginAggregateFullInterface $loginAggregate */
                 $loginAggregate = $statusSecurity->getLoginAggregate();
 

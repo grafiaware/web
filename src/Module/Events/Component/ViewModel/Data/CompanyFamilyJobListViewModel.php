@@ -98,7 +98,7 @@ class CompanyFamilyJobListViewModel extends ViewModelFamilyListAbstract implemen
      * Poskytuje data pro šablonu list - pro šablonu, která obaluje pro jednotlivé položky
      * @return ArrayIterator
      */
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         $array = [         
             'listHeadline'=>'Pozice', 
             'items' => $this->getArrayCopy()];

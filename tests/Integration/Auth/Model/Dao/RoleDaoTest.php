@@ -13,8 +13,8 @@ use Auth\Model\Dao\RoleDao;
 use Auth\Model\Dao\CredentialsDao;
 use Auth\Model\Dao\LoginDao;
 
-use Model\RowData\RowData;
-use Model\RowData\RowDataInterface;
+use Pes\Model\RowData\RowData;
+use Pes\Model\RowData\RowDataInterface;
 use Pes\Database\Statement\Exception\ExecuteException;
 
 /**

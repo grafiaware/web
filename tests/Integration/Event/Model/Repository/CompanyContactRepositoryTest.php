@@ -14,8 +14,8 @@ use Events\Model\Repository\CompanyContactRepo;
 use Events\Model\Entity\CompanyContact;
 use Events\Model\Entity\CompanyContactInterface;
 
-use Model\Repository\Exception\OperationWithLockedEntityException;
-use Model\RowData\RowData;
+use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
+use Pes\Model\RowData\RowData;
 
 
  /**

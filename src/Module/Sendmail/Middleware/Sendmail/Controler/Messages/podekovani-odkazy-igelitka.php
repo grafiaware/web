@@ -14,6 +14,8 @@
         <title>veletrhPRACE.online</title>
     </head>
     <body  style="margin: 0; padding: 0;">
+        <div>  <img src="<?=$data_logo_klic?>"  width="70" />   </div>
+
         <table role="presentation"  cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse;">
             <thead>
                 <tr>
@@ -58,7 +60,7 @@ Využijte možnost vložit do svého návštěvnického profilu své pracovní �
                 </tr>
                 <tr>
                     <td>
-                        <p>Budeme rádi za Vaši <b><a href="https://forms.gle/BdVrYoSghancr3rq6">zpětnou vazbu</a>< k naší práci - <a href="https://forms.gle/BdVrYoSghancr3rq6">dotazníky pro registrované návštěvníky</a></b> budou slosovány o atraktivní ceny.</p>
+                        <p>Budeme rádi za Vaši <b><a href="https://forms.gle/BdVrYoSghancr3rq6" > zpětnou vazbu</a>< k naší práci - <a href="https://forms.gle/BdVrYoSghancr3rq6">dotazníky pro registrované návštěvníky</a></b> budou slosovány o atraktivní ceny.</p>
                     </td>
                 </tr>
                 <tr>

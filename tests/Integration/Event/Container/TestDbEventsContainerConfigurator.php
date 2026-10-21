@@ -49,7 +49,7 @@ class TestDbEventsContainerConfigurator extends ContainerConfiguratorAbstract {
             ###################################
             # Konfigurace logu databáze
             #
-            'dbEvents.logs.db.directory' => 'TestLogs/Events',
+            'dbEvents.logs.db.directory' => 'Logs/Events',
             'dbEvents.logs.db.file' => 'Database.log',
             #
             #################################
@@ -71,7 +71,6 @@ class TestDbEventsContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             // db objekty - služby stejného jména jsou v db old konfiguraci - tedy v db old kontejneru, který musí delegátem
             'eventsDbLogger' => function(ContainerInterface $c) {
-                FileLogger::setBaseLogsDirectory('');  // v bootstrap se nastavuje baseLogsDirectory na _www_na_logs
                 return FileLogger::getInstance($c->get('dbEvents.logs.db.directory'), $c->get('dbEvents.logs.db.file'), FileLogger::REWRITE_LOG); //new NullLogger();
             },
             DsnProviderMysql::class =>  function(ContainerInterface $c) {

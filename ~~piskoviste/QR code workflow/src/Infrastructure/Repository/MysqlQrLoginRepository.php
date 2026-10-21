@@ -17,12 +17,7 @@ use PDO;
  */
 final class MysqlQrLoginRepository implements QrLoginRepositoryInterface
 {
-
-
-
-    public function __construct(PDO $pdo)  // (private PDO $pdo)
-    {
-    }
+    public function __construct(private PDO $pdo) {}
 
     public function create(string $token, \DateTime $expiresAt): void
     {

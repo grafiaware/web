@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Repository;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 
 use Events\Model\Entity\DocumentInterface;
 use Events\Model\Entity\Document;
@@ -9,7 +9,7 @@ use Events\Model\Dao\DocumentDao;
 use Events\Model\Hydrator\DocumentHydrator;
 use Events\Model\Repository\DocumentRepoInterface;
 
-//use Model\Repository\Exception\UnableRecreateEntityException;
+//use Pes\Model\Repository\Exception\UnableRecreateEntityException;
 
 /**
  * Description of DocumentRepo

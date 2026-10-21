@@ -1,0 +1,7 @@
+Není handler k souboru logu při pokusu o logování zprávy: Statement (55): bindValue({parameter}, {value}, {data_type})Není handler k souboru logu při pokusu o logování zprávy: Statement (55): bindValue({parameter}, {value}, {data_type})Není handler k souboru logu při pokusu o logování zprávy: Statement (55): bindValue({parameter}, {value}, {data_type})Není handler k souboru logu při pokusu o logování zprávy: Statement (55): Selhal execute({input_parameters}).Není handler k souboru logu při pokusu o logování zprávy:  Metoda {method} selhala. Vyhozena výjimka \PDOException: {exc}.Není handler k souboru logu při pokusu o logování zprávy:  Výpis errorInfo: Array
+(
+    [0] => 23000
+    [1] => 1452
+    [2] => Cannot add or update a child row: a foreign key constraint fails (`single_login`.`credentials`, CONSTRAINT `credentials_ibfk_1` FOREIGN KEY (`login_name_fk`) REFERENCES `login` (`login_name`) ON UPDATE CASCADE)
+)
+Není handler k souboru logu při pokusu o logování zprávy: Statement (55): execute({input_parameters}).

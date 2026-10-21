@@ -24,7 +24,7 @@ use Red\Model\Repository\{
 use Middleware\Api\Controler\Exception\UnexpectedLanguageException;
 
 use \Events\Model\Arraymodel\EventViewModel;
-use \Model\Entity\Enroll;
+use \Pes\Model\Entity\Enroll;
 
 /**
  * Description of PostControler

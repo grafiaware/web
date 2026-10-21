@@ -14,7 +14,7 @@ use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
 use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 use Red\Model\Entity\PaperSectionInterface;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of ContentsRenderer
@@ -29,7 +29,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
      * @param type $class
      * @return type
      */
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();
         if ($paperAggregate instanceof PaperAggregatePaperContentInterface) {

@@ -15,7 +15,7 @@ use Red\Model\Entity\PaperInterface;
 use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 use Red\Model\Entity\PaperSectionInterface;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of PaperRenderer
@@ -24,7 +24,7 @@ use Pes\Text\Html;
  */
 class SelectPaperTemplateRendererSelectVersion extends HtmlRendererAbstract {
 
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $templatedContent = $viewModel->offsetExists('templatedContent') ? $viewModel->offsetGet('templatedContent') : '';
         $contentTemplateName = $viewModel->getPaper()->getTemplate();

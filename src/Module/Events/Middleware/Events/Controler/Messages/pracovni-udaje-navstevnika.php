@@ -3,7 +3,7 @@
 //use VisitorDataPostInterface;
 use Events\Model\Entity\VisitorJobRequestInterface;
 
-use Pes\Text\Text;
+use Pes\Core\Text\Text;
 /** @var VisitorJobRequestInterface  $visitorJobRequest */
 
 

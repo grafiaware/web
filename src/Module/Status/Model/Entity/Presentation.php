@@ -8,22 +8,20 @@
 
 namespace Status\Model\Entity;
 
-use Model\Entity\PersistableEntityAbstract;
-
-use Status\Model\Entity\PresentationInterface;
+use Pes\Model\Entity\PersistableEntityAbstract;
+use LogicException;
 
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\StaticItemInterface;
-
-use Red\Model\Entity\LanguageInterface;
-use Red\Model\Entity\ItemActionInterface;
+use Status\Model\Entity\PresentationInterface;
 
 /**
- * Description of StatusHierarchy
  *
  * @author pes2704
  */
-class Presentation extends PersistableEntityAbstract implements PresentationInterface {
+class Presentation extends PersistableEntityAbstract implements PresentationInterface, MakeImmutableInterface {
+
+    private bool $immutable = false;
 
     private $languageCode;
 
@@ -45,6 +43,27 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
     private $lastTemplateName;
     
     private $info = [];
+
+    /**
+     * Ponechává entitu pouze pro čtení (používá se pro getClone() snapshots).
+     */
+    public function makeImmutable(): void {
+        $this->immutable = true;
+    }
+
+    public function makeMutable(): void {
+        $this->immutable = false;
+    }
+
+    private function assertMutable(string $methodName): void {
+        if ($this->immutable) {
+            throw new LogicException(sprintf(
+                '%s::%s() failed: entity is immutable clone (returned by getClone()).',
+                static::class,
+                $methodName
+            ));
+        }
+    }
     
     ### resource path
     
@@ -52,7 +71,8 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
      *
      * @return string
      */
-    public function getLastGetResourcePath() {
+    #[\Override]
+    public function getLastGetResourcePath(): ?string {
         return $this->lastResourcePath;
     }
 
@@ -61,7 +81,9 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
      * @param type $lastResourcePath
      * @return $this
      */
-    public function setLastGetResourcePath($lastResourcePath): PresentationInterface {
+    #[\Override]
+    public function setLastGetResourcePath(string $lastResourcePath): PresentationInterface {
+        $this->assertMutable(__FUNCTION__);
         $this->lastResourcePath = $lastResourcePath;
         return $this;
     }
@@ -72,6 +94,7 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
      *
      * @return string|null
      */
+    #[\Override]
     public function getLanguageCode(): ?string {
         return $this->languageCode;
     }
@@ -80,7 +103,8 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
      *
      * @return string
      */
-    public function getRequestedLangCode() {
+    #[\Override]
+    public function getRequestedLangCode(): ?string {
         return $this->requestedLangCode;
     }
 
@@ -89,7 +113,9 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
      * @param string $languageCode
      * @return PresentationInterface
      */
-    public function setLanguageCode($languageCode): PresentationInterface {
+    #[\Override]
+    public function setLanguageCode(string $languageCode): PresentationInterface {
+        $this->assertMutable(__FUNCTION__);
         $this->languageCode = $languageCode;
         return $this;
     }
@@ -99,7 +125,9 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
      * @param string $requestedLangCode
      * @return PresentationInterface
      */
-    public function setRequestedLangCode($requestedLangCode): PresentationInterface {
+    #[\Override]
+    public function setRequestedLangCode(string $requestedLangCode): PresentationInterface {
+        $this->assertMutable(__FUNCTION__);
         $this->requestedLangCode = $requestedLangCode;
         return $this;
     }
@@ -110,6 +138,7 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
      *
      * @return MenuItemInterface|null
      */
+    #[\Override]
     public function getMenuItem(): ?MenuItemInterface {
         return $this->menuItem;
     }
@@ -119,18 +148,23 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
      * @param MenuItemInterface $menuItem
      * @return PresentationInterface
      */
+    #[\Override]
     public function setMenuItem(MenuItemInterface $menuItem): PresentationInterface {
+        $this->assertMutable(__FUNCTION__);
         $this->menuItem = $menuItem;
         return $this;
     }
 
     ## static item
     
+    #[\Override]
     public function getStaticItem(): ?StaticItemInterface {
         return $this->staticItem;
     }
     
-    public function setStaticItem(StaticItemInterface $staticItem=null): PresentationInterface {
+    #[\Override]
+    public function setStaticItem(?StaticItemInterface $staticItem=null): PresentationInterface {
+        $this->assertMutable(__FUNCTION__);
         $this->staticItem = $staticItem;
         return $this;
     }
@@ -141,22 +175,35 @@ class Presentation extends PersistableEntityAbstract implements PresentationInte
      *
      * @return string
      */
-    public function getLastTemplateName() {
+    #[\Override]
+    public function getLastTemplateName(): ?string {
         return $this->lastTemplateName;
     }
 
-    public function setLastTemplateName($templateName): PresentationInterface {
+    /**
+     * 
+     * @param string $templateName
+     * @return PresentationInterface
+     */
+    #[\Override]
+    public function setLastTemplateName(string $templateName): PresentationInterface {
+        $this->assertMutable(__FUNCTION__);
         $this->lastTemplateName = $templateName;
         return $this;
     }
 
-    
+    #[\Override]
     public function setInfo($name, $value) {
+        $this->assertMutable(__FUNCTION__);
         $this->info[$name] = $value;
     }
+    
+    #[\Override]
     public function getInfo($name) {
         return $this->info[$name] ?? null;
     }
+    
+    #[\Override]
     public function getInfos(): array {
         return $this->info;
     }    

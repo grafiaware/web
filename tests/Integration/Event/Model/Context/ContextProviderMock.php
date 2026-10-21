@@ -8,9 +8,9 @@
 
 namespace Test\Integration\Event\Model\Context;
 
-use Model\Context\ContextProviderInterface;
-use Model\Context\PublishedContextInterface;
-use Model\Context\PublishedContext;
+use Pes\Model\Context\ContextProviderInterface;
+use Pes\Model\Context\PublishedContextInterface;
+use Pes\Model\Context\PublishedContext;
 
 /**
  * Description of ContextFactory

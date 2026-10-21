@@ -1,8 +1,8 @@
 <?php
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoReferenceNonuniqueTrait;
+use Pes\Model\Dao\DaoEditAbstract;
+use Pes\Model\Dao\DaoReferenceNonuniqueTrait;
 use Events\Model\Dao\EnrollDaoInterface;
 
 /**

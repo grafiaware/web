@@ -9,7 +9,7 @@ use Component\ViewModel\StatusViewModelInterface;
 
 use Events\Model\Repository\DocumentRepoInterface;
 use Events\Model\Entity\DocumentInterface;
-use Model\Entity\EntityInterface;
+use Pes\Model\Entity\EntityInterface;
 use Events\Model\Entity\VisitorProfileInterface;
 use Events\Model\Repository\VisitorProfileRepoInterface;
 use Events\Model\Repository\VisitorProfileRepo;
@@ -23,6 +23,7 @@ use Site\ConfigurationCache;
 use Access\Enum\RoleEnum;
 
 use ArrayIterator;
+use Iterator;
 use UnexpectedValueException;
 use Exception;
 /**
@@ -81,7 +82,7 @@ class DocumentSingleViewModel extends ViewModelSingleItemAbstract implements Vie
         }
     }
     
-    public function getIterator() {                        
+    public function getIterator(): ArrayIterator {                        
         //$requestedId = $this->getItemId();  // id documentu    // -----   z routy, netreba
         $parentId =  '';  // -----  !!! z routy  // POUZIT        
         $parentId =  $this->status->getUserLoginName();  //prihlasen (loginame) tj. id v nadrizene tabulce  visitorProfile  //NEPOUZIT

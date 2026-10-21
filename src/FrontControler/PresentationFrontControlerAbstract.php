@@ -51,7 +51,7 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
      * @return ResponseInterface
      */
     protected function addCacheHeaders(ResponseInterface $response): ResponseInterface {
-        $editorActions = $this->statusSecurityRepo->get()->getEditorActions();
+        $editorActions = $this->statusSecurityRepo->getClone()->getEditorActions();
         if ($editorActions AND $editorActions->presentEditableContent()) {
             $response = $response->withHeader('Cache-Control', 'no-store, no-cache');
         } else {
@@ -64,18 +64,28 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
     
     ### status control methods ###
 
+    /**
+     * Nastaví prezentovaný menu item.
+     * Po StatusDao::finish() (cascade) mutuje mutable clone v paměti; zápis do session až po UnlockStatus::reopen() + PresentationStatus flush.
+     */
     protected function setPresentationMenuItem($menuItem) {
-        $statusPresentation = $this->statusPresentationRepo->get();
-        $statusPresentation->setMenuItem($menuItem);
+        $this->mutatePresentationStatus(function ($statusPresentation) use ($menuItem) {
+            $statusPresentation->setMenuItem($menuItem);
+        });
     }
 
+    /**
+     * Nastaví prezentovaný static item.
+     * Po StatusDao::finish() (cascade) mutuje mutable clone v paměti; zápis do session až po UnlockStatus::reopen() + PresentationStatus flush.
+     */
     protected function setPresentationStaticItem($staticItem=null) {
-        $statusPresentation = $this->statusPresentationRepo->get();
-        $statusPresentation->setStaticItem($staticItem);        
+        $this->mutatePresentationStatus(function ($statusPresentation) use ($staticItem) {
+            $statusPresentation->setStaticItem($staticItem);
+        });
     }
     
     protected function getPresentationLangCode() {
-        return $this->statusPresentationRepo->get()->getLanguageCode();
+        return $this->statusPresentationRepo->getClone()->getLanguageCode();   // vrací klon i když je session close - klon je immutable 
     }
 
     /**
@@ -85,7 +95,25 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
      * @return type
      */
     protected function setPresentationLangCode($languageCode) {
-        return $this->statusPresentationRepo->get()->setLanguageCode($languageCode);
+        return $this->statusPresentationRepo->get()->setLanguageCode($languageCode); // nesmí být session close
+    }
+
+    /**
+     * Mutace Presentation statusu: při otevřené session přes get(), po finish() přes getClone(false) + replaceEntityInMemory.
+     *
+     * @param callable $mutator function(PresentationInterface $statusPresentation): void
+     */
+    private function mutatePresentationStatus(callable $mutator): void {
+        if ($this->statusPresentationRepo->isFinished()) {
+            $statusPresentation = $this->statusPresentationRepo->getClone(false);
+            $mutator($statusPresentation);
+            $this->statusPresentationRepo->replaceEntityInMemory($statusPresentation);
+            return;
+        }
+        $statusPresentation = $this->statusPresentationRepo->get();
+        $mutator($statusPresentation);
+        // Po early flush v PresentationStatus je loadedFragment unset — zajistit pozdější flush / reopen path.
+        $this->statusPresentationRepo->replaceEntityInMemory($statusPresentation);
     }
 
 }

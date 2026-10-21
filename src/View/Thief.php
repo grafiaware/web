@@ -31,7 +31,9 @@ class Thief {
 //            $dom->loadHTML($htmlDecoded);
             $this->loadHtml($dom, $htmlDecoded);
 
-            $articleElement = $dom->getElementById('contents');
+//            $articleElement = $dom->getElementById('contents');
+            $articleElement = $dom->getElementsByTagName("main");
+
 //            $value = $this->get_inner_html($articleElement);
             $value = $articleElement->ownerDocument->saveHTML($articleElement); //$this->get_inner_html($articleElement);
             $value = str_replace('src="files/', 'src="'.$urlPrefix.'files/', $value);

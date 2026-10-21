@@ -1,6 +1,6 @@
 <?php
 namespace Events\Model\Dao;
-use Model\Dao\DaoReferenceNonuniqueInterface;
+use Pes\Model\Dao\DaoReferenceNonuniqueInterface;
 
 /**
  *

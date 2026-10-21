@@ -11,7 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use Container\BuildContainerConfigurator;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of BuildControlPanel

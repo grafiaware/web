@@ -8,7 +8,6 @@
 
 namespace Red\Model\Entity;
 
-use Red\Model\Entity\MenuItemAggregatePaperInterface;
 use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 
 /**

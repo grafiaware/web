@@ -1,7 +1,7 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Pes\Text\Text;
-use Pes\Text\Html;
+use Pes\Core\Text\Text;
+use Pes\Core\Text\Html;
 
 use Site\ConfigurationCache;
 use Access\Enum\RoleEnum;
@@ -35,7 +35,7 @@ $isVisitorDataPost = false;
 ####
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 /** @var StatusSecurityRepo $statusSecurityRepo */
-$statusSecurity = $statusSecurityRepo->get();
+$statusSecurity = $statusSecurityRepo->getClone();
 /** @var LoginAggregateFullInterface $loginAggregate */
 $loginAggregate = $statusSecurity->getLoginAggregate();
 ####

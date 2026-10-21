@@ -3,7 +3,7 @@ namespace Sendmail\Middleware\Sendmail\Recipients;
 
 use Sendmail\Middleware\Sendmail\Recipients\RecipientsValidatorInterface;
 use Sendmail\Middleware\Sendmail\Recipients\ValidityEnum;
-use Pes\Type\Exception\ValueNotInEnumException;
+use Pes\Core\Type\Exception\ValueNotInEnumException;
 use UnexpectedValueException;
 
 /**
@@ -56,7 +56,7 @@ class RecipientsValidator implements RecipientsValidatorInterface {
                 if (is_resource($fp)) {
                     $s = fgets($fp);
                     if ($fp && substr($s, 0, 3) == '220') {
-                        while ($s{3} == '-') {
+                        while ($s[3] == '-') {
                             $s = fgets($fp);
                         }
                         foreach ($commands as $command) {
@@ -65,7 +65,7 @@ class RecipientsValidator implements RecipientsValidatorInterface {
                             if (substr($s, 0, 3) != '250') {
                                 return false;
                             }
-                            while ($s{3} == '-') {
+                            while ($s[3] == '-') {
                                 $s = fgets($fp);
                             }
                         }

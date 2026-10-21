@@ -13,12 +13,12 @@ use Pes\Database\Manipulator\Manipulator;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 
 use Red\Model\Dao\MenuItemDao;
-use Model\Context\ContextProviderInterface;
+use Pes\Model\Context\ContextProviderInterface;
 use Test\Integration\Red\Model\Context\ContextProviderMock;
 
-use Model\RowData\RowDataInterface;
+use Pes\Model\RowData\RowDataInterface;
 
-use Model\Dao\Exception\DaoForbiddenOperationException;
+use Pes\Model\Dao\Exception\DaoForbiddenOperationException;
 
 /**
  * Description of MenuItemDaoTest

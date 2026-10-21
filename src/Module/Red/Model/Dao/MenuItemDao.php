@@ -8,15 +8,15 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoEditAbstract;
-use Model\RowData\RowDataInterface;
+use Pes\Model\Dao\DaoEditAbstract;
+use Pes\Model\RowData\RowDataInterface;
 
-use Model\Dao\DaoReferenceNonuniqueInterface;
+use Pes\Model\Dao\DaoReferenceNonuniqueInterface;
 
-use Model\Dao\DaoReferenceNonuniqueTrait;
-use Model\Dao\DaoReferenceUniqueTrait;
+use Pes\Model\Dao\DaoReferenceNonuniqueTrait;
+use Pes\Model\Dao\DaoReferenceUniqueTrait;
 
-use Model\Dao\Exception\DaoForbiddenOperationException;
+use Pes\Model\Dao\Exception\DaoForbiddenOperationException;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDaoInterface;
 use Red\Model\Dao\LanguageDao;

@@ -4,7 +4,7 @@ namespace Red\Component\Renderer\Html\Manage;
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Menu\DriverViewModelInterface;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of ButtonsMenuRendererAbstract
@@ -13,7 +13,7 @@ use Pes\Text\Html;
  */
 abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
 
-    public function render(iterable $viewModel = NULL) {
+    public function render(?iterable $viewModel = NULL) {
         return $this->renderButtons($viewModel);
     }
 

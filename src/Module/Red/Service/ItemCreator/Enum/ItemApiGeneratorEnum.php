@@ -1,7 +1,7 @@
 <?php
 namespace Red\Service\ItemCreator\Enum;
 
-use Pes\Type\Enum;
+use Pes\Core\Type\Enum;
 
 /**
  * Description of ItemGeneratorEnum

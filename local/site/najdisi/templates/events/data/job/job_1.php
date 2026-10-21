@@ -2,8 +2,8 @@
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Site\ConfigurationCache;
 
-use Pes\Text\Text;
-use Pes\Text\Html;
+use Pes\Core\Text\Text;
+use Pes\Core\Text\Html;
 
 
 //use Site\ConfigurationCache;
@@ -42,7 +42,7 @@ $isVisitorDataPost = false;
 /** @var StatusSecurityRepo $statusSecurityRepo */
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 /** @var StatusSecurityInterface $statusSecurity */
-$statusSecurity = $statusSecurityRepo->get();
+$statusSecurity = $statusSecurityRepo->getClone();
 /** @var LoginAggregateFullInterface $loginAggregate */
 $loginAggregate = $statusSecurity->getLoginAggregate();
 ####

@@ -8,21 +8,18 @@
 
 namespace Site\NajdiSi;
 
-use Pes\Logger\FileLogger;
-
 /**
  * Description of Configuration
  *
  * @author pes2704
  */
-class ConfigurationBootstrap extends ConfigurationConstants {
+class ConfigurationBootstrap extends \Site\Common\ConfigurationBootstrap {
 
-    ### bootstrap ###
-    #
-    public static function bootstrap() {
-        return [
-            'bootstrap.logs.basepath' => self::WEB_BOOTSTRAP_LOGS,
-            'bootstrap.productionhost' => self::WEB_BOOTSTRAP_PRODUCTION_HOST,
-        ];
+    protected static function bootstrapLogsBasePath(): string {
+        return ConfigurationConstants::WEB_BOOTSTRAP_LOGS;
+    }
+
+    protected static function bootstrapProductionHost(): string {
+        return ConfigurationConstants::WEB_BOOTSTRAP_PRODUCTION_HOST;
     }
 }

@@ -20,10 +20,10 @@ interface BlockRepoInterface {
      * @param string $name
      * @return BlockInterface|null
      */
-    public function get($name):?BlockInterface;
+    public function get(string $name):?BlockInterface;
 
-    public function add(BlockInterface $block);
+    public function add(BlockInterface $block): void;
 
-    public function remove(BlockInterface $block);
+    public function remove(BlockInterface $block): void;
 
 }

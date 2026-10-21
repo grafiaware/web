@@ -1,6 +1,7 @@
 <?php
 
 namespace Auth\Model\Entity;
+use Auth\Model\Entity\RegistrationInterface;
 
 /**
  *
@@ -9,7 +10,7 @@ namespace Auth\Model\Entity;
 interface LoginAggregateRegistrationInterface  extends LoginInterface {
      /**
       *
-      * @return \Auth\Model\Entity\RegistrationInterface|null
+      * @return RegistrationInterface|null
       */
     public function getRegistration(): ?RegistrationInterface;
 
@@ -18,5 +19,5 @@ interface LoginAggregateRegistrationInterface  extends LoginInterface {
      * @param RegistrationInterface $registration Registration entita nebo null.
      * @return void
      */
-    public function setRegistration(RegistrationInterface $registration = null): void;
+    public function setRegistration(?RegistrationInterface $registration = null): void;
 }

@@ -8,7 +8,7 @@
 
 namespace Component\ViewModel;
 
-use Red\Model\Entity\LanguageInterface;
+use Component\ViewModel\ViewModelInterface;
 use Red\Model\Entity\EditorActionsInterface;
 use Events\Model\Entity\RepresentationActionsInterface;
 
@@ -21,7 +21,6 @@ use Red\Model\Entity\StaticItemInterface;
  */
 interface StatusViewModelInterface extends ViewModelInterface {
 
-    public function getFlashCommand($key);
     public function getFlashPostCommand($key);
     public function getFlashMessages();
 

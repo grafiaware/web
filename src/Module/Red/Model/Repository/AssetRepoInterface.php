@@ -1,7 +1,7 @@
 <?php
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoInterface;
+use Pes\Model\Repository\RepoInterface;
 
 use Red\Model\Entity\AssetInterface;
 

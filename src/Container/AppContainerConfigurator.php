@@ -18,19 +18,19 @@ use Pes\Session\SaveHandler\PhpLoggingSaveHandler;
 use Pes\Session\SaveHandler\PhpSaveHandler;
 
 // application
-use Application\WebAppFactory;
+use Pes\Application\SessionServicesConfigurator;
 
 // selector
-use Pes\Middleware\Selector;
+use Pes\Application\Middleware\Selector;
 
-use Pes\Middleware\NoMatchedRouteRequestHandler;
+use Pes\Application\Middleware\NoMatchedRouteRequestHandler;
 
 // security context - použit v security status
 use StatusManager\Observer\SecurityContextObjectsRemover;
 
 //user - session
-use Model\Entity\Credentials;
-use Model\Entity\CredentialsInterface;
+use Pes\Model\Entity\Credentials;
+use Pes\Model\Entity\CredentialsInterface;
 
 // entity
 use Status\Model\Entity\Presentation;
@@ -41,7 +41,10 @@ use Access\AccessPresentationInterface;
 use Access\Enum\AccessPresentationEnum;
 
 // dao
-use Model\Dao\StatusDao;
+use Pes\Model\Dao\StatusDao;
+
+// session unlock policy
+use Status\Session\SessionUnlockPolicy;
 
 // repo
 use Status\Model\Repository\StatusSecurityRepo;
@@ -108,14 +111,14 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
                 if (PES_DEVELOPMENT) {
                     $logger = $c->get('sessionLogger');
                     $sessionHandler = new SessionStatusHandler(
-                        $c->get(WebAppFactory::SESSION_NAME_SERVICE),
+                        $c->get(SessionServicesConfigurator::SESSION_NAME_SERVICE),
                         new PhpLoggingSaveHandler($logger)
 //                            new PhpSaveHandler()
                     );
                     $sessionHandler->setLogger($logger);
                 } else {
                     $sessionHandler = new SessionStatusHandler(
-                        $c->get(WebAppFactory::SESSION_NAME_SERVICE),
+                        $c->get(SessionServicesConfigurator::SESSION_NAME_SERVICE),
                         new PhpSaveHandler()
                     );
                 }
@@ -130,6 +133,9 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             // model - pro data v session - dao používají všechny session repo v kontejnerech
             StatusDao::class => function(ContainerInterface $c) {
                 return new StatusDao($c->get(SessionStatusHandler::class));
+            },
+            SessionUnlockPolicy::class => function(ContainerInterface $c) {
+                return new SessionUnlockPolicy();
             },
             // session security status
             StatusSecurityRepo::class => function(ContainerInterface $c) {
@@ -165,7 +171,7 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             LoginAggregateFullInterface::class => function(ContainerInterface $c) {
                 /** @var StatusSecurityRepo $securityStatusRepo */
                 $securityStatusRepo = $c->get(StatusSecurityRepo::class);
-                return $securityStatusRepo->get()->getLoginAggregate();
+                return $securityStatusRepo->getClone()->getLoginAggregate();    // jen ke čtení
             },
 
             // router

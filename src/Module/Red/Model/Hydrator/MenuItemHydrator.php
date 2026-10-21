@@ -8,13 +8,13 @@
 
 namespace Red\Model\Hydrator;
 
-use Model\Hydrator\HydratorInterface;
+use Pes\Model\Hydrator\HydratorInterface;
 
-use Model\Entity\EntityInterface;
+use Pes\Model\Entity\EntityInterface;
 use ArrayAccess;
 use Red\Model\Entity\MenuItemInterface;
 
-use Pes\Type\Date;
+use Pes\Core\Type\Date;
 
 /**
  * Description of MenuItemHydrator

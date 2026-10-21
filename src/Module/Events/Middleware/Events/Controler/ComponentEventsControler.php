@@ -23,12 +23,12 @@ use Component\ViewModel\ViewModelFamilyListInterface;
 use Component\ViewModel\FamilyInterface;
 
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 use Exception;
 use LogicException;
 
-//use Pes\Debug\Timer;
+//use Pes\Core\Debug\Timer;
 
 /**
  * Description of ComponentControler

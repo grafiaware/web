@@ -12,8 +12,8 @@ use Events\Model\Dao\JobDao;
 use Events\Model\Dao\CompanyDao;
 use Events\Model\Dao\PozadovaneVzdelaniDao;
 
-use Model\RowData\RowData;
-use Model\RowData\RowDataInterface;
+use Pes\Model\RowData\RowData;
+use Pes\Model\RowData\RowDataInterface;
 use Pes\Database\Statement\Exception\ExecuteException;
 
 /**

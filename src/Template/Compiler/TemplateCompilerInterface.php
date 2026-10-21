@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 interface TemplateCompilerInterface {
 
     const VARNAME_CONTAINER = 'container';
-    const TEMPLATE_FILE_NAME = "/template.php";
+    const TEMPLATE_FILE_NAME = "template.php";
 
     public function injectTemplateVars(iterable $templateVariables);
     public function getCompiledContent($templatePath): string;

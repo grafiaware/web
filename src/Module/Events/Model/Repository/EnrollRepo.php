@@ -1,14 +1,14 @@
 <?php
 namespace Events\Model\Repository;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 
 use Events\Model\Entity\EnrollInterface;
 use Events\Model\Entity\Enroll;
 use Events\Model\Dao\EnrollDao;
 use Events\Model\Hydrator\EnrollHydrator;
 
-//use Model\Repository\Exception\UnableRecreateEntityException;
+//use Pes\Model\Repository\Exception\UnableRecreateEntityException;
 
 /**
  * Description of Menu

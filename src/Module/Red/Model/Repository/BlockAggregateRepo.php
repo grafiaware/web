@@ -8,8 +8,8 @@
 
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoReadonlyInterface;
-use Model\Hydrator\HydratorInterface;
+use Pes\Model\Repository\RepoReadonlyInterface;
+use Pes\Model\Hydrator\HydratorInterface;
 
 use Red\Model\Dao\BlockDao;
 use Red\Model\Repository\MenuItemRepo;

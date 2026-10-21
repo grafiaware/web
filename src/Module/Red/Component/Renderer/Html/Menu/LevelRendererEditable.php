@@ -5,7 +5,7 @@ use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\View\Menu\ItemComponentInterface;
 
 use Red\Component\ViewModel\Menu\LevelViewModelInterface;
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,7 +20,7 @@ use Pes\Text\Html;
  */
 class LevelRendererEditable extends HtmlRendererAbstract {
 
-    public function render(iterable $contextData=NULL) {
+    public function render(?iterable $contextData=NULL) {
         // LevelComponent nedostává žádný view model - view předá do rendereru jen ContextData, který obsahuje vyrenderované komponentní view (tedy html)
             $levelItemsHtml = "";
             /** @var LevelViewModelInterface $contextData */

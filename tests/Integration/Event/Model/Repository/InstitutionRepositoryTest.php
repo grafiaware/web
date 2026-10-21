@@ -14,8 +14,8 @@ use Events\Model\Dao\InstitutionDao;
 use Events\Model\Repository\InstitutionRepo;
 use Events\Model\Dao\InstitutionTypeDao;
 
-use Model\Repository\Exception\OperationWithLockedEntityException;
-use Model\RowData\RowData;
+use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
+use Pes\Model\RowData\RowData;
 
 
 

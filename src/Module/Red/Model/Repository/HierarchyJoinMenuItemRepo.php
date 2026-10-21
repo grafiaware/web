@@ -8,9 +8,9 @@
 
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoAbstract;
-use Model\Hydrator\HydratorInterface;
-use Model\Repository\RepoAssotiatingOneTrait;
+use Pes\Model\Repository\RepoAbstract;
+use Pes\Model\Hydrator\HydratorInterface;
+use Pes\Model\Repository\RepoAssotiatingOneTrait;
 
 use Red\Model\Repository\MenuItemRepo;
 

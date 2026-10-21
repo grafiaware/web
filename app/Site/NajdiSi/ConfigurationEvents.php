@@ -40,7 +40,7 @@ class ConfigurationEvents extends ConfigurationConstants {
             #
             'dbEvents.logs.db.directory' => 'Logs/Events',
             'dbEvents.logs.db.file' => 'Database.log',
-            'dbEvents.logs.db.loginsync' => 'LoginSync.log',
+            'dbEvents.logs.db.validateuser' => 'ValidateUser.log',
             #
             #################################
             ];

@@ -3,7 +3,7 @@ namespace Component\Renderer\Html;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Red\Component\ViewModel\Authored\AuthoredViewModelInterface;
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of EmptyRenderer
@@ -11,7 +11,7 @@ use Pes\Text\Html;
  * @author pes2704
  */
 class NoPermittedContentRenderer extends HtmlRendererAbstract {
-    public function render(iterable $viewModel = null) {
+    public function render(?iterable $viewModel = null) {
         /** @var AuthoredViewModelInterface $viewModel */
 //        if (PES_DEVELOPMENT) {
 //            $style = 'display: block; color: orange';

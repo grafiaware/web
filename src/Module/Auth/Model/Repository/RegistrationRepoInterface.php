@@ -2,9 +2,9 @@
 
 namespace Auth\Model\Repository;
 
-use Model\Repository\RepoAssotiatedOneInterface;
+use Pes\Model\Repository\RepoAssotiatedOneInterface;
 
-use Model\Repository\RepoInterface;
+use Pes\Model\Repository\RepoInterface;
 use Auth\Model\Entity\RegistrationInterface;
 use Auth\Model\Entity\PersistableEntityInterface;
 

@@ -7,8 +7,8 @@ use Pes\Container\Container;
 
 use Container\EventsModelContainerConfigurator;
 use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
-use Model\Repository\Exception\OperationWithLockedEntityException;
-use Model\RowData\RowData;
+use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
+use Pes\Model\RowData\RowData;
 
 use Events\Model\Dao\LoginDao;
 use Events\Model\Repository\LoginRepo;
@@ -125,8 +125,8 @@ class LoginRepositoryTest extends AppRunner {
         // pro automaticky|generovany klic a pro  overovany klic (tento pripad zde ) - !!! zapise se hned !!!   DaoEditKeyDbVerifiedInterface
         $this->assertTrue($login->isPersisted());
         $this->assertFalse($login->isLocked());
-        // Login není zamčena po add. protože LoginDao je typu Model\Dao\DaoKeyDbVerifiedInterface
-        // je isPersisted hned po ->add() protože je typu Model\Dao\DaoKeyDbVerifiedInterface
+        // Login není zamčena po add. protože LoginDao je typu Pes\Model\Dao\DaoKeyDbVerifiedInterface
+        // je isPersisted hned po ->add() protože je typu Pes\Model\Dao\DaoKeyDbVerifiedInterface
     }
 
 

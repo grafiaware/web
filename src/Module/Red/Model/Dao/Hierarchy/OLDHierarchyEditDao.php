@@ -2,10 +2,10 @@
 
 namespace Red\Model\Dao\Hierarchy;
 
-use Model\Dao\DaoEditContextualAbstract;
+use Pes\Model\Dao\DaoEditContextualAbstract;
 
 use Pes\Database\Handler\HandlerInterface;
-use Model\Context\ContextProviderInterface;
+use Pes\Model\Context\ContextProviderInterface;
 use Red\Model\Dao\Hierarchy\HookedMenuItemActorInterface;
 
 /**

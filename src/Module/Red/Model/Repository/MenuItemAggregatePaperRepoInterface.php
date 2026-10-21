@@ -8,7 +8,7 @@
 
 namespace Red\Model\Repository;
 
-use Model\Repository\RepoReadonlyInterface;
+use Pes\Model\Repository\RepoReadonlyInterface;
 use Red\Model\Entity\MenuItemAggregatePaperInterface;
 
 /**

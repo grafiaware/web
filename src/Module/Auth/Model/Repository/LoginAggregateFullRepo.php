@@ -8,10 +8,10 @@
 
 namespace Auth\Model\Repository;
 
-use Model\Repository\RepoAggregateInterface;
-use Model\Hydrator\HydratorInterface;
+use Pes\Model\Repository\RepoAggregateInterface;
+use Pes\Model\Hydrator\HydratorInterface;
 
-use Model\Repository\RepoAbstract;
+use Pes\Model\Repository\RepoAbstract;
 use Auth\Model\Dao\LoginDao;
 
 use Auth\Model\Repository\CredentialsRepo;
@@ -20,7 +20,7 @@ use Auth\Model\Repository\RegistrationRepo;
 use Auth\Model\Hydrator\LoginChildCredentialsHydrator;
 use Auth\Model\Hydrator\LoginChildRegistrationHydrator;
 
-use Model\Repository\RepoAssotiatingOneTrait;
+use Pes\Model\Repository\RepoAssotiatingOneTrait;
 
 use Auth\Model\Entity\LoginAggregateFull;
 use Auth\Model\Entity\LoginAggregateFullInterface;

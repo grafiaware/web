@@ -21,7 +21,8 @@ class EditorActionViewModel extends ViewModelAbstract implements EditorActionVie
         $this->statusViewModel = $status;
     }
 
-    public function getIterator() {
+    #[\Override]
+    public function getIterator(): ArrayIterator {
         $arr =[
                         'editContent' => $this->statusViewModel->presentEditableContent(),
                         'loginName' => $this->statusViewModel->getUserLoginName()

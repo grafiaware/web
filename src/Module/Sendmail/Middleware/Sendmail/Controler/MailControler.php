@@ -14,13 +14,13 @@ use FrontControler\PresentationFrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-use Mail\Mail;
+use Pes\Mail\MailInterface;
 use Mail\MessageFactory\HtmlMessage;
 
-use Mail\Assembly;
-use Mail\Assembly\Content;
-use Mail\Assembly\Attachment;
-use Mail\Assembly\Party;
+use Pes\Mail\Assembly;
+use Pes\Mail\Assembly\Content;
+use Pes\Mail\Assembly\Attachment;
+use Pes\Mail\Assembly\Party;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
@@ -98,7 +98,7 @@ class MailControler extends PresentationFrontControlerAbstract {
             <h4>Validation:</h4>
             <pre>$dataPrint</pre>
         ";
-        return $this->createStringOKResponse($html);
+        return $this->createHtmlReportResponse($html);
     }
     
     public function  sendCampaign( ServerRequestInterface $request, string $campaignName) {
@@ -114,7 +114,7 @@ class MailControler extends PresentationFrontControlerAbstract {
         $html .= "<p>Proběhl pokus o odeslánÍ $sended mailů.</p><hr/>";
         $html .= "<pre>".print_r($report,true)."</pre>";
         
-        return $this->createStringOKResponse($html);       
+        return $this->createHtmlReportResponse($html); 
     }
     
     /**
@@ -140,8 +140,8 @@ class MailControler extends PresentationFrontControlerAbstract {
                 if ($counter>=$min AND $counter<=$max ) {
                     $registration = $this->registrationRepo->get($visitorLoginAgg->getLoginName());
                     if (isset($registration) AND $registration->getEmail()) {
-                        /** @var Mail $mail */
-                        $mail = $this->container->get(Mail::class);
+                        /** @var MailInterface $mail */
+                        $mail = $this->container->get(MailInterface::class);
                         /** @var HtmlMessage $mailMessageFactory */
                         $mailMessageFactory = $this->container->get(HtmlMessage::class);
                         $subject =  'Veletrh práce - Poděkování, odkazy a "virtuální igelitka"';
@@ -186,6 +186,6 @@ class MailControler extends PresentationFrontControlerAbstract {
                 }
             }
         }        
-        return $this->createStringOKResponse("Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");
+        return $this->createHtmlReportResponse("Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");
     }
 }

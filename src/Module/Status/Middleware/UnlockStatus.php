@@ -12,46 +12,66 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 
-use Pes\Middleware\AppMiddlewareAbstract;
+use Pes\Application\Middleware\AppMiddlewareAbstract;
+use Pes\Model\Dao\StatusDao;
+use Pes\Session\SessionStatusHandlerInterface;
 
-use Model\Dao\StatusDao;
+use Status\Session\SessionUnlockPolicy;
 
 /**
- * Description of FinishStatus
+ * Uvolní session lock
+ *
+ * Politika finish/reopen: {@see SessionUnlockPolicy}.
+ *
+ * Po zavření session nelze volat Status repo get/add/remove/flush.
+ * Lze volat repo->getClone() (immutable) nebo getClone(false) + replaceEntityInMemory (mutable snapshot).
+ *
+ * Pro ostatní případy se session ukládá a zavírá automaticky až na konci skriptu:
+ *  - jiné než GET requesty - handler mění Status (PUT, POST)
+ *  - GET bez cascade hlavičky = stránka z Page controleru - handler mění Status
  *
  * @author pes2704
  */
 class UnlockStatus extends AppMiddlewareAbstract implements MiddlewareInterface {
-    /**
-     * Uvolní session lock
-     * 
-     * Zapíše session data do úložiště a zavře session pro requesty, které v handleru nemění Status. Tím uvolní session data v úložišti (např. soubor ke čtení) 
-     * pro další request, který nemusí čekat nebo přestane čekat na session_start().
-     * 
-     * Requesty, které v handleru nemění Status jsou GET requesty požadující cascade komponent, pokud to není komponent flash.
-     * 
-     * Pro ostatní případy se session se ukládá a zavírá automaticky až na konci skriptu:
-     *  - jiné než GET requesty - handler mění Status (PUT, POST)
-     *  - flash komponent - je volán GET requestem, ale handler mění Status - vyzvedne a smaže flash messages
-     *  - GET požaduje něco jiného než component = stránka z Page controleru - handler mění Status, ukládá menu item
-     * 
-     * @param ServerRequestInterface $request
-     * @param RequestHandlerInterface $handler
-     * @return ResponseInterface
-     */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
-        if ($request->getMethod() == 'GET' && $request->hasHeader("X-Cascade") && !$this->isFlashRequest($request)) {
-            $container = $this->getApp()->getAppContainer();
+    #[\Override]
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
+        $container = $this->getApp()->getAppContainer();
+        /** @var SessionUnlockPolicy $policy */
+        $policy = $container->get(SessionUnlockPolicy::class);
+        /** @var SessionStatusHandlerInterface $sessionHandler */
+        $sessionHandler = $container->get(SessionStatusHandlerInterface::class);
+        $sessionIsNew = $sessionHandler->isNew();
+
+        if ($policy->isNewSessionCascadeAnomaly($request, $sessionIsNew)) {
+            user_error(
+                sprintf(
+                    'SessionUnlockPolicy anomaly: new session with %s on %s %s — session finish skipped.',
+                    SessionUnlockPolicy::CASCADE_HEADER,
+                    $request->getMethod(),
+                    $request->getUri()->getPath()
+                ),
+                E_USER_WARNING
+            );
+        }
+
+        $shouldFinish = $policy->shouldFinish($request, $sessionIsNew);
+        $needsReopen = $shouldFinish && $policy->needsReopen($request);
+
+        if ($shouldFinish) {
             /** @var StatusDao $statusDao */
             $statusDao = $container->get(StatusDao::class);
-            $statusDao->finish();  // uloží data a zavře session (session_write_close)
+            $statusDao->finish();
         }
-        return $handler->handle($request);
-    }
-    
-    private function isFlashRequest(ServerRequestInterface $request) {
-        $path = $request->getUri()->getPath();
-        return strpos($path, "component/flash") !== false;        
+
+        $response = $handler->handle($request);
+
+        if ($needsReopen) {
+            /** @var StatusDao $statusDao */
+            $statusDao = $container->get(StatusDao::class);
+            $statusDao->reopen();
+        }
+
+        return $response;
     }
 }

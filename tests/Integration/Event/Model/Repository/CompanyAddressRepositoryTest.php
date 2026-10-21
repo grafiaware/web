@@ -14,8 +14,8 @@ use Events\Model\Repository\CompanyAddressRepo;
 use Events\Model\Entity\CompanyAddress;
 use Events\Model\Entity\CompanyAddressInterface;
 
-use Model\Repository\Exception\OperationWithLockedEntityException;
-use Model\RowData\RowData;
+use Pes\Model\Repository\Exception\OperationWithLockedEntityException;
+use Pes\Model\RowData\RowData;
 
 
  /**

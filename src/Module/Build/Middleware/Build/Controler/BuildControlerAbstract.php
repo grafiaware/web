@@ -4,7 +4,7 @@ namespace Build\Middleware\Build\Controler;
 use FrontControler\FrontControlerAbstract;
 
 use Build\Middleware\Build\Exception\{
-    BuildExceptionInterface, SqlExecutionStepFailedException, MaxExecutionTimeException
+    SqlExecutionStepFailedException, MaxExecutionTimeException
 };
 
 use Psr\Container\ContainerInterface;
@@ -14,10 +14,7 @@ use Pes\View\Renderer\InterpolateRenderer;
 
 use Pes\Database\Manipulator\Manipulator;
 use Pes\Database\Statement\StatementInterface;
-use Pes\Debug\Timer;
-use Pes\Http\Headers;
-use Pes\Http\Body;
-use Pes\Http\Response;
+use Pes\Core\Debug\Timer;
 
 use Exception;
 
@@ -64,17 +61,28 @@ class BuildControlerAbstract  extends FrontControlerAbstract  implements BuildCo
                 $step();
                 $this->reportMessage[] = "Vykonán krok. ".$this->timer->interval();
             }
-        } catch (BuildExceptionInterface $ke) {
-            throw $ke;
+        } catch (\Throwable $e) {
+            // Nepropouštět výjimku dál — report (včetně chybových zpráv ze stepů) se má vypsat přes createResponseFromReport().
+            $this->appendExceptionToReport($e);
         }
 
         $this->reportMessage[] = '<pre>Celkový čas: '.$this->timer->runtime().'</pre>';
 
     }
+
+    /**
+     * Zapíše výjimku (a řetězec příčin) do reportu, aby bylo možné report vypsat i při chybě.
+     */
+    protected function appendExceptionToReport(\Throwable $e): void {
+        $this->reportMessage[] = "Výjimka: ".$e->getMessage();
+        $previous = $e->getPrevious();
+        while ($previous instanceof \Throwable) {
+            $this->reportMessage[] = "Příčina: ".$previous->getMessage();
+            $previous = $previous->getPrevious();
+        }
+    }
     protected function createResponseFromReport() {
-        $body = new Body(fopen('php://temp', 'r+'));
-        $body->write($this->createReport());
-        return new Response(200, new Headers(), $body);
+        return $this->createHtmlReportResponse($this->createReport());
     }
 
     protected function setTimeLimit() {
@@ -89,7 +97,7 @@ class BuildControlerAbstract  extends FrontControlerAbstract  implements BuildCo
             throw new MaxExecutionTimeException("Překročen časový linit běhu skriptu ".self::TIME_LIMIT." sekund. Hodnota je dána konstantou třídy ".__CLASS__." TIME_LIMIT.");
         }
     }
-
+## transaction
     /**
      * Interpoluje s použitím obsahu souboru jako šablony, ve které placeholdery jodnotami z pole dat. 
      * Hodnoty v datech jse upraveny takto:
@@ -102,7 +110,7 @@ class BuildControlerAbstract  extends FrontControlerAbstract  implements BuildCo
      * @return void
      * @throws SqlExecutionStepFailedException
      */
-    protected function executeFromTemplate($templateFilename, array $data=[]): void {
+    protected function executeTransactionFromTemplate($templateFilename, array $data=[]): void {
         $this->reportMessage[] = "## Execute from template '$templateFilename'.";
         if (!isset($this->interpolateRenderer)) {
             $this->interpolateRenderer = new InterpolateRenderer();
@@ -111,7 +119,7 @@ class BuildControlerAbstract  extends FrontControlerAbstract  implements BuildCo
         $this->interpolateRenderer->setTemplate(new InterpolateTemplate(self::RELATIVE_SQLFILE_PATH.$templateFilename));
         $sql = $this->interpolateRenderer->render($sqlData);
         try {
-            $this->executeFromString($sql);
+            $this->executeTransactionFromString($sql);
         } catch (SqlExecutionStepFailedException $e) {
             $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v template $templateFilename.";
             $this->reportMessage[] = $message;
@@ -121,11 +129,11 @@ class BuildControlerAbstract  extends FrontControlerAbstract  implements BuildCo
         }
     }
     
-    protected function executeFromFile($fileName): void {
+    protected function executeTransactionFromFile($fileName): void {
         $this->reportMessage[] = "## Execute from file '$fileName'.";
         $filePath = self::RELATIVE_SQLFILE_PATH.$fileName;
         try {
-            $this->executeFromString(file_get_contents($filePath));
+            $this->executeTransactionFromString(file_get_contents($filePath));
         } catch (SqlExecutionStepFailedException $e) {
             $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v souboru $filePath.";
             $this->reportMessage[] = $message;
@@ -133,22 +141,84 @@ class BuildControlerAbstract  extends FrontControlerAbstract  implements BuildCo
         }
     }
 
-    protected function executeFromString($sqlString): void {
+    protected function executeTransactionFromString($sqlString): void {
         $this->reportMessage[] = "## Execute from string '$sqlString'.";
-        $this->execute($sqlString);
+        $this->executeTransaction($sqlString);
     }
     
-    private function execute($sqlString): void {
+    private function executeTransaction($sqlString): void {
         $this->reportMessage[] = $sqlString;
         try {
-            $this->manipulator->exec($sqlString);
+            $this->manipulator->executeTransaction($sqlString);
         } catch (\Exception $e) {
             $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v řetězci: ". substr($sqlString, 0, 100);
             $this->reportMessage[] = $message;
             throw new SqlExecutionStepFailedException($message, 0, $e);
         }
     }
+    
+## sequence
+    
+    /**
+     * Interpoluje s použitím obsahu souboru jako šablony, ve které placeholdery jodnotami z pole dat. 
+     * Hodnoty v datech jse upraveny takto:
+     * - null je nahrazena řetězcem NULL (SQL klíčové slovo NULL)
+     * - řetězec, který začíná a končí znaky "backtick" "`" je považován za SQL identifikátor a je vložen tak, jak je (včetně backtick) (SQL identifikátor)
+     * - ostatní hodnoty jsou převedeny na string a ten je vložen s přidáním apostrofů před a za řetězec (SQL string)
+     * 
+     * @param type $templateFilename
+     * @param array $data
+     * @return void
+     * @throws SqlExecutionStepFailedException
+     */
+    protected function executeSequenceFromTemplate($templateFilename, array $data=[]): void {
+        $this->reportMessage[] = "## Execute from template '$templateFilename'.";
+        if (!isset($this->interpolateRenderer)) {
+            $this->interpolateRenderer = new InterpolateRenderer();
+        }
+        $sqlData = $this->prepareSqlData($data);
+        $this->interpolateRenderer->setTemplate(new InterpolateTemplate(self::RELATIVE_SQLFILE_PATH.$templateFilename));
+        $sql = $this->interpolateRenderer->render($sqlData);
+        try {
+            $this->executeSequenceFromString($sql);
+        } catch (SqlExecutionStepFailedException $e) {
+            $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v template $templateFilename.";
+            $this->reportMessage[] = $message;
+            $this->reportMessage[] = print_r($data, true);
+            $this->reportMessage[] = print_r($sqlData, true);
+            throw $e;
+        }
+    }
+    
+    protected function executeSequenceFromFile($fileName): void {
+        $this->reportMessage[] = "## Execute from file '$fileName'.";
+        $filePath = self::RELATIVE_SQLFILE_PATH.$fileName;
+        try {
+            $this->executeSequenceFromString(file_get_contents($filePath));
+        } catch (SqlExecutionStepFailedException $e) {
+            $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v souboru $filePath.";
+            $this->reportMessage[] = $message;
+            throw $e;
+        }
+    }
 
+    protected function executeSequenceFromString($sqlString): void {
+        $this->reportMessage[] = "## Execute from string '$sqlString'.";
+        $this->executeSequence($sqlString);
+    }
+    
+    private function executeSequence($sqlString): void {
+        $this->reportMessage[] = $sqlString;
+        try {
+            $this->manipulator->executeSequence($sqlString);
+        } catch (\Exception $e) {
+            $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v řetězci: ". substr($sqlString, 0, 100);
+            $this->reportMessage[] = $message;
+            throw new SqlExecutionStepFailedException($message, 0, $e);
+        }
+    }
+    
+## query    
     protected function queryFromTemplate($templateFilename, array $data=[]): StatementInterface {
         if (!isset($this->interpolateRenderer)) {
             $this->interpolateRenderer = new InterpolateRenderer();

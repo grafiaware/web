@@ -55,7 +55,7 @@ class JobTagListViewModel extends ViewModelAbstract implements ViewModelListInte
      * Poskytuje data pro šablonu list - pro šablonu, která obaluje pro jednotlivé položky
      * @return ArrayIterator
      */
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         $array = [         
             'listHeadline'=>'Tagy pracovních pozic', 
             'items' => $this->getArrayCopy()];

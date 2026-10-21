@@ -16,10 +16,10 @@ use Events\Model\Dao\JobToTagDao;
 use Events\Model\Dao\PozadovaneVzdelaniDao;
 use Events\Model\Dao\CompanyDao;
 
-use Model\RowData\RowData;
-use Model\RowData\RowDataInterface;
+use Pes\Model\RowData\RowData;
+use Pes\Model\RowData\RowDataInterface;
 
-use Model\Dao\Exception\DaoKeyVerificationFailedException;
+use Pes\Model\Dao\Exception\DaoKeyVerificationFailedException;
 
 /**
  *

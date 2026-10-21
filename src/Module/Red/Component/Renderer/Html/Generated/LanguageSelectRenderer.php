@@ -16,7 +16,7 @@ use Red\Component\ViewModel\Generated\LanguageSelectViewModel;
 use Red\Model\Entity\LanguageInterface;
 
 use Pes\View\Renderer\RendererModelAwareInterface;
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of LanguageSelectRenderer

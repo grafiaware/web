@@ -10,9 +10,10 @@ namespace Status\Model\Entity;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-use Model\Entity\PersistableEntityAbstract;
+use Pes\Model\Entity\PersistableEntityAbstract;
+use LogicException;
 use Status\Model\Enum\FlashSeverityEnum;
-use Pes\Type\Exception\ValueNotInEnumException;
+use Pes\Core\Type\Exception\ValueNotInEnumException;
 use Status\Model\Exception\UndefinedFlashMessageSeverityException;
 
 /**
@@ -20,7 +21,9 @@ use Status\Model\Exception\UndefinedFlashMessageSeverityException;
  *
  * @author pes2704
  */
-class Flash extends PersistableEntityAbstract implements FlashInterface {
+class Flash extends PersistableEntityAbstract implements FlashInterface, MakeImmutableInterface {
+
+    private bool $immutable = false;
 
     private $preparedFlashMessages=[];
     private $storedFlashMessages=[];
@@ -37,6 +40,37 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      */
     private $severityEnum;
 
+    public function makeImmutable(): void {
+        $this->immutable = true;
+    }
+
+    public function makeMutable(): void {
+        $this->immutable = false;
+    }
+
+    private function assertMutable(string $methodName): void {
+        if ($this->immutable) {
+            throw new LogicException(sprintf(
+                '%s::%s() failed: entity is immutable clone (returned by getClone()).',
+                static::class,
+                $methodName
+            ));
+        }
+    }
+
+    /**
+     * Read metody, které interně mění stav entity (např. po přečtení smažou data).
+     */
+    private function assertNoReadSideEffects(string $methodName): void {
+        if ($this->immutable) {
+            throw new LogicException(sprintf(
+                '%s::%s() failed: immutable clone does not allow read methods with side effects (returned by getClone()).',
+                static::class,
+                $methodName
+            ));
+        }
+    }
+
     public function __construct() {
         $this->severityEnum = new FlashSeverityEnum();
     }
@@ -46,7 +80,9 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      * 
      * @return array
      */
+    #[\Override]
     public function getMessages(): array {
+        $this->assertNoReadSideEffects(__FUNCTION__);
         $messages = $this->storedFlashMessages;
         $this->storedFlashMessages = [];
         return $messages;
@@ -58,7 +94,9 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      * @param string $message
      * @return FlashInterface
      */
+    #[\Override]
     public function setMessage(string $message, string $severity = FlashSeverityEnum::INFO): FlashInterface {
+        $this->assertMutable(__FUNCTION__);
         $en = $this->severityEnum;
         try {
             $this->preparedFlashMessages[] = ['severity'=>$en($severity), 'message'=>$message];
@@ -73,7 +111,9 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      * 
      * @return void
      */
+    #[\Override]
     public function storeMessages(): void {
+        $this->assertMutable(__FUNCTION__);
         foreach ($this->preparedFlashMessages as $prep) {
             $this->storedFlashMessages[] = $prep;   //TODO: stack
         }
@@ -105,7 +145,9 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      * Typické použití je volání v metodě kontroleru při POST/PUT requestu, v takovém případě chci command smazat, příkaz nastavený pomocí command byl v kontroleru vykonán.
      * 
      */
+    #[\Override]
     public function getPostCommand() {
+        $this->assertNoReadSideEffects(__FUNCTION__);
         $command = $this->storedPostFlashCommand;
         $this->storedPostFlashCommand = null;
         return $command;
@@ -118,6 +160,7 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      * 
      * @return type
      */
+    #[\Override]
     public function readPostCommand() {
         return $this->storedPostFlashCommand;
     }
@@ -142,7 +185,9 @@ class Flash extends PersistableEntityAbstract implements FlashInterface {
      * @param type $command
      * @return FlashInterface
      */
+    #[\Override]
     public function setPostCommand($command): FlashInterface {
+        $this->assertMutable(__FUNCTION__);
         $this->preparedPostFlashCommand = $command;
         return $this;
     }

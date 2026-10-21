@@ -1,7 +1,7 @@
 <?php
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoEditAutoincrementKeyInterface;
+use Pes\Model\Dao\DaoEditAutoincrementKeyInterface;
 
 /**
  *

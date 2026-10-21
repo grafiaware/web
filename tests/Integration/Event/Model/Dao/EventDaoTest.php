@@ -14,9 +14,9 @@ use Events\Model\Dao\LoginDao;
 use Events\Model\Dao\EnrollDao;
 use Events\Model\Dao\EventContentDao;
 
-use Model\RowData\RowData;
-use Model\RowData\PdoRowData;
-use Model\RowData\RowDataInterface;
+use Pes\Model\RowData\RowData;
+use Pes\Model\RowData\PdoRowData;
+use Pes\Model\RowData\RowDataInterface;
 
 /**
  *

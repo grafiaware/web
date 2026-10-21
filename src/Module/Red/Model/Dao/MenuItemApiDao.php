@@ -8,10 +8,10 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoEditAbstract;
-use Model\RowData\RowDataInterface;
+use Pes\Model\Dao\DaoEditAbstract;
+use Pes\Model\RowData\RowDataInterface;
 
-use Model\Dao\Exception\DaoForbiddenOperationException;
+use Pes\Model\Dao\Exception\DaoForbiddenOperationException;
 
 /**
  * Description of MenuItemTypeDao

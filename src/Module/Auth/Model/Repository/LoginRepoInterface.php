@@ -8,7 +8,7 @@
 
 namespace Auth\Model\Repository;
 
-use Model\Repository\RepoInterface;
+use Pes\Model\Repository\RepoInterface;
 
 use Auth\Model\Entity\LoginInterface;
 
@@ -33,6 +33,14 @@ interface LoginRepoInterface extends RepoInterface {
      */
     public function find($whereClause="", $touplesToBind=[]): array  ;
        
+        
+    /**
+     * 
+     * @return array LoginInterface[]
+     */
+    public function findAll() : array;    
+    
+    
     
     /**
      *
@@ -40,6 +48,7 @@ interface LoginRepoInterface extends RepoInterface {
      */
     public function add(LoginInterface $login);
 
+    
     /**
      *
      * @param LoginInterface $login

@@ -1,5 +1,5 @@
 <?php
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
         $select = Html::select("jmeno", "To je label:", ["", "Plzeň-město", "Plzeň-jih", "Plzeň-sever", "Klatovy", "Cheb", "jiné"], [], []);
 

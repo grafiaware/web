@@ -47,7 +47,7 @@ class Prepare implements PrepareStatusServiceInterface {
      * @throws UnexpectedValueException
      */
     public function prepareDbByStatus() {
-        $statusPresentation = $this->statusPresentationRepo->get();
+        $statusPresentation = $this->statusPresentationRepo->getClone();  // nelze měnit status - immutable
         if (!$statusPresentation->getLanguageCode()) {
             $requestedLangCode = $statusPresentation->getRequestedLangCode();
             $language = $this->languageRepo->get($requestedLangCode);
@@ -60,15 +60,16 @@ class Prepare implements PrepareStatusServiceInterface {
                     throw new UnexpectedValueException("Kód jazyka nastavený v konfiguraci jako výchozí jazyk nebyl nalezen mezi jazyky v databázi.");
                 }
             }
-            $statusPresentation->setLanguageCode($language->getLangCode());
+//            $statusPresentation->setLanguageCode($language->getLangCode());   immutable - zůstala jen exception
         }
-        $userActions = $this->statusSecurityRepo->get()->getEditorActions();
+        $userActions = $this->statusSecurityRepo->getClone()->getEditorActions();
         if(isset($userActions)) {
-            $loggedOffUser = $this->statusSecurityRepo->get()->getEditorActions()->lastLoggedOffUsername();  // logged off user je automaticky smazáno z UserActions  
+            $loggedOffUser = $this->statusSecurityRepo->getClone()->lastLoggedOffUsername();  
+            if (isset($loggedOffUser)) {
+                // skutečné smazámí proběhne až po skončení skriptu - jde o GET request a tak zpoždění není velké (neprovádím repo->flush())
+                $this->itemActionService->removeUserItemActions($loggedOffUser);  // skutečné smazámí proběhne až po skončení skriptu
+            }
         }
-        if (isset($loggedOffUser)) {
-            // skutečné smazámí proběhne až po skončení skriptu - jde o GET request a tak zpoždění není velké (neprovádím repo->flush())
-            $this->itemActionService->removeUserItemActions($loggedOffUser);  // skutečné smazámí proběhne až po skončení skriptu
-        }
+
     }
 }

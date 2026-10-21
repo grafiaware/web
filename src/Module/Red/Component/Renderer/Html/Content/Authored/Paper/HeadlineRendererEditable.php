@@ -14,7 +14,7 @@ use Red\Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
 use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 use Red\Middleware\Redactor\Controler\PaperControler;
 
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
 /**
  * Description of HeadlineRenderer
@@ -22,7 +22,7 @@ use Pes\Text\Html;
  * @author pes2704
  */
 class HeadlineRendererEditable extends HtmlRendererAbstract {
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();
         if (isset($paperAggregate)) {

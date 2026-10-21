@@ -3,7 +3,7 @@
 namespace Events\Model\Entity;
 
 use Events\Model\Entity\RepresentativeInterface;
-use Model\Entity\PersistableEntityAbstract;
+use Pes\Model\Entity\PersistableEntityAbstract;
 
 /**
  * Description of Representative

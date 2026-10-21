@@ -1,10 +1,10 @@
 <?php
 
 include 'app/Site/ConfigurationCache.php';  // SetBootstrap se volá před autoload
-
-use Pes\Logger\FileLogger;
+require_once __DIR__ . '/../Support/TestLogPaths.php';
 
 use Site\ConfigurationCache;
+use Test\Support\TestLogPaths;
 
 /*
  * Copyright (C) 2018 pes2704
@@ -15,9 +15,9 @@ use Site\ConfigurationCache;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-// Cesta ke složce, ve které budou ukládány jednotlivé logy třídou Pes\Logger\Filelogger.
-// Cesta nastavená zde je použita pro nastavení base path loggeru v Bootsstrap skriptu ještě pře logování průběhu bootstrapu a tak i logy Bootstrapu budou uloženy do této cesty.
-define("PES_BOOTSTRAP_LOGS_BASE_PATH", $_SERVER['DOCUMENT_ROOT'].ConfigurationCache::bootstrap()['bootstrap.logs.basepath']);  // absolutní cesta k podsložce document root
+// Base path FileLoggeru pro testy: {projectRoot}/tests/
+// Relativní cesty Logs/... (včetně bootstrap Logs/Bootstrap/) jdou do tests/Logs/...
+define('PES_BOOTSTRAP_LOGS_BASE_PATH', TestLogPaths::logsBasePath());
 // define('PES_BOOTSTRAP_LOGS_PATH', 'Mojelogy/Bootstrap/');  // cesta ke složce, do které budou zapisovány soubory s logy vytvářené skripty v průběhu bootstrapu
 // define('PES_BOOTSTRAP_ERROR_LOGS_PATH', 'Mojelogy/Errors/');  // Cesta ke složce, do které budou zapisovány soubory s chybovými logy vytvářené skripty v bootstrapu včetně error a exception handlerů
 

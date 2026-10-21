@@ -1,12 +1,12 @@
 <?php
 namespace Red\Model\Dao\Hierarchy;
 
-use Model\Dao\DaoAbstract;
+use Pes\Model\Dao\DaoAbstract;
 use Pes\Database\Handler\HandlerInterface;
 
-use Model\Builder\SqlInterface;
-use Model\Context\ContextProviderInterface;
-use Model\RowData\RowDataInterface;
+use Pes\Model\Builder\SqlInterface;
+use Pes\Model\Context\ContextProviderInterface;
+use Pes\Model\RowData\RowDataInterface;
 
 /**
  * Podle tutoriálu na https://www.phpro.org/tutorials/Managing-Hierarchical-Data-with-PHP-and-MySQL.html - pozor jsou tam chyby
@@ -44,6 +44,19 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
      */
     protected $contextFactory;
 
+    /**
+     *
+     * @param HandlerInterface $handler
+     * @param string $nestedSetTableName Jméno databázové tabulky menu nested set
+     * @param string $itemTableName Jméno databázové tabulky menu item
+     */
+    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName="", ?ContextProviderInterface $contextFactory=null) {
+        parent::__construct($handler, $sql, $fetchClassName);
+        $this->nestedSetTableName = $this->getTableName();
+        $this->itemTableName = $this->getItemTableName();
+        $this->contextFactory = $contextFactory;
+    }
+    
     public function getPrimaryKeyAttributes(): array {
         return ["lang_code_fk", "uid_fk"];
     }
@@ -61,19 +74,6 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
 
     private function getItemTableName(): string {
         return 'menu_item';
-    }
-
-    /**
-     *
-     * @param HandlerInterface $handler
-     * @param string $nestedSetTableName Jméno databázové tabulky menu nested set
-     * @param string $itemTableName Jméno databázové tabulky menu item
-     */
-    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName="", ContextProviderInterface $contextFactory=null) {
-        parent::__construct($handler, $sql, $fetchClassName);
-        $this->nestedSetTableName = $this->getTableName();
-        $this->itemTableName = $this->getItemTableName();
-        $this->contextFactory = $contextFactory;
     }
 
 ################

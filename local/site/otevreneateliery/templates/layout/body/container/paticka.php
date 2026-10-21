@@ -9,8 +9,8 @@
                             </div>
                             <div class="kontaktni-udaje">
                                 <p>GRAFIA, s.r.o.<br/>
-                                Budilova 4<br/>
-                                301 00 Plzeň<br/>
+                                Houškova 35<br/>
+                                326 00 Plzeň 2<br/>
                                 Tel./fax:+420 377 227 701<br/>
                                 E-mail: info@grafia.cz </p>
                             </div> 

@@ -1,5 +1,5 @@
 <?php
-use Pes\Text\Html;
+use Pes\Core\Text\Html;
 
                                     if($visitorJobRequestCount) {
                                         ?>

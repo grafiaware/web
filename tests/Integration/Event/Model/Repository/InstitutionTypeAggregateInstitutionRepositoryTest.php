@@ -16,7 +16,7 @@ use Events\Model\Entity\InstitutionInterface;
 use Events\Model\Dao\InstitutionDao;
 use Events\Model\Dao\InstitutionTypeDao;
 
-use Model\RowData\RowData;
+use Pes\Model\RowData\RowData;
 
 
 /**

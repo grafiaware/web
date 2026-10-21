@@ -29,7 +29,7 @@ class SectionsRendererEditablePreview extends SectionRendererAbstract {
      * @param type $class
      * @return type
      */
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();
         if ($paperAggregate instanceof PaperAggregatePaperSectionInterface) {

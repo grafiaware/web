@@ -17,7 +17,7 @@ use Component\Renderer\Html\HtmlRendererAbstract;
  */
 class EmptyItemRenderer extends HtmlRendererAbstract  {
 
-    public function render(iterable $viewModel=NULL) {
+    public function render(?iterable $viewModel=NULL) {
         return "<p>Empty item</p>";
     }
 }

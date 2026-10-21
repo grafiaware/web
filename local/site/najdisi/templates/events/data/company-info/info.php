@@ -2,12 +2,10 @@
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Site\ConfigurationCache;
 
-use Pes\Text\Text;
-use Pes\Text\Html;
+use Pes\Core\Text\Text;
+use Pes\Core\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */    
-
-$imagesPath = ConfigurationCache::files()['@siteimages'];
 
 if (!empty($videoLink)) {
     // Rozparsování URL
@@ -54,6 +52,8 @@ if (!empty($videoLink)) {
                     <div class="sixteen wide tablet eight wide computer nine wide large screen column">
                         <img src="<?=$exhibitorStandImage?>" alt="stánek firmy" class="stanek-img"/>
                     </div> 
+                <?php } else { ?>
+                <div style="display: none;">Nenalezen soubor s obrázkem stánku. Název souboru je první slovo názvu firmy. Obrázek "<?= $exhibitorStandImage ?>" nenalezen.</div>
                 <?php } ?>
                 <div class="sixteen wide tablet eight wide computer seven wide large screen seven wide widescreen column">
                     <?php if($videoLink ?? false) { ?>

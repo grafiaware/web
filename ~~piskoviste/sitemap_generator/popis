@@ -1,0 +1,25 @@
+předávány z DI kontejneru.11:42Claude responded: Teď přepíši celý kód do správné OOP struktury s interfacy, PSR-3 loggerem a DI.Read existing SitemapGenerator to refactor itRead existing SitemapGenerator to refactor itTeď přepíši celý kód do správné OOP struktury s interfacy, PSR-3 loggerem a DI.Created 12 files, ran 2 commands, read a fileCreated 12 files, ran 2 commands, read a fileCelá struktura je rozdělená do 12 souborů:
+
+Adresářová struktura:
+Sitemap/
+├── Contract/
+│   ├── SitemapGeneratorInterface.php
+│   ├── SitemapCacheInterface.php
+│   ├── SitemapRendererInterface.php
+│   └── SitemapWriterInterface.php
+├── Cache/
+│   └── FilesystemSitemapCache.php
+├── Renderer/
+│   └── XmlSitemapRenderer.php
+├── Writer/
+│   └── FilesystemSitemapWriter.php
+├── SitemapConfig.php          ← value object, jde přímo do DI
+├── SitemapUrl.php             ← value object
+├── SitemapSection.php         ← entita sekce
+└── SitemapGenerator.php       ← hlavní třída
+
+Co se změnilo oproti předchozí verzi:
+SitemapGenerator teď přijímá v konstruktoru čtyři závislosti — SitemapCacheInterface, SitemapRendererInterface, SitemapWriterInterface a LoggerInterface. Žádná závislost se nevytváří interně přes new.
+Každá závislost má vlastní interface v Contract/, takže v testech nebo v budoucnu můžeš snadno vyměnit implementaci (např. jiný renderer pro news sitemapy, writer do S3 místo filesystému, nebo in-memory cache).
+Logger je PSR-3 LoggerInterface — funguje s Monologem, Nette loggerem i NullLogger pro produkci bez logování. SitemapGenerator loguje na úrovni debug (vytvoření sekce), info (zápis souborů) a warning (prázdný save).
+V sitemap_usage_example.php je i komentovaný snippet pro Nette DI (config.neon), který ukazuje registraci všech služeb včetně implements:.

@@ -11,8 +11,9 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 use Pes\Logger\FileLogger;
 
 // mail
-use Mail\Mail;
-use Mail\ParamsTemplates;
+use Pes\Mail\Mail;
+use Pes\Mail\MailInterface;
+use Pes\Mail\ParamsTemplates;
 use Mail\MessageFactory\HtmlMessage;
 
 use Sendmail\Middleware\Sendmail\Controler\MailControler;
@@ -53,7 +54,7 @@ class MailContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getAliases(): iterable {
         return [
-
+            MailInterface::class => Mail::class,
         ];
     }
 
@@ -102,7 +103,7 @@ class MailContainerConfigurator extends ContainerConfiguratorAbstract {
             },                                         
             MailSender::class => function(ContainerInterface $c) {
                 return new MailSender(
-                    $c->get(Mail::class), 
+                    $c->get(MailInterface::class), 
                     $c->get(AssemblyProvider::class),
                     $c->get(CampaignData::class)
                 );

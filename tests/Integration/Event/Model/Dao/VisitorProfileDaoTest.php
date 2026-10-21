@@ -13,8 +13,8 @@ use Events\Model\Dao\LoginDao;
 use Events\Model\Dao\VisitorProfileDao;
 use Events\Model\Dao\DocumentDao;
 
-use Model\RowData\RowData;
-use Model\RowData\RowDataInterface;
+use Pes\Model\RowData\RowData;
+use Pes\Model\RowData\RowDataInterface;
 
 /**
  * Description of VisitorProfileDaoTest

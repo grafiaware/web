@@ -1,7 +1,7 @@
 <?php
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoEditKeyDbVerifiedInterface;
+use Pes\Model\Dao\DaoEditKeyDbVerifiedInterface;
 
 /**
  *

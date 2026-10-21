@@ -19,59 +19,54 @@
  * @returns {undefined}
  */
 export const filePickerCallback = (callback, value, meta) => {
+    // vytvoření input elementu (file input)
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
     input.setAttribute('accept', filePickerAccepted(meta));
-
-    /*
-      Note: In modern browsers input[type="file"] is functional without
-      even adding it to the DOM, but that might not be the case in some older
-      or quirky browsers like IE, so you might want to add it to the DOM
-      just in case, and visually hide it. And do not forget do remove it
-      once you do not need it anymore.
-    */
 
     input.addEventListener('change', (e) => {
         const file = e.target.files[0];  // https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications
         const reader = new FileReader();
         reader.addEventListener('load', () => {
-            /*
-              Note: Now we need to register the blob in TinyMCEs image blob
-              registry. In the next release this part hopefully won't be
-              necessary, as we are looking to handle it internally.
-            */
-            var originalName = file.name.split('.')[0];  // split - jméno souboru bez přípony
-            const id = image_unique_name(originalName);
+            // vytváří blobInfo a ukládám do blobCache - tiny by to udělal sám, ale zde vytvářím 
+            // - blobInfo s unikátním id (blobCache klíč, s tím se odesílá na server)
+            // - původní jméno souboru (ze souborového systému) uschovám v meta pro dialog / html atributy
+            const originalName = file.name;
+            const uniqueName = image_unique_name(originalName);
             const blobCache =  tinymce.activeEditor.editorUpload.blobCache;
-            const base64 = reader.result.split(',')[1];  // reader.result konvertuje image na base64 string
-            const blobInfo = blobCache.create(id, file, base64);
+            const base64 = reader.result.split(',')[1];  // reader.result konvertuje image na base64 string // Ignorujeme první prvek (před čárkou), extrahujeme druhý //const [, druhy] = str.split(','); 
+            const blobInfo = blobCache.create(uniqueName, file, base64, originalName, originalName);
             blobCache.add(blobInfo);
-
+            
             /* call the callback and populate the Title field with the file name */
-            // zkus  blobInfo.filename()
-//            callback(blobInfo.blobUri(), { title: originalName });
-            // For the link dialog    
+            // For the link dialog / custom urlinput filetype=file
             if (meta.filetype === 'file') {
-//                callback(blobInfo.blobUri(), { title: originalName, text: 'Download: '+originalName , url: 'File: '+originalName});
-                // první parametr callback je text, který bude vložen  do inputu, 
-                // pro tento případ - type=='file' druhý parametr je předán a lze jej získat v pluginu jako api.getData()
-                callback(file.name, { fileName: file.name, originalName: originalName, blobInfo: blobInfo, id: id});
+                // první parametr callback je hodnota urlinput (zobrazí se v poli)
+                // druhý parametr TinyMCE uloží do data.<fieldname>.meta — čte ho attachment plugin v getData()
+                callback(file.name, { fileName: file.name, originalName: originalName, blobInfo: blobInfo, id: uniqueName });
             }
             // For the image dialog
             if (meta.filetype === 'image') {
-                callback(blobInfo.blobUri(), { title: originalName });
+                callback(blobInfo.blobUri(), { title: originalName, originalName: originalName });
             }
             // For the media dialog
             if (meta.filetype === 'media') {
-                callback(blobInfo.blobUri(), { title: originalName });
+                callback(blobInfo.blobUri(), { title: originalName, originalName: originalName });
             }
-          });
+        });
         reader.readAsDataURL(file);
     });
 
     input.click();
   };
   
+  /**
+   * Vrací seznam akceptovaných MIME typů souborů pro upload.
+   * Vrací seznam podle typu souboru z input file dialogu - rozpoznává 'file', 'image', 'media'.
+   * 
+   * @param {type} meta
+   * @returns {String}
+   */
   function filePickerAccepted(meta) {
     // For the link dialog    
     if (meta.filetype === 'file') {
@@ -94,12 +89,41 @@ export const filePickerCallback = (callback, value, meta) => {
   };
   
   /**
-   * 
+   * Připojí ke jménu unikátní id. crypto.randomUUID() je jen v secure context
+   * (HTTPS / localhost) — na http://vscode/ proto musí být fallback.
+   *
    * @param {type} originalName
    * @returns {String}
    */
     function image_unique_name(originalName) {
-        return originalName + '@blobid' + (new Date()).getTime();  // timestamp v milisekundách (čas od 1.1.1970)
+        return originalName + '@uuid' + createUniqueId();
+    };
+
+    /**
+     * Unikátní id pro blobCache. Pořadí variant podle dostupnosti Web Crypto:
+     * 1. crypto.randomUUID() — nativní UUID v4, jen v secure context: HTTPS, localhost, 127.0.0.1.
+     *    Na HTTP s vlastním vhostem (např. http://vscode/) funkce neexistuje → TypeError.
+     * 2. crypto.getRandomValues() — kryptograficky náhodné bajty, v prohlížeči i na HTTP (nejen HTTPS).
+     *    Složí se z nich UUID v4 stejného tvaru jako randomUUID().
+     * 3. Date.now() + Math.random() — nouzový fallback bez Web Crypto (staré prohlížeče).
+     *
+     * @returns {String}
+     */
+    function createUniqueId() {
+        // HTTPS / localhost: nativní UUID
+        if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+            return crypto.randomUUID();
+        }
+        // HTTP (včetně http://vscode/): getRandomValues je dostupné i mimo secure context
+        if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
+            const bytes = crypto.getRandomValues(new Uint8Array(16));
+            bytes[6] = (bytes[6] & 0x0f) | 0x40;
+            bytes[8] = (bytes[8] & 0x3f) | 0x80;
+            const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
+            return hex.slice(0, 8) + '-' + hex.slice(8, 12) + '-' + hex.slice(12, 16) + '-' + hex.slice(16, 20) + '-' + hex.slice(20);
+        }
+        // bez Web Crypto
+        return Date.now().toString(16) + '-' + Math.random().toString(16).slice(2, 15);
     };
     
 /////////////////////////////////////////
@@ -107,6 +131,12 @@ export const filePickerCallback = (callback, value, meta) => {
 // https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_handler
 
 export const redImageUploadHandler = (blobInfo, progress) => new Promise((resolve, reject) => {
+
+    const blob = blobInfo.blob();
+    const filename = blobInfo.filename();
+    console.log('blob=', blob);
+//        debugger;
+    
     const xhr = new XMLHttpRequest();
     xhr.withCredentials = false;  // should pass along credentials (such as cookies, authorization headers, or TLS client certificates) for cross-domain uploads
     xhr.open('POST', 'red/v1/upload/image');
@@ -118,39 +148,98 @@ export const redImageUploadHandler = (blobInfo, progress) => new Promise((resolv
     xhr.onload = () => {
         if (xhr.status < 200 || xhr.status >= 300) {
             reject({ message: 'HTTP Error: ' + xhr.status + '. ' + xhr.statusText, remove: true });  // remove:true - smaže img element z html
-            console.error('imageUploadHandler: failed upload - status: ' + xhr.status + ', message: ' + xhr.statusText);
+            console.error('fileuplad: failed upload - status: ' + xhr.status + ', message: ' + xhr.statusText + ' Filename: ' + filename);
             return;
         }
         try {
-            var json = JSON.parse(xhr.responseText);
+            const json = JSON.parse(xhr.responseText);
         } catch (e) {
-            reject('Image upload failed due to invalid returned JSON.');
+            reject('Image upload failed due to invalid returned JSON. Filename: ' + filename);
             return console.error('imageUploadHandler: ' + e);
         }
         if (!json || typeof json.location !== 'string') {
             reject('Invalid JSON: ' + xhr.responseText);
-            console.error('imageUploadHandler: failed upload - message: ' + xhr.responseText);
+            console.error('fileuplad: failed upload - message: ' + xhr.responseText + ' Filename: ' + filename);
             return;
         }
         resolve(json.location);
     };
+    
     xhr.onerror = () => {
-        reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
-        console.error('imageUploadHandler: failed upload - ' + xhr.status);
+        reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status + ' Filename: ' + filename);
+        console.error('fileuplad: failed upload - ' + xhr.status);
     };
 
-    const formData = new FormData();
-    formData.append('file', blobInfo.blob(), blobInfo.filename());  // blobinfo se vytváří v file_picker_callback_function
-    //    formData.append('file', blobInfo.blob(), fileName(blobInfo));
-    const editedElementId =  tinymce.activeEditor.id;
-    const editedElement =  tinymce.activeEditor.getElement();
+    // získání menu item id - z editovatelného elementu (element ke kterému je připojen tiny) - editor získávám hledání obrázku v html pro zadané blobInfo
+    // bezpečnější řešení - k uploadu dochází pro automatic_uploads: true (defaulně) vždy, když tiny najde neuploadovaný obrázek
+    // V případě, že z nějakého důvodu dříve upload selhal, obrázky jsou v html uloženy jako <img src="data:image/jpeg;base64,...">, po loadu stránky
+    // tiny takové nahradí za <img src="blob:http://apacheroot/..."> a všechny se pokusí automaticka odeslat - v tu chvíli editor není aktivní a nelze editovatelný element 
+    // podle aktivního editoru
+    // najdi IMG
+    const result = findImage(blobInfo);
+    // z IMG zjisti editor
+    const editor = result.editor;
+    const editedElementId = editor.id;
+    // z editoru zjisti odpovídající DOM element
+    const editedElement =  editor.getElement();
     const editedMenuItemId =  editedElement.getAttribute('data-red-menuitemid');
+
+
+    //    const editedElementId =  tinymce.activeEditor.id;
+    //    const editedElement =  tinymce.activeEditor.getElement();
+    //    const editedMenuItemId =  editedElement.getAttribute('data-red-menuitemid');
+    
     if(null === editedMenuItemId) {
         const msg = 'error image_upload_handler - element id ' + editedElementId + 'has no attribute data-red-menuitemid.';
-        console.warn('imageUploadHandler: ' + msg);
+        console.warn('fileuplad: ' + msg);
     } else {
+        const formData = new FormData();
+        formData.append('file', blobInfo.blob(), blobInfo.filename());  // blobinfo se vytváří v file_picker_callback_function
         formData.append('edited_item_id', editedMenuItemId);
+        xhr.send(formData);
     }
-    xhr.send(formData);
 });
 
+/**
+ * Hledá img podle blobInfo ve všech editorech zaregistrovaných tinymce.init(..), vrací objekt obsahující editor a img element nebo null.
+ * @param {type} blobInfo
+ * @returns {editor, img}
+ */
+function findImage(blobInfo) {
+    const blobUri = blobInfo.blobUri();
+
+    for (const editor of tinymce.get()) {   // tinymce.get() v Tiny verze 6 vrací pole editorů zaregistrovaných tinymce.init(..)
+        const body = editor.getBody();
+        if (!body) {
+            continue;
+        }
+        const img = body.querySelector(
+            `img[src="${CSS.escape(blobUri)}"]`
+        );
+        if (img) {
+            return {
+                editor,
+                img
+            };
+        }
+    }
+
+    return null;
+    
+//optimalizace - můžeš si při inicializaci editorů vytvořit mapu:
+//
+//const editorMap = new Map();
+//
+//for (const editor of tinymce.get()) {
+//    editorMap.set(editor.id, editor);
+//}    
+}
+
+function createUniqueName() {
+            const originalName = file.name.split('.').pop();  // split('.').pop - jméno souboru bez přípony
+            const id = image_unique_name(originalName);
+            const blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+            const base64 = reader.result.split(',')[1];  // reader.result konvertuje image na base64 string
+            const blobInfo = blobCache.create(id, file, base64);
+            blobCache.add(blobInfo);    
+}

@@ -12,22 +12,17 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 
-use Pes\Middleware\AppMiddlewareAbstract;
+use Pes\Application\Middleware\AppMiddlewareAbstract;
+use Pes\Http\Request;
+use Pes\Http\Helper\UriInfoInterface;
 
 use Application\WebAppFactory;
 use Site\ConfigurationCache;
 
-use Pes\Container\Container;
-use Container\DbUpgradeContainerConfigurator;
-use Container\RedModelContainerConfigurator;
-use Container\PresentationStatusComfigurator;
-
 use Status\Model\Entity\Presentation;
 use Status\Model\Repository\StatusPresentationRepo;
-use Red\Model\Repository\LanguageRepo;
 use Status\Model\Entity\PresentationInterface;
-use Red\Model\Entity\LanguageInterface;
-use Red\Model\Entity\EditorActions;
+use Status\Session\SessionUnlockPolicy;
 
 use UnexpectedValueException;
 
@@ -41,32 +36,40 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
     private $container;
     private $statusPresentationRepo;
     
+    /**
+     * {@inheritDoc}
+     * 
+     * @param ServerRequestInterface $request
+     * @param RequestHandlerInterface $handler
+     * @return ResponseInterface
+     */
+    #[\Override]
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-
-        //TODO: POST version
-        // možná není potřeba ukládat - nebude fungoba seeLastGet
-
-        $this->container = $this->getApp()->getAppContainer();
+        $container = $this->getApp()->getAppContainer();
+        /** @var SessionUnlockPolicy $unlockPolicy */
+        $unlockPolicy = $container->get(SessionUnlockPolicy::class);
         /** @var StatusPresentationRepo $statusPresentationRepo */
-        $this->statusPresentationRepo = $this->container->get(StatusPresentationRepo::class);
-        $statusPresentation = $this->statusPresentationRepo->get();
+        $statusPresentationRepo = $container->get(StatusPresentationRepo::class);
+        $statusPresentation = $statusPresentationRepo->get();
         if (!isset($statusPresentation)) {
             $statusPresentation = new Presentation();
-            $this->statusPresentationRepo->add($statusPresentation);
+            $statusPresentationRepo->add($statusPresentation);
         }
-        
         $this->setPresentationLanguage($statusPresentation, $request);
-        $this->setLastGetPath($statusPresentation, $request); 
+        $this->setLastGetPath($statusPresentation, $request, $unlockPolicy);
 
         if ($request->getMethod() == 'GET') {
-            $this->statusPresentationRepo->flush();   // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
+            $statusPresentationRepo->flush();   // uloží lang/lastGet; fragment flag se shodí (entita zůstane v paměti)
         }
-        
-        ###
+
         $response = $handler->handle($request);
-        ###
-        
-//        $this->statusPresentationRepo->flush();   // uloží data a pokud je poslední status middleware ve stacku zavře session (session_write_close)
+
+        // Po UnlockStatus::reopen() (flash / presenteddriver) zapsat in-memory změny (např. menuItem).
+        // U ostatních cascade GET (finish bez reopen) přeskočit — session je closed.
+        if (!$statusPresentationRepo->isFinished()) {
+            $statusPresentationRepo->flush();
+        }
+
         return $response;
     }
 
@@ -79,36 +82,30 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         // jazyk prezentace
         if (is_null($statusPresentation->getLanguageCode())) {
             $langCode = $this->getRequestedLangCode($request);
-            /** @var LanguageRepo $lanuageRepo */
-//            $lanuageRepo = $this->container->get(LanguageRepo::class);
-//            $language = $lanuageRepo->get($langCode);
             $statusPresentation->setRequestedLangCode($langCode);
             $statusPresentation->setLanguageCode($langCode);
-//            $statusPresentation->setLanguage($language);
         }
     }
 
     /**
-     * Pro GET request uloží uri do StatusPresentation. 
-     * - Neukládá uri pokud request obsahuje hlavičku "X-Cascade", to je využito při kaskádním načítání, 
-     *   kdy se neuládají adresy GET requestů, kterými jsou načítány vložené komponenty stránky. 
-     * 
+     * Pro GET request uloží uri do StatusPresentation.
+     * Cascade fragmenty se neukládají — viz SessionUnlockPolicy::shouldRecordLastGet().
+     *
      * Poznámka: Použito pro přesměrování redirectLastGet a pro Transform!
-     * 
-     * @param type $statusPresentation
-     * @param type $request
      */
-    private function setLastGetPath(PresentationInterface $statusPresentation, ServerRequestInterface $request) {
-        if ($request->getMethod()=='GET') {
-            if (!$request->hasHeader("X-Cascade")) {
-                $statusPresentation->setLastGetResourcePath($this->getRestUri($request));
-            }
+    private function setLastGetPath(
+        PresentationInterface $statusPresentation,
+        ServerRequestInterface $request,
+        SessionUnlockPolicy $unlockPolicy
+    ): void {
+        if ($unlockPolicy->shouldRecordLastGet($request)) {
+            $statusPresentation->setLastGetResourcePath($this->getRestUri($request));
         }
     }
     
     private function getRestUri(ServerRequestInterface $request) {
         /** @var UriInfoInterface $uriInfo */
-        $uriInfo = $request->getAttribute(WebAppFactory::URI_INFO_ATTRIBUTE_NAME);
+        $uriInfo = $request->getAttribute(Request::URI_INFO_ATTRIBUTE_NAME);
         return $uriInfo->getRestUri();    
     }
     

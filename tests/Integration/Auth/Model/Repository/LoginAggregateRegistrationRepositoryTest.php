@@ -9,7 +9,7 @@ use Pes\Container\Container;
 use Container\AuthContainerConfigurator;
 use Container\AuthDbContainerConfigurator;
 
-use Model\RowData\RowData;
+use Pes\Model\RowData\RowData;
 
 use Auth\Model\Dao\LoginDao;
 use Auth\Model\Dao\RegistrationDao;

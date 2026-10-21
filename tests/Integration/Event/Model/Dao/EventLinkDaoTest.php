@@ -12,8 +12,8 @@ use Test\Integration\Event\Container\TestDbEventsContainerConfigurator;
 use Events\Model\Dao\EventLinkDao;
 use Events\Model\Dao\EventLinkPhaseDao;
 
-use Model\RowData\RowData;
-use Model\RowData\RowDataInterface;
+use Pes\Model\RowData\RowData;
+use Pes\Model\RowData\RowDataInterface;
 use Events\Model\Dao\EventDao;
 
 /**

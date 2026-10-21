@@ -12,7 +12,7 @@ use Red\Service\ItemCreator\Exception;
 
 use Red\Model\Repository\MenuItemApiRepo;
 use Red\Service\ItemCreator\Enum\ItemApiGeneratorEnum;
-use Pes\Type\Exception\ValueNotInEnumException;
+use Pes\Core\Type\Exception\ValueNotInEnumException;
 
 /**
  * Description of ContentGeneratorFactory

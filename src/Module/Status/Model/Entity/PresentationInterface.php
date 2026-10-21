@@ -8,15 +8,10 @@
 
 namespace Status\Model\Entity;
 
-use Model\Entity\PersistableEntityInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
 
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\StaticItemInterface;
-
-use Red\Model\Entity\LanguageInterface;
-use Red\Model\Entity\ItemActionInterface;
-
-use Status\Model\Entity\PresentationInterface;
 
 /**
  *
@@ -29,13 +24,13 @@ interface PresentationInterface extends PersistableEntityInterface {
      * @param type $lastResourcePath
      * @return $this
      */
-    public function setLastGetResourcePath($lastResourcePath): PresentationInterface;
+    public function setLastGetResourcePath(string $lastResourcePath): PresentationInterface;
 
     /**
      *
      * @return string
      */
-    public function getLastGetResourcePath();
+    public function getLastGetResourcePath(): ?string;
 
     /**
      *
@@ -46,21 +41,21 @@ interface PresentationInterface extends PersistableEntityInterface {
     /**
      * @return string
      */
-    public function getRequestedLangCode();
+    public function getRequestedLangCode(): ?string;
     
     /**
      *
      * @param string $languageCode
      * @return PresentationInterface
      */
-    public function setLanguageCode($languageCode): PresentationInterface;
+    public function setLanguageCode(string $languageCode): PresentationInterface;
 
     /**
      *
      * @param string $requestedLangCode
      * @return PresentationInterface
      */
-    public function setRequestedLangCode($requestedLangCode): PresentationInterface;
+    public function setRequestedLangCode(string $requestedLangCode): PresentationInterface;
 
     /**
      *
@@ -85,12 +80,12 @@ interface PresentationInterface extends PersistableEntityInterface {
      * 
      * @param StaticItemInterface $staticItem
      */
-    public function setStaticItem(StaticItemInterface $staticItem=null): PresentationInterface;
+    public function setStaticItem(?StaticItemInterface $staticItem=null): PresentationInterface;
     
     /**
      * Jméno poslední template zobrazené v náhledu template
      */
-    public function getLastTemplateName();
+    public function getLastTemplateName(): ?string;
 
     /**
      * Jméno poslední template zobrazené v náhledu template
@@ -98,7 +93,7 @@ interface PresentationInterface extends PersistableEntityInterface {
      * @param type $templateName
      * @return PresentationInterface
      */
-    public function setLastTemplateName($templateName): PresentationInterface;
+    public function setLastTemplateName(string $templateName): PresentationInterface;
 
     
     public function setInfo($name, $value);

@@ -1,14 +1,14 @@
 <?php
 namespace Red\Model\Repository\Association;
 
-//use Model\Repository\Association\AssociationWithJoinOneToOneAbstract;
-use Model\Repository\Association\AssociationOneToOneAbstract;
-use Model\Repository\Association\AssociationOneToOneInterface;
+//use Pes\Model\Repository\Association\AssociationWithJoinOneToOneAbstract;
+use Pes\Model\Repository\Association\AssociationOneToOneAbstract;
+use Pes\Model\Repository\Association\AssociationOneToOneInterface;
 
 
 use Red\Model\Entity\MenuItemAggregatePaper;
-use Model\Entity\PersistableEntityInterface;
-use Model\RowData\RowDataInterface;
+use Pes\Model\Entity\PersistableEntityInterface;
+use Pes\Model\RowData\RowDataInterface;
 
 use Red\Model\Dao\PaperDao;
 

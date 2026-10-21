@@ -12,10 +12,11 @@ use Events\Model\Repository\NetworkRepoInterface;
 use Events\Model\Repository\CompanytoNetworkRepoInterface;
 use Events\Model\Entity\CompanytoNetworkInterface;
 use Events\Model\Entity\NetworkInterface;
-use Model\Entity\EntityInterface;
+use Pes\Model\Entity\EntityInterface;
 
 use Exception;
 use TypeError;
+use ArrayIterator;
 
 /**
  * Description of RepresentativeActionViewModel
@@ -83,7 +84,7 @@ class NetworkViewModel extends ViewModelItemAbstract implements FamilyInterface 
         $this->companyToNetwork = $this->companyToNetworkRepo->get($this->getFamilyRouteSegment()->getParentId(), $this->network->getId());
     }
     
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
         $this->loadNetwork();
         $componentRouteSegment = 'events/v1/network';   //TODO: getRouteSegment() do abstractu - obdobně jako ve ViewModelFamilyAbstract
 

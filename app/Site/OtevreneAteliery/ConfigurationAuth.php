@@ -10,6 +10,7 @@ namespace Site\OtevreneAteliery;
 
 use Access\Enum\RoleEnum;
 
+use Pes\Database\Handler\DbTypeEnum;
 use Pes\Logger\FileLogger;
 
 /**
@@ -45,6 +46,60 @@ class ConfigurationAuth extends ConfigurationConstants {
                 'roleVisitor' => RoleEnum::VISITOR,
                 'roleRepresentative' => RoleEnum::REPRESENTATIVE,
                 'roleEventsAdministrator' => RoleEnum::EVENTS_ADMINISTRATOR,
+        ];
+    }
+
+    /**
+     * Konfigurace kontejneru - vrací parametry pro DbOldContainerConfigurator
+     * @return array
+     */
+    public static function dbOld() {
+        return [
+            #################################
+            # Konfigurace připojení k databázi starého redakčního systému
+            #
+            # Konfigurována jsou dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
+            #
+            'auth.db.type' => DbTypeEnum::MySQL,
+            'auth.db.port' => '3306',
+            'auth.db.charset' => 'utf8',
+            'auth.db.collation' => 'utf8_general_ci',
+            'auth.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : '127.0.0.1' ,   // 'localhost' zbytečně překládá jméno,
+            'auth.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneatelierycz01' : 'single_login',  // 'revoluceorg04' : 'single_login',
+            #
+            ###################################
+            # Konfigurace logu databáze
+            #
+            'auth.logs.directory' => 'Logs/Auth',
+            'auth.logs.db.file' => 'Database.log',
+            'auth.logs.db.type' => FileLogger::FILE_PER_DAY,
+            #
+            ###################################
+        ];
+    }
+
+    /**
+     * Konfigurace kontejneru - vrací parametry pro LoginContainerConfigurator
+     * @return array
+     */
+    public static function login() {
+        return  [
+            #################################
+            # Sekce konfigurace uživatele databáze
+            #
+            # - konfigurováni dva uživatelé - jeden pro vývoj a druhý pro běh na produkčním stroji
+            # - uživatelé musí mít právo select k databázi s tabulkou uživatelských oprávnění
+            # MySQL 5.6: délka jména max 16 znaků
+
+            'auth.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneateli002' : 'single_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
+            'auth.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'otevreneateli002' : 'single_login',
+
+            'auth.logs.database.directory' => 'Logs/Auth',
+            'auth.logs.database.file' => 'Database.log',
+            'auth.logs.database.type' => FileLogger::FILE_PER_DAY
+            #
+            ###################################
+
         ];
     }
 }

@@ -2,8 +2,8 @@
 namespace Events\Model\Dao;
 
 
-use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoEditKeyDbVerifiedInterface;
+use Pes\Model\Dao\DaoEditAbstract;
+use Pes\Model\Dao\DaoEditKeyDbVerifiedInterface;
 
 
 /**
@@ -18,7 +18,11 @@ class LoginDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInterface 
     }
 
     public function getAttributes(): array {
-        return ['login_name'];
+        return ['login_name',
+                'deleted_due_to_auth',
+                'created',
+                'updated'
+            ];
     }
 
     public function getTableName(): string {

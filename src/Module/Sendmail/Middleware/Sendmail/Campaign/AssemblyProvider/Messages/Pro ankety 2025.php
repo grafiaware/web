@@ -1,5 +1,5 @@
 <?php
-use Pes\Text\Text;
+use Pes\Core\Text\Text;
 ?>
 <!DOCTYPE html>
 <html lang="cs">

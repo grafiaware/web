@@ -19,7 +19,7 @@ use Red\Model\Dao\MenuItemAssetDao;
 use Red\Model\Repository\MenuItemAssetRepo;
 
 use Red\Model\Entity\MenuItemAsset;
-use Model\RowData\RowData;
+use Pes\Model\RowData\RowData;
 
 /**
  *

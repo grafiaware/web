@@ -13,7 +13,7 @@ use Auth\Model\Entity\Registration;
 use Auth\Model\Dao\LoginDao;
 use Auth\Model\Dao\RegistrationDao;
 use Auth\Model\Repository\RegistrationRepo;
-use Model\RowData\RowData;
+use Pes\Model\RowData\RowData;
 
 /**
  *

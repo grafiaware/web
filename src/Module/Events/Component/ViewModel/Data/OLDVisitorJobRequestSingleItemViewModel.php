@@ -19,7 +19,7 @@ use Events\Model\Entity\VisitorJobRequestInterface;
 use Events\Model\Entity\DocumentInterface;
 
 use Events\Middleware\Events\Controler\VisitorProfileControler;
-use Model\Entity\EntityInterface;
+use Pes\Model\Entity\EntityInterface;
 
 use Access\Enum\RoleEnum;
 use ArrayIterator;

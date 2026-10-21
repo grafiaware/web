@@ -1,0 +1,16 @@
+---
+description: Commit shared .vscode (skip if User Rules already cover this)
+alwaysApply: true
+---
+
+# Shared `.vscode` in git
+
+**Precedence:** If the developer's Cursor **User Rules** already define a policy for committing `.vscode`, follow those User Rules and **do not apply** this project rule.
+
+Otherwise:
+
+- When committing, **include** shared `.vscode/` files useful for the team: `launch.json`, `extensions.json`, optionally `tasks.json`.
+- Do **not** commit personal preferences (`settings.json` with theme/font/editor cosmetics) or Cursor-only experimental workspace state.
+- Avoid absolute machine paths and secrets in committed IDE config.
+- If a thin team `.vscode` is missing and the repo would benefit, offer to add it.
+- On commit-and-push, do **not** treat shared `.vscode` as “unrelated” and skip it when it is in the working tree.

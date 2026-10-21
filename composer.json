@@ -9,31 +9,51 @@
             "email": "svoboda@grafia.cz"
         }
     ],
-    "version": "0.6",
+    "version": "8.0",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
-        "pes/pes": "dev-master",
+        "php": "^8.4",
+        "pes/pes": "^8.27",
         "phpmailer/phpmailer": "^6.2",
-        "endroid/qr-code": "^3.9.0",
-        "phpunit/phpunit": "^9.5"
+        "endroid/qr-code": "^6.1.0",
+        "khanamiryan/qrcode-detector-decoder": "^2.0.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.5",
+        "friendsofphp/php-cs-fixer": "^3.9.0",
+        "phpstan/phpstan": "^2.1"
     },
     "autoload": {
         "psr-4": {
             "Site\\": "app/Site",
+            "Access\\": "src/Access",
+            "Application\\": "src/Application",
+            "Component\\": "src/Component",
+            "Configuration\\": "src/Configuration",
+            "Container\\": "src/Container",
+            "FrontControler\\": "src/FrontControler",
+            "Mail\\": "src/Mail",
+            "Replace\\": "src/Replace",
+            "StaticRegistry\\": "src/StaticRegistry",
+            "Template\\": "src/Template",
+            "View\\": "src/View",
+            
             "Auth\\": "src/Module/Auth",
             "Build\\": "src/Module/Build",
+            "Consent\\": "src/Module/Consent",
+            "Events\\": "src/Module/Events",
             "Firewall\\": "src/Module/Firewall",
+            "Ping\\": "src/Module/Ping",
             "Red\\": "src/Module/Red",
-            "Web\\": "src/Module/Web",
-            "Transformator\\": "src/Module/Transformator",
-            "Status\\": "src/Module/Status",
             "RequestLogger\\": "src/Module/RequestLogger",
             "ResponseTime\\": "src/Module/ResponseTime",
-            "Events\\": "src/Module/Events",
             "Sendmail\\": "src/Module/Sendmail",
-            "Ping\\": "src/Module/Ping",
-            "Consent\\": "src/Module/Consent",
-            "Test\\": "tests",
-            "" : "src"
+            "Status\\": "src/Module/Status",
+            "Transformator\\": "src/Module/Transformator",
+            "Web\\": "src/Module/Web",
+
+            "Test\\": "tests"
         }
     }
 }

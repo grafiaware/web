@@ -2,8 +2,8 @@
 
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoEditInterface;
-use Model\Dao\DaoReferenceNonuniqueInterface;
+use Pes\Model\Dao\DaoEditInterface;
+use Pes\Model\Dao\DaoReferenceNonuniqueInterface;
 
 /**
  *

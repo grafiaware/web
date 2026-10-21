@@ -19,7 +19,7 @@ use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
 use Red\Model\Repository\PaperSectionRepoInterface;
 use Red\Model\Entity\PaperSectionInterface;
 
-use Model\Context\ContextProviderInterface;
+use Pes\Model\Context\ContextProviderInterface;
 
 
 /**

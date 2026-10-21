@@ -66,7 +66,7 @@ class JobFamilyJobRequestListViewModel extends ViewModelFamilyListAbstract {
      * 
      * @return ArrayIterator
      */
-    public function getIterator() {
+    public function getIterator(): ArrayIterator {
 
         $array = [         
             'listHeadline'=>'Zájemci o pozici', 

@@ -3,7 +3,7 @@
 
 namespace Auth\Model\Entity;
 
-use Model\Entity\PersistableEntityAbstract;
+use Pes\Model\Entity\PersistableEntityAbstract;
 
 /**
  * Description of LoginAggregateCredentials
@@ -46,7 +46,7 @@ class LoginAggregateFull extends Login implements LoginAggregateFullInterface {
      * @param RegistrationInterface $registration
      * @return void
      */
-    public function setRegistration(RegistrationInterface $registration=null): void {
+    public function setRegistration(?RegistrationInterface $registration=null): void {
         $this->registration = $registration;
     }
 
@@ -55,7 +55,7 @@ class LoginAggregateFull extends Login implements LoginAggregateFullInterface {
      * @param CredentialsInterface $credentials
      * @return void
      */
-    public function setCredentials(CredentialsInterface $credentials = null): void {
+    public function setCredentials(?CredentialsInterface $credentials = null): void {
         $this->credentials = $credentials;
     }
 }

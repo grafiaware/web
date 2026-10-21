@@ -4,8 +4,8 @@ use Site\ConfigurationCache;
 
 use Events\Middleware\Events\Controler\EventControler_2;
 
-use Pes\Text\Text;
-use Pes\Text\Html;
+use Pes\Core\Text\Text;
+use Pes\Core\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
 
