@@ -127,6 +127,10 @@ class ConfigurationBuild {
             'build.config.convert.home' => [
                 'home', 's00',        // titulní stránka s00 (změněná a0) je home page
             ],
+            
+            'build.config.make.home' => [
+                'home', 'root',        
+            ],
 
             'build.config.convert.final' => [
                 ],

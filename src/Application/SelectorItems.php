@@ -140,6 +140,8 @@ class SelectorItems {
             function () {
                 return [
                     new SecurityStatus(),
+                    new FlashStatus(),
+                    new PresentationStatus(),
                     new Firewall(new HasRole($this->app, RoleEnum::SUPERVISOR)),
                     new UnlockStatus(),
                     new Sendmail(),
@@ -149,6 +151,8 @@ class SelectorItems {
             function () {
                 return [
                     new SecurityStatus(),
+                    new FlashStatus(),
+                    new PresentationStatus(),
                     new Firewall(new HasRole($this->app, RoleEnum::SUPERVISOR)),
                     new UnlockStatus(),
                     new Build(),
@@ -157,6 +161,7 @@ class SelectorItems {
             '/consent' =>
             function () {
                 return [
+                    new PresentationStatus(),      // consent je první request - musí vzniknout status
                     new ConsentLogger(),
                 ];
             },
