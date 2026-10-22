@@ -32,5 +32,5 @@ class ConfigurationConstants {
     const WEB_BOOTSTRAP_LOGS = '/_www_na_logs/';
 
     // production host
-    const WEB_BOOTSTRAP_PRODUCTION_HOST =  'green';//'nirvana'; 
+    const WEB_BOOTSTRAP_PRODUCTION_HOST =  'replikant2871'; //'green';//'nirvana'; 
 }
