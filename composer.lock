@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3de76d27240d891f01b4cb9968214ffa",
+    "content-hash": "d2ac6d9909bd793216bc65a1a626b7fd",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -240,85 +240,6 @@
                 "source": "https://github.com/khanamiryan/php-qrcode-detector-decoder/tree/2.0.3"
             },
             "time": "2025-06-10T08:44:02+00:00"
-        },
-        {
-            "name": "pes/pes",
-            "version": "v8.27.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/box4pes/pes.git",
-                "reference": "fa868eb05455ae20ac795c2457086e9f6a70abb1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/fa868eb05455ae20ac795c2457086e9f6a70abb1",
-                "reference": "fa868eb05455ae20ac795c2457086e9f6a70abb1",
-                "shasum": ""
-            },
-            "require": {
-                "pes/pes-application": "^8.27",
-                "pes/pes-bootstrap": "^8.27",
-                "pes/pes-core": "^8.27",
-                "pes/pes-database": "^8.27",
-                "pes/pes-di": "^8.27",
-                "pes/pes-http": "^8.27",
-                "pes/pes-logger": "^8.27",
-                "pes/pes-mail": "^8.27",
-                "pes/pes-model": "^8.27",
-                "pes/pes-router": "^8.27",
-                "pes/pes-session": "^8.27",
-                "pes/pes-view": "^8.27",
-                "php": "<8.5.0",
-                "psr/container": "^2.0",
-                "psr/http-factory": "^1.0",
-                "psr/http-message": "^2.0",
-                "psr/http-server-handler": "^1.0",
-                "psr/http-server-middleware": "^1.0",
-                "psr/log": "^3.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.93",
-                "phpunit/phpunit": "^12.5"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-split": "8.27.x-dev",
-                    "dev-master": "8.27.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Pes\\Acl\\": "src/Acl/",
-                    "Pes\\Config\\": "src/Config/",
-                    "Pes\\Entity\\": "src/Entity/",
-                    "Pes\\Readers\\": "src/Readers/",
-                    "Pes\\Storage\\": "src/Storage/",
-                    "Pes\\Autoloader\\": "src/Autoloader/",
-                    "Pes\\Repository\\": "src/Repository/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Petr Svoboda",
-                    "email": "pesbox@email.cz"
-                }
-            ],
-            "description": "Psí framework pro PHP 8.4.",
-            "keywords": [
-                "framework",
-                "pes",
-                "php"
-            ],
-            "support": {
-                "issues": "https://github.com/box4pes/pes/issues",
-                "source": "https://github.com/box4pes/pes"
-            },
-            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-application",

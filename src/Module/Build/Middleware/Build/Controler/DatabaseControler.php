@@ -200,10 +200,17 @@ class DatabaseControler extends BuildControlerAbstract {
     private function makeAndConvert($mark) {
 
         $this->manipulator = $this->container->get('manipulator_for_convert');
-             
+
+        if ($mark == 'make') {
         $p_0_createStrankyInnoDbcopy_stranky = function() { // convert  // kopie tabulky stranky do stranky typu InnoDb INNODB
                 $this->executeTransactionFromFile("makeAndConvert/page0_createStrankyInnoDb&copy_stranky.sql");
-        };          
+        }; }
+
+        if ($mark == 'convert') {
+        $p_0_createStrankyInnoDbcopy_stranky = function() { // convert  // kopie tabulky stranky do stranky typu InnoDb INNODB
+                $this->executeSequenceFromTemplate("makeAndConvert/page0_createStrankyInnoDb&copy_stranky.sql");
+        }; }
+        //---------------------
         $p_0_createStrankyInnoDb = function() { // make
                 $this->executeSequenceFromTemplate("makeAndConvert/page0_createStrankyInnoDb.sql");
         };  
@@ -437,6 +444,11 @@ class DatabaseControler extends BuildControlerAbstract {
                 $homeList = $this->container->get('build.config.convert.home');
                 $this->executeTransactionFromTemplate("makeAndConvert/page5_2_insertHomeIntoBlockTable.sql", [ 'home_name'=>$homeList[0], 'home_list'=>$homeList[1]]);
         };
+        
+        $p_5_2_insertHomeIntoBlockTable_make = function() {  
+                $homeList = $this->container->get('build.config.make.home');
+                $this->executeTransactionFromTemplate("makeAndConvert/page5_2_insertHomeIntoBlockTable.sql", [ 'home_name'=>$homeList[0], 'home_list'=>$homeList[1]]);
+        };
         $p_5_3_insertIntoBlockTable =  function() {  // convert
                 $fileName = "makeAndConvert/page5_3_insertIntoBlockTable.sql";
                 $this->executeTransactionFromFile($fileName);
@@ -508,7 +520,8 @@ class DatabaseControler extends BuildControlerAbstract {
                 $conversionSteps[] = $p_3_6_updateIntoMenuItemFromStranky;                
                 $conversionSteps[] = $p_3_7_updateMenuItemTypesAndActive;
                 
-                $conversionSteps[] = $p_5_1_insertIntoMenuRootTable;               
+                $conversionSteps[] = $p_5_1_insertIntoMenuRootTable;      
+                $conversionSteps[] = $p_5_2_insertHomeIntoBlockTable_make;
                 $conversionSteps[] = $p_5_3_insertIntoBlockTable;
                 
                 $conversionSteps[] = $p_6_createHierarchy_view;                       
