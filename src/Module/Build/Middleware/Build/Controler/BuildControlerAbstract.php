@@ -4,7 +4,7 @@ namespace Build\Middleware\Build\Controler;
 use FrontControler\FrontControlerAbstract;
 
 use Build\Middleware\Build\Exception\{
-    BuildExceptionInterface, SqlExecutionStepFailedException, MaxExecutionTimeException
+    SqlExecutionStepFailedException, MaxExecutionTimeException
 };
 
 use Psr\Container\ContainerInterface;
@@ -61,12 +61,25 @@ class BuildControlerAbstract  extends FrontControlerAbstract  implements BuildCo
                 $step();
                 $this->reportMessage[] = "Vykonán krok. ".$this->timer->interval();
             }
-        } catch (BuildExceptionInterface $ke) {
-            throw $ke;
+        } catch (\Throwable $e) {
+            // Nepropouštět výjimku dál — report (včetně chybových zpráv ze stepů) se má vypsat přes createResponseFromReport().
+            $this->appendExceptionToReport($e);
         }
 
         $this->reportMessage[] = '<pre>Celkový čas: '.$this->timer->runtime().'</pre>';
 
+    }
+
+    /**
+     * Zapíše výjimku (a řetězec příčin) do reportu, aby bylo možné report vypsat i při chybě.
+     */
+    protected function appendExceptionToReport(\Throwable $e): void {
+        $this->reportMessage[] = "Výjimka: ".$e->getMessage();
+        $previous = $e->getPrevious();
+        while ($previous instanceof \Throwable) {
+            $this->reportMessage[] = "Příčina: ".$previous->getMessage();
+            $previous = $previous->getPrevious();
+        }
     }
     protected function createResponseFromReport() {
         return $this->createHtmlReportResponse($this->createReport());

@@ -48,9 +48,6 @@ use Red\Model\HierarchyHooks\MenuListStyles;
 use Build\Middleware\Build\Controler\ControlPanelControler;
 use Build\Middleware\Build\Controler\DatabaseControler;
 
-// Access
-use Access\AccessPresentation;
-
 // repo
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 
@@ -112,15 +109,15 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                         ]
                         );
                     },
-//                'build.config.convert' => function(ContainerInterface $c) {
-//                    return [
-//                        'copy' =>  ConfigurationCache::build()['build.config.convert.copy'] ?? [], 
-//                        'repairs' => ConfigurationCache::build()['build.config.convert.repairs'] ?? [],
-//                        'final' => ConfigurationCache::build()['build.config.convert.final'] ?? [],                        
-//                        'updatestranky' =>  ConfigurationCache::build()['build.config.convert.updatestranky'],
-//                        'home' =>  ConfigurationCache::build()['build.config.convert.home'],
-//                        ];
-//                    },
+                'build.config.convert' => function(ContainerInterface $c) {
+                    return [
+                        'copy' =>  ConfigurationCache::build()['build.config.convert.copy'] ?? [], 
+                        'repairs' => ConfigurationCache::build()['build.config.convert.repairs'] ?? [],
+                        'final' => ConfigurationCache::build()['build.config.convert.final'] ?? [],                        
+                        'updatestranky' =>  ConfigurationCache::build()['build.config.convert.updatestranky'],
+                        'home' =>  ConfigurationCache::build()['build.config.convert.home'],
+                        ];
+                    },
                 ];
     }
 
@@ -232,15 +229,13 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new ControlPanelControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class),
-                        $c->get(AccessPresentation::class)))->injectContainer($c);
+                        $c->get(StatusPresentationRepo::class)))->injectContainer($c);
             },
             DatabaseControler::class => function(ContainerInterface $c) {
                 return (new DatabaseControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class),
-                        $c->get(AccessPresentation::class)))->injectContainer($c);
+                        $c->get(StatusPresentationRepo::class)))->injectContainer($c);
             },
         ];
     }

@@ -10,25 +10,11 @@
         }
     ],
     "version": "8.0",
-"repositories": [
-    { "type": "path", "url": "../pes/pes-application", "options": { "symlink": true } },
-    { "type": "path", "url": "../pes/pes-bootstrap", "options": { "symlink": true } },
-    { "type": "path", "url": "../pes/pes-core", "options": { "symlink": true } },
-    { "type": "path", "url": "../pes/pes-database", "options": { "symlink": true } },
-    { "type": "path", "url": "../pes/pes-di", "options": { "symlink": true } },
-    { "type": "path", "url": "../pes/pes-http", "options": { "symlink": true } },
-    { "type": "path", "url": "../pes/pes-logger", "options": { "symlink": true } },
-    { "type": "path", "url": "../pes/pes-router", "options": { "symlink": true } },
-    { "type": "path", "url": "../pes/pes-session", "options": { "symlink": true } },
-    { "type": "path", "url": "../pes/pes-view", "options": { "symlink": true } },
-    { "type": "path", "url": "../pes/pes-model", "options": { "symlink": true } },
-    { "type": "path", "url": "../pes/pes-mail", "options": { "symlink": true } }
-],    
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
         "php": "^8.4",
-        "pes/pes": "dev-split",
+        "pes/pes": "^8.27",
         "phpmailer/phpmailer": "^6.2",
         "endroid/qr-code": "^6.1.0",
         "khanamiryan/qrcode-detector-decoder": "^2.0.3"

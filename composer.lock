@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "514acd3f08aacdc12f46873473a047d6",
+    "content-hash": "3de76d27240d891f01b4cb9968214ffa",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -243,31 +243,31 @@
         },
         {
             "name": "pes/pes",
-            "version": "dev-split",
+            "version": "v8.27.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "69603aa15f589cee2cd0b44178c67e6f13d58c58"
+                "reference": "fa868eb05455ae20ac795c2457086e9f6a70abb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/69603aa15f589cee2cd0b44178c67e6f13d58c58",
-                "reference": "69603aa15f589cee2cd0b44178c67e6f13d58c58",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/fa868eb05455ae20ac795c2457086e9f6a70abb1",
+                "reference": "fa868eb05455ae20ac795c2457086e9f6a70abb1",
                 "shasum": ""
             },
             "require": {
-                "pes/pes-application": "@dev",
-                "pes/pes-bootstrap": "@dev",
-                "pes/pes-core": "@dev",
-                "pes/pes-database": "@dev",
-                "pes/pes-di": "@dev",
-                "pes/pes-http": "@dev",
-                "pes/pes-logger": "@dev",
-                "pes/pes-mail": "@dev",
-                "pes/pes-model": "@dev",
-                "pes/pes-router": "@dev",
-                "pes/pes-session": "@dev",
-                "pes/pes-view": "@dev",
+                "pes/pes-application": "^8.27",
+                "pes/pes-bootstrap": "^8.27",
+                "pes/pes-core": "^8.27",
+                "pes/pes-database": "^8.27",
+                "pes/pes-di": "^8.27",
+                "pes/pes-http": "^8.27",
+                "pes/pes-logger": "^8.27",
+                "pes/pes-mail": "^8.27",
+                "pes/pes-model": "^8.27",
+                "pes/pes-router": "^8.27",
+                "pes/pes-session": "^8.27",
+                "pes/pes-view": "^8.27",
                 "php": "<8.5.0",
                 "psr/container": "^2.0",
                 "psr/http-factory": "^1.0",
@@ -281,6 +281,12 @@
                 "phpunit/phpunit": "^12.5"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-split": "8.27.x-dev",
+                    "dev-master": "8.27.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Pes\\Acl\\": "src/Acl/",
@@ -299,32 +305,39 @@
             "authors": [
                 {
                     "name": "Petr Svoboda",
-                    "email": "svoboda@grafia.cz"
+                    "email": "pesbox@email.cz"
                 }
             ],
             "description": "Psí framework pro PHP 8.4.",
             "keywords": [
                 "framework",
-                "pes"
+                "pes",
+                "php"
             ],
             "support": {
                 "issues": "https://github.com/box4pes/pes/issues",
-                "source": "https://github.com/box4pes/pes/tree/split"
+                "source": "https://github.com/box4pes/pes"
             },
-            "time": "2026-10-06T15:39:06+00:00"
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-application",
-            "version": "dev-split",
+            "version": "v8.27.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/box4pes/pes-application.git",
+                "reference": "4dc4ad193d8ff9d7388212ae8de7bce02c1d3417"
+            },
             "dist": {
-                "type": "path",
-                "url": "../pes/pes-application",
-                "reference": "80f437b39e9eec4b53b969844d71a45f3a535af2"
+                "type": "zip",
+                "url": "https://api.github.com/repos/box4pes/pes-application/zipball/4dc4ad193d8ff9d7388212ae8de7bce02c1d3417",
+                "reference": "4dc4ad193d8ff9d7388212ae8de7bce02c1d3417",
+                "shasum": ""
             },
             "require": {
-                "pes/pes-di": "@dev",
-                "pes/pes-http": "@dev",
-                "pes/pes-session": "@dev",
+                "pes/pes-di": "^8.27",
+                "pes/pes-http": "^8.27",
+                "pes/pes-session": "^8.27",
                 "php": "<8.5.0",
                 "psr/container": "^2.0",
                 "psr/http-message": "^2.0",
@@ -333,194 +346,375 @@
                 "psr/log": "^3.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-split": "8.27.x-dev",
+                    "dev-master": "8.27.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Pes\\Application\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Petr Svoboda",
+                    "email": "pesbox@email.cz"
+                }
+            ],
             "description": "Application bootstrap, middleware, and HTTP app wiring for Pes.",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "keywords": [
+                "application",
+                "framework",
+                "middleware",
+                "pes"
+            ],
+            "support": {
+                "issues": "https://github.com/box4pes/pes-application/issues",
+                "source": "https://github.com/box4pes/pes-application"
+            },
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-bootstrap",
-            "version": "dev-split",
+            "version": "v8.27.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/box4pes/pes-bootstrap.git",
+                "reference": "c738c1bdd1788da7ac956f11371f045622fcfc91"
+            },
             "dist": {
-                "type": "path",
-                "url": "../pes/pes-bootstrap",
-                "reference": "005c971f12e5e04d20d8d12241b7935191fcb7a5"
+                "type": "zip",
+                "url": "https://api.github.com/repos/box4pes/pes-bootstrap/zipball/c738c1bdd1788da7ac956f11371f045622fcfc91",
+                "reference": "c738c1bdd1788da7ac956f11371f045622fcfc91",
+                "shasum": ""
             },
             "require": {
-                "pes/pes-logger": "@dev",
+                "pes/pes-logger": "^8.27",
                 "php": "<8.5.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-split": "8.27.x-dev",
+                    "dev-master": "8.27.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Pes\\Bootstrap\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Petr Svoboda",
+                    "email": "pesbox@email.cz"
+                }
+            ],
             "description": "Procedurální bootstrap skripty pro Pes (autoloader, prostředí, error handlery, logy).",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "keywords": [
+                "bootstrap",
+                "framework",
+                "pes"
+            ],
+            "support": {
+                "issues": "https://github.com/box4pes/pes-bootstrap/issues",
+                "source": "https://github.com/box4pes/pes-bootstrap"
+            },
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-core",
-            "version": "dev-split",
+            "version": "v8.27.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/box4pes/pes-core.git",
+                "reference": "c8229f883b7d7237d3d4d1c902c2b97382f017ed"
+            },
             "dist": {
-                "type": "path",
-                "url": "../pes/pes-core",
-                "reference": "519882fe903a09ba13a9aa4f81d3d00b2b2331a4"
+                "type": "zip",
+                "url": "https://api.github.com/repos/box4pes/pes-core/zipball/c8229f883b7d7237d3d4d1c902c2b97382f017ed",
+                "reference": "c8229f883b7d7237d3d4d1c902c2b97382f017ed",
+                "shasum": ""
             },
             "require": {
                 "php": "<8.5.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-split": "8.27.x-dev",
+                    "dev-master": "8.27.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Pes\\Core\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Petr Svoboda",
+                    "email": "pesbox@email.cz"
+                }
+            ],
             "description": "Core primitives for Pes (security, validation, collections, types, text).",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "keywords": [
+                "core",
+                "framework",
+                "pes"
+            ],
+            "support": {
+                "issues": "https://github.com/box4pes/pes-core/issues",
+                "source": "https://github.com/box4pes/pes-core"
+            },
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-database",
-            "version": "dev-split",
+            "version": "v8.27.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/box4pes/pes-database.git",
+                "reference": "1a4301a0eae1bc3f34c9436a263e401163708505"
+            },
             "dist": {
-                "type": "path",
-                "url": "../pes/pes-database",
-                "reference": "a691f1bf7730debb33531816c55e91af602746ee"
+                "type": "zip",
+                "url": "https://api.github.com/repos/box4pes/pes-database/zipball/1a4301a0eae1bc3f34c9436a263e401163708505",
+                "reference": "1a4301a0eae1bc3f34c9436a263e401163708505",
+                "shasum": ""
             },
             "require": {
-                "pes/pes-core": "@dev",
+                "pes/pes-core": "^8.27",
                 "php": "<8.5.0",
                 "psr/log": "^3.0"
             },
             "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Pes\\Database\\": "src/Database/",
-                    "Pes\\Query\\": "src/Query/"
+            "extra": {
+                "branch-alias": {
+                    "dev-split": "8.27.x-dev",
+                    "dev-master": "8.27.x-dev"
                 }
             },
+            "autoload": {
+                "psr-4": {
+                    "Pes\\Query\\": "src/Query/",
+                    "Pes\\Database\\": "src/Database/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Petr Svoboda",
+                    "email": "pesbox@email.cz"
+                }
+            ],
             "description": "Database access and query criteria for Pes.",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "keywords": [
+                "database",
+                "framework",
+                "pdo",
+                "pes"
+            ],
+            "support": {
+                "issues": "https://github.com/box4pes/pes-database/issues",
+                "source": "https://github.com/box4pes/pes-database"
+            },
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-di",
-            "version": "dev-split",
+            "version": "v8.27.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/box4pes/pes-di.git",
+                "reference": "cf9640b575ef140aaf21bbae32d11e82f35b7599"
+            },
             "dist": {
-                "type": "path",
-                "url": "../pes/pes-di",
-                "reference": "e786f53876709d8f5724ed68f32443dfad7781dd"
+                "type": "zip",
+                "url": "https://api.github.com/repos/box4pes/pes-di/zipball/cf9640b575ef140aaf21bbae32d11e82f35b7599",
+                "reference": "cf9640b575ef140aaf21bbae32d11e82f35b7599",
+                "shasum": ""
             },
             "require": {
                 "php": "<8.5.0",
                 "psr/container": "^2.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-split": "8.27.x-dev",
+                    "dev-master": "8.27.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Pes\\Container\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Petr Svoboda",
+                    "email": "pesbox@email.cz"
+                }
+            ],
             "description": "Dependency injection container for Pes (Pes\\Container).",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "keywords": [
+                "PSR-11",
+                "container",
+                "di",
+                "framework",
+                "pes"
+            ],
+            "support": {
+                "issues": "https://github.com/box4pes/pes-di/issues",
+                "source": "https://github.com/box4pes/pes-di"
+            },
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-http",
-            "version": "dev-split",
+            "version": "v8.27.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/box4pes/pes-http.git",
+                "reference": "a79106c76d7b6b4b0eb5247f3bdb1f0b1eaa6e21"
+            },
             "dist": {
-                "type": "path",
-                "url": "../pes/pes-http",
-                "reference": "7fccf9d893f7124089f9f715253dde4baac20dcf"
+                "type": "zip",
+                "url": "https://api.github.com/repos/box4pes/pes-http/zipball/a79106c76d7b6b4b0eb5247f3bdb1f0b1eaa6e21",
+                "reference": "a79106c76d7b6b4b0eb5247f3bdb1f0b1eaa6e21",
+                "shasum": ""
             },
             "require": {
-                "pes/pes-core": "@dev",
+                "pes/pes-core": "^8.27",
                 "php": "<8.5.0",
                 "psr/http-factory": "^1.0",
                 "psr/http-message": "^2.0",
                 "psr/log": "^3.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-split": "8.27.x-dev",
+                    "dev-master": "8.27.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Pes\\Http\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Petr Svoboda",
+                    "email": "pesbox@email.cz"
+                }
+            ],
             "description": "HTTP stack for Pes (PSR-7 environment, factories, cookies, URI helpers).",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "keywords": [
+                "framework",
+                "http",
+                "pes",
+                "psr-7"
+            ],
+            "support": {
+                "issues": "https://github.com/box4pes/pes-http/issues",
+                "source": "https://github.com/box4pes/pes-http"
+            },
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-logger",
-            "version": "dev-split",
+            "version": "v8.27.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/box4pes/pes-logger.git",
+                "reference": "89e35f580c75e9754915605119f7d3180bfae3c1"
+            },
             "dist": {
-                "type": "path",
-                "url": "../pes/pes-logger",
-                "reference": "421e2d8a29b65346a8c211e470cfd4a66e2c9d88"
+                "type": "zip",
+                "url": "https://api.github.com/repos/box4pes/pes-logger/zipball/89e35f580c75e9754915605119f7d3180bfae3c1",
+                "reference": "89e35f580c75e9754915605119f7d3180bfae3c1",
+                "shasum": ""
             },
             "require": {
-                "pes/pes-core": "@dev",
+                "pes/pes-core": "^8.27",
                 "php": "<8.5.0",
                 "psr/log": "^3.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-split": "8.27.x-dev",
+                    "dev-master": "8.27.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Pes\\Logger\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Petr Svoboda",
+                    "email": "pesbox@email.cz"
+                }
+            ],
             "description": "File and array loggers for Pes (extends PSR-3).",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "keywords": [
+                "framework",
+                "logger",
+                "pes",
+                "psr-3"
+            ],
+            "support": {
+                "issues": "https://github.com/box4pes/pes-logger/issues",
+                "source": "https://github.com/box4pes/pes-logger"
+            },
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-mail",
-            "version": "dev-split",
+            "version": "v8.27.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/box4pes/pes-mail.git",
+                "reference": "8bb17116daf9e57dae2b5c78d2c0e7bd948d8bdb"
+            },
             "dist": {
-                "type": "path",
-                "url": "../pes/pes-mail",
-                "reference": "07eecd12de6083efd6751d718a3a4c2efd27791d"
+                "type": "zip",
+                "url": "https://api.github.com/repos/box4pes/pes-mail/zipball/8bb17116daf9e57dae2b5c78d2c0e7bd948d8bdb",
+                "reference": "8bb17116daf9e57dae2b5c78d2c0e7bd948d8bdb",
+                "shasum": ""
             },
             "require": {
                 "php": "<8.5.0",
@@ -528,58 +722,112 @@
                 "psr/log": "^3.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-split": "8.27.x-dev",
+                    "dev-master": "8.27.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Pes\\Mail\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Petr Svoboda",
+                    "email": "pesbox@email.cz"
+                }
+            ],
             "description": "Mail sending layer for Pes (PHPMailer wrapper, assembly, SMTP configuration).",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "keywords": [
+                "framework",
+                "mail",
+                "pes",
+                "phpmailer"
+            ],
+            "support": {
+                "issues": "https://github.com/box4pes/pes-mail/issues",
+                "source": "https://github.com/box4pes/pes-mail"
+            },
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-model",
-            "version": "dev-split",
+            "version": "v8.27.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/box4pes/pes-model.git",
+                "reference": "545169ea7229abd070cac267c5c0f8322a7075ca"
+            },
             "dist": {
-                "type": "path",
-                "url": "../pes/pes-model",
-                "reference": "c123b8769d3b374fcc939359b628e401455783b2"
+                "type": "zip",
+                "url": "https://api.github.com/repos/box4pes/pes-model/zipball/545169ea7229abd070cac267c5c0f8322a7075ca",
+                "reference": "545169ea7229abd070cac267c5c0f8322a7075ca",
+                "shasum": ""
             },
             "require": {
-                "pes/pes-database": "@dev",
-                "pes/pes-session": "@dev",
+                "pes/pes-database": "^8.27",
+                "pes/pes-session": "^8.27",
                 "php": "<8.5.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-split": "8.27.x-dev",
+                    "dev-master": "8.27.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Pes\\Model\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Petr Svoboda",
+                    "email": "pesbox@email.cz"
+                }
+            ],
             "description": "Data model layer for Pes (DAO, repository, entity, hydrator, row data).",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "keywords": [
+                "dao",
+                "framework",
+                "model",
+                "pes",
+                "repository"
+            ],
+            "support": {
+                "issues": "https://github.com/box4pes/pes-model/issues",
+                "source": "https://github.com/box4pes/pes-model"
+            },
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-router",
-            "version": "dev-split",
+            "version": "v8.27.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/box4pes/pes-router.git",
+                "reference": "cc229355e190a324d768213b86b8a5b750d2f5fe"
+            },
             "dist": {
-                "type": "path",
-                "url": "../pes/pes-router",
-                "reference": "a59e358056818e83a1f02ac4f4f9cf098c1142cd"
+                "type": "zip",
+                "url": "https://api.github.com/repos/box4pes/pes-router/zipball/cc229355e190a324d768213b86b8a5b750d2f5fe",
+                "reference": "cc229355e190a324d768213b86b8a5b750d2f5fe",
+                "shasum": ""
             },
             "require": {
-                "pes/pes-core": "@dev",
+                "pes/pes-core": "^8.27",
+                "pes/pes-http": "^8.27",
                 "php": "<8.5.0",
                 "psr/http-message": "^2.0",
                 "psr/http-server-handler": "^1.0",
@@ -587,30 +835,56 @@
                 "psr/log": "^3.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-split": "8.27.x-dev",
+                    "dev-master": "8.27.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Pes\\Router\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Petr Svoboda",
+                    "email": "pesbox@email.cz"
+                }
+            ],
             "description": "HTTP routing for Pes.",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "keywords": [
+                "framework",
+                "pes",
+                "psr-15",
+                "router"
+            ],
+            "support": {
+                "issues": "https://github.com/box4pes/pes-router/issues",
+                "source": "https://github.com/box4pes/pes-router"
+            },
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-session",
-            "version": "dev-split",
+            "version": "v8.27.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/box4pes/pes-session.git",
+                "reference": "a2895d79b4ff12db9c6a3648df0fb670bd5eeafe"
+            },
             "dist": {
-                "type": "path",
-                "url": "../pes/pes-session",
-                "reference": "773458208e65a90fe772f9cf31e9907ecca186a8"
+                "type": "zip",
+                "url": "https://api.github.com/repos/box4pes/pes-session/zipball/a2895d79b4ff12db9c6a3648df0fb670bd5eeafe",
+                "reference": "a2895d79b4ff12db9c6a3648df0fb670bd5eeafe",
+                "shasum": ""
             },
             "require": {
-                "pes/pes-core": "@dev",
+                "pes/pes-core": "^8.27",
                 "php": "<8.5.0",
                 "psr/container": "^2.0",
                 "psr/log": "^3.0"
@@ -619,48 +893,93 @@
                 "ext-session": "Native PHP sessions"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-split": "8.27.x-dev",
+                    "dev-master": "8.27.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Pes\\Session\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Petr Svoboda",
+                    "email": "pesbox@email.cz"
+                }
+            ],
             "description": "PHP session handling for Pes (SessionStatusHandler, save handlers).",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "keywords": [
+                "framework",
+                "pes",
+                "session"
+            ],
+            "support": {
+                "issues": "https://github.com/box4pes/pes-session/issues",
+                "source": "https://github.com/box4pes/pes-session"
+            },
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "pes/pes-view",
-            "version": "dev-split",
+            "version": "v8.27.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/box4pes/pes-view.git",
+                "reference": "4ee6f8ba47aa91e834a624bd78afba37608c11e1"
+            },
             "dist": {
-                "type": "path",
-                "url": "../pes/pes-view",
-                "reference": "405937e6964376c70ea0aac6de1faa7628aad032"
+                "type": "zip",
+                "url": "https://api.github.com/repos/box4pes/pes-view/zipball/4ee6f8ba47aa91e834a624bd78afba37608c11e1",
+                "reference": "4ee6f8ba47aa91e834a624bd78afba37608c11e1",
+                "shasum": ""
             },
             "require": {
-                "pes/pes-core": "@dev",
+                "pes/pes-core": "^8.27",
                 "php": "<8.5.0",
                 "psr/container": "^2.0",
                 "psr/log": "^3.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-split": "8.27.x-dev",
+                    "dev-master": "8.27.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Pes\\View\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Petr Svoboda",
+                    "email": "pesbox@email.cz"
+                }
+            ],
             "description": "View layer for Pes (templates, renderers, DOM nodes).",
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "keywords": [
+                "framework",
+                "pes",
+                "template",
+                "view"
+            ],
+            "support": {
+                "issues": "https://github.com/box4pes/pes-view/issues",
+                "source": "https://github.com/box4pes/pes-view"
+            },
+            "time": "2026-10-20T14:42:47+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -1354,42 +1673,42 @@
         },
         {
             "name": "ergebnis/agent-detector",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ergebnis/agent-detector.git",
-                "reference": "e211f17928c8b95a51e06040792d57f5462fb271"
+                "reference": "0cd815cec1207873c37624d33f0f2853523152f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ergebnis/agent-detector/zipball/e211f17928c8b95a51e06040792d57f5462fb271",
-                "reference": "e211f17928c8b95a51e06040792d57f5462fb271",
+                "url": "https://api.github.com/repos/ergebnis/agent-detector/zipball/0cd815cec1207873c37624d33f0f2853523152f3",
+                "reference": "0cd815cec1207873c37624d33f0f2853523152f3",
                 "shasum": ""
             },
             "require": {
                 "php": "~7.4.0 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0 || ~8.6.0"
             },
             "require-dev": {
-                "ergebnis/composer-normalize": "^2.51.0",
-                "ergebnis/license": "^2.7.0",
+                "ergebnis/composer-normalize": "^2.54.0",
+                "ergebnis/license": "^2.8.0",
                 "ergebnis/php-cs-fixer-config": "^6.60.2",
-                "ergebnis/phpstan-rules": "^2.13.1",
-                "ergebnis/phpunit-slow-test-detector": "^2.24.0",
-                "ergebnis/rector-rules": "^1.18.1",
+                "ergebnis/phpstan-rules": "^2.14.0",
+                "ergebnis/phpunit-slow-test-detector": "^2.26.0",
+                "ergebnis/rector-rules": "^1.18.5",
                 "fakerphp/faker": "^1.24.1",
                 "infection/infection": "^0.26.6",
                 "phpstan/extension-installer": "^1.4.3",
-                "phpstan/phpstan": "^2.1.54",
-                "phpstan/phpstan-deprecation-rules": "^2.0.4",
-                "phpstan/phpstan-phpunit": "^2.0.16",
-                "phpstan/phpstan-strict-rules": "^2.0.10",
+                "phpstan/phpstan": "^2.2.14",
+                "phpstan/phpstan-deprecation-rules": "^2.0.5",
+                "phpstan/phpstan-phpunit": "^2.1.1",
+                "phpstan/phpstan-strict-rules": "^2.1.0",
                 "phpunit/phpunit": "^9.6.34",
-                "rector/rector": "^2.4.2"
+                "rector/rector": "^2.7.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.2-dev"
+                    "dev-main": "1.3-dev"
                 },
                 "composer-normalize": {
                     "indent-size": 2,
@@ -1419,7 +1738,7 @@
                 "security": "https://github.com/ergebnis/agent-detector/blob/main/.github/SECURITY.md",
                 "source": "https://github.com/ergebnis/agent-detector"
             },
-            "time": "2026-05-07T08:19:07+00:00"
+            "time": "2026-10-15T11:13:32+00:00"
         },
         {
             "name": "evenement/evenement",
@@ -2292,16 +2611,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "12.5.38",
+            "version": "12.5.40",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "1e87ad87fe57665a7f6e99a6e467329c11e851cc"
+                "reference": "76bd3198f16aeb375a4d5f3626471445aed0966e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1e87ad87fe57665a7f6e99a6e467329c11e851cc",
-                "reference": "1e87ad87fe57665a7f6e99a6e467329c11e851cc",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/76bd3198f16aeb375a4d5f3626471445aed0966e",
+                "reference": "76bd3198f16aeb375a4d5f3626471445aed0966e",
                 "shasum": ""
             },
             "require": {
@@ -2370,7 +2689,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.38"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.40"
             },
             "funding": [
                 {
@@ -2378,7 +2697,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-10-05T05:49:30+00:00"
+            "time": "2026-10-16T05:55:07+00:00"
         },
         {
             "name": "psr/event-dispatcher",
@@ -5416,9 +5735,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "pes/pes": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

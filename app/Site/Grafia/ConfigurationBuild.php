@@ -125,7 +125,7 @@ class ConfigurationBuild {
                 'a'=>'blocks'
             ],
             'build.config.convert.home' => [
-                'home', 's00',        // titulní stránka s00 (změněná a0) je home page
+                'home', 'root',        // titulní stránka s00 (změněná a0) je home page
             ],
 
             'build.config.convert.final' => [
