@@ -5,7 +5,8 @@ zvlášť pro projekt **Veletrh práce (VP)** popsaný v [`docs/vp/`](docs/vp/RE
 
 ## Projekt v kostce
 
-- Vlastní PHP framework **PES** (balíky `pes/*`, v `composer.json` jako path repozitáře `../pes/pes-*`), PHP 8.4.
+- Vlastní PHP framework **PES**: 12 balíků `pes/pes-*` (application, bootstrap, core, database, di, http, logger,
+  mail, model, router, session, view) z Packagistu přes `composer install`, PHP 8.4.
 - Jeden kód, více webů („sites“): `app/Site/{NajdiSi, Grafia, OtevreneAteliery, VeletrhPrace, TydenZdravi}`.
   Aktivní site se volí v `app/Site/active-site.php`.
 - **Produkční Veletrh práce běží jako site NajdiSi.** Deploy = `app/Site/NajdiSi`, `local/site/najdisi`

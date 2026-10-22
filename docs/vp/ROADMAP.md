@@ -1,6 +1,6 @@
 # Roadmapa změn webu – Veletrh práce
 
-Stav k 12. 10. 2026. Z obou návrhů změn akce potřebuje vývoj webu 51 změn. Jsou rozdělené do 16 větví roadmapy
+Stav k 12. 10. 2026, aktualizováno 22. 10. 2026 (PES z Packagistu, kontrola testů). Z obou návrhů změn akce potřebuje vývoj webu 51 změn. Jsou rozdělené do 16 větví roadmapy
 nad technickým základem Z. Větve V1–V12 jdou do produkce samostatně (potřebují jen Z), V13–V16 začínají až za uzlem,
 kde se spojí jejich předpoklady.
 
@@ -11,7 +11,7 @@ Každý balík (kód jako `A1`, `D1`) se vyvíjí ve vlastní git větvi a do `m
 
 | Větev | Balíky | Závisí na | Samostatně do produkce |
 |---|---|---|---|
-| **Z Základ** | Z1 automatická synchronizace účtu auth → events při potvrzení registrace (místo tlačítka Synchro); Z2 plánovač úloh (cron); Z3 sdílené e-mailové šablony, odesílatel v konfiguraci; Z4 migrace DB events na hostingu (tabulka `login` a cizí klíče na ni, PR #36); Z5 přístupnost (WCAG) a mobil; Z6 hashovat heslo hned při registraci, neposílat ho e-mailem, mazat nepotvrzené registrace; Z7 testy v CI; Z8 přepínače funkcí | — | ano |
+| **Z Základ** | Z1 automatická synchronizace účtu auth → events při potvrzení registrace (místo tlačítka Synchro); Z2 plánovač úloh (cron); Z3 sdílené e-mailové šablony, odesílatel v konfiguraci; Z4 migrace DB events na hostingu (tabulka `login` a cizí klíče na ni, PR #36); Z5 přístupnost (WCAG) a mobil; Z6 hashovat heslo hned při registraci, neposílat ho e-mailem, mazat nepotvrzené registrace; Z7 testy v CI (PES je od 10/2026 na Packagistu, CI už nic neblokuje; nejdřív opravit stávající chyby testů, viz níže); Z8 přepínače funkcí | — | ano |
 | **V1 Registrace** | A1 registrace jméno + e-mail, heslo volitelně; A2 přihlášení odkazem z e-mailu; A3 úklid nedokončených registrací; A4 texty o ochraně dat; A5 mobilní formuláře; A7 Google/Seznam/MojeID (2. fáze) | Z1, Z8 | ano |
 | **V2 Losování** | D1 losy vázané na účet, bonus za úplný profil, administrace slosování, výherci; D1b online kategorie | Z1, Z8 | ano |
 | **V3 Souhlasy** | C1 granulární souhlasy v DB (text, verze, čas); C2 smazání účtu a doba uchování; C3 export vlastních dat | Z1, Z2 | ano |
@@ -48,6 +48,15 @@ Každý balík (kód jako `A1`, `D1`) se vyvíjí ve vlastní git větvi a do `m
 | Firmy po ročnících (`company.version_fk`) | stánek a balíček do `company_parameter` | S1, I2 |
 | Pohled `pocet_pozic` s pevným ročníkem '2026' | ruční změna každý rok | I3 |
 | Tabulky programu (event…) na produkci nepoužité, program běží z array modelů | nejdřív převod G0 | G0 |
+
+## Stav testů (22. 10. 2026, PHP 8.4, PES z Packagistu)
+
+Předpoklad pro Z7: testy musí být zelené. Příčiny chyb jsou v kódu a testech repa (autoload, fixtures, chybějící soubory), ne v balících PES.
+
+| Sada | Výsledek | Příčiny chyb |
+|---|---|---|
+| unit | 63 testů, 8 chyb | `Form\Hydrator` nenalezen (v `composer.json` chybí PSR-4 `Form\\` → `src/Form`); mail šablony: fixture s prázdným `data_logo_grafia` / `data_logo_klic` neprojde novou kontrolou kontextu v `HtmlMessage`; `AuthMailTemplateTest::testTestmail` TypeError v `HtmlMessage:69`; chybí šablona `Sendmail/.../Messages/podekovani-odkazy-igelitka2.php` |
+| integration | 497 testů, 60 chyb, 9 selhání (prázdné DB se strukturou) | většina: test očekává data nebo DB red (`najdisi`); `Events\Model\Entity\Login::getDeletedDueToAuth()` vrací `string`, z DB přijde `null`/int (týká se Z1); zastaralé testy Red (`ContextProviderMock::changeContext`, `ItemAction::setTypeFk`) |
 
 ## Změny akce → balíky webu
 
