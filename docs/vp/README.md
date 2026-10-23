@@ -15,7 +15,7 @@ Produkčně běží jako site **NajdiSi**.
 
 ```
 master  ← produkce (deploy site NajdiSi)
-  └─ master-vp  ← integrace veletrhu, jen přes pull requesty
+  └─ master-vp  ← integrace veletrhu, přes pull requesty (přímý push jen na pokyn Petra)
        ├─ vp/z8-prepinace      (řešitel A)
        ├─ vp/d1-losovani       (řešitel B)
        └─ vp/g2-hlasovani      (agent)

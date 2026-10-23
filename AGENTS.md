@@ -29,7 +29,8 @@ zvlášť pro projekt **Veletrh práce (VP)** popsaný v [`docs/vp/`](docs/vp/RE
 5. Pull request reviduje někdo jiný než autor, slučuje vždy člověk (squash merge).
 6. Kdo práci předává, aktualizuje v zadání sekci **Stav a další krok** a pushne větev.
 
-Do `master` a `master-vp` se nepushuje přímo.
+Do `master` se nepushuje přímo. Do `master-vp` standardně přes pull request; přímý push jen na výslovný pokyn Petra
+(větev není chráněná, pravidlo je dohoda).
 
 ## Pravidla pro kód
 
