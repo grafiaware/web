@@ -432,9 +432,16 @@ class DatabaseControler extends BuildControlerAbstract {
             $this->executeTransactionFromFile("makeAndConvert/page3_7_updateMenuItemTypes&Active.sql");  
         };         
                
-        $p_5_1_insertIntoMenuRootTable = function() {
-            // [type, list, title]          
-            $rootsNamesList = $this->menuRootsFromItemsWithoutRoot('convert');
+        $p_5_1_insertIntoMenuRootTable_convert = function() {
+            // [type, list, title]  
+            $rootsNamesList = $this->menuRootsFromItemsWithRoot('convert');            
+            foreach ($rootsNamesList as $rootName) {
+                $this->executeTransactionFromTemplate("makeAndConvert/page5_1_insertIntoMenuRootTable.sql", ['root' => $rootName]);
+            }
+        };
+        $p_5_1_insertIntoMenuRootTable_make = function() {
+            // [type, list, title]  
+            $rootsNamesList = $this->menuRootsFromItemsWithRoot('make');            
             foreach ($rootsNamesList as $rootName) {
                 $this->executeTransactionFromTemplate("makeAndConvert/page5_1_insertIntoMenuRootTable.sql", ['root' => $rootName]);
             }
@@ -495,7 +502,7 @@ class DatabaseControler extends BuildControlerAbstract {
                 $conversionSteps[] = $p_3_6_updateIntoMenuItemFromStranky;                
                 $conversionSteps[] = $p_3_7_updateMenuItemTypesAndActive;
                 
-                $conversionSteps[] = $p_5_1_insertIntoMenuRootTable;                
+                $conversionSteps[] = $p_5_1_insertIntoMenuRootTable_convert;                
                 $conversionSteps[] = $p_5_2_insertHomeIntoBlockTable_convert;
                 $conversionSteps[] = $p_5_3_insertIntoBlockTable;
                 
@@ -520,7 +527,7 @@ class DatabaseControler extends BuildControlerAbstract {
                 $conversionSteps[] = $p_3_6_updateIntoMenuItemFromStranky;                
                 $conversionSteps[] = $p_3_7_updateMenuItemTypesAndActive;
                 
-                $conversionSteps[] = $p_5_1_insertIntoMenuRootTable;      
+                $conversionSteps[] = $p_5_1_insertIntoMenuRootTable_make;      
                 $conversionSteps[] = $p_5_2_insertHomeIntoBlockTable_make;
                 $conversionSteps[] = $p_5_3_insertIntoBlockTable;
                 
