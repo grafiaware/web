@@ -15,7 +15,7 @@ Produkčně běží jako site **NajdiSi**.
 
 ```
 master  ← produkce (deploy site NajdiSi)
-  └─ master-vp  ← integrace veletrhu, jen přes pull requesty
+  └─ master-vp  ← integrace veletrhu, přes pull requesty (přímý push jen na pokyn Petra)
        ├─ vp/z8-prepinace      (řešitel A)
        ├─ vp/d1-losovani       (řešitel B)
        └─ vp/g2-hlasovani      (agent)
@@ -35,7 +35,7 @@ hotfix/<kód>  ← naléhavá oprava z master, sloučí se do master i master-vp
 
 - `vp`: vše k projektu Veletrh práce.
 - `vp:Z`, `vp:V1` … `vp:V16`: větev roadmapy (technický základ, registrace, losování …).
-- Milníky `VP vlna 1`, `VP vlna 2`, `VP vlna 3`.
+- Milníky `VP úpravy` (jedna vlna, pořadí podle závislostí) a `VP později` (odložené balíky).
 
 ### Předávání práce
 

@@ -5,7 +5,8 @@ zvlášť pro projekt **Veletrh práce (VP)** popsaný v [`docs/vp/`](docs/vp/RE
 
 ## Projekt v kostce
 
-- Vlastní PHP framework **PES** (balíky `pes/*`, v `composer.json` jako path repozitáře `../pes/pes-*`), PHP 8.4.
+- Vlastní PHP framework **PES**: 12 balíků `pes/pes-*` (application, bootstrap, core, database, di, http, logger,
+  mail, model, router, session, view) z Packagistu přes `composer install`, PHP 8.4.
 - Jeden kód, více webů („sites“): `app/Site/{NajdiSi, Grafia, OtevreneAteliery, VeletrhPrace, TydenZdravi}`.
   Aktivní site se volí v `app/Site/active-site.php`.
 - **Produkční Veletrh práce běží jako site NajdiSi.** Deploy = `app/Site/NajdiSi`, `local/site/najdisi`
@@ -28,7 +29,8 @@ zvlášť pro projekt **Veletrh práce (VP)** popsaný v [`docs/vp/`](docs/vp/RE
 5. Pull request reviduje někdo jiný než autor, slučuje vždy člověk (squash merge).
 6. Kdo práci předává, aktualizuje v zadání sekci **Stav a další krok** a pushne větev.
 
-Do `master` a `master-vp` se nepushuje přímo.
+Do `master` se nepushuje přímo. Do `master-vp` standardně přes pull request; přímý push jen na výslovný pokyn Petra
+(větev není chráněná, pravidlo je dohoda).
 
 ## Pravidla pro kód
 
@@ -37,7 +39,8 @@ Do `master` a `master-vp` se nepushuje přímo.
 - Každá viditelná nová funkce má **přepínač** v konfiguraci site NajdiSi s výchozí hodnotou *vypnuto*
   (mechanismus zavádí balík Z8). Vypnutá funkce: routy vrací 404, šablony ji nezobrazují.
 - Texty, hlášky a e-maily česky. E-maily přes sdílené šablony, adresy odesílatelů z konfigurace (ne natvrdo v kontroléru).
-- Hesla a tokeny nikdy v čitelné podobě v DB, logu ani e-mailu.
+- Hesla a tokeny nikdy v čitelné podobě v DB, logu ani e-mailu. Výjimka: stávající dočasné heslo v `registration`
+  do potvrzení registrace (záměr kvůli ručnímu dokončení registrace vystavovatele, řeší odložený balík Z6) — nerozšiřovat.
 - `app/Site/active-site.php` a `local/site/site-name.less` měň jen lokálně, necommituj je.
 - Necommituj dumpy DB s osobními údaji, `vendor/`, `node_modules/`, logy.
 
@@ -58,7 +61,7 @@ Do `master` a `master-vp` se nepushuje přímo.
 
 ## Commity a pull requesty
 
-- Zpráva commitu začíná kódem balíku: `Z6: hashovat heslo hned při registraci`.
+- Zpráva commitu začíná kódem balíku: `Z8: přepínače funkcí v konfiguraci site`.
 - Malé commity, jeden balík na větev, žádné nesouvisející úpravy (formátování celých souborů apod.).
 - Pull request: šablona `.github/pull_request_template.md` — odkaz na issue a zadání, migrace, přepínač, postup ověření.
 - Agent, který přebírá cizí větev nebo PR: nejdřív přečti zadání, issue a diskusi v PR; změny dávej jako nové commity,

@@ -2,18 +2,10 @@
 
 ## Co je potřeba
 
-- PHP 8.4 (rozšíření pdo_mysql, mbstring, gd, intl), Composer, Node.js (kompilace LESS), Git.
+- PHP 8.4 (rozšíření pdo_mysql, mbstring, gd, intl, zip), Composer, Node.js (kompilace LESS), Git.
 - Webový server s rewrite (Apache s `.htaccess`, nebo ekvivalent) a vhost na kořen repa.
 - MySQL 8 nebo MariaDB. Pro migrace doporučeno Docker MySQL podle `docs/migrace-db-docker.md` (PR #36).
-- Framework **PES** vedle repa: `composer.json` očekává path repozitáře `../pes/pes-application`, `../pes/pes-core`, … `../pes/pes-mail`.
-  Zdroj frameworku a přístup k němu domluvit s Petrem.
-
-```
-<pracovní složka>/
-├─ pes/            ← pes-application, pes-bootstrap, pes-core, pes-database, pes-di, pes-http,
-│                    pes-logger, pes-router, pes-session, pes-view, pes-model, pes-mail
-└─ web/            ← tento repozitář
-```
+- Framework **PES** se instaluje z Packagistu jako 12 balíků `pes/pes-*` (`composer install`), žádné složky vedle repa nejsou potřeba.
 
 ## Instalace
 
@@ -28,7 +20,7 @@ npm run less:build
 ## Aktivní site
 
 V `app/Site/active-site.php` nastavit `return 'NajdiSi';` a v `local/site/site-name.less` odpovídající site.
-**Tyto dva soubory necommitovat.**
+**Tyto dva soubory necommitovat.** (V `master` a `master-vp` je teď commitnutá site Grafia.)
 
 ## Databáze
 
@@ -37,6 +29,7 @@ Připojení je v `app/Site/NajdiSi/Configuration{Red,Auth,Events}.php` (vývoj: 
 
 1. Spustit MySQL (Docker: `docker compose -f docker-compose.migrations.yml up -d`).
 2. Naimportovat dumpy struktur (případně anonymizovaných dat) z produkce. Dumpy s osobními údaji necommitovat.
+   Dumpy jen se strukturou nejsou seřazené podle cizích klíčů: importovat s `SET FOREIGN_KEY_CHECKS=0;` na začátku.
 3. Otevřít `/build` → u každé DB **Baseline 2025** → **Spusť migrace**.
 
 Pozor: struktura DB `events` na hostingu je starší než vývojová (tabulka `login`).
@@ -49,7 +42,24 @@ vendor/bin/phpunit -c tests/phpunit.xml --testsuite unit
 vendor/bin/phpunit -c tests/phpunit.xml --testsuite integration
 ```
 
-Integrační testy potřebují testovací DB; mail integrace (`--testsuite mail-integration`) potřebuje `docker-compose.mail-test.yml`.
+Integrační testy potřebují DB `single_login`, `events` a `najdisi` se strukturou a účty z vývojové konfigurace:
+uživatele z `docker/migrations/init/01_create_databases.sql` (PR #36) a navíc `events_everyone` / `events_everyone`
+s právy na `events` (testy se připojují přes `localhost`, tj. socket). Část testů počítá s daty v DB (číselníky, red obsah).
+Mail integrace (`--testsuite mail-integration`) potřebuje `docker-compose.mail-test.yml`.
+
+## Cloudové prostředí (Claude Code na webu)
+
+Ověřeno 22. 10. 2026. Kontejner má PHP 8.3 a Docker Hub, PPA ani stahování archivů z GitHubu nejsou dostupné, proto:
+
+1. **PHP 8.4** přeložit ze zdrojů (`git clone --depth 1 --branch php-8.4.<x> https://github.com/php/php-src`,
+   build závislosti z apt, `./configure --prefix=/opt/php84 --enable-mbstring --with-openssl --with-curl --with-zlib --with-zip --enable-gd --enable-intl --with-pdo-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-sqlite`), cca 10 minut.
+   V `php.ini` nastavit `openssl.cafile` a `curl.cainfo` na CA bundle proxy a `pdo_mysql.default_socket=/run/mysqld/mysqld.sock`.
+2. **Composer** spouštět s `--prefer-install=source` (balíky se klonují přes git). Balík `phpstan/phpstan` existuje jen jako
+   archiv z GitHubu a v cloudu se nestáhne — pro cloud ho lokálně (bez commitu) vyřadit z `composer.json` a `composer.lock`.
+3. **DB:** `apt-get install mariadb-server`, spustit `mysqld_safe`, založit DB a účty jako výše.
+
+Výsledek ověření: aplikace naběhne (bootstrap PES z Packagistu, routing, připojení k DB), unit i integrační testy se spustí.
+Celý web proti reálným datům potřebuje dump DB red (`najdisi`).
 
 ## Agenti
 
