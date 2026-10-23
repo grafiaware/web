@@ -47,6 +47,7 @@ use Red\Model\HierarchyHooks\MenuListStyles;
 
 use Build\Middleware\Build\Controler\ControlPanelControler;
 use Build\Middleware\Build\Controler\DatabaseControler;
+use Build\Middleware\Build\Controler\MigrationControler;
 
 // repo
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
@@ -233,6 +234,12 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             DatabaseControler::class => function(ContainerInterface $c) {
                 return (new DatabaseControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class)))->injectContainer($c);
+            },
+            MigrationControler::class => function(ContainerInterface $c) {
+                return (new MigrationControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class)))->injectContainer($c);
