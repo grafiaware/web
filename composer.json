@@ -9,7 +9,6 @@
             "email": "svoboda@grafia.cz"
         }
     ],
-    "version": "8.0",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
