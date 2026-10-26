@@ -11,3 +11,12 @@ Get-Content "docker/migrations/dumps/dumps_produkce/events_structure.sql" -Raw |
 smazání databází v MySQL dockeru:
 
 docker compose -f docker-compose.migrations.yml exec -T mysql mysql -uroot -proot -e "DROP DATABASE IF EXISTS najdisi; CREATE DATABASE najdisi CHARACTER SET utf8 COLLATE utf8_general_ci; GRANT ALL ON najdisi.* TO 'na_everyone'@'%'; GRANT ALL ON najdisi.* TO 'na_auth'@'%'; GRANT ALL ON najdisi.* TO 'na_admin'@'%'; GRANT ALL ON najdisi.* TO 'na_upgrader'@'%'; FLUSH PRIVILEGES;"
+
+
+restart databázového stroje v dockeru (se zobrazením sql_mode)
+
+cd C:\Users\pes2704\git_repo_for_vscode\web
+
+docker compose -f docker-compose.migrations.yml down
+docker compose -f docker-compose.migrations.yml up -d
+docker compose -f docker-compose.migrations.yml exec mysql mysql -uroot -proot -e "SELECT @@sql_mode;"
