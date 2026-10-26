@@ -9,6 +9,7 @@ Související soubory v repo:
 |--------|------|
 | `docker-compose.migrations.yml` | Compose služba MySQL |
 | `docker/migrations/init/` | SQL při prvním vytvoření volume (DB + účty) |
+| `docker/migrations/grant-auth-events.sql` | Obnova účtů na **už běžícím** volume (bez `down -v`) |
 | `docker/migrations/dumps/` | Sem dávat lokální dumpy (necommittovat citlivá data) |
 | `migrations/` | Verzované SQL migrace |
 | Agent Store plán | `docs/migrace-db.md` (mimo repo) — strategie baseline / multi-instance |
@@ -87,7 +88,28 @@ Get-Content docker/migrations/dumps/najdisi.sql -Raw | docker compose -f docker-
    - už v dumpu (stav z produkce), nebo
    - chybí → použijete **Baseline 2025** (viz níže).
 
-Init skript (`docker/migrations/init/`) se při importu do existujícího volume **znovu nespouští** — běží jen při prvním vytvoření volume.
+5. **Obnovte lokální MySQL účty** (dump nepřinese uživatele z produkce; `/build` login potřebuje auth i events):
+
+```powershell
+Get-Content docker/migrations/grant-auth-events.sql -Raw | docker compose -f docker-compose.migrations.yml exec -T mysql mysql -uroot -proot
+```
+
+```bash
+docker compose -f docker-compose.migrations.yml exec -T mysql mysql -uroot -proot < docker/migrations/grant-auth-events.sql
+```
+
+Init skript (`docker/migrations/init/`) se při importu do existujícího volume **znovu nespouští** — běží jen při prvním vytvoření volume. Proto grant skript výše (nemusíte `down -v`, data zůstanou).
+
+### Lokální účty (NajdiSi, non-prod)
+
+| Účet | Heslo | DB | Odkud v kódu |
+|------|-------|-----|--------------|
+| `na_everyone` / `na_auth` / `na_admin` | stejně jako jméno | `najdisi` | `ConfigurationRed` |
+| `na_upgrader` | `na_upgrader` | všechny + CREATE/DROP | `ConfigurationBuild` |
+| `single_login` | `single_login` | `single_login` | `ConfigurationAuth::login()` |
+| `events_everyone` | `events_everyone` | `events` | `EventsModelContainerConfigurator` |
+
+Chybí-li `events_everyone`, web po přihlášení (SUPERVISOR → /build) padá na `Access denied … @'172.x.x.x'`.
 
 ---
 
