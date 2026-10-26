@@ -1,0 +1,13 @@
+show databases v dockeru:
+
+docker compose -f docker-compose.migrations.yml exec mysql mysql -uroot -proot -e "SHOW DATABASES;"
+
+Import databází do MySQL v dockeru:
+
+Get-Content "docker/migrations/dumps/dumps_produkce/red_najdisi.sql" -Raw | docker compose -f docker-compose.migrations.yml exec -T mysql mysql -uroot -proot najdisi
+Get-Content "docker/migrations/dumps/dumps_produkce/login_structure.sql" -Raw | docker compose -f docker-compose.migrations.yml exec -T mysql mysql -uroot -proot single_login
+Get-Content "docker/migrations/dumps/dumps_produkce/events_structure.sql" -Raw | docker compose -f docker-compose.migrations.yml exec -T mysql mysql -uroot -proot events
+
+smazání databází v MySQL dockeru:
+
+docker compose -f docker-compose.migrations.yml exec -T mysql mysql -uroot -proot -e "DROP DATABASE IF EXISTS najdisi; CREATE DATABASE najdisi CHARACTER SET utf8 COLLATE utf8_general_ci; GRANT ALL ON najdisi.* TO 'na_everyone'@'%'; GRANT ALL ON najdisi.* TO 'na_auth'@'%'; GRANT ALL ON najdisi.* TO 'na_admin'@'%'; GRANT ALL ON najdisi.* TO 'na_upgrader'@'%'; FLUSH PRIVILEGES;"
