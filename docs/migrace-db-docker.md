@@ -24,6 +24,17 @@ Související soubory v repo:
 
 Proč takhle: v repo už je lokální PHP stack a site konfigurace míří na `127.0.0.1:3306`. Přidání PHP do Compose by hrozilo duplikací a rozbitím cest (`local/`, `vendor/`, PES path repo). MySQL kontejner je izolovaná, resetovatelná DB pro migrace.
 
+**`sql_mode`:** compose vypíná `ONLY_FULL_GROUP_BY` (blíž MariaDB / legacy Hierarchy SQL). Po změně compose:
+
+```bash
+docker compose -f docker-compose.migrations.yml down
+docker compose -f docker-compose.migrations.yml up -d
+# bez -v — data ve volume zůstanou
+docker compose -f docker-compose.migrations.yml exec mysql mysql -uroot -proot -e "SELECT @@sql_mode;"
+```
+
+Očekávejte mode **bez** `ONLY_FULL_GROUP_BY`. Detaily: Agent Store `docs/mysql-only-full-group-by.md`.
+
 > Pokud už na portu **3306** běží jiná MySQL, buď ji zastavte, nebo v compose změňte mapování (např. `"3307:3306"`) a upravte port v site konfiguraci.
 
 ---
