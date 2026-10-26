@@ -35,6 +35,14 @@ docker compose -f docker-compose.migrations.yml exec mysql mysql -uroot -proot -
 
 Očekávejte mode **bez** `ONLY_FULL_GROUP_BY`. Detaily: Agent Store `docs/mysql-only-full-group-by.md`.
 
+**Charset:** server + init DB = **`utf8mb4` / `utf8mb4_unicode_ci`** (ne legacy `utf8` = utf8mb3). Compose má i `--character-set-client-handshake=FALSE`, aby CLI import bez explicitního charsetu nepadl na latin1. Po změně compose stačí restart **bez** `-v` (mysqld args); init SQL se znovu nespustí — existující DB charset se nemění, dokud neuděláte `down -v` nebo `ALTER DATABASE`.
+
+```bash
+docker compose -f docker-compose.migrations.yml exec mysql mysql -uroot -proot -e "SHOW VARIABLES WHERE Variable_name IN ('character_set_server','collation_server');"
+```
+
+**PES/PDO:** `OptionsProviderMysql` při connect volá `SET NAMES {charset} COLLATE {collation}` z site config (`red.db.charset` atd.). NajdiSi má `utf8` / `utf8_general_ci` — **ne** latin1. Čeština (BMP) s `SET NAMES utf8` funguje, pokud data v DB nejsou poškozená. DSN charset neobsahuje.
+
 > Pokud už na portu **3306** běží jiná MySQL, buď ji zastavte, nebo v compose změňte mapování (např. `"3307:3306"`) a upravte port v site konfiguraci.
 
 ---
@@ -83,16 +91,21 @@ Typický scénář migrací: **schema (a data) z produkční verze na vývoj**.
 
 1. Z produkce (nebo anonymizovaného stagingu) exportujte dump cílové DB (`najdisi` / `single_login` / `events` — podle toho, co testujete).
 2. Soubor uložte např. do `docker/migrations/dumps/` (do gitu nedávejte osobní údaje).
-3. Import do běžícího kontejneru (příklad red DB `najdisi`):
+3. Import do běžícího kontejneru (příklad red DB `najdisi`). **Vždy** `--default-character-set=utf8mb4` — bez toho (a bez UTF-8 čtení souboru) skončí české znaky v DB jako uložené `?` (`0x3F`); reconnect / `SET NAMES` to neopraví.
 
 ```bash
 # bash / Git Bash / WSL
-docker compose -f docker-compose.migrations.yml exec -T mysql mysql -uroot -proot najdisi < docker/migrations/dumps/najdisi.sql
+docker compose -f docker-compose.migrations.yml exec -T mysql \
+  mysql -uroot -proot --default-character-set=utf8mb4 najdisi \
+  < docker/migrations/dumps/najdisi.sql
 ```
 
 ```powershell
-# PowerShell (přesměrování < u docker compose bývá nespolehlivé — použijte pipe)
-Get-Content docker/migrations/dumps/najdisi.sql -Raw | docker compose -f docker-compose.migrations.yml exec -T mysql mysql -uroot -proot najdisi
+# PowerShell: -Encoding utf8 + --default-character-set=utf8mb4
+# (Get-Content bez -Encoding utf8 na Windows často zničí UTF-8 dump → „??“ v UI)
+Get-Content docker/migrations/dumps/najdisi.sql -Raw -Encoding utf8 |
+  docker compose -f docker-compose.migrations.yml exec -T mysql `
+  mysql -uroot -proot --default-character-set=utf8mb4 najdisi
 ```
 
 4. Po importu je žurnál `schema_migrations` buď:
@@ -110,6 +123,43 @@ docker compose -f docker-compose.migrations.yml exec -T mysql mysql -uroot -proo
 ```
 
 Init skript (`docker/migrations/init/`) se při importu do existujícího volume **znovu nespouští** — běží jen při prvním vytvoření volume. Proto grant skript výše (nemusíte `down -v`, data zůstanou).
+
+### Čeština jako `??` — ověření (data OK vs. poškozený import)
+
+Po importu / když web ukazuje `??` místo diakritiky:
+
+```bash
+# 1) session + DB charset
+docker compose -f docker-compose.migrations.yml exec mysql mysql -uroot -proot --default-character-set=utf8mb4 -e "
+SHOW VARIABLES WHERE Variable_name IN (
+  'character_set_client','character_set_connection','character_set_results',
+  'character_set_database','character_set_server'
+);
+SELECT DEFAULT_CHARACTER_SET_NAME, DEFAULT_COLLATION_NAME
+  FROM information_schema.SCHEMATA WHERE SCHEMA_NAME='najdisi';
+"
+
+# 2) hex vzorku textu (menu_item.title — typické místo „??“ v menu)
+docker compose -f docker-compose.migrations.yml exec mysql mysql -uroot -proot --default-character-set=utf8mb4 najdisi -e "
+SELECT id, title, HEX(title) AS title_hex FROM menu_item LIMIT 15;
+SELECT id, title, HEX(title) AS title_hex FROM menu_item WHERE title LIKE '%?%' LIMIT 15;
+"
+```
+
+| `HEX(...)` obsahuje | Význam | Co dělat |
+|---------------------|--------|----------|
+| `C3xx` / `C4xx` / `C5xx` (např. `C3A1` = á) | Data v DB jsou OK (UTF-8) | Stačí reconnect app / ověřit `SET NAMES`; **reimport netřeba** |
+| `3F` (`?`) u míst s diakritikou | Data **poškozená** importem | Drop + reimport (níže) |
+| `E1` / `E8` bez UTF-8 prefixu | Spíš latin1/cp1250 bajty | Reimport se správným charsetem dumpu |
+
+**Reimport** (jen když HEX ukáže `3F` / zkažená data):
+
+```bash
+docker compose -f docker-compose.migrations.yml down -v
+docker compose -f docker-compose.migrations.yml up -d
+# počkat na healthy, pak import s --default-character-set=utf8mb4 (+ PowerShell -Encoding utf8)
+# pak grant-auth-events.sql
+```
 
 ### Lokální účty (NajdiSi, non-prod)
 

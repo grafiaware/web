@@ -2,9 +2,9 @@
 -- Jména DB a účtů odpovídají lokální konfiguraci site NajdiSi
 -- (ConfigurationRed / Auth / Events / Build — PES_RUNNING_ON_PRODUCTION_HOST = false).
 
-CREATE DATABASE IF NOT EXISTS `najdisi` CHARACTER SET utf8 COLLATE utf8_general_ci;
-CREATE DATABASE IF NOT EXISTS `single_login` CHARACTER SET utf8 COLLATE utf8_general_ci;
-CREATE DATABASE IF NOT EXISTS `events` CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS `najdisi` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS `single_login` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS `events` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Účty red / web (ConfigurationRed::api / web)
 CREATE USER IF NOT EXISTS 'na_everyone'@'%' IDENTIFIED BY 'na_everyone';
