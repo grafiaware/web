@@ -91,158 +91,55 @@ Typický scénář migrací: **schema (a data) z produkční verze na vývoj**.
 
 1. Z produkce (nebo anonymizovaného stagingu) exportujte dump cílové DB (`najdisi` / `single_login` / `events` — podle toho, co testujete).
 2. Soubor uložte např. do `docker/migrations/dumps/` (do gitu nedávejte osobní údaje).
-3. Import do běžícího kontejneru (příklad red DB `najdisi`). **Preferujte import bez `Get-Content`** (viz PowerShell blok níže) — PowerShell pipe často překóduje bajty. `--default-character-set` musí sedět s **encodingem souboru** (utf8mb4 vs cp1250).
+3. Import do běžícího kontejneru (příklad red DB `najdisi`). Dumpy z editoru/produkce jsou typicky **UTF-8**.
+
+**Na Windows nepoužívejte** `Get-Content … | docker compose … mysql` — PowerShell pipe překóduje bajty a diakritika skončí v DB jako `?` (`HEX` = `3F`). Reconnect / `SET NAMES` to neopraví → `down -v` a znovu import.
+
+**Doporučené cesty (utf8mb4):**
+
+| Způsob | Poznámka |
+|--------|----------|
+| **MySQL Workbench** | Server `127.0.0.1:3306`, import dumpu, connection/default charset **utf8mb4** |
+| **`docker cp` + mysql** | Bajty 1:1, bez PowerShell pipe (blok níže) |
+| bash / Git Bash / WSL | Redirect `< soubor.sql` je v pořádku |
+
+```powershell
+# Import UTF-8 dumpu + grant (bez Get-Content)
+$Dump = "docker/migrations/dumps/najdisi.sql"
+$Db = "najdisi"
+$C = "grafia-web-mysql-migrations"
+$F = "docker-compose.migrations.yml"
+
+docker compose -f $F up -d
+docker cp $Dump "${C}:/tmp/import.sql"
+docker compose -f $F exec -T mysql sh -c "mysql -uroot -proot --default-character-set=utf8mb4 $Db < /tmp/import.sql"
+docker compose -f $F exec -T mysql rm -f /tmp/import.sql
+
+docker cp docker/migrations/grant-auth-events.sql "${C}:/tmp/grant.sql"
+docker compose -f $F exec -T mysql sh -c "mysql -uroot -proot --default-character-set=utf8mb4 < /tmp/grant.sql"
+docker compose -f $F exec -T mysql rm -f /tmp/grant.sql
+
+# Ověření (LIMIT 5 na ROOT/Blocks nic neříká — hledejte diakritiku / ?)
+docker compose -f $F exec -T mysql mysql -uroot -proot --default-character-set=utf8mb4 $Db -e "SELECT id, title, HEX(title) AS hx, CHAR_LENGTH(title) AS chars, LENGTH(title) AS bytes FROM menu_item WHERE title LIKE '%?%' OR title REGEXP '[ÁČĎÉĚÍŇÓŘŠŤÚŮÝŽáčďéěíňóřšťúůýž]' LIMIT 20;"
+```
 
 ```bash
-# bash / Git Bash / WSL — bajty jdou rovnou do mysql (žádné překódování shellu)
+# bash / Git Bash / WSL
 docker compose -f docker-compose.migrations.yml exec -T mysql \
   mysql -uroot -proot --default-character-set=utf8mb4 najdisi \
   < docker/migrations/dumps/najdisi.sql
+docker compose -f docker-compose.migrations.yml exec -T mysql \
+  mysql -uroot -proot --default-character-set=utf8mb4 \
+  < docker/migrations/grant-auth-events.sql
 ```
 
-4. Po importu je žurnál `schema_migrations` buď:
-   - už v dumpu (stav z produkce), nebo
-   - chybí → použijete **Baseline 2025** (viz níže).
+Poškozená data (`?` v UI, `3F` v HEX): `docker compose -f docker-compose.migrations.yml down -v`, `up -d`, znovu Workbench nebo blok výše.
 
-5. **Obnovte lokální MySQL účty** (dump nepřinese uživatele z produkce; `/build` login potřebuje auth i events) — stejně preferujte `docker cp` + `source`, ne `Get-Content` (viz blok níže).
+> Okrajově: kdyby dump opravdu byl Windows-1250 (vzácné u dnešních exportů), nejdřív ho v editoru uložte jako UTF-8, pak importujte stejně.
 
-```bash
-docker compose -f docker-compose.migrations.yml exec -T mysql mysql -uroot -proot < docker/migrations/grant-auth-events.sql
-```
+4. Po importu je žurnál `schema_migrations` buď už v dumpu, nebo chybí → **Baseline 2025** (viz níže).
 
-Init skript (`docker/migrations/init/`) se při importu do existujícího volume **znovu nespouští** — běží jen při prvním vytvoření volume. Proto grant skript výše (nemusíte `down -v`, data zůstanou).
-
-### Čeština jako `?` / `??` — diagnostika a import (Windows)
-
-`SELECT … FROM menu_item LIMIT 5` často vrátí jen ASCII (`ROOT`, `Blocks`…) — **to nic neříká**. Hledejte řádky s diakritikou / `?`.
-
-Posun **2× `?` → 1× `?`** po `-Encoding utf8`: typicky dump **není UTF-8**, ale **Windows-1250 (cp1250)**. PS při čtení „jako UTF-8“ nahradí neplatné bajty jedním `?` (`0x3F`) a ty se uloží do DB. Reconnect to neopraví.
-
-#### Lepší ověřovací SQL
-
-```sql
--- session / DB
-SHOW VARIABLES WHERE Variable_name IN (
-  'character_set_client','character_set_connection','character_set_results',
-  'character_set_database','character_set_server'
-);
-SELECT DEFAULT_CHARACTER_SET_NAME, DEFAULT_COLLATION_NAME
-  FROM information_schema.SCHEMATA WHERE SCHEMA_NAME = 'najdisi';
-
--- poškozené: uložený otazník
-SELECT id, title, HEX(title) AS hx, CHAR_LENGTH(title) AS chars, LENGTH(title) AS bytes
-  FROM menu_item WHERE title LIKE '%?%' LIMIT 30;
-
--- očekávaná čeština (pokud data OK): UTF-8 má LENGTH > CHAR_LENGTH u diakritiky
-SELECT id, title, HEX(title) AS hx, CHAR_LENGTH(title) AS chars, LENGTH(title) AS bytes
-  FROM menu_item
-  WHERE title REGEXP '[ÁČĎÉĚÍŇÓŘŠŤÚŮÝŽáčďéěíňóřšťúůýž]'
-  LIMIT 30;
-
--- fallback: titulky, které nejsou čisté ASCII (může chytit i ?)
-SELECT id, title, HEX(title) AS hx, CHAR_LENGTH(title) AS chars, LENGTH(title) AS bytes
-  FROM menu_item
-  WHERE title <> CONVERT(title USING ASCII)
-  LIMIT 30;
-```
-
-| Pozorování | Význam |
-|------------|--------|
-| `hx` má `C3A1` / `C4xx` / `C5xx`, `bytes` > `chars` | UTF-8 v DB OK → problém display/app |
-| `hx` obsahuje `3F`, UI `?` | Data zkažená importem → reimport správným encodingem |
-| `hx` má `E1`/`E8`/`9E`… bez `C3`/`C4`/`C5`, `bytes` ≈ `chars` | V DB sedí **cp1250/latin1** bajty → importnout jako cp1250 nebo nejdřív převést soubor na UTF-8 |
-
-#### Jeden PowerShell blok (detekce → import bez Get-Content → ověření)
-
-Upravte `$Dump` / `$Db`. Preferovaná cesta: **`docker cp` + `SOURCE`** (žádné PS překódování).
-
-```powershell
-# === Charset dump → Docker MySQL (NajdiSi) ===
-$ErrorActionPreference = 'Stop'
-$Dump = "docker/migrations/dumps/najdisi.sql"   # cesta k dumpu
-$Db   = "najdisi"
-$Compose = "docker-compose.migrations.yml"
-$Container = "grafia-web-mysql-migrations"
-
-# 1) Detekce encodingu souboru (vzorek bajtů + heuristika)
-$bytes = [System.IO.File]::ReadAllBytes((Resolve-Path $Dump).Path)
-$sample = $bytes[0..([Math]::Min(65535, $bytes.Length - 1))]
-$hexHead = ($sample[0..([Math]::Min(31, $sample.Length - 1))] | ForEach-Object { $_.ToString('X2') }) -join ' '
-Write-Host "Prvnich 32 bajtu (HEX): $hexHead"
-
-$hasUtf8Bom = ($bytes.Length -ge 3 -and $bytes[0] -eq 0xEF -and $bytes[1] -eq 0xBB -and $bytes[2] -eq 0xBF)
-$utf8 = New-Object System.Text.UTF8Encoding $false, $true  # throwOnInvalid
-$looksUtf8 = $false
-try { [void]$utf8.GetString($sample); $looksUtf8 = $true } catch { $looksUtf8 = $false }
-
-# cp1250 typicky: vysoké bajty 0x80-0xFF, ale neplatné jako UTF-8
-$high = ($sample | Where-Object { $_ -ge 0x80 }).Count
-Write-Host "UTF-8 BOM: $hasUtf8Bom | platny UTF-8 vzorek: $looksUtf8 | bajtu >=0x80 ve vzorku: $high"
-
-if ($hasUtf8Bom -or $looksUtf8) {
-  $FileCharset = 'utf8mb4'
-  Write-Host ">> Tip: dump vypada jako UTF-8 → --default-character-set=utf8mb4"
-} elseif ($high -gt 0) {
-  $FileCharset = 'cp1250'
-  Write-Host ">> Tip: dump vypada jako Windows-1250 → bud konverze na UTF-8, nebo import --default-character-set=cp1250"
-} else {
-  $FileCharset = 'utf8mb4'
-  Write-Host ">> Vzorek je skoro ASCII — encoding neurcity; zkuste utf8mb4, pak SQL s diakritikou."
-}
-
-# 2a) Pokud cp1250: vytvor UTF-8 kopii (bez BOM) a tu importuj
-$ImportFile = (Resolve-Path $Dump).Path
-if ($FileCharset -eq 'cp1250') {
-  $utf8Out = [System.IO.Path]::ChangeExtension($ImportFile, '.utf8.sql')
-  $text = [System.IO.File]::ReadAllText($ImportFile, [System.Text.Encoding]::GetEncoding(1250))
-  $utf8NoBom = New-Object System.Text.UTF8Encoding $false
-  [System.IO.File]::WriteAllText($utf8Out, $text, $utf8NoBom)
-  $ImportFile = $utf8Out
-  $FileCharset = 'utf8mb4'
-  Write-Host "Prevedeno cp1250 → UTF-8: $ImportFile"
-}
-
-# 2b) Import BEZ Get-Content: docker cp + redirect uvnitr kontejneru (bajty 1:1)
-docker compose -f $Compose up -d
-docker compose -f $Compose ps
-# pockejte na healthy (nebo: Start-Sleep -Seconds 15)
-docker cp $ImportFile "${Container}:/tmp/import.sql"
-docker compose -f $Compose exec -T mysql sh -c `
-  "mysql -uroot -proot --default-character-set=$FileCharset $Db < /tmp/import.sql"
-docker compose -f $Compose exec -T mysql rm -f /tmp/import.sql
-
-# grant ucty (stejne bez Get-Content)
-docker cp docker/migrations/grant-auth-events.sql "${Container}:/tmp/grant.sql"
-docker compose -f $Compose exec -T mysql sh -c `
-  "mysql -uroot -proot --default-character-set=utf8mb4 < /tmp/grant.sql"
-docker compose -f $Compose exec -T mysql rm -f /tmp/grant.sql
-
-# 3) Overeni v DB
-docker compose -f $Compose exec -T mysql mysql -uroot -proot --default-character-set=utf8mb4 $Db -e @"
-SELECT id, title, HEX(title) AS hx, CHAR_LENGTH(title) AS chars, LENGTH(title) AS bytes
-  FROM menu_item WHERE title LIKE '%?%' LIMIT 20;
-SELECT id, title, HEX(title) AS hx, CHAR_LENGTH(title) AS chars, LENGTH(title) AS bytes
-  FROM menu_item
-  WHERE title REGEXP '[ÁČĎÉĚÍŇÓŘŠŤÚŮÝŽáčďéěíňóřšťúůýž]'
-  LIMIT 20;
-"@
-```
-
-**Alternativa bez `docker cp`:** v **cmd.exe** (ne PowerShell) `type` posílá bajty 1:1:
-
-```bat
-type docker\migrations\dumps\najdisi.sql | docker compose -f docker-compose.migrations.yml exec -T mysql mysql -uroot -proot --default-character-set=utf8mb4 najdisi
-```
-
-(Pro cp1250 nejdřív převeďte soubor na UTF-8 jako v bloku výše, nebo použijte `--default-character-set=cp1250` — MySQL client musí cp1250 znát.)
-
-**Čistý reimport volume** (když už jsou v DB `3F`):
-
-```powershell
-docker compose -f docker-compose.migrations.yml down -v
-docker compose -f docker-compose.migrations.yml up -d
-# pak znovu PowerShell blok od detekce / docker cp
-```
+5. Grant účty jsou v kroku 3 (dump nepřinese produkční uživatele; `/build` potřebuje auth i events). Init (`docker/migrations/init/`) běží jen při prvním volume — proto grant skript (nemusíte `down -v`, pokud data necháte).
 
 ### Lokální účty (NajdiSi, non-prod)
 
