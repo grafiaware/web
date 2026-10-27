@@ -2,6 +2,7 @@
 
 namespace Build\Middleware\Build\Controler;
 
+use Build\Migration\HandlerPdoUnwrapper;
 use Build\Migration\ManipulatorSqlExecutor;
 use Build\Migration\MigrationJournal;
 use Build\Migration\MigrationPaths;
@@ -129,13 +130,12 @@ class MigrationControler extends BuildControlerAbstract
         $manipulator = new Manipulator($handler, $logger);
         $this->manipulator = $manipulator;
 
-        if (!$handler instanceof \PDO) {
-            throw new \RuntimeException('Build Handler musí být PDO pro MigrationJournal.');
-        }
+        // Handler (pes-database) už není PDO — žurnál bere raw PDO přes unwrap (všechny targety).
+        $pdo = HandlerPdoUnwrapper::unwrap($handler);
 
         return new MigrationRunner(
             new MigrationScanner(MigrationPaths::defaultRoot()),
-            new MigrationJournal($handler),
+            new MigrationJournal($pdo),
             new ManipulatorSqlExecutor($manipulator)
         );
     }
