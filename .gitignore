@@ -8,5 +8,7 @@
 /_files/
 /_docs/
 /_db_dumps/
+/docker/migrations/dumps/*
+!/docker/migrations/dumps/.gitkeep
 /uri.log
 /_www_na_logs/

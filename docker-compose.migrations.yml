@@ -1,0 +1,40 @@
+# Lokální MySQL pro ověření verzovaných migrací (Build panel).
+# PHP/web kontejner záměrně NENÍ — napojte stávající lokální stack na 127.0.0.1:3306.
+# Návod: docs/migrace-db-docker.md
+#
+# Start:  docker compose -f docker-compose.migrations.yml up -d
+# Stop:   docker compose -f docker-compose.migrations.yml down
+# Reset:  docker compose -f docker-compose.migrations.yml down -v
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: grafia-web-mysql-migrations
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      TZ: Europe/Prague
+    command:
+      # utf8mb4 (4-byte) — ne legacy alias utf8 (= utf8mb3). Čeština sedí i v utf8mb3,
+      # ale dump/import a moderní MySQL 8 očekávají utf8mb4; při špatném client charsetu
+      # (např. PowerShell pipe bez UTF-8) končí diakritika jako uložené „?“ (0x3F).
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      # Klienti bez vlastního charsetu (CLI import) berou server charset, ne latin1 default.
+      - --character-set-client-handshake=FALSE
+      - --default-authentication-plugin=mysql_native_password
+      # Bez ONLY_FULL_GROUP_BY — HierarchyAggregateReadonlyDao::getSubTree() (legacy nested-set SQL)
+      - --sql-mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+    volumes:
+      - grafia_web_mysql_migrations_data:/var/lib/mysql
+      - ./docker/migrations/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  grafia_web_mysql_migrations_data:
