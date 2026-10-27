@@ -19,7 +19,7 @@ Inkrementální změny MySQL schématu pro cíle **red**, **auth** a **events**.
 |---------|------------------------|----------|
 | `red/` | `ConfigurationRed::dbUpgrade()` | počáteční sada z AlterRedDatabase |
 | `auth/` | `ConfigurationAuth::dbOld()` | **od teď** — bez dohánění historie |
-| `events/` | `ConfigurationEvents::dbEvents()` | alter + alter26 |
+| `events/` | `ConfigurationEvents::dbEvents()` | alter (`2024*`) + alter26 (`2025*` — už v prod dump; ne `2026*`) |
 
 ## Typický scénář
 
