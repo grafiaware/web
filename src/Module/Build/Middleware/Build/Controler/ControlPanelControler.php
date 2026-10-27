@@ -9,6 +9,7 @@ namespace Build\Middleware\Build\Controler;
 
 use Psr\Http\Message\ServerRequestInterface;
 
+use Build\Migration\ReleaseBaseline;
 use Container\BuildContainerConfigurator;
 
 use Pes\Core\Text\Html;
@@ -35,7 +36,26 @@ class ControlPanelControler  extends BuildControlerAbstract {
         foreach ($prikazy as $title => $uri) {
             $html[] = $this->form($title, $uri);
         }
-        $html[] = "</div>" ;
+        $html[] = "</div>";
+        $baseline = ReleaseBaseline::PRODUCTION;
+        $html[] = "<h3>Migrace databází</h3>";
+        $html[] = "<p>Verzeované SQL z <code>migrations/{red|auth|events}/</code>. "
+            . "Žurnál je <strong>per DB instance</strong> (ne per server app). "
+            . "Produkční baseline marker: <code>{$baseline}</code> (rok YYYY). "
+            . "Typicky: obnov produkční dump do vývojové DB → baseline {$baseline} (pokud schema už sedí) "
+            . "nebo migrate na pending novější soubory.</p>";
+        $html[] = "<div>";
+        foreach (['red', 'auth', 'events'] as $target) {
+            $html[] = $this->migrationForm('Stav migrací (' . $target . ')', 'build/migrations/status', $target);
+            $html[] = $this->migrationForm('Spusť migrace (' . $target . ')', 'build/migrations/migrate', $target);
+            $html[] = $this->migrationForm(
+                'Baseline ' . $baseline . ' bez SQL (' . $target . ')',
+                'build/migrations/baseline',
+                $target,
+                $baseline
+            );
+        }
+        $html[] = "</div>";
         return $this->createStringOKResponse($this->page($html));
     }
     
@@ -55,5 +75,24 @@ class ControlPanelControler  extends BuildControlerAbstract {
             Html::tag("form", ["method"=>"POST", "action"=>$uri],
                     Html::input("uri", $title, ["uri"=>$uri], ["type"=>"submit", "size"=>"8", "maxlength"=>"10", 'style'=>'margin-left: 1em;'], [])
                 );
+    }
+
+    private function migrationForm(string $title, string $uri, string $target, ?string $release = null): string
+    {
+        $safeTitle = htmlspecialchars($title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        $safeUri = htmlspecialchars($uri, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        $safeTarget = htmlspecialchars($target, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+
+        $releaseField = '';
+        if ($release !== null) {
+            $safeRelease = htmlspecialchars($release, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+            $releaseField = '<input type="hidden" name="release" value="' . $safeRelease . '">';
+        }
+
+        return '<form method="POST" action="' . $safeUri . '" style="margin-bottom: 0.5em;">'
+            . '<input type="hidden" name="target" value="' . $safeTarget . '">'
+            . $releaseField
+            . '<input type="submit" value="' . $safeTitle . '" style="margin-left: 1em;">'
+            . '</form>';
     }
 }

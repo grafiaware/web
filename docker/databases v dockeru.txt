@@ -1,0 +1,38 @@
+show databases v dockeru:
+
+docker compose -f docker-compose.migrations.yml exec mysql mysql -uroot -proot -e "SHOW DATABASES;"
+
+Import databází do MySQL v dockeru:
+
+Get-Content "docker/migrations/dumps/dumps_produkce/red_najdisi.sql" -Raw | docker compose -f docker-compose.migrations.yml exec -T mysql mysql -uroot -proot najdisi
+Get-Content "docker/migrations/dumps/dumps_produkce/login_structure.sql" -Raw | docker compose -f docker-compose.migrations.yml exec -T mysql mysql -uroot -proot single_login
+Get-Content "docker/migrations/dumps/dumps_produkce/events_structure.sql" -Raw | docker compose -f docker-compose.migrations.yml exec -T mysql mysql -uroot -proot events
+
+smazání databází v MySQL dockeru:
+
+docker compose -f docker-compose.migrations.yml exec -T mysql mysql -uroot -proot -e "DROP DATABASE IF EXISTS najdisi; CREATE DATABASE najdisi CHARACTER SET utf8 COLLATE utf8_general_ci; GRANT ALL ON najdisi.* TO 'na_everyone'@'%'; GRANT ALL ON najdisi.* TO 'na_auth'@'%'; GRANT ALL ON najdisi.* TO 'na_admin'@'%'; GRANT ALL ON najdisi.* TO 'na_upgrader'@'%'; FLUSH PRIVILEGES;"
+
+
+restart databázového stroje v dockeru (se zobrazením sql_mode)
+
+cd C:\Users\pes2704\git_repo_for_vscode\web
+
+docker compose -f docker-compose.migrations.yml down
+docker compose -f docker-compose.migrations.yml up -d
+docker compose -f docker-compose.migrations.yml exec mysql mysql -uroot -proot -e "SELECT @@sql_mode;"
+
+restart databázového stroje v dockeru se smazáním dat ve volume a importem všech dumpů a grant privileges
+-v smaže data ve volume
+
+cd C:\Users\pes2704\git_repo_for_vscode\web
+docker compose -f docker-compose.migrations.yml down -v
+docker compose -f docker-compose.migrations.yml up -d
+Start-Sleep -Seconds 20
+docker cp "docker/migrations/dumps/dumps_produkce/red_najdisi.sql" grafia-web-mysql-migrations:/tmp/import.sql
+docker compose -f docker-compose.migrations.yml exec -T mysql sh -c "mysql -uroot -proot --default-character-set=utf8mb4 najdisi < /tmp/import.sql"
+docker cp "docker/migrations/dumps/dumps_produkce/login.sql" grafia-web-mysql-migrations:/tmp/import.sql
+docker compose -f docker-compose.migrations.yml exec -T mysql sh -c "mysql -uroot -proot --default-character-set=utf8mb4 single_login < /tmp/import.sql"
+docker cp "docker/migrations/dumps/dumps_produkce/events.sql" grafia-web-mysql-migrations:/tmp/import.sql
+docker compose -f docker-compose.migrations.yml exec -T mysql sh -c "mysql -uroot -proot --default-character-set=utf8mb4 events < /tmp/import.sql"
+docker cp docker/migrations/grant-auth-events.sql grafia-web-mysql-migrations:/tmp/grant.sql
+docker compose -f docker-compose.migrations.yml exec -T mysql sh -c "mysql -uroot -proot --default-character-set=utf8mb4 < /tmp/grant.sql"
