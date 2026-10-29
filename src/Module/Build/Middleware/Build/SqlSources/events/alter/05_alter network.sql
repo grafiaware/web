@@ -7,5 +7,5 @@
  * Created: 19. 1. 2025
  */
 
-ALTER TABLE `events`.`network` 
+ALTER TABLE `network` 
 ADD COLUMN `title` VARCHAR(45) NOT NULL AFTER `icon`;

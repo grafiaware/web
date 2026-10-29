@@ -7,7 +7,7 @@
  * Created: 7. 1. 2025
  */
 
-CREATE TABLE `events`.`company_info` (
+CREATE TABLE `company_info` (
   `company_id` INT(10) UNSIGNED NOT NULL,
   `introduction` VARCHAR(1000) NULL DEFAULT NULL,
   `video_link` VARCHAR(150) NULL DEFAULT NULL,

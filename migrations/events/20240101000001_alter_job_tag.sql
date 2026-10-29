@@ -7,5 +7,5 @@
  * Created: 5. 1. 2025
  */
 
-ALTER TABLE `events`.`job_tag` 
+ALTER TABLE `job_tag` 
 ADD COLUMN `color` VARCHAR(45) NOT NULL AFTER `tag`;

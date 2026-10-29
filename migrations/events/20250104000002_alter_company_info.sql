@@ -10,6 +10,6 @@
 ALTER TABLE `company_info` 
 ADD CONSTRAINT `fk_info_company1`
   FOREIGN KEY (`company_id`)
-  REFERENCES `events`.`company` (`id`)
+  REFERENCES `company` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE;

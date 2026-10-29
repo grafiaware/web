@@ -7,8 +7,8 @@
  * Created: 27. 1. 2025
  */
 
-ALTER TABLE `events`.`visitor_job_request` 
+ALTER TABLE `visitor_job_request` 
 DROP COLUMN `position_name`;
 
-ALTER TABLE `events`.`visitor_job_request` 
+ALTER TABLE `visitor_job_request` 
 ADD COLUMN `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `letter_document`;

@@ -7,5 +7,5 @@
  * Created: 8. 1. 2025
  */
 
-ALTER TABLE `events`.`job` 
+ALTER TABLE `job` 
 ADD COLUMN `published` TINYINT(1) NOT NULL DEFAULT 0 AFTER `company_id`;
