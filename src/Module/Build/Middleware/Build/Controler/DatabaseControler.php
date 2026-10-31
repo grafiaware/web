@@ -43,7 +43,7 @@ class DatabaseControler extends BuildControlerAbstract {
         #
         ####
         $dropSteps[] = function() {
-            $this->executeTransactionFromTemplate("dropDb/drop_database_template.sql", $this->container->get('build.config.drop'));
+            $this->executeSequenceFromTemplate("dropDb/drop_database_template.sql", $this->container->get('build.config.drop'));
         };
 
         $this->manipulator = $this->container->get('manipulator_for_drop_database');
