@@ -412,6 +412,18 @@ class ConfigurationWeb extends ConfigurationConstants {
             'mail.paramsname' => 'smtp4dev', 
             'mail.attachments' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'attachments/' : self::WEB_FILES_SITE.'attachments/',
             'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::WEB_FILES_SITE.'sendmail/' : self::WEB_FILES_SITE.'sendmail/',
+            // odesílatelé, pevní příjemci a loga e-mailů — Mail\MailSettings (Z3); chybějící klíč = výchozí hodnota v MailSettings
+            'mail.from' => [
+                'info' => ['info@najdisi.cz', 'web praci.najdisi.cz'],
+                'noreply' => ['noreply@najdisi.cz', 'web praci.najdisi.cz'],
+                'testmail' => ['info@najdisi.cz', 'web najdisi'],
+            ],
+            'mail.recipients' => [
+                'registration.bcc' => [['webmaster@grafia.cz', 'vs']],
+                'exhibitorRegistration.to' => [['slukova@grafia.cz', 'Registace zástupce vystavovatele']],
+                'exhibitorRegistration.cc' => [['slehoferova@grafia.cz', 'Registace zástupce vystavovatele']],
+                'testmail.to' => [['selnerova@grafia.cz', 'selnerovaV'], ['svoboda@grafia.cz', 'testMail']],
+            ],
 
         ];
     }
