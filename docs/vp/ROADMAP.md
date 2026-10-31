@@ -62,7 +62,7 @@ Předpoklad pro Z7: testy musí být zelené. Příčiny chyb jsou v kódu a tes
 
 | Sada | Výsledek | Příčiny chyb |
 |---|---|---|
-| unit | 63 testů, 8 chyb | `Form\Hydrator` nenalezen (v `composer.json` chybí PSR-4 `Form\\` → `src/Form`); mail šablony: fixture s prázdným `data_logo_grafia` / `data_logo_klic` neprojde novou kontrolou kontextu v `HtmlMessage`; `AuthMailTemplateTest::testTestmail` TypeError v `HtmlMessage:69`; chybí šablona `Sendmail/.../Messages/podekovani-odkazy-igelitka2.php` |
+| unit | opraveno v Z7 (PR) – 76 testů, 0 chyb, 1 přeskočený (kampaň 2021, chybí šablona) | dříve: chybějící PSR-4 `Form\\`, mail fixtures s prázdným logem, `HtmlMessage` TypeError u vnořených polí, chybějící šablona `podekovani-odkazy-igelitka2.php` |
 | integration | 497 testů, 60 chyb, 9 selhání (prázdné DB se strukturou) | většina: test očekává data nebo DB red (`najdisi`); `Events\Model\Entity\Login::getDeletedDueToAuth()` vrací `string`, z DB přijde `null`/int (týká se Z1); zastaralé testy Red (`ContextProviderMock::changeContext`, `ItemAction::setTypeFk`) |
 
 ## Změny akce → balíky webu

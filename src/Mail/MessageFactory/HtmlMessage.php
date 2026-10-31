@@ -57,42 +57,37 @@ class HtmlMessage {
     
     
     
-    private function najdiNevalidniHodnoty(array $pole, string $aktualniCesta = ""): string {
-        $chyby = [];
+    private function najdiNevalidniHodnoty(array $pole): string {
+        $chyby = $this->sesbirejNevalidniHodnoty($pole);
+        if (empty($chyby)) {
+            return "";
+        }
+        $text = "\nNalezeny nevalidní hodnoty:\n";
+        foreach ($chyby as $chyba) {
+            $text .= "- Na pozici '{$chyba['cesta']}' je hodnota typu [{$chyba['typ']}]\n";
+        }
+        return $text;
+    }
 
+    /**
+     * Rekurzivně sesbírá položky s hodnotou null nebo prázdným řetězcem (i ve vnořených polích).
+     *
+     * @return list<array{cesta: string, typ: string}>
+     */
+    private function sesbirejNevalidniHodnoty(array $pole, string $aktualniCesta = ""): array {
+        $chyby = [];
         foreach ($pole as $klic => $hodnota) {
             // Sestavení cesty ke klíči (např. uzivatel.kontakty.email)
-            $novaCesta = $aktualniCesta === "" ? $klic : $aktualniCesta . "." . $klic;
-
+            $novaCesta = $aktualniCesta === "" ? (string) $klic : $aktualniCesta . "." . $klic;
             if (is_array($hodnota)) {
-                // Rekurzivně spojíme nalezené chyby z podřízeného pole
-                $chyby = array_merge($chyby, $this->najdiNevalidniHodnoty($hodnota, $novaCesta));
-            } 
-            elseif ($hodnota === null) {
-                $chyby[] = [
-                    "cesta" => $novaCesta,
-                    "typ" => "null"
-                ];
-            } 
-            elseif (is_string($hodnota) && trim($hodnota) === "") {
-                $chyby[] = [
-                    "cesta" => $novaCesta,
-                    "typ" => "prazdny_retezec"
-                ];
+                $chyby = array_merge($chyby, $this->sesbirejNevalidniHodnoty($hodnota, $novaCesta));
+            } elseif ($hodnota === null) {
+                $chyby[] = ["cesta" => $novaCesta, "typ" => "null"];
+            } elseif (is_string($hodnota) && trim($hodnota) === "") {
+                $chyby[] = ["cesta" => $novaCesta, "typ" => "prazdny_retezec"];
             }
         }
-        
-        //return $chyby;       
-        $text = "";
-        if (!empty($chyby)) {
-            $text .= "\nNalezeny nevalidní hodnoty:\n";
-            foreach ($chyby as $chyba) {
-                $text .= "- Na pozici '{$chyba['cesta']}' je hodnota typu [{$chyba['typ']}]\n";
-            }
-        } else {
-            $text="";
-        }
-        return $text ;
+        return $chyby;
     }
 
     

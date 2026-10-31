@@ -90,7 +90,7 @@ final class MailTemplateFixtures
 
     public static function confirmContext(): array
     {
-        return ['data_logo_grafia' => self::EMPTY_LOGO];
+        return ['data_logo_grafia' => self::LOGO];
     }
 
     public static function registrationExhibContext(): array
@@ -115,7 +115,7 @@ final class MailTemplateFixtures
     public static function confirmRepre2Context(): array
     {
         return [
-            'data_logo_grafia' => self::EMPTY_LOGO,
+            'data_logo_grafia' => self::LOGO,
             'companyName' => 'Grafia s.r.o.',
         ];
     }
@@ -127,7 +127,7 @@ final class MailTemplateFixtures
             'requestBody' => ['key1' => 'value1'],
             'value1' => 'alpha',
             'value2' => 'beta',
-            'data_logo_grafia' => self::EMPTY_LOGO,
+            'data_logo_grafia' => self::LOGO,
         ];
     }
 
@@ -135,8 +135,8 @@ final class MailTemplateFixtures
     {
         return [
             'doSestavy' => 'test varianta',
-            'data_logo_grafia' => self::EMPTY_LOGO,
-            'data_logo_klic' => self::EMPTY_LOGO,
+            'data_logo_grafia' => self::LOGO,
+            'data_logo_klic' => self::KLIC,
         ];
     }
 
