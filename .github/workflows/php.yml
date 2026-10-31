@@ -23,6 +23,8 @@ jobs:
         php-version: '8.4'
         extensions: mbstring, intl, gd, zip, pdo_mysql, pdo_sqlite
         coverage: none
+        # Pes\Bootstrap CheckPhpIni dělí session.gc_divisor / session.gc_probability; Ubuntu má gc_probability=0 → DivisionByZeroError
+        ini-values: session.gc_probability=1
 
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
