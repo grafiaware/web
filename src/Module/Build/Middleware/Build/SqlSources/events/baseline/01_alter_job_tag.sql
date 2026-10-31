@@ -4,12 +4,8 @@
  */
 /**
  * Author:  pes2704
- * Created: 7. 1. 2026
+ * Created: 5. 1. 2025
  */
 
-ALTER TABLE `company_info` 
-ADD CONSTRAINT `fk_info_company1`
-  FOREIGN KEY (`company_id`)
-  REFERENCES `events`.`company` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE;
+ALTER TABLE `job_tag` 
+ADD COLUMN `color` VARCHAR(45) NOT NULL AFTER `tag`;

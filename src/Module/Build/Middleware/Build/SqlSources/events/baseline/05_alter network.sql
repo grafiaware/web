@@ -4,8 +4,8 @@
  */
 /**
  * Author:  pes2704
- * Created: 8. 1. 2025
+ * Created: 19. 1. 2025
  */
 
-ALTER TABLE `events`.`job` 
-ADD COLUMN `published` TINYINT(1) NOT NULL DEFAULT 0 AFTER `company_id`;
+ALTER TABLE `network` 
+ADD COLUMN `title` VARCHAR(45) NOT NULL AFTER `icon`;

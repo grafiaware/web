@@ -16,23 +16,23 @@ WHERE credentials.role = '';
 -- 4. změna sloupce role 
 -- zmena jmena + na cizi klic + ondelete/update
 
-ALTER TABLE `single_login`.`credentials` 
+ALTER TABLE `credentials` 
 CHANGE COLUMN `role` `role_fk` VARCHAR(50) NULL DEFAULT NULL ;
 
-ALTER TABLE `single_login`.`credentials` 
+ALTER TABLE `credentials` 
 ADD INDEX `c_idx` (`role_fk` ASC);
-ALTER TABLE `single_login`.`credentials` 
+ALTER TABLE `credentials` 
 ADD CONSTRAINT `credentials_ibfk_2`
   FOREIGN KEY (`role_fk`)
-  REFERENCES `single_login`.`role` (`role`)
+  REFERENCES `role` (`role`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
   
-  ALTER TABLE `single_login`.`credentials` 
+  ALTER TABLE `credentials` 
 DROP FOREIGN KEY `credentials_ibfk_2`;
-ALTER TABLE `single_login`.`credentials` 
+ALTER TABLE `credentials` 
 ADD CONSTRAINT `credentials_ibfk_2`
   FOREIGN KEY (`role_fk`)
-  REFERENCES `single_login`.`role` (`role`)
+  REFERENCES `role` (`role`)
   ON DELETE RESTRICT
   ON UPDATE CASCADE;

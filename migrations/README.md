@@ -9,6 +9,7 @@ Inkrementální změny MySQL schématu pro cíle **red**, **auth** a **events**.
 | Release baseline | `YYYY` | `2025` (produkční výchozí) |
 | Soubor | `{YYYYMMDDHHMMSS}_{slug}.sql` | `20260101000015_alter_menu_item_pretty_uri` |
 
+- SQL **bez** schema kvalifikátorů (`events.table` / `` `events`.`table` ``); connection z site config vybere cílovou DB. Target = složka `red/` | `auth/` | `events/`.
 - Žurnál: tabulka `schema_migrations` **v cílové DB** (stav per DB instance, ne per app server).
 - Baseline `2025` pokryje soubory s rokem ≤ 2025; novější zůstanou pending.
 - Spuštění: Build panel (`/build`) — Stav / Spusť / Baseline 2025.
@@ -19,7 +20,7 @@ Inkrementální změny MySQL schématu pro cíle **red**, **auth** a **events**.
 |---------|------------------------|----------|
 | `red/` | `ConfigurationRed::dbUpgrade()` | počáteční sada z AlterRedDatabase |
 | `auth/` | `ConfigurationAuth::dbOld()` | **od teď** — bez dohánění historie |
-| `events/` | `ConfigurationEvents::dbEvents()` | alter + alter26 |
+| `events/` | `ConfigurationEvents::dbEvents()` | alter (`2024*`) + company_version/info (`2025*` — už v prod / SqlSources baseline 09–10); pending: `alter_login_pro_synchro` (`2026*`) |
 
 ## Typický scénář
 

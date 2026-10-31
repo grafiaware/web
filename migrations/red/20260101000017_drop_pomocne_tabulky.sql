@@ -4,6 +4,12 @@
  */
 /**
  * Author:  vlse2610
- * Created: 18. 12. 2024
+ * Created: 23. 10. 2026
  */
 
+DROP TABLE IF EXISTS `stranky`;
+DROP TABLE IF EXISTS `stranky_innodb`;
+
+DROP TABLE IF EXISTS `menu_item_test`;
+DROP TABLE IF EXISTS `menu_adjlist`;
+DROP TABLE IF EXISTS `list_uid`;

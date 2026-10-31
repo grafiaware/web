@@ -26,7 +26,7 @@ DROP PRIMARY KEY,
 ADD PRIMARY KEY (`item_id`),
 DROP INDEX `type_menu_item_type_fk2` ;
 
-ALTER TABLE `veletrhprace`.`item_action` 
+ALTER TABLE `item_action` 
 DROP PRIMARY KEY,
 ADD PRIMARY KEY (`item_id`, `editor_login_name`);
 

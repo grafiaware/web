@@ -4,8 +4,11 @@
  */
 /**
  * Author:  pes2704
- * Created: 19. 1. 2025
+ * Created: 27. 1. 2025
  */
 
-ALTER TABLE `events`.`network` 
-ADD COLUMN `title` VARCHAR(45) NOT NULL AFTER `icon`;
+ALTER TABLE `visitor_job_request` 
+DROP COLUMN `position_name`;
+
+ALTER TABLE `visitor_job_request` 
+ADD COLUMN `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `letter_document`;
