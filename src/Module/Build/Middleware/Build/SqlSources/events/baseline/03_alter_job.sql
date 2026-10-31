@@ -4,11 +4,8 @@
  */
 /**
  * Author:  pes2704
- * Created: 27. 1. 2025
+ * Created: 8. 1. 2025
  */
 
-ALTER TABLE `events`.`visitor_job_request` 
-DROP COLUMN `position_name`;
-
-ALTER TABLE `events`.`visitor_job_request` 
-ADD COLUMN `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `letter_document`;
+ALTER TABLE `job` 
+ADD COLUMN `published` TINYINT(1) NOT NULL DEFAULT 0 AFTER `company_id`;

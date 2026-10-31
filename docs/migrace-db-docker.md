@@ -171,6 +171,7 @@ Konvence (viz také `migrations/README.md`):
    - **Spusť migrace** — vykoná pending SQL soubory a zapíše jejich verze.
 
 Po baseline 2025 na DB s produkčním schema typicky zbývají jen migrace z roku 2026+ (pokud v repo jsou).
+U **events** jsou historické `alter26` (včetně `CREATE company_version`) očíslované jako `2025*`, protože je produkční dump už obsahuje — po Baseline 2025 tedy **ne**zůstanou pending.
 
 Auth: verzujeme **od teď** — na „schema jak je“ stačí Baseline 2025 bez historických skriptů.
 
