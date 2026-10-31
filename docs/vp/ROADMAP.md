@@ -11,7 +11,7 @@ Každý balík (kód jako `A1`, `D1`) se vyvíjí ve vlastní git větvi a do `m
 
 | Větev | Balíky | Závisí na | Samostatně do produkce |
 |---|---|---|---|
-| **Z Základ** | Z1 automatická synchronizace účtu auth → events při potvrzení registrace (místo tlačítka Synchro); Z2 plánovač úloh (cron); Z3 sdílené e-mailové šablony, odesílatel v konfiguraci; Z4 migrace DB events na hostingu (tabulka `login` a cizí klíče na ni, PR #36); Z5 přístupnost (WCAG) a mobil; Z6 *(později)* hashovat heslo hned při registraci, neposílat ho e-mailem, mazat nepotvrzené registrace; Z7 testy v CI (PES je od 10/2026 na Packagistu, CI už nic neblokuje; nejdřív opravit stávající chyby testů, viz níže); Z8 přepínače funkcí; Z9 *(později)* produkční přístupy do DB mimo repozitář | — | ano |
+| **Z Základ** | Z1 automatická synchronizace účtu auth → events při potvrzení registrace (místo tlačítka Synchro); Z2 plánovač úloh (cron); Z3 sdílené e-mailové šablony, odesílatel v konfiguraci; Z4 migrace DB events na hostingu (tabulka `login` a cizí klíče na ni; oprava pro MariaDB v PR #57); Z5 přístupnost (WCAG) a mobil; Z6 *(později)* hashovat heslo hned při registraci, neposílat ho e-mailem, mazat nepotvrzené registrace; Z7 testy v CI (PES je od 10/2026 na Packagistu, CI už nic neblokuje; nejdřív opravit stávající chyby testů, viz níže); Z8 přepínače funkcí; Z9 *(později)* produkční přístupy do DB mimo repozitář; Z10 anonymizované dumpy DB z aktuální produkce (#58) | — | ano |
 | **V1 Registrace** | A1 registrace jméno + e-mail, heslo volitelně, `login_name` z části e-mailu před zavináčem; A2 přihlášení odkazem z e-mailu; A3 úklid nedokončených registrací; A4 texty o ochraně dat; A5 mobilní formuláře; A7 Google/Seznam/MojeID (2. fáze) | Z1, Z8 | ano |
 | **V2 Losování** | D1 losy vázané na účet, bonus za úplný profil, administrace slosování, výherci; D1b online kategorie | Z1, Z8 | ano |
 | **V3 Souhlasy** | C1 granulární souhlasy v DB (text, verze, čas); C2 smazání účtu a doba uchování; C3 export vlastních dat | Z1, Z2 | ano |
@@ -33,7 +33,7 @@ Každý balík (kód jako `A1`, `D1`) se vyvíjí ve vlastní git větvi a do `m
 
 Všechny úpravy jdou v jedné vlně; větve nemají prioritu, pořadí určují jen technické závislosti.
 
-1. **Bez závislostí, hned a souběžně:** Z8 přepínače, Z3 e-mailové šablony, Z7 oprava testů + CI, Z2 plánovač; Z4 po sloučení PR #36.
+1. **Bez závislostí, hned a souběžně:** Z8 přepínače, Z3 e-mailové šablony, Z7 oprava testů + CI, Z2 plánovač, Z4 (PR #57), Z10 anonymizované dumpy.
 2. **Po Z4:** Z1 automatická synchronizace účtů.
 3. **Samostatné větve V1–V12** souběžně, každý balík jakmile má své závislosti (Z1, Z8, Z3…); v V6 nejdřív G0, pak G1, G3, G4.
 4. **Uzly:** U1 → V13 (po V3 + V4), U2 → V14 (po V2 + V3 + V5), U3 → V15 (po V3 + V7 + V11), U4 → V16 (po V6 + V7 + V11).
