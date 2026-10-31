@@ -7,6 +7,8 @@ namespace Application\Api;
  *
  * @param string|null $responseMode Hodnota {@see \FrontControler\Response\MutationResponseMode}.
  *        null = bez vynucení (GET, nebo mutace zatím bez módu).
+ * @param string|null $feature Klíč přepínače funkce ({@see \Application\Feature\FeatureFlags}).
+ *        null = routa platí vždy; jinak se zaregistruje jen při zapnuté funkci (vypnutá = 404).
  */
 final class RouteDefinition {
 
@@ -19,6 +21,7 @@ final class RouteDefinition {
         public readonly string $controllerClass,
         public readonly string $controllerMethod,
         public readonly ?string $responseMode = null,
+        public readonly ?string $feature = null,
     ) {
     }
 }

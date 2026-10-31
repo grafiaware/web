@@ -103,6 +103,28 @@ class ConfigurationCache {
         return self::resolve('bootstrap');
     }
 
+    /**
+     * Přepínače funkcí aktivní site — volitelná třída Site\{Site}\ConfigurationFeatures::features().
+     * Site bez této třídy má všechny funkce vypnuté (vrací prázdné pole).
+     *
+     * @return array<string, bool>
+     */
+    public static function features(): array {
+        if (isset(self::$cache['features'])) {
+            return self::$cache['features'];
+        }
+        $fqcn = SiteModules::siteNamespace(ActiveSite::name()) . '\\ConfigurationFeatures';
+        $features = [];
+        if (class_exists($fqcn) && method_exists($fqcn, 'features')) {
+            $result = $fqcn::features();
+            if (!is_array($result)) {
+                throw new LogicException("$fqcn::features() must return array");
+            }
+            $features = $result;
+        }
+        return self::$cache['features'] = $features;
+    }
+
     public static function api() {
         return self::resolve('api');
     }
