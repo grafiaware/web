@@ -38,6 +38,7 @@
         "psr-4": {
             "Site\\": "app/Site",
             "Access\\": "src/Access",
+            "Form\\": "src/Form",
             "Application\\": "src/Application",
             "Component\\": "src/Component",
             "Configuration\\": "src/Configuration",
