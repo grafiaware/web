@@ -418,11 +418,17 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'noreply' => ['noreply@najdisi.cz', 'web praci.najdisi.cz'],
                 'testmail' => ['info@najdisi.cz', 'web najdisi'],
             ],
-            'mail.recipients' => [
+            // mimo produkční hosting jdou pevní příjemci na smyšlené adresy (.test) — při vývoji se nesmí poslat nic skutečným lidem
+            'mail.recipients' => PES_RUNNING_ON_PRODUCTION_HOST ? [
                 'registration.bcc' => [['webmaster@grafia.cz', 'vs']],
                 'exhibitorRegistration.to' => [['slukova@grafia.cz', 'Registace zástupce vystavovatele']],
                 'exhibitorRegistration.cc' => [['slehoferova@grafia.cz', 'Registace zástupce vystavovatele']],
                 'testmail.to' => [['selnerova@grafia.cz', 'selnerovaV'], ['svoboda@grafia.cz', 'testMail']],
+            ] : [
+                'registration.bcc' => [['webmaster@najdisi.test', 'vývoj – kopie registrace']],
+                'exhibitorRegistration.to' => [['vystavovatel-to@najdisi.test', 'vývoj – registrace zástupce vystavovatele']],
+                'exhibitorRegistration.cc' => [['vystavovatel-cc@najdisi.test', 'vývoj – registrace zástupce vystavovatele']],
+                'testmail.to' => [['testmail@najdisi.test', 'vývoj – testMail']],
             ],
 
         ];

@@ -55,6 +55,15 @@ uživatele z `docker/migrations/init/01_create_databases.sql` a navíc `events_e
 s právy na `events` (testy se připojují přes `localhost`, tj. socket). Část testů počítá s daty v DB (číselníky, red obsah).
 Mail integrace (`--testsuite mail-integration`) potřebuje `docker-compose.mail-test.yml`.
 
+### E-maily při vývoji — jen fake SMTP
+
+- Všechny site mají `mail.paramsname => 'smtp4dev'` (SMTP na `localhost:25`, nic se nedoručí, e-maily se jen zachytí).
+- Lokálně: `docker compose -f docker-compose.mail-test.yml up -d`, zachycené e-maily na http://localhost:5000.
+- Cloud (agent): jednoduchý SMTP server v Pythonu (`aiosmtpd`) na `127.0.0.1:25`, e-maily ukládá jako `.eml`.
+- Mimo produkční hosting (`PES_RUNNING_ON_PRODUCTION_HOST` = false) jdou pevní příjemci NajdiSi (kopie registrace,
+  registrace vystavovatele, testmail) na smyšlené adresy `@najdisi.test`; skutečné adresy jen na produkci.
+- `mail.paramsname` pro produkci se zatím přepíná ručně při nasazení (`najdisi`).
+
 ## Cloudové prostředí (Claude Code na webu)
 
 Ověřeno 22. 10. a 31. 10. 2026. Kontejner má PHP 8.3 a Docker Hub, PPA ani stahování archivů z GitHubu nejsou dostupné, proto:
