@@ -9,6 +9,7 @@
 namespace Sendmail\Middleware\Sendmail\Controler;
 
 use Site\ConfigurationCache;
+use Mail\MailSettings;
 
 use FrontControler\PresentationFrontControlerAbstract;
 
@@ -145,8 +146,9 @@ class MailControler extends PresentationFrontControlerAbstract {
                         /** @var HtmlMessage $mailMessageFactory */
                         $mailMessageFactory = $this->container->get(HtmlMessage::class);
                         $subject =  'Veletrh práce - Poděkování, odkazy a "virtuální igelitka"';
-                        $body = $mailMessageFactory->create(__DIR__."/Messages/podekovani-odkazy-igelitka2.php",
+                        $body = $mailMessageFactory->create(__DIR__."/Messages/podekovani-odkazy-igelitka.php",
                                                             ['registerJmeno' => $credentials->getLoginNameFk(),
+                                                             'data_logo_klic' => MailSettings::fromConfiguration()->logoDataUri('klic'),
 
                                                             ]);
                         $attachments = [

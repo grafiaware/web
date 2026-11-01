@@ -8,16 +8,14 @@ use PHPUnit\Framework\TestCase;
 use Test\Unit\Mail\Support\MailTemplateFixtures;
 
 /**
- * Test C1: MailControler odkazuje na neexistující podekovani-odkazy-igelitka2.php.
- * Test je záměrně psán proti aktuálnímu stavu kódu a očekává se jeho pád/chyba.
+ * Šablona, kterou používá MailControler (kampaň „Poděkování, odkazy a virtuální igelitka“).
  */
 final class SendmailMailControlerTemplateTest extends TestCase
 {
-    public function testPodekovaniOdkazyIgelitka2ReferencedByMailControler(): void
+    public function testPodekovaniOdkazyIgelitkaReferencedByMailControler(): void
     {
-        $this->markTestSkipped('MailControler (kampaň 2021) odkazuje na šablonu podekovani-odkazy-igelitka2.php, která v repu není. Čeká na rozhodnutí: opravit odkaz, nebo starou kampaň odstranit (Z7, #43).');
         $html = (new HtmlMessage())->create(
-            MailTemplateFixtures::sendmailControlerMessage('podekovani-odkazy-igelitka2.php'),
+            MailTemplateFixtures::sendmailControlerMessage('podekovani-odkazy-igelitka.php'),
             MailTemplateFixtures::podekovaniContext()
         );
 
