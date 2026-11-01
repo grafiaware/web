@@ -36,8 +36,9 @@ Do `master` se nepushuje přímo. Do `master-vp` standardně přes pull request;
 
 - Drž se existujících vzorů modulu, nevymýšlej paralelní architekturu.
 - Změna ve sdíleném `src` nesmí změnit chování ostatních sites. Nová funkce VP je mimo NajdiSi vypnutá.
-- Každá viditelná nová funkce má **přepínač** v konfiguraci site NajdiSi s výchozí hodnotou *vypnuto*
-  (mechanismus zavádí balík Z8). Vypnutá funkce: routy vrací 404, šablony ji nezobrazují.
+- Každá viditelná nová funkce má **přepínač** v `app/Site/NajdiSi/ConfigurationFeatures.php` s výchozí hodnotou *vypnuto*
+  (klíč `vp.<funkce>`). Routy: parametr `$feature` v `RouteDefinition` (vypnutá funkce = 404);
+  šablony a kontroléry: `FeatureFlags::fromConfiguration()->isEnabled('vp.<funkce>')`. Popis: `docs/vp/zadani/Z8.md`.
 - Texty, hlášky a e-maily česky. E-maily přes sdílené šablony, adresy odesílatelů z konfigurace (ne natvrdo v kontroléru).
 - Hesla a tokeny nikdy v čitelné podobě v DB, logu ani e-mailu. Výjimka: stávající dočasné heslo v `registration`
   do potvrzení registrace (záměr kvůli ručnímu dokončení registrace vystavovatele, řeší odložený balík Z6) — nerozšiřovat.

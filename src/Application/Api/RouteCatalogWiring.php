@@ -2,6 +2,7 @@
 
 namespace Application\Api;
 
+use Application\Feature\FeatureFlags;
 use FrontControler\FrontControlerAbstract;
 use Pes\Router\RouteSegmentGenerator;
 use Psr\Container\ContainerInterface;
@@ -18,12 +19,15 @@ final class RouteCatalogWiring {
     /**
      * @param list<RouteDefinition> $definitions
      * @param non-empty-list<string> $httpMethods např. ['GET'] nebo ['POST','PUT']
+     * @param FeatureFlags|null $features přepínače funkcí; null = načíst z konfigurace aktivní site,
+     *        až když je potřeba (definice s $feature)
      */
     public static function wire(
         RouteSegmentGenerator $generator,
         ContainerInterface $container,
         array $definitions,
         array $httpMethods,
+        ?FeatureFlags $features = null,
     ): void {
         if ($httpMethods === []) {
             throw new InvalidArgumentException(
@@ -33,6 +37,12 @@ final class RouteCatalogWiring {
         foreach ($definitions as $def) {
             if (!in_array($def->httpMethod, $httpMethods, true)) {
                 continue;
+            }
+            if ($def->feature !== null) {
+                $features ??= FeatureFlags::fromConfiguration();
+                if (!$features->isEnabled($def->feature)) {
+                    continue;   // vypnutá funkce: routa neexistuje → 404
+                }
             }
             $class = $def->controllerClass;
             $method = $def->controllerMethod;
