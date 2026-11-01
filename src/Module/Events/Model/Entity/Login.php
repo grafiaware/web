@@ -29,7 +29,7 @@ class Login extends PersistableEntityAbstract implements LoginInterface {
     /**
      * @var string
      */
-    private $deletedDueToAuth; //NOT NULL
+    private $deletedDueToAuth = '0'; //NOT NULL, výchozí 0 = platný účet (nová entita bez hydratace)
 
     #[\Override]
     public function getLoginName() : string  {
