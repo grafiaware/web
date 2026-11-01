@@ -32,6 +32,7 @@ final class MailSettings {
 
     private const DEFAULT_LOGOS = [
         'grafia' => __DIR__ . '/Assets/logo_grafia.gif',
+        'klic' => __DIR__ . '/Assets/logo_klic.png',
     ];
 
     public function __construct(
