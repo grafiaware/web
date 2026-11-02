@@ -3,6 +3,7 @@
 namespace Build\Migration;
 
 use PDO;
+use PDOException;
 use Pes\Database\Manipulator\Manipulator;
 use RuntimeException;
 
@@ -62,6 +63,9 @@ final class DatabaseRebuilder
     private function dropAllTables(PDO $pdo, string $database): array
     {
         $pdo->exec('SET FOREIGN_KEY_CHECKS=0');
+        // Views first — leftover DEFINER=root (SYSTEM_USER) views blokují rebuild (1227).
+        $this->dropAllViews($pdo, $database);
+
         $stmt = $pdo->prepare(
             'SELECT TABLE_NAME AS table_name
              FROM information_schema.tables
@@ -75,21 +79,51 @@ final class DatabaseRebuilder
             $tables[] = $name;
             $pdo->exec('DROP TABLE IF EXISTS `' . str_replace('`', '``', $name) . '`');
         }
-        // views
+        $pdo->exec('SET FOREIGN_KEY_CHECKS=1');
+
+        return $tables;
+    }
+
+    private function dropAllViews(PDO $pdo, string $database): void
+    {
         $vstmt = $pdo->prepare(
-            'SELECT TABLE_NAME AS table_name
+            'SELECT TABLE_NAME AS table_name, DEFINER AS definer
              FROM information_schema.views
              WHERE table_schema = :db
              ORDER BY TABLE_NAME'
         );
         $vstmt->execute(['db' => $database]);
+        $blocked = [];
         while ($row = $vstmt->fetch(PDO::FETCH_ASSOC)) {
             $name = (string) $row['table_name'];
-            $pdo->exec('DROP VIEW IF EXISTS `' . str_replace('`', '``', $name) . '`');
+            $definer = (string) ($row['definer'] ?? '');
+            try {
+                $pdo->exec('DROP VIEW IF EXISTS `' . str_replace('`', '``', $name) . '`');
+            } catch (PDOException $e) {
+                if (!$this->isSystemUserPrivilegeError($e)) {
+                    throw $e;
+                }
+                $blocked[] = "{$name} (DEFINER={$definer})";
+            }
         }
-        $pdo->exec('SET FOREIGN_KEY_CHECKS=1');
+        if ($blocked !== []) {
+            throw new RuntimeException(
+                'DROP VIEW selhalo (SQLSTATE 1227 SYSTEM_USER): '
+                . implode(', ', $blocked)
+                . '. View má DEFINER s privilegem SYSTEM_USER (typicky root po CLI importu). '
+                . 'Jednou jako root spusťte docker/migrations/drop-root-definer-views.sql '
+                . 'a pak znovu php scripts/db-rebuild.php --target=all --yes. '
+                . 'Nové baseline views se vytváří jako SQL SECURITY INVOKER bez cizího DEFINER.'
+            );
+        }
+    }
 
-        return $tables;
+    private function isSystemUserPrivilegeError(PDOException $e): bool
+    {
+        $msg = $e->getMessage();
+
+        return str_contains($msg, '1227')
+            || str_contains($msg, 'SYSTEM_USER');
     }
 
     private function importDump(Manipulator $manipulator, string $dumpPath): void

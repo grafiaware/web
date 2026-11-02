@@ -1476,17 +1476,10 @@ SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 
 
-/*!50001 DROP VIEW IF EXISTS `pocet_pozic`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8mb4 */;
-/*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_uca1400_ai_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 SQL SECURITY DEFINER */
-/*!50001 VIEW `pocet_pozic` AS select `name` AS `name`,count(`name`) AS `pocet_pozic` from (`company` join `job` on(`id` = `company_id`)) where `version_fk` = '2026' and `published` = 1 group by `name` order by `name` */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-/*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
+DROP VIEW IF EXISTS `pocet_pozic`;
+CREATE SQL SECURITY INVOKER VIEW `pocet_pozic` AS
+select `company`.`name` AS `name`, count(`company`.`name`) AS `pocet_pozic`
+from (`company` join `job` on (`company`.`id` = `job`.`company_id`))
+where `company`.`version_fk` = '2026' and `job`.`published` = 1
+group by `company`.`name`
+order by `company`.`name`;

@@ -221,4 +221,35 @@ CREATE TABLE `static` (
   CONSTRAINT `menu_item_id_fk2` FOREIGN KEY (`menu_item_id_fk`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=248 DEFAULT CHARSET=utf8;
 
+DROP VIEW IF EXISTS `fulltree`;
+CREATE SQL SECURITY INVOKER VIEW `fulltree` AS
+select `node`.`uid` AS `uidqq`,
+  (count(`parent`.`uid`) - 1) AS `depth`,
+  `node`.`left_node` AS `left_node`,
+  `node`.`right_node` AS `right_node`,
+  `node`.`parent_uid` AS `parent_uid`
+from (`hierarchy` `node` join `hierarchy` `parent`
+  on (`node`.`left_node` between `parent`.`left_node` and `parent`.`right_node`))
+group by `node`.`uid`;
+
+DROP VIEW IF EXISTS `hierarchy_view`;
+CREATE SQL SECURITY INVOKER VIEW `hierarchy_view` AS
+select
+  `hierarchy`.`uid` AS `uid`,
+  `hierarchy`.`left_node` AS `left_node`,
+  `hierarchy`.`right_node` AS `right_node`,
+  `hierarchy`.`parent_uid` AS `parent_uid`,
+  `menu_item`.`lang_code_fk` AS `lang_code`,
+  `menu_item`.`uid_fk` AS `uid_fk`,
+  `menu_item`.`id` AS `id`,
+  `menu_item`.`api_module_fk` AS `api_module_fk`,
+  `menu_item`.`api_generator_fk` AS `api_generator_fk`,
+  `menu_item`.`list` AS `list`,
+  `menu_item`.`order` AS `order`,
+  `menu_item`.`title` AS `title`,
+  `menu_item`.`prettyuri` AS `prettyuri`,
+  `menu_item`.`active` AS `active`,
+  `menu_item`.`auto_generated` AS `auto_generated`
+from (`hierarchy` left join `menu_item` on (`hierarchy`.`uid` = `menu_item`.`uid_fk`));
+
 SET FOREIGN_KEY_CHECKS=1;

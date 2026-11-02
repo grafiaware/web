@@ -48,6 +48,25 @@ function extractStructureWithDrops(string $sql): string
             $out[] = '';
         }
     }
+    // Finální view DDL (ne mysqldump stub SELECT 1 AS …). Sanitizer doplní INVOKER.
+    if (preg_match_all(
+        '/CREATE\s+(?:ALGORITHM\s*=\s*\w+\s+)?(?:DEFINER\s*=\s*\S+\s+)?(?:SQL\s+SECURITY\s+\w+\s+)?VIEW\s+`([^`]+)`\s+AS\s+[\s\S]*?;/i',
+        $sql,
+        $vm,
+        PREG_SET_ORDER
+    )) {
+        foreach ($vm as $match) {
+            $viewSql = $match[0];
+            if (preg_match('/\bAS\s+SELECT\s+1\s+AS\b/i', $viewSql) === 1) {
+                continue; // mysqldump placeholder
+            }
+            $view = $match[1];
+            $out[] = "-- View structure for {$view}";
+            $out[] = "DROP VIEW IF EXISTS `{$view}`;";
+            $out[] = $viewSql;
+            $out[] = '';
+        }
+    }
     $out[] = 'SET FOREIGN_KEY_CHECKS=1;';
 
     return implode("\n", $out) . "\n";

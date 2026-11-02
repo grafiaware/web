@@ -276,9 +276,18 @@ php scripts/db-rebuild.php --drift-check
 
 Guard: při `PES_RUNNING_ON_PRODUCTION_HOST` rebuild **odmítne**, dokud nedáte `--force-prod`.
 
-**Import sanitizace:** `DatabaseRebuilder` před `executeSequence` prožene dump přes `BaselineDumpSanitizer` — strip `--` komentářů (Manipulator dělí podle `;` i uvnitř nich), `DEFINER=…`, `GRANT`/`SET DEFAULT ROLE`/`mysql.*`, orphan `@OLD_*` epilogu. Build DBA **nepotřebuje** `SYSTEM_USER` / `SUPER`. App granty (`grant-auth-events.sql`) stačí; root jen když zakládáte DB/users.
+**Import sanitizace:** `DatabaseRebuilder` před `executeSequence` prožene dump přes `BaselineDumpSanitizer` — strip `--` komentářů (Manipulator dělí podle `;` i uvnitř nich), `DEFINER=…`, přepis `SQL SECURITY DEFINER` → `INVOKER`, `GRANT`/`SET DEFAULT ROLE`/`mysql.*`, orphan `@OLD_*` epilogu, MariaDB-only collation/comment. Build DBA **nepotřebuje** `SYSTEM_USER` / `SUPER`. App granty (`grant-auth-events.sql`) stačí; root jen když zakládáte DB/users nebo mažete staré root-DEFINER views.
 
-**Obnova po failed rebuildu** (typicky zbude jen `schema_migrations`, Build ukazuje vše pending): znovu spusťte `php scripts/db-rebuild.php --target=all --yes` (drop tabulek → čistý baseline → žurnál 2025 → migrate). Není potřeba `down -v`, pokud MySQL users/granty žijí.
+**1227 SYSTEM_USER při rebuildu red/events:** skoro vždy `DROP VIEW` na view s `DEFINER=root@…` (po dřívějším CLI importu jako root). Build DBA to nesmí dropnout. Jednou:
+
+```bash
+docker compose -f docker-compose.migrations.yml exec -T mysql mysql -uroot -proot < docker/migrations/drop-root-definer-views.sql
+php scripts/db-rebuild.php --target=all --yes
+```
+
+Pak už baseline vytváří views jako `SQL SECURITY INVOKER` (DEFINER = Build DBA) a další rebuildy projdou.
+
+**Obnova po failed rebuildu** (typicky zbude jen `schema_migrations`, Build ukazuje vše pending): pokud padá na 1227, nejdřív `drop-root-definer-views.sql`; pak `php scripts/db-rebuild.php --target=all --yes`. Není potřeba `down -v`, pokud MySQL users/granty žijí.
 
 **Drift check (HTTP):** middleware `MigrationDriftMiddleware` (web stack) — read-only, cache ~60 s. Dev: `error_log` + hlavička `X-Migration-Drift`. Prod: hard fail při ahead/behind. **Žádný** auto-drop v request path.
 

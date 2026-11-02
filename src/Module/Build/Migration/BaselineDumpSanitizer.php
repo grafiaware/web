@@ -8,6 +8,10 @@ namespace Build\Migration;
  * Upraví mysqldump / baseline SQL tak, aby ho zvládnul běžný Build DBA bez SYSTEM_USER/SUPER
  * a aby Manipulator::executeSequence (split jen mimo uvozovky, bez pochopení -- komentářů)
  * nedostal ne-SQL fragmenty.
+ *
+ * Pozn. k 1227 SYSTEM_USER: DROP/ALTER VIEW (nebo CREATE s DEFINER=jiný_účet) selže, pokud
+ * existující objekt má DEFINER s privilegem SYSTEM_USER (typicky root po CLI importu).
+ * Sanitizer proto nikdy nevytváří DEFINER=… / SQL SECURITY DEFINER — jen INVOKER + current user.
  */
 final class BaselineDumpSanitizer
 {
@@ -15,9 +19,12 @@ final class BaselineDumpSanitizer
     {
         $sql = self::stripPlainComments($sql);
         $sql = self::stripDefinerClauses($sql);
+        $sql = self::rewriteSecurityDefinerToInvoker($sql);
         $sql = self::stripPrivilegeAndSystemStatements($sql);
         $sql = self::stripEmptyVersionedComments($sql);
         $sql = self::stripOrphanOldVarRestores($sql);
+        $sql = self::stripMariaDbOnlyComments($sql);
+        $sql = self::rewriteUnsupportedCollations($sql);
 
         return trim($sql) . "\n";
     }
@@ -52,6 +59,16 @@ final class BaselineDumpSanitizer
         ) ?? $sql;
 
         return $sql;
+    }
+
+    /**
+     * SQL SECURITY DEFINER (i bez DEFINER=user) ponechává security_type=DEFINER;
+     * při pozdějším DROP od non-SYSTEM_USER účtu hrozí 1227, pokud DEFINER získá SYSTEM_USER.
+     * INVOKER = bezpečné pro Build DBA rebuild smyčku.
+     */
+    private static function rewriteSecurityDefinerToInvoker(string $sql): string
+    {
+        return preg_replace('/SQL\s+SECURITY\s+DEFINER/i', 'SQL SECURITY INVOKER', $sql) ?? $sql;
     }
 
     private static function stripPrivilegeAndSystemStatements(string $sql): string
@@ -94,5 +111,29 @@ final class BaselineDumpSanitizer
             '',
             $sql
         ) ?? $sql;
+    }
+
+    /** MariaDB-only versioned comments (`/*M!…`) na MySQL 8 nic neřeší / ruší. */
+    private static function stripMariaDbOnlyComments(string $sql): string
+    {
+        return preg_replace('#/\*M!\d+[\s\S]*?\*/\s*;?\s*#', '', $sql) ?? $sql;
+    }
+
+    /**
+     * Produkční MariaDB collation v dump view session SETech — na mysql:8.0 neexistuje (error 1273).
+     */
+    private static function rewriteUnsupportedCollations(string $sql): string
+    {
+        return str_ireplace(
+            [
+                'utf8mb4_uca1400_ai_ci',
+                'utf8mb3_uca1400_ai_ci',
+            ],
+            [
+                'utf8mb4_unicode_ci',
+                'utf8mb3_general_ci',
+            ],
+            $sql
+        );
     }
 }

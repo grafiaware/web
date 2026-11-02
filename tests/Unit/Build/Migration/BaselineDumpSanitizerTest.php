@@ -26,7 +26,7 @@ SQL;
         $this->assertStringContainsString('CREATE TABLE t (id INT);', $out);
     }
 
-    public function testStripsDefinerFromVersionedViewComment(): void
+    public function testStripsDefinerAndRewritesSecurityToInvoker(): void
     {
         $sql = <<<'SQL'
 /*!50001 DROP VIEW IF EXISTS `pocet_pozic`*/;
@@ -39,8 +39,24 @@ SQL;
 
         $this->assertStringNotContainsString('DEFINER=', $out);
         $this->assertStringNotContainsString('najdisicz004', $out);
-        $this->assertStringContainsString('SQL SECURITY DEFINER', $out);
+        $this->assertStringNotContainsString('SQL SECURITY DEFINER', $out);
+        $this->assertStringContainsString('SQL SECURITY INVOKER', $out);
         $this->assertStringContainsString('VIEW `pocet_pozic`', $out);
+    }
+
+    public function testRewritesMariaDbCollationAndStripsMariaComments(): void
+    {
+        $sql = <<<'SQL'
+/*!50001 SET collation_connection = utf8mb4_uca1400_ai_ci */;
+CREATE TABLE t (id INT);
+/*M!100616 SET NOTE_VERBOSITY=1 */;
+SQL;
+
+        $out = BaselineDumpSanitizer::sanitize($sql);
+
+        $this->assertStringNotContainsString('utf8mb4_uca1400_ai_ci', $out);
+        $this->assertStringContainsString('utf8mb4_unicode_ci', $out);
+        $this->assertStringNotContainsString('NOTE_VERBOSITY', $out);
     }
 
     public function testStripsGrantAndMysqlProcStyleStatements(): void
