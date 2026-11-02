@@ -6,8 +6,9 @@ declare(strict_types=1);
  * Regeneruje docker/migrations/baseline/2025/{auth,events,red}.sql
  * z lokálních dumps_produkce/ (gitignore).
  *
- * Odstraní schema_migrations, schema kvalifikátory, USE/CREATE DATABASE,
- * a přes BaselineDumpSanitizer i DEFINER / privilege statements / nebezpečné komentáře.
+ * Odstraní schema_migrations, schema kvalifikátory (jen známá DB jména),
+ * USE/CREATE DATABASE, a přes BaselineDumpSanitizer i DEFINER /
+ * SQL SECURITY DEFINER→INVOKER / privilege statements / nebezpečné komentáře.
  */
 
 $root = dirname(__DIR__);
@@ -30,11 +31,44 @@ function stripSchemaMigrations(string $sql): string
     return $sql;
 }
 
+/**
+ * Strip only known database schema prefixes (`najdisi`.`table`),
+ * never table.column / alias.column inside VIEW DDL.
+ */
 function stripSchemaQualifiers(string $sql): string
 {
-    return preg_replace('/`[A-Za-z0-9_]+`\s*\.\s*(`[A-Za-z0-9_]+`)/', '$1', $sql) ?? $sql;
+    $schemas = 'najdisi|events|login|single_login|veletrhprace|auth|red|grafia';
+
+    return preg_replace('/`(?:' . $schemas . ')`\s*\.\s*(`[A-Za-z0-9_]+`)/i', '$1', $sql) ?? $sql;
 }
 
+/** Navicat-style dumps often omit DROP before CREATE TABLE. */
+function ensureDropTableBeforeCreate(string $sql): string
+{
+    return preg_replace_callback(
+        '/^CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?`([^`]+)`/im',
+        static function (array $m): string {
+            return "DROP TABLE IF EXISTS `{$m[1]}`;\n{$m[0]}";
+        },
+        $sql
+    ) ?? $sql;
+}
+
+/** Ensure DROP VIEW before CREATE VIEW (rebuild may leave views after DROP TABLE). */
+function ensureDropViewBeforeCreate(string $sql): string
+{
+    return preg_replace_callback(
+        '/\bCREATE\s+(?:ALGORITHM\s*=\s*\w+\s+)?(?:DEFINER\s*=\s*(?:`[^`]+`|\'[^\']+\'|"[^"]+"|[^\s@\'"`]+)\s*@\s*(?:`[^`]+`|\'[^\']+\'|"[^"]+"|[^\s\'"`]+)\s+)?(?:SQL\s+SECURITY\s+\w+\s+)?VIEW\s+`([^`]+)`/i',
+        static function (array $m): string {
+            return "DROP VIEW IF EXISTS `{$m[1]}`;\n{$m[0]}";
+        },
+        $sql
+    ) ?? $sql;
+}
+
+/**
+ * @deprecated Kept for ad-hoc structure extracts; red/auth/events baselines are full dumps.
+ */
 function extractStructureWithDrops(string $sql): string
 {
     $out = ["SET FOREIGN_KEY_CHECKS=0;", ''];
@@ -61,8 +95,12 @@ function normalizeDump(string $sql, bool $structureOnly = false): string
     $sql = preg_replace('/^\s*CREATE\s+DATABASE[\s\S]*?;\s*$/mi', '', $sql) ?? $sql;
     if ($structureOnly) {
         $sql = extractStructureWithDrops($sql);
-    } elseif (stripos($sql, 'FOREIGN_KEY_CHECKS') === false) {
-        $sql = "SET FOREIGN_KEY_CHECKS=0;\n" . $sql . "\nSET FOREIGN_KEY_CHECKS=1;\n";
+    } else {
+        $sql = ensureDropTableBeforeCreate($sql);
+        $sql = ensureDropViewBeforeCreate($sql);
+        if (stripos($sql, 'FOREIGN_KEY_CHECKS') === false) {
+            $sql = "SET FOREIGN_KEY_CHECKS=0;\n" . $sql . "\nSET FOREIGN_KEY_CHECKS=1;\n";
+        }
     }
 
     // Pozn.: sanitize stripuje i `--` komentáře včetně headeru — header přidáváme až potom.
@@ -97,13 +135,13 @@ file_put_contents(
     $header('events', 'dumps_produkce/events.sql', 'structure + seed data') . $events
 );
 
-$red = normalizeDump((string) file_get_contents("{$srcDir}/red_najdisi.sql"), true);
+$red = normalizeDump((string) file_get_contents("{$srcDir}/red_najdisi.sql"), false);
 file_put_contents(
     "{$dstDir}/red.sql",
     $header(
         'red',
         'dumps_produkce/red_najdisi.sql',
-        'STRUCTURE ONLY — full data dump remains gitignored under docker/migrations/dumps/dumps_produkce/'
+        'structure + full CMS seed data (project-start dump)'
     ) . $red
 );
 
@@ -114,6 +152,8 @@ foreach (['auth.sql', 'events.sql', 'red.sql'] as $f) {
         . ' bytes=' . filesize($p)
         . ' schema_mig=' . (preg_match('/schema_migrations/i', $body) ? 'YES' : 'no')
         . ' definer=' . (preg_match('/DEFINER\s*=/i', $body) ? 'YES' : 'no')
+        . ' security_definer=' . (preg_match('/SQL\s+SECURITY\s+DEFINER/i', $body) ? 'YES' : 'no')
+        . ' inserts=' . preg_match_all('/INSERT\s+INTO/i', $body)
         . ' creates=' . preg_match_all('/CREATE\s+TABLE/i', $body)
         . PHP_EOL;
 }

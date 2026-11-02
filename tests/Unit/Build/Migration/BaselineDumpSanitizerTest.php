@@ -39,7 +39,8 @@ SQL;
 
         $this->assertStringNotContainsString('DEFINER=', $out);
         $this->assertStringNotContainsString('najdisicz004', $out);
-        $this->assertStringContainsString('SQL SECURITY DEFINER', $out);
+        $this->assertStringNotContainsString('SQL SECURITY DEFINER', $out);
+        $this->assertStringContainsString('SQL SECURITY INVOKER', $out);
         $this->assertStringContainsString('VIEW `pocet_pozic`', $out);
     }
 
