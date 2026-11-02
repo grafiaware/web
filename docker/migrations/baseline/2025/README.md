@@ -4,7 +4,7 @@ Společný start schématu (produkční roční verze **2025**) pro rebuild CLI 
 
 | Soubor | Target | Obsah | Zdroj (lokálně, gitignore) |
 |--------|--------|-------|----------------------------|
-| `red.sql` | red | **jen struktura** (+ `DROP TABLE IF EXISTS`) | `dumps_produkce/red_najdisi.sql` |
+| `red.sql` | red | struktura + **plná CMS data** (+ `DROP TABLE/VIEW IF EXISTS`) | `dumps_produkce/red_najdisi.sql` |
 | `auth.sql` | auth | struktura + seed | `dumps_produkce/login.sql` |
 | `events.sql` | events | struktura + seed | `dumps_produkce/events.sql` |
 
@@ -12,10 +12,11 @@ Společný start schématu (produkční roční verze **2025**) pro rebuild CLI 
 
 - **Bez** tabulky `schema_migrations` — žurnál zapisuje rebuild CLI (`Baseline 2025` + migrate).
 - **Bez** schema kvalifikátorů (`db`.`table`) a bez `USE` / `CREATE DATABASE`.
-- **Bez** `DEFINER=` / `GRANT` / `SET DEFAULT ROLE` / zápisů do `mysql.*` (Build DBA nemá `SYSTEM_USER`).
+- **Bez** `DEFINER=` / `SQL SECURITY DEFINER` / `GRANT` / `SET DEFAULT ROLE` / zápisů do `mysql.*` (Build DBA nemá `SYSTEM_USER`). Views: `SQL SECURITY INVOKER`.
 - V `--` komentářích **žádný středník** — `Manipulator::executeSequence` dělí SQL podle `;` i uvnitř komentářů.
 - Import path: `BaselineDumpSanitizer` v `DatabaseRebuilder` (stejná pravidla při runtime).
-- Plný red dump s CMS daty zůstává v `docker/migrations/dumps/` (gitignore); pro rebuild schema stačí struktura.
+- `red.sql` zahrnuje i views `fulltree` + `hierarchy_view` (INVOKER) a seed data z project-start dumpu.
+- Zdrojové dumpy zůstávají v `docker/migrations/dumps/dumps_produkce/` (gitignore) pro regeneraci.
 
 ## Regenerace
 

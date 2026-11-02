@@ -15,6 +15,7 @@ final class BaselineDumpSanitizer
     {
         $sql = self::stripPlainComments($sql);
         $sql = self::stripDefinerClauses($sql);
+        $sql = self::rewriteSecurityDefinerToInvoker($sql);
         $sql = self::stripPrivilegeAndSystemStatements($sql);
         $sql = self::stripEmptyVersionedComments($sql);
         $sql = self::stripOrphanOldVarRestores($sql);
@@ -52,6 +53,15 @@ final class BaselineDumpSanitizer
         ) ?? $sql;
 
         return $sql;
+    }
+
+    /**
+     * SQL SECURITY DEFINER (i bez DEFINER=user) ponechává security_type=DEFINER;
+     * INVOKER = bezpečné pro Build DBA rebuild smyčku.
+     */
+    private static function rewriteSecurityDefinerToInvoker(string $sql): string
+    {
+        return preg_replace('/SQL\s+SECURITY\s+DEFINER/i', 'SQL SECURITY INVOKER', $sql) ?? $sql;
     }
 
     private static function stripPrivilegeAndSystemStatements(string $sql): string
