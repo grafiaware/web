@@ -11,6 +11,8 @@ Související soubory v repo:
 | `docker/migrations/init/` | SQL při prvním vytvoření volume (DB + účty) |
 | `docker/migrations/grant-auth-events.sql` | Obnova účtů na **už běžícím** volume (bez `down -v`) |
 | `docker/migrations/dumps/` | Sem dávat lokální dumpy (necommittovat citlivá data) |
+| `docker/migrations/baseline/2025/` | Commitnuté baseline dumpy 2025 pro rebuild CLI |
+| `scripts/db-rebuild.php` | CLI rebuild (bez UI loginu): drop → baseline dump → žurnál 2025 → migrate |
 | `migrations/` | Verzované SQL migrace |
 | Agent Store plán | `docs/migrace-db.md` (mimo repo) — strategie baseline / multi-instance |
 
@@ -256,17 +258,41 @@ S tímto setupem může agent např. spustit `docker compose -f docker-compose.m
 
 ---
 
-## 7. Rychlá kontrolní sekvence
+## 7. Rebuild CLI (baseline 2025 + migrate)
+
+Po přepnutí git větve (nebo když žurnál „předbíhá“ soubory) použijte **CLI**, ne UI login — drop DB/auth často panel `/build` znefunkční.
+
+Baseline dumpy: `docker/migrations/baseline/2025/{red,auth,events}.sql`  
+(`red` = struktura; `auth`/`events` = struktura + seed. Plné produkční dumpy zůstávají v gitignore `docker/migrations/dumps/`.)
+
+```bash
+# destruktivní: drop všech tabulek targetu → import baseline → žurnál 2025 → migrate pending
+php scripts/db-rebuild.php --target=all --yes
+php scripts/db-rebuild.php --target=red --yes
+
+# jen drift (ahead / behind / ok) — exit 1 při nesouladu
+php scripts/db-rebuild.php --drift-check
+```
+
+Guard: při `PES_RUNNING_ON_PRODUCTION_HOST` rebuild **odmítne**, dokud nedáte `--force-prod`.
+
+**Drift check (HTTP):** middleware `MigrationDriftMiddleware` (web stack) — read-only, cache ~60 s. Dev: `error_log` + hlavička `X-Migration-Drift`. Prod: hard fail při ahead/behind. **Žádný** auto-drop v request path.
+
+Regenerace commitnutých baseline dumpů z lokálních `dumps_produkce/`:
+
+```bash
+php scripts/prepare-baseline-dumps.php
+```
+
+## 8. Rychlá kontrolní sekvence
 
 ```text
 Docker Desktop zapnutý
   → docker compose -f docker-compose.migrations.yml up -d
-  → (volitelně) import dumpu
+  → (volitelně) php scripts/db-rebuild.php --target=all --yes
+     nebo ruční import dumpu + /build Baseline 2025 + migrate
   → lokální PHP/web běží, site = NajdiSi (nebo jiná s DB na 127.0.0.1:3306)
-  → prohlížeč: /build → Stav migrací
-  → Baseline 2025 (jednou na čisté / dump bez žurnálu)
-  → Spusť migrace
-  → znovu Stav — pending prázdné (nebo jen očekávané nové soubory)
+  → prohlížeč: /build → Stav migrací  /  php scripts/db-rebuild.php --drift-check
 ```
 
 Pro agenta navíc: `agent worker start` (ne `cursor worker start`) v repo + běžící Docker.
