@@ -17,6 +17,8 @@ class ConfigurationFeatures {
     public static function features(): array {
         return [
             // 'vp.losovani' => false,   // D1 – příklad, klíče přidávají jednotlivé balíky
+            'vp.registrace-emailem' => false,   // A1 – registrace e-mailem (heslo volitelné), přihlášení e-mailem nebo jménem
+            'vp.prihlaseni-odkazem' => false,   // A2 – jednorázový přihlašovací odkaz e-mailem místo zapomenutého hesla
         ];
     }
 }
