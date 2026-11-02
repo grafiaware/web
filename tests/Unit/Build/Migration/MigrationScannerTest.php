@@ -27,10 +27,11 @@ final class MigrationScannerTest extends TestCase
         $this->assertContains('20260101000015_alter_menu_item_pretty_uri', $versions);
     }
 
-    public function testAuthMayBeEmptyAsideFromReadme(): void
+    public function testAuthContainsLoginTokenMigration(): void
     {
         $root = dirname(__DIR__, 4) . '/migrations';
         $scanner = new MigrationScanner($root);
-        $this->assertSame([], $scanner->scan(MigrationTarget::Auth));
+        $versions = array_map(static fn ($d) => $d->version, $scanner->scan(MigrationTarget::Auth));
+        $this->assertContains('20261102000001_login_token', $versions);  // A1 (#44)
     }
 }
