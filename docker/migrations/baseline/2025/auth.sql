@@ -2,13 +2,10 @@
 -- Source: dumps_produkce/login.sql
 -- structure + seed data
 -- No schema_migrations (journal written by rebuild CLI after import).
--- No schema-qualified identifiers; import into the target DB connection.
+-- No schema-qualified identifiers. Import into the target DB connection.
 
 SET FOREIGN_KEY_CHECKS=0;
 
---
--- Table structure for table `credentials`
---
 
 DROP TABLE IF EXISTS `credentials`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -27,9 +24,6 @@ CREATE TABLE `credentials` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `credentials`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `credentials` WRITE;
@@ -168,9 +162,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `login`
---
 
 DROP TABLE IF EXISTS `login`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -182,9 +173,6 @@ CREATE TABLE `login` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `login`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `login` WRITE;
@@ -364,9 +352,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `registration`
---
 
 DROP TABLE IF EXISTS `registration`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -386,9 +371,6 @@ CREATE TABLE `registration` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `registration`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `registration` WRITE;
@@ -557,9 +539,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `role`
---
 
 DROP TABLE IF EXISTS `role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -571,9 +550,6 @@ CREATE TABLE `role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `role`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `role` WRITE;
@@ -589,21 +565,5 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Dumping events for database 'najdisicz02'
---
 
---
--- Dumping routines for database 'najdisicz02'
---
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
-
--- Dump completed on 2026-10-15 22:52:14

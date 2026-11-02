@@ -276,6 +276,10 @@ php scripts/db-rebuild.php --drift-check
 
 Guard: při `PES_RUNNING_ON_PRODUCTION_HOST` rebuild **odmítne**, dokud nedáte `--force-prod`.
 
+**Import sanitizace:** `DatabaseRebuilder` před `executeSequence` prožene dump přes `BaselineDumpSanitizer` — strip `--` komentářů (Manipulator dělí podle `;` i uvnitř nich), `DEFINER=…`, `GRANT`/`SET DEFAULT ROLE`/`mysql.*`, orphan `@OLD_*` epilogu. Build DBA **nepotřebuje** `SYSTEM_USER` / `SUPER`. App granty (`grant-auth-events.sql`) stačí; root jen když zakládáte DB/users.
+
+**Obnova po failed rebuildu** (typicky zbude jen `schema_migrations`, Build ukazuje vše pending): znovu spusťte `php scripts/db-rebuild.php --target=all --yes` (drop tabulek → čistý baseline → žurnál 2025 → migrate). Není potřeba `down -v`, pokud MySQL users/granty žijí.
+
 **Drift check (HTTP):** middleware `MigrationDriftMiddleware` (web stack) — read-only, cache ~60 s. Dev: `error_log` + hlavička `X-Migration-Drift`. Prod: hard fail při ahead/behind. **Žádný** auto-drop v request path.
 
 Regenerace commitnutých baseline dumpů z lokálních `dumps_produkce/`:
@@ -283,6 +287,8 @@ Regenerace commitnutých baseline dumpů z lokálních `dumps_produkce/`:
 ```bash
 php scripts/prepare-baseline-dumps.php
 ```
+
+(Header komentáře **nesmí** obsahovat `;` — jinak je `Manipulator::sqlExplode` rozseká na ne-SQL. Skript + sanitizer to hlídají.)
 
 ## 8. Rychlá kontrolní sekvence
 

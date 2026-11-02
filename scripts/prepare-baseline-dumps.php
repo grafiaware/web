@@ -2,7 +2,19 @@
 
 declare(strict_types=1);
 
+/**
+ * Regeneruje docker/migrations/baseline/2025/{auth,events,red}.sql
+ * z lokálních dumps_produkce/ (gitignore).
+ *
+ * Odstraní schema_migrations, schema kvalifikátory, USE/CREATE DATABASE,
+ * a přes BaselineDumpSanitizer i DEFINER / privilege statements / nebezpečné komentáře.
+ */
+
 $root = dirname(__DIR__);
+require $root . '/vendor/autoload.php';
+
+use Build\Migration\BaselineDumpSanitizer;
+
 $srcDir = $root . '/docker/migrations/dumps/dumps_produkce';
 $dstDir = $root . '/docker/migrations/baseline/2025';
 if (!is_dir($dstDir)) {
@@ -48,22 +60,30 @@ function normalizeDump(string $sql, bool $structureOnly = false): string
     $sql = preg_replace('/^\s*USE\s+`?[^`;]+`?\s*;\s*$/mi', '', $sql) ?? $sql;
     $sql = preg_replace('/^\s*CREATE\s+DATABASE[\s\S]*?;\s*$/mi', '', $sql) ?? $sql;
     if ($structureOnly) {
-        return extractStructureWithDrops($sql);
-    }
-    if (stripos($sql, 'FOREIGN_KEY_CHECKS') === false) {
+        $sql = extractStructureWithDrops($sql);
+    } elseif (stripos($sql, 'FOREIGN_KEY_CHECKS') === false) {
         $sql = "SET FOREIGN_KEY_CHECKS=0;\n" . $sql . "\nSET FOREIGN_KEY_CHECKS=1;\n";
     }
 
-    return $sql;
+    // Pozn.: sanitize stripuje i `--` komentáře včetně headeru — header přidáváme až potom.
+    return BaselineDumpSanitizer::sanitize($sql);
 }
 
 $header = static function (string $target, string $source, string $note): string {
+    // Bez středníku v komentáři — Manipulator::sqlExplode dělí podle `;` i uvnitř `--` řádků.
     return "-- Baseline dump 2025 — target={$target}\n"
         . "-- Source: {$source}\n"
         . "-- {$note}\n"
         . "-- No schema_migrations (journal written by rebuild CLI after import).\n"
-        . "-- No schema-qualified identifiers; import into the target DB connection.\n\n";
+        . "-- No schema-qualified identifiers. Import into the target DB connection.\n\n";
 };
+
+foreach (['login.sql', 'events.sql', 'red_najdisi.sql'] as $src) {
+    if (!is_readable("{$srcDir}/{$src}")) {
+        fwrite(STDERR, "Chybí zdrojový dump: {$srcDir}/{$src}\n");
+        exit(1);
+    }
+}
 
 $auth = normalizeDump((string) file_get_contents("{$srcDir}/login.sql"), false);
 file_put_contents(
@@ -93,6 +113,7 @@ foreach (['auth.sql', 'events.sql', 'red.sql'] as $f) {
     echo $f
         . ' bytes=' . filesize($p)
         . ' schema_mig=' . (preg_match('/schema_migrations/i', $body) ? 'YES' : 'no')
+        . ' definer=' . (preg_match('/DEFINER\s*=/i', $body) ? 'YES' : 'no')
         . ' creates=' . preg_match_all('/CREATE\s+TABLE/i', $body)
         . PHP_EOL;
 }

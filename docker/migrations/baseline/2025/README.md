@@ -12,6 +12,9 @@ Společný start schématu (produkční roční verze **2025**) pro rebuild CLI 
 
 - **Bez** tabulky `schema_migrations` — žurnál zapisuje rebuild CLI (`Baseline 2025` + migrate).
 - **Bez** schema kvalifikátorů (`db`.`table`) a bez `USE` / `CREATE DATABASE`.
+- **Bez** `DEFINER=` / `GRANT` / `SET DEFAULT ROLE` / zápisů do `mysql.*` (Build DBA nemá `SYSTEM_USER`).
+- V `--` komentářích **žádný středník** — `Manipulator::executeSequence` dělí SQL podle `;` i uvnitř komentářů.
+- Import path: `BaselineDumpSanitizer` v `DatabaseRebuilder` (stejná pravidla při runtime).
 - Plný red dump s CMS daty zůstává v `docker/migrations/dumps/` (gitignore); pro rebuild schema stačí struktura.
 
 ## Regenerace
