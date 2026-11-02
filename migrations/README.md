@@ -13,6 +13,8 @@ Inkrementální změny MySQL schématu pro cíle **red**, **auth** a **events**.
 - Žurnál: tabulka `schema_migrations` **v cílové DB** (stav per DB instance, ne per app server).
 - Baseline `2025` pokryje soubory s rokem ≤ 2025; novější zůstanou pending.
 - Spuštění: Build panel (`/build`) — Stav / Spusť / Baseline 2025.
+- Rebuild bez UI: `php scripts/db-rebuild.php --target=all --yes` (baseline dumpy `docker/migrations/baseline/2025/`).
+- Drift: `php scripts/db-rebuild.php --drift-check` (dev warn / prod error v HTTP middleware; bez auto-drop).
 
 ## Cíle
 
