@@ -98,9 +98,9 @@ final class DatabaseRebuilder
         if ($sql === false) {
             throw new RuntimeException("Nelze přečíst baseline dump: {$dumpPath}");
         }
-        $sql = trim($sql);
-        if ($sql === '') {
-            throw new RuntimeException("Baseline dump je prázdný: {$dumpPath}");
+        $sql = BaselineDumpSanitizer::sanitize($sql);
+        if (trim($sql) === '') {
+            throw new RuntimeException("Baseline dump je prázdný po sanitizaci: {$dumpPath}");
         }
         $manipulator->executeSequence($sql);
     }

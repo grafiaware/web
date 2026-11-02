@@ -2,11 +2,10 @@
 -- Source: dumps_produkce/red_najdisi.sql
 -- STRUCTURE ONLY — full data dump remains gitignored under docker/migrations/dumps/dumps_produkce/
 -- No schema_migrations (journal written by rebuild CLI after import).
--- No schema-qualified identifiers; import into the target DB connection.
+-- No schema-qualified identifiers. Import into the target DB connection.
 
 SET FOREIGN_KEY_CHECKS=0;
 
--- Table structure for article
 DROP TABLE IF EXISTS `article`;
 CREATE TABLE `article` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -20,7 +19,6 @@ CREATE TABLE `article` (
   CONSTRAINT `menu_item_id_fk3` FOREIGN KEY (`menu_item_id_fk`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
--- Table structure for asset
 DROP TABLE IF EXISTS `asset`;
 CREATE TABLE `asset` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -33,7 +31,6 @@ CREATE TABLE `asset` (
   UNIQUE KEY `filepath_idx1` (`filepath`)
 ) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8;
 
--- Table structure for block
 DROP TABLE IF EXISTS `block`;
 CREATE TABLE `block` (
   `name` varchar(128) NOT NULL,
@@ -43,7 +40,6 @@ CREATE TABLE `block` (
   CONSTRAINT `nested_set_uid_fk1` FOREIGN KEY (`uid_fk`) REFERENCES `hierarchy` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Table structure for hierarchy
 DROP TABLE IF EXISTS `hierarchy`;
 CREATE TABLE `hierarchy` (
   `uid` char(20) NOT NULL,
@@ -54,7 +50,6 @@ CREATE TABLE `hierarchy` (
   UNIQUE KEY `uid` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Table structure for item_action
 DROP TABLE IF EXISTS `item_action`;
 CREATE TABLE `item_action` (
   `item_id` varchar(45) NOT NULL,
@@ -63,7 +58,6 @@ CREATE TABLE `item_action` (
   PRIMARY KEY (`item_id`,`editor_login_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Table structure for language
 DROP TABLE IF EXISTS `language`;
 CREATE TABLE `language` (
   `lang_code` char(4) NOT NULL,
@@ -75,7 +69,6 @@ CREATE TABLE `language` (
   UNIQUE KEY `lang_code` (`lang_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Table structure for menu_adjlist
 DROP TABLE IF EXISTS `menu_adjlist`;
 CREATE TABLE `menu_adjlist` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -87,7 +80,6 @@ CREATE TABLE `menu_adjlist` (
   UNIQUE KEY `child` (`child`)
 ) ENGINE=InnoDB AUTO_INCREMENT=374 DEFAULT CHARSET=utf8;
 
--- Table structure for menu_item
 DROP TABLE IF EXISTS `menu_item`;
 CREATE TABLE `menu_item` (
   `lang_code_fk` char(25) NOT NULL,
@@ -111,7 +103,6 @@ CREATE TABLE `menu_item` (
   CONSTRAINT `menu_item_api_fk` FOREIGN KEY (`api_module_fk`, `api_generator_fk`) REFERENCES `menu_item_api` (`module`, `generator`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2396 DEFAULT CHARSET=utf8;
 
--- Table structure for menu_item_api
 DROP TABLE IF EXISTS `menu_item_api`;
 CREATE TABLE `menu_item_api` (
   `module` varchar(20) NOT NULL,
@@ -119,7 +110,6 @@ CREATE TABLE `menu_item_api` (
   PRIMARY KEY (`module`,`generator`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Table structure for menu_item_asset
 DROP TABLE IF EXISTS `menu_item_asset`;
 CREATE TABLE `menu_item_asset` (
   `menu_item_id_fk` int(11) unsigned NOT NULL,
@@ -130,7 +120,6 @@ CREATE TABLE `menu_item_asset` (
   CONSTRAINT `menu_item_ibfk1` FOREIGN KEY (`menu_item_id_fk`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Table structure for menu_item_test
 DROP TABLE IF EXISTS `menu_item_test`;
 CREATE TABLE `menu_item_test` (
   `lang_code_fk` char(25) NOT NULL,
@@ -153,14 +142,12 @@ CREATE TABLE `menu_item_test` (
   CONSTRAINT `type_menu_item_type_fk_test` FOREIGN KEY (`type_fk`) REFERENCES `menu_item_type` (`type`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Table structure for menu_item_type
 DROP TABLE IF EXISTS `menu_item_type`;
 CREATE TABLE `menu_item_type` (
   `type` varchar(45) NOT NULL DEFAULT '',
   PRIMARY KEY (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Table structure for menu_root
 DROP TABLE IF EXISTS `menu_root`;
 CREATE TABLE `menu_root` (
   `name` varchar(128) NOT NULL,
@@ -170,7 +157,6 @@ CREATE TABLE `menu_root` (
   CONSTRAINT `nested_set_uid_fk2` FOREIGN KEY (`uid_fk`) REFERENCES `hierarchy` (`uid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Table structure for multipage
 DROP TABLE IF EXISTS `multipage`;
 CREATE TABLE `multipage` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -183,7 +169,6 @@ CREATE TABLE `multipage` (
   CONSTRAINT `menu_item_id_fk4` FOREIGN KEY (`menu_item_id_fk`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Table structure for paper
 DROP TABLE IF EXISTS `paper`;
 CREATE TABLE `paper` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -201,7 +186,6 @@ CREATE TABLE `paper` (
   CONSTRAINT `menu_item_id_fk1` FOREIGN KEY (`menu_item_id_fk`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2812 DEFAULT CHARSET=utf8;
 
--- Table structure for paper_section
 DROP TABLE IF EXISTS `paper_section`;
 CREATE TABLE `paper_section` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -224,7 +208,6 @@ CREATE TABLE `paper_section` (
   CONSTRAINT `paper_id_fk2` FOREIGN KEY (`paper_id_fk`) REFERENCES `paper` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
--- Table structure for static
 DROP TABLE IF EXISTS `static`;
 CREATE TABLE `static` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
