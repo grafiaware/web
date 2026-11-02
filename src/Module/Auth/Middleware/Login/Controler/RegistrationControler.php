@@ -29,6 +29,10 @@ use Auth\Model\Entity\Credentials;
 use Auth\Model\Entity\LoginAggregateCredentials;
 use Auth\Model\Entity\Registration;
 use Auth\Model\Entity\LoginAggregateRegistration;
+use Auth\Model\Dao\RegistrationDao;
+use Auth\Service\LoginNameGenerator;
+use Status\Model\Enum\FlashSeverityEnum;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Description of PostControler
@@ -58,6 +62,9 @@ class RegistrationControler extends LoginControlerAbstract
 
     public function register(ServerRequestInterface $request)
     {
+        if ($this->featureFlags()->isEnabled('vp.registrace-emailem')) {
+            return $this->registerByEmail($request);
+        }
         $requestParams = new RequestParams();
         $register = $requestParams->getParsedBodyParam($request, 'register', FALSE);
 
@@ -224,6 +231,79 @@ class RegistrationControler extends LoginControlerAbstract
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
+
+    /**
+     * A1: registrace e-mailem, heslo volitelné, přihlašovací jméno se generuje z e-mailu (docs/vp/zadani/A1.md).
+     *
+     * Na jeden e-mail vznikne registrací jen jeden účet. Hláška je vždy stejná – neprozradí, zda e-mail u nás už je.
+     */
+    private function registerByEmail(ServerRequestInterface $request): ResponseInterface
+    {
+        $requestParams = new RequestParams();
+        if (!$requestParams->getParsedBodyParam($request, 'register', FALSE)) {
+            return $this->redirectSeeLastGet($request);
+        }
+        $auth = ConfigurationCache::auth();
+        $email = trim((string) $requestParams->getParsedBodyParam($request, 'email', ''));
+        $password = (string) $requestParams->getParsedBodyParam($request, $auth['fieldNameHeslo'], '');
+        $exhibitor = (bool) $requestParams->getParsedBodyParam($request, 'fieldNameExhibitor', FALSE);
+        $info = $exhibitor ? trim((string) $requestParams->getParsedBodyParam($request, 'info', '')) : '';
+
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false || strlen($email) > 100) {
+            $this->addFlashMessage("Zadejte platnou e-mailovou adresu.", FlashSeverityEnum::WARNING);
+            return $this->redirectSeeLastGet($request);
+        }
+        if ($password !== '' && !preg_match('/^(?:' . $auth['passwordPattern'] . ')$/u', $password)) {
+            $this->addFlashMessage($auth['passwordInfo'], FlashSeverityEnum::WARNING);
+            return $this->redirectSeeLastGet($request);
+        }
+
+        /** @var RegistrationDao $registrationDao */
+        $registrationDao = $this->container->get(RegistrationDao::class);
+        $existing = $registrationDao->findLoginNamesByEmail($email, false);
+        if ($existing) {
+            $this->handleExistingEmail($request, $email, $existing, $registrationDao->findLoginNamesByEmail($email, true));
+        } else {
+            $loginName = $this->container->get(LoginNameGenerator::class)->generate($email);
+            $registration = new Registration();
+            $registration->setLoginNameFk($loginName);
+            $registration->setPasswordHash($password);  // nezahashované do potvrzení (Z6), prázdné = bez hesla
+            $registration->setEmail($email);
+            $registration->setInfo($info === '' ? null : $info);
+            $aggregate = new LoginAggregateRegistration();
+            $aggregate->setLoginName($loginName);
+            $aggregate->setRegistration($registration);
+            $this->loginAggregateRegistrationRepo->add($aggregate);
+            $this->loginAggregateRegistrationRepo->flush();
+
+            $saved = $this->loginAggregateRegistrationRepo->get($loginName)->getRegistration();
+            $this->authMailer()->sendRegistration($email, $loginName, $this->absoluteUrl($request, "auth/v1/confirm/{$saved->getUid()}"));
+            $saved->setEmailTime(new \DateTime());
+        }
+        $this->addFlashMessage("Děkujeme. Na adresu {$email} jsme poslali e-mail s dalším postupem.");
+        return $this->redirectSeeLastGet($request);
+    }
+
+    /**
+     * E-mail už má účet: potvrzenému pošle přihlašovací odkaz (je-li zapnutý), nepotvrzené registraci znovu potvrzovací e-mail.
+     *
+     * @param string[] $existing všechny loginy s e-mailem
+     * @param string[] $confirmed potvrzené loginy s e-mailem
+     */
+    private function handleExistingEmail(ServerRequestInterface $request, string $email, array $existing, array $confirmed): void
+    {
+        if ($confirmed) {
+            if ($this->featureFlags()->isEnabled('vp.prihlaseni-odkazem')) {
+                $this->sendLoginLinks($request, $email, $confirmed);
+            }
+            return;
+        }
+        $registration = $this->loginAggregateRegistrationRepo->get($existing[0])?->getRegistration();
+        if ($registration) {
+            $this->authMailer()->sendRegistration($email, $existing[0], $this->absoluteUrl($request, "auth/v1/confirm/{$registration->getUid()}"));
+            $registration->setEmailTime(new \DateTime());
+        }
+    }
 
     /**
      *

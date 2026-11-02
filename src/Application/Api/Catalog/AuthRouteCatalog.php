@@ -8,6 +8,7 @@ use Auth\Middleware\Login\Controler\AuthControler;
 use Auth\Middleware\Login\Controler\ComponentAuthControler;
 use Auth\Middleware\Login\Controler\ComponentStaticControler;
 use Auth\Middleware\Login\Controler\ConfirmControler;
+use Auth\Middleware\Login\Controler\LoginLinkControler;
 use Auth\Middleware\Login\Controler\LoginLogoutControler;
 use Auth\Middleware\Login\Controler\PasswordControler;
 use Auth\Middleware\Login\Controler\QrImageControler;
@@ -38,6 +39,10 @@ final class AuthRouteCatalog implements ModuleRouteCatalogInterface {
             new RouteDefinition('POST', '/auth/v1/register1', RegistrationControler::class, 'register1', MutationResponseMode::BROWSER_FORM),
             new RouteDefinition('GET', '/auth/v1/registerapplication/:loginname', RegistrationControler::class, 'registerapplication', null),
             new RouteDefinition('GET', '/auth/v1/confirm/:uid', ConfirmControler::class, 'confirm', null),
+            new RouteDefinition('POST', '/auth/v1/confirm/:uid', ConfirmControler::class, 'confirmAndLogin', MutationResponseMode::BROWSER_FORM, 'vp.registrace-emailem'),
+            new RouteDefinition('POST', '/auth/v1/loginlink', LoginLinkControler::class, 'send', MutationResponseMode::BROWSER_FORM, 'vp.prihlaseni-odkazem'),
+            new RouteDefinition('GET', '/auth/v1/loginlink/:token', LoginLinkControler::class, 'page', null, 'vp.prihlaseni-odkazem'),
+            new RouteDefinition('POST', '/auth/v1/loginlink/:token', LoginLinkControler::class, 'login', MutationResponseMode::BROWSER_FORM, 'vp.prihlaseni-odkazem'),
             new RouteDefinition('POST', '/auth/v1/forgottenpassword', PasswordControler::class, 'forgottenPassword', MutationResponseMode::BROWSER_FORM),
             new RouteDefinition('POST', '/auth/v1/changepassword', PasswordControler::class, 'changePassword', MutationResponseMode::BROWSER_FORM),
             new RouteDefinition('POST', '/auth/v1/credentials/:loginnamefk', AuthControler::class, 'updateCredentials', MutationResponseMode::BROWSER_FORM),

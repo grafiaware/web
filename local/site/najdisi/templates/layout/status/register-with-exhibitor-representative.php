@@ -1,5 +1,11 @@
 <?php
 use Site\ConfigurationCache;
+
+// A1: registrace e-mailem (heslo volitelné) – samostatná varianta formuláře
+if (\Application\Feature\FeatureFlags::fromConfiguration()->isEnabled('vp.registrace-emailem')) {
+    include __DIR__ . '/register-email.php';
+    return;
+}
 ?>
     <button class="ui page icon button btn-register">
             <i class="address card icon"></i>
