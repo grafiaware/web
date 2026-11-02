@@ -32,7 +32,10 @@ class DbHashAuthenticator implements AuthenticatorInterface {
 
         $passwordOverovaciObjekt = new Password( $reHashSaver, $verifier );
         $credentials = $loginAggregateEntity->getCredentials();
-        if (isset($credentials)) {
+        if (isset($credentials) AND (string) $credentials->getPasswordHash() === '') {
+            // účet bez hesla (registrace bez hesla, A1) – heslem se přihlásit nelze, jen odkazem
+            $authenticated = false;
+        } elseif (isset($credentials)) {
             $authenticated = $passwordOverovaciObjekt->verifyPassword( $password, $credentials->getPasswordHash());
         } else {
             $authenticated = false;

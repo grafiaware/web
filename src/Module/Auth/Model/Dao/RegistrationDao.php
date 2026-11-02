@@ -53,6 +53,27 @@ class RegistrationDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInt
     }
 
     /**
+     * Loginy registrací s daným e-mailem (porovnání bez ohledu na velikost písmen – kolace sloupce).
+     *
+     * @param string $email
+     * @param bool $confirmedOnly true = jen potvrzené účty (mají credentials)
+     * @return string[] login_name_fk
+     */
+    public function findLoginNamesByEmail(string $email, bool $confirmedOnly): array {
+        $sql = "SELECT r.login_name_fk FROM registration r"
+             . ($confirmedOnly ? " INNER JOIN credentials c ON c.login_name_fk = r.login_name_fk" : "")
+             . " WHERE r.email = :email ORDER BY r.login_name_fk";
+        $stmt = $this->getPreparedStatement($sql);
+        $stmt->bindValue(':email', trim($email));
+        $stmt->execute();
+        $names = [];
+        while (($name = $stmt->fetchColumn()) !== false) {
+            $names[] = $name;
+        }
+        return $names;
+    }
+
+    /**
      * Insert s generování hodnoty uid.
      *
      * @param RowDataInterface $row

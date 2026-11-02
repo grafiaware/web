@@ -26,13 +26,21 @@
                         <i class="white close icon"></i>
                         <div class="content">
                             <form class="ui form" method="POST" action="">
+                                <?php if (\Application\Feature\FeatureFlags::fromConfiguration()->isEnabled('vp.registrace-emailem')): ?>
+                                <div class="field">
+                                    <label>Vaše aktuální heslo</label>
+                                    <input type="password" name="<?=ConfigurationCache::auth()['fieldNameHesloStare']?>" placeholder="Aktuální heslo" autocomplete="current-password">
+                                    <p class="maly text">Nevyplňujte, pokud heslo nemáte nebo jste se právě přihlásili odkazem z e-mailu.</p>
+                                </div>
+                                <?php else: ?>
                                 <div class="field">
                                     <label>Vaše aktuální heslo</label>
                                     <input type="password" name="<?=ConfigurationCache::auth()['fieldNameHesloStare']?>" placeholder="Aktuální heslo" required>
                                 </div>
+                                <?php endif; ?>
                                 <div class="field">
                                     <label>Nové heslo</label>
-                                    <input type="password" name="<?=ConfigurationCache::auth()['fieldNameHeslo']?>" placeholder="Nové heslo"
+                                    <input type="password" name="<?=ConfigurationCache::auth()['fieldNameHeslo']?>" placeholder="Nové heslo" autocomplete="new-password"
                                         pattern="<?=ConfigurationCache::auth()['passwordPattern']?>"
                                         title ="<?=ConfigurationCache::auth()['passwordInfo']?>"
                                         required >

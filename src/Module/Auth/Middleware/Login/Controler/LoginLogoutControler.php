@@ -28,13 +28,14 @@ use Auth\Model\Entity\LoginAggregateFull;
 
 use Status\Model\Entity\SecurityInterface;
 use Status\Model\Enum\FlashSeverityEnum;
+use Auth\Model\Dao\RegistrationDao;
 
 /**
  * Description of PostControler
  *
  * @author pes2704
  */
-class LoginLogoutControler extends FrontControlerAbstract {
+class LoginLogoutControler extends LoginControlerAbstract {
 
     private $authenticator;
     private $superAuthenticator;
@@ -69,8 +70,17 @@ class LoginLogoutControler extends FrontControlerAbstract {
             $loginHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
 
             if ($loginJmeno AND $loginHeslo) {
+                if ($this->featureFlags()->isEnabled('vp.registrace-emailem') AND str_contains($loginJmeno, '@')) {
+                    // A1: přihlášení e-mailem – jen pokud e-mail patří jedinému potvrzenému účtu
+                    $loginNames = $this->container->get(RegistrationDao::class)->findLoginNamesByEmail($loginJmeno, true);
+                    if (count($loginNames) > 1) {
+                        $this->addFlashMessage("K tomuto e-mailu patří více účtů. Přihlaste se přihlašovacím jménem.", FlashSeverityEnum::WARNING);
+                        return $this->redirectSeeLastGet($request); // 303 See Other
+                    }
+                    $loginJmeno = $loginNames[0] ?? '';
+                }
                 /** @var LoginAggregateFull $loginAggregateFull */
-                $loginAggregateFull = $this->loginAggregateFullRepo->get($loginJmeno);
+                $loginAggregateFull = $loginJmeno ? $this->loginAggregateFullRepo->get($loginJmeno) : null;
 
                 if (isset($loginAggregateFull) AND $this->authenticator->authenticate($loginAggregateFull, $loginHeslo)) {  // z databáze
                     $securityStatus = $this->statusSecurityRepo->get();  // ze session

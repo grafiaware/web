@@ -157,15 +157,22 @@ class PasswordControler extends LoginControlerAbstract {
         
         $requestParams = new RequestParams();
         $changePassword = $requestParams->getParsedBodyParam($request, 'changepassword', FALSE);  // hodnota z button
+        $oldHeslo = $changeHeslo = FALSE;
         if ($changePassword) {
             $fieldNameHesloStare = ConfigurationCache::auth()['fieldNameHesloStare'];
             $fieldNameHeslo = ConfigurationCache::auth()['fieldNameHeslo'];
             $oldHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHesloStare, FALSE);
             $changeHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
         }
-        if ($oldHeslo AND $changeHeslo) {
+        $withoutOldPassword = ($changeHeslo && !$oldHeslo && $this->canSetPasswordWithoutOld($loginAggregateFullFromStatus));
+        if ($changeHeslo AND ($withoutOldPassword OR $this->featureFlags()->isEnabled('vp.registrace-emailem'))
+                AND !preg_match('/^(?:' . ConfigurationCache::auth()['passwordPattern'] . ')$/u', $changeHeslo)) {
+            $this->addFlashMessage(ConfigurationCache::auth()['passwordInfo']);
+            return $this->redirectSeeLastGet($request); // 303 See Other
+        }
+        if (($oldHeslo OR $withoutOldPassword) AND $changeHeslo) {
             /** @var  LoginAggregateFullInterface $loginAggregateFullFromStatus  */
-            $agree =  $this->authenticator->authenticate($loginAggregateFullFromStatus, $oldHeslo);
+            $agree = $withoutOldPassword ?: $this->authenticator->authenticate($loginAggregateFullFromStatus, $oldHeslo);
             if ($agree) {
                 $hashedChangedPassword = ( new Password())->getPasswordHash( $changeHeslo );
                 
@@ -176,6 +183,7 @@ class PasswordControler extends LoginControlerAbstract {
                 $credentials->setPasswordHash($hashedChangedPassword );
                 
                 $loginAggregateFullFromStatus->getCredentials()->setPasswordHash($hashedChangedPassword);
+                $this->statusSecurityRepo->get()->setInfo(LoginLinkControler::INFO_PASSWORD_SET_UNTIL, 0);
                 $this->addFlashMessage("Vaše heslo bylo změněno.");
             } else {
                 $this->addFlashMessage("Nesouhlasí vaše staré heslo.");                    
@@ -185,4 +193,18 @@ class PasswordControler extends LoginControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
+
+    /**
+     * A1/A2: nové heslo bez starého – účet bez hesla, nebo krátce po přihlášení odkazem.
+     */
+    private function canSetPasswordWithoutOld(LoginAggregateFullInterface $loginAggregate): bool {
+        $flags = $this->featureFlags();
+        if (!$flags->isEnabled('vp.registrace-emailem') && !$flags->isEnabled('vp.prihlaseni-odkazem')) {
+            return false;
+        }
+        if ((string) $loginAggregate->getCredentials()?->getPasswordHash() === '') {
+            return true;
+        }
+        return (int) $this->statusSecurityRepo->get()->getInfo(LoginLinkControler::INFO_PASSWORD_SET_UNTIL) >= time();
+    }
 }
