@@ -243,7 +243,7 @@
         },
         {
             "name": "pes/pes-application",
-            "version": "v8.27.1",
+            "version": "v8.27.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-application.git",
@@ -303,16 +303,16 @@
         },
         {
             "name": "pes/pes-bootstrap",
-            "version": "v8.27.1",
+            "version": "v8.27.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-bootstrap.git",
-                "reference": "c738c1bdd1788da7ac956f11371f045622fcfc91"
+                "reference": "32bf72dc90b4c7fdd372076607a44498d2eee4cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes-bootstrap/zipball/c738c1bdd1788da7ac956f11371f045622fcfc91",
-                "reference": "c738c1bdd1788da7ac956f11371f045622fcfc91",
+                "url": "https://api.github.com/repos/box4pes/pes-bootstrap/zipball/32bf72dc90b4c7fdd372076607a44498d2eee4cf",
+                "reference": "32bf72dc90b4c7fdd372076607a44498d2eee4cf",
                 "shasum": ""
             },
             "require": {
@@ -351,11 +351,11 @@
                 "issues": "https://github.com/box4pes/pes-bootstrap/issues",
                 "source": "https://github.com/box4pes/pes-bootstrap"
             },
-            "time": "2026-10-20T14:42:47+00:00"
+            "time": "2026-11-01T06:55:27+00:00"
         },
         {
             "name": "pes/pes-core",
-            "version": "v8.27.1",
+            "version": "v8.27.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-core.git",
@@ -406,16 +406,16 @@
         },
         {
             "name": "pes/pes-database",
-            "version": "v8.27.1",
+            "version": "v8.27.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-database.git",
-                "reference": "1a4301a0eae1bc3f34c9436a263e401163708505"
+                "reference": "7aa498d9029bf994757389d50bbb2a8fc5b3b3dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes-database/zipball/1a4301a0eae1bc3f34c9436a263e401163708505",
-                "reference": "1a4301a0eae1bc3f34c9436a263e401163708505",
+                "url": "https://api.github.com/repos/box4pes/pes-database/zipball/7aa498d9029bf994757389d50bbb2a8fc5b3b3dc",
+                "reference": "7aa498d9029bf994757389d50bbb2a8fc5b3b3dc",
                 "shasum": ""
             },
             "require": {
@@ -457,11 +457,11 @@
                 "issues": "https://github.com/box4pes/pes-database/issues",
                 "source": "https://github.com/box4pes/pes-database"
             },
-            "time": "2026-10-20T14:42:47+00:00"
+            "time": "2026-11-03T14:02:36+00:00"
         },
         {
             "name": "pes/pes-di",
-            "version": "v8.27.1",
+            "version": "v8.27.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-di.git",
@@ -515,7 +515,7 @@
         },
         {
             "name": "pes/pes-http",
-            "version": "v8.27.1",
+            "version": "v8.27.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-http.git",
@@ -571,7 +571,7 @@
         },
         {
             "name": "pes/pes-logger",
-            "version": "v8.27.1",
+            "version": "v8.27.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-logger.git",
@@ -625,7 +625,7 @@
         },
         {
             "name": "pes/pes-mail",
-            "version": "v8.27.1",
+            "version": "v8.27.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-mail.git",
@@ -679,7 +679,7 @@
         },
         {
             "name": "pes/pes-model",
-            "version": "v8.27.1",
+            "version": "v8.27.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-model.git",
@@ -734,7 +734,7 @@
         },
         {
             "name": "pes/pes-router",
-            "version": "v8.27.1",
+            "version": "v8.27.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-router.git",
@@ -792,7 +792,7 @@
         },
         {
             "name": "pes/pes-session",
-            "version": "v8.27.1",
+            "version": "v8.27.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-session.git",
@@ -849,7 +849,7 @@
         },
         {
             "name": "pes/pes-view",
-            "version": "v8.27.1",
+            "version": "v8.27.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes-view.git",
@@ -2111,11 +2111,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.3.4",
+            "version": "2.3.5",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f20ce6f3c82556cfcfc086b152445a12d1d64fff",
-                "reference": "f20ce6f3c82556cfcfc086b152445a12d1d64fff",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/645a1bd6bead15fc1b8474137467961d0fa30a79",
+                "reference": "645a1bd6bead15fc1b8474137467961d0fa30a79",
                 "shasum": ""
             },
             "require": {
@@ -2171,7 +2171,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-28T22:38:53+00:00"
+            "time": "2026-11-03T12:14:22+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -2532,16 +2532,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "12.5.42",
+            "version": "12.5.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "1d6dbe748c079e5d2b03bca1be69d0f4cc52a578"
+                "reference": "1d5a4a3c98fa1ca3a51402c74b66c2c8df85e0bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1d6dbe748c079e5d2b03bca1be69d0f4cc52a578",
-                "reference": "1d6dbe748c079e5d2b03bca1be69d0f4cc52a578",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1d5a4a3c98fa1ca3a51402c74b66c2c8df85e0bb",
+                "reference": "1d5a4a3c98fa1ca3a51402c74b66c2c8df85e0bb",
                 "shasum": ""
             },
             "require": {
@@ -2610,7 +2610,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.42"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.43"
             },
             "funding": [
                 {
@@ -2618,7 +2618,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-10-27T04:15:03+00:00"
+            "time": "2026-11-02T07:10:00+00:00"
         },
         {
             "name": "psr/event-dispatcher",
