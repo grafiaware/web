@@ -26,6 +26,7 @@ use Events\Middleware\Events\Events;
 use Sendmail\Middleware\Sendmail\Sendmail;
 
 use Build\Middleware\Build\Build;
+use Build\Middleware\MigrationDrift\MigrationDriftMiddleware;
 use ResponseTime\Middleware\ResponseTime;
 use Consent\Middleware\ConsentLogger\ConsentLogger;
 
@@ -82,6 +83,7 @@ class SelectorItems {
         $default = function () {
             return [
                 new ResponseTime(),
+                new MigrationDriftMiddleware(),
                 new SecurityStatus(),
                 new Login(),
                 new FlashStatus(),

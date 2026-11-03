@@ -1,0 +1,609 @@
+-- Baseline dump 2025 — target=auth
+-- Source: dumps_produkce/login.sql
+-- structure + seed data
+-- No schema_migrations (journal written by rebuild CLI after import).
+-- No schema-qualified identifiers; import into the target DB connection.
+
+SET FOREIGN_KEY_CHECKS=0;
+
+--
+-- Table structure for table `credentials`
+--
+
+DROP TABLE IF EXISTS `credentials`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `credentials` (
+  `login_name_fk` varchar(50) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  `role_fk` varchar(50) DEFAULT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`login_name_fk`),
+  UNIQUE KEY `login_name_fk` (`login_name_fk`),
+  KEY `c_idx` (`role_fk`),
+  CONSTRAINT `credentials_ibfk_1` FOREIGN KEY (`login_name_fk`) REFERENCES `login` (`login_name`) ON UPDATE CASCADE,
+  CONSTRAINT `credentials_ibfk_2` FOREIGN KEY (`role_fk`) REFERENCES `role` (`role`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `credentials`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `credentials` WRITE;
+/*!40000 ALTER TABLE `credentials` DISABLE KEYS */;
+INSERT INTO `credentials` VALUES
+('Alina','$2y$12$.YVD9lua5gRRQs72GyXxnu/dd7C1TuMI6cs/Rtvre5HUsOj.m2GHy','visitor','2026-01-29 15:14:47','2026-01-29 15:14:47'),
+('AnnaRozumova','$2y$12$3l2EO/HKLZG55rma62.M8.NRVFATvM41IdIO33r.JngKoZcPKj6B2','visitor','2026-01-26 10:51:52','2026-01-26 10:51:52'),
+('anta2208','anna',NULL,'2021-03-15 00:11:16','2023-11-18 09:41:17'),
+('ARTANDE','$2y$12$E.b5Tv0eAnh3r0HsSSTAMO.RXx1vousQJSQl15T5qBCA5.SMTMwHO','visitor','2026-04-24 10:15:56','2026-04-24 10:15:56'),
+('Barbie25Girl','$2y$12$wvnUy09wfHIDwcF69o.DN.SbSEtPMqRcuoOl1AnEI7zcVX3Ft7H0e','visitor','2025-11-26 21:01:20','2025-11-26 21:01:20'),
+('BlahutovaM','$2y$12$yj3RHAm0tReG3DfHs5pLf.9wPEGaAJaTRZye972lKV6E5Lmz3u3Z6','visitor','2026-01-27 16:57:01','2026-01-27 16:57:01'),
+('bohumila','$2y$12$HSrzWH2OKOuGexstnktya.hsU.ywDg0Lp7p/C5/35Xnjwgs6Ydije','visitor','2026-01-27 20:19:40','2026-01-27 20:19:40'),
+('Brabcova','$2y$12$idtKU8eu26Zn52w1pZvQ2ONTTPd.KHNeS0iAH/kc.ztz8Ww/z35Hm','editor','2025-01-14 15:16:50','2026-10-13 10:34:26'),
+('cermi123','$2y$12$7Z51ARW8Sq5y4x1buv3YMeflWgIgf6oR7t5fCh9/AiAsAdNLgM0DW','visitor','2026-01-28 10:34:36','2026-01-28 10:34:36'),
+('cvicenec','$2y$12$gO4fqtKC3498x/jTutrkbuieEC6IcYjDH0E40dFHBsJJNjT3/3Vvu','representative','2025-01-10 13:29:43','2025-01-10 13:36:17'),
+('cvicitel','$2y$12$7wtKU/RzosZOIbX9k8Lwkeo0oTuVFBeKuXxnu4bk.3v3A9kkA6dFe','representative','2025-01-14 13:26:51','2025-01-14 13:32:05'),
+('Daikin','$2y$12$kAO4ZojdzHx75kZrszaMeO6kgF9FIOy6rEkvLAQ.58w0l6smtbx.2','representative','2026-01-28 05:56:13','2026-01-28 10:38:46'),
+('David42','$2y$12$/ur/OMTqwsd8esZtZVGArO2BBIXpfZ4t4r1u7spoNW7rhuvJ2DjhK','visitor','2026-01-28 13:19:43','2026-01-28 13:19:43'),
+('Dzklatovy1_','$2y$12$PnaiPK6SOt3.fvYCazYSp./w7LMNy.WJHHLUyqmhn0flWfrjZlXxu','representative','2025-01-15 12:27:23','2025-01-15 12:56:58'),
+('editor','$2y$12$yIgaRkgezQSbEBabUBrhhu3cPq0Zj/4B4GhEM12.hYMXAms9gFyhS','editor','2021-04-07 12:56:39','2023-11-13 06:59:48'),
+('Eliska123','$2y$12$j.CeTGm0BMjDIJInjFTPQO4lMVH6EDvQAFpuzcLRkQL.YkdoLZuFq','visitor','2025-03-11 10:14:12','2025-03-11 10:14:12'),
+('Elxkv','$2y$12$CBn.uGixetxSit.2QdXBLeR0UxOGBYQiRW1NB8BNT1X1M/t7FMWFa','visitor','2026-02-11 22:56:20','2026-02-11 22:56:20'),
+('EuVPlzen1','$2y$12$.kP8OtQLJnJP5jSvVW0Ju.0aSZRQwsPVwHnFbsVpUYf3abmqBDMcO','representative','2025-01-17 12:15:04','2025-01-17 12:18:32'),
+('EvaCanning','$2y$12$ZRMYF5GsgL2Tqsy.lrULSOaPG/B7c1Wv/voEBhR.iiYVFzi/nUZW.','representative','2025-01-27 16:40:35','2025-01-28 09:13:40'),
+('events_administrator','$2y$12$r8Ma.uVQZtW9r6mqCm8PxOKZ.c7gx4AfbBDzeiMafZ12CDWfcMrP6','events_administrator','2025-01-09 17:53:01','2025-01-10 06:57:13'),
+('FilipFarajzl','$2y$12$cEvnoF9pV05d6D3Oywund.gynol.bvGhqTBZ331jIlUIw8AyQayS.','visitor','2026-01-27 19:36:56','2026-01-27 19:36:56'),
+('HanaEM','$2y$12$fQbFpzAYH7siXuP5VkWA5eYmIcplvF1bS1ybj8PcBtADVuBnujyQe','visitor','2025-02-03 14:07:10','2025-02-03 14:07:10'),
+('HelenaKorsova','$2y$12$PuH4HB5wUhg8ASebr7oI.uraCtPZeydh5K6GHCmU.ZxbxMEB4pn9C','representative','2025-01-16 11:11:37','2025-01-16 11:20:45'),
+('hrabakj','$2y$12$mAGDlDLYaMNo9trKKpjJEeVOx7mUq3RQe1iEMZ4YSTanlIL/K.BCq','representative','2025-01-16 10:54:53','2025-01-16 11:19:11'),
+('Irena_Kowalska','$2y$12$JSn7e5ha/RBcCPGj.Imf1OeohgvyJAIKHt7Zcw93hmoU181jr4JnS','visitor','2026-01-22 15:40:11','2026-01-22 15:40:11'),
+('jab1408','$2y$12$vZoyVUiWVg19VvhvTo0pFO8vapCfjEQCwuQo11tY7b2po1vcD8dpe','editor','2021-03-15 00:11:16','2024-11-19 10:19:19'),
+('JanaCernikova','$2y$12$4Wnkb.iLUbVUAPAV9Y2gWuugjyCl1UexV.hM2zUv83AGT0nzoeW.W','representative','2026-01-27 09:09:43','2026-01-27 09:13:37'),
+('JanaStara','$2y$12$c3rUpIPSU3ZCqyICj4nFmOG1HEyYYk./mNkkEwkd3HZhh65he8Z/i','visitor','2026-01-28 17:11:40','2026-01-28 17:11:40'),
+('Jana_Brabcova','$2y$12$.UUHqwFqMZ2g3b0L2tdApeQfbWsosGTO2cPmrni1hk0zRl9extvJC','visitor','2026-01-20 11:32:26','2026-01-20 11:32:26'),
+('JaroslavCajthamljaro5','$2y$12$93SiU2LkLPnHI7hYBvQ2W.qHyzJYmmrSr4uKdPWHE3btZCrgkByn6','visitor','2026-01-23 15:51:50','2026-01-23 15:51:50'),
+('Jarusa','$2y$12$rnuwZ18yepBZAlEFexWTYelBgpZuo4jTAUGEdrCT9gk3ql3JLmwu6','visitor','2026-03-02 13:14:41','2026-03-02 13:14:41'),
+('jenda','$2y$12$.IXjXDS.m8VuKOLCi6/zqOzO8MQeinlg1R5jHt4qX5qrJaGCjAljy','visitor','2026-01-28 09:31:24','2026-01-28 09:31:24'),
+('JerryNoName','$2y$12$HG9.r/.G7DqsTiIkY03spu1rreSx/e1/T4KmYeIKQ9gxGAqFh45/e','visitor','2025-11-26 22:50:48','2025-11-26 22:50:48'),
+('JINDRA85','$2y$12$5y4DX17DVkBrwZGXF.IqyOGV/2i4q0XuNnh6KGBiWlW22J8wf80iS','visitor','2025-02-12 17:24:04','2025-02-12 17:24:04'),
+('Jindrich','$2y$12$dAJcbV3Rf5ZxjatZp3wDae4RFaL0lZNpU6rl5ajlbsrgGN1M3E9sa','visitor','2025-02-15 15:44:16','2025-02-15 15:44:16'),
+('JiriLottes','$2y$12$DuKgjRy366rsTBx.vvGoV.oSIqg8PBTqXrh6BrazaKoJSGTZBe5cW','representative','2025-12-01 16:14:14','2026-01-09 16:01:30'),
+('Jitka','$2y$12$yth1kOcnLzFHdXN6lI3Houp5wwXvhrrT2tP/PbZjZa8QyUNxXmkf.','visitor','2026-01-29 19:00:12','2026-01-29 19:00:12'),
+('jjenda','$2y$12$ZxpL7veMKFAlVGm3X8PptOmGirC949BJXNqrykSLuTvLyaQwfMHTa','visitor','2026-01-28 09:32:56','2026-01-28 09:32:56'),
+('joe29','$2y$12$CxQFGxXFd1AtZltXlPMTs.sG103ZCIv5pBo7NGb0C0JojvbFelP0u','visitor','2025-01-30 10:13:53','2025-01-30 10:13:53'),
+('Juliie','$2y$12$cUakVPQWHoj24yotLyjv7OeCDCJZQFHqFDSNAnNjezTk31qlLp9Cm','visitor','2026-02-03 12:13:04','2026-02-03 12:13:04'),
+('Karel','$2y$12$ALVjwwfMt4eyf8BlJy1tTec2KK48R4bMT.z4aNLgbHJn719qVRHoy','visitor','2026-01-30 03:49:12','2026-01-30 03:49:12'),
+('kasl2405','$2y$12$sGtkYd035f0Ky7yndbFvqeqWSZH1vImUSZHsI4dSRNsEfSJfYnQya','supervisor','2021-03-15 00:11:16','2023-10-30 11:52:58'),
+('khrystynaanniuk','$2y$12$mjmRiASap9t/gx5n8Pjoi.oSoza/KhIod4xLGDZML2OetYkaFq3E6','visitor','2025-02-09 12:56:21','2025-02-09 12:56:21'),
+('Kooperativa','$2y$12$WRh9wrxPAAYnX5MhyfPOf.zXL7He0GbhLsVu3zlM4ZWkrjUEucAGC','representative','2025-01-17 12:49:10','2025-01-17 12:50:44'),
+('Kortus','$2y$12$IlhlJ6a/R8w3llVT81ZwIuqLHAYC3OeiV1huODaZ.eUPQoBWS/KfG','visitor','2026-01-28 13:52:38','2026-01-28 13:52:38'),
+('Koubovska','$2y$12$lDVG8mv04AoWzijzNTG1EuHsFwxyzGPGp0zyTtrSICNBB7oY1Da42','visitor','2025-03-07 11:10:08','2025-03-07 11:10:08'),
+('KristynaKindlova','$2y$12$V.QE4LIq7SYNiykG1s87NOcd2x/k8zibxNrhTdmg3ruAStNBxrohm','representative','2026-01-15 09:09:38','2026-01-15 09:35:11'),
+('KristynaVysehradska','$2y$12$33/ldsgps1jrID9Xc/THQOd1SPQPh3ikomLXXhCt.R1P7tB.xOaa.','representative','2026-01-26 15:31:25','2026-01-26 15:33:14'),
+('Lenka','$2y$12$2RsekVncX2h5TRkysd26hu0lpwejFKVpmuNzc5QJfGGNIRfK2LGoC','visitor','2026-01-27 19:03:36','2026-01-27 19:03:36'),
+('LenkaPosekana','$2y$12$f9mBLdVzTo8lIhImdlFsHeShm43wojFGMTzZ3HvOiwp9k4us3rUFC','visitor','2025-01-28 12:29:56','2025-01-28 12:29:56'),
+('Lubos','$2y$12$MiF8yik4OntbVvsrTA6CR.KHglSNjrX340zBicrQqJWJAmQlZao3m','visitor','2025-03-15 19:39:01','2025-03-15 19:39:01'),
+('lucagreba','$2y$12$LNMWkp2JDAGRtLsHnJPvguAMdwJ4eZZjJybn9U3oyqvj4XE36tIZ6','representative','2026-01-13 10:32:08','2026-01-13 12:15:34'),
+('Lucie','$2y$12$r12YIM.6ik.PiRdNjxvrnu7Xzr0H2T3v40.2GQ0Gw3ytZdSM9Ca8K','visitor','2026-01-09 12:13:21','2026-01-09 12:13:21'),
+('LucieMaskova','$2y$12$7AMnWvIRmjQZlViZFfjRseF/mhgoBNHgevwg5zHbwx9YKDZjVxdYK','visitor','2026-01-28 08:49:50','2026-01-28 08:49:50'),
+('LucieMuchkova','$2y$12$x.opmHK3cKPmh4NMfy0Jl.kM7fGSNiFjHU4VtsbkmaRaxZ9KvHvcK','visitor','2026-01-26 19:59:09','2026-01-26 19:59:09'),
+('Luciestr','$2y$12$DIeskZPkMFoaWVGIX76UfuNnhs.UZ1jezJPCFjReTi8kynWDBQoRG','visitor','2026-01-28 14:19:29','2026-01-28 14:19:29'),
+('LucieZikova','$2y$12$xe0QOxszHgMv/DkFgiav/OfT0sFmCHRwQXmfXewAS./Zm5PXQDhWO','representative','2026-01-09 12:13:42','2026-01-09 12:38:08'),
+('manpower','$2y$12$cwkmo/y9uBmmcNykYiDIb.t4AuwNBBxK8C1DQTfTNoAa8p35uUG92','representative','2025-01-14 14:07:39','2025-01-15 10:51:23'),
+('MAREKNECAS','$2y$12$wJKkKEAYrxmo8htfDPCoEOWiLiOrBKEd4/iVZzdJGchDfR0UNNtam','visitor','2025-01-30 09:42:34','2025-01-30 09:42:34'),
+('marina8067','$2y$12$.Ghb3rvDkX9YbbhiRGjtleIsJDzGxGKc5vmGTXC7nJZJuIzzIXrJS','visitor','2026-01-27 21:33:08','2026-01-27 21:33:08'),
+('marketa','$2y$12$22tEHkOTs3nV1uJRDnzHGe3ZRBb/rgU7NfTl6m4KCmtpdu0XvgbAa','representative','2026-01-19 13:45:55','2026-01-19 14:08:51'),
+('marketasarkisov','$2y$12$xqF.FVROyAXcwKAnK8gha.hSMrDCkSmVIFJrxPQff7OKQXt1L0yXy','representative','2025-01-23 09:19:15','2025-01-23 10:18:13'),
+('MarSne','$2y$12$iI5QAu2D47H33YSeD4Ckpu2uuav3X9ZOolrMHI4wrYN2h6INszKvW','visitor','2026-01-28 12:57:22','2026-01-28 12:57:22'),
+('MartinaKorandova','$2y$12$YcOoxNwncaX/W.ML57Akku62txiUZ9ox07Ei0kQhv3EHH4/DEt/We','representative','2025-01-27 08:50:29','2025-01-27 08:56:12'),
+('Maryan','$2y$12$TsVzfUOMjOXN7PvD5amf5Ox3crxycUKbh16V4VyLR7n7uXfLTLTBm','visitor','2026-01-10 18:49:27','2026-01-10 18:49:27'),
+('masl0303','masl0303','editor','2021-03-15 00:11:16','2023-11-13 06:59:48'),
+('MICHAELA','$2y$12$0GIrse63hcMKz9wGCZPgVujdH7HjA63cNqb0A0eNOgXSjsGJDrXqS','representative','2025-01-14 14:37:47','2025-01-15 14:13:49'),
+('Michaela16','$2y$12$ONm10fTLgtHO6YSXRX3CH.16hnXOIjDgY.ZDMQ0GncZEOhMZr449K','visitor','2026-01-27 11:59:51','2026-01-27 11:59:51'),
+('MiichaelaJaneckova','$2y$12$jMPGFp24ZjDxjC.QNfBZhu3Xrtwe0m.AtxMuBjnK1S5JVzlrC6Bv2','representative','2026-01-29 08:34:48','2026-01-29 08:41:07'),
+('MilosKucera','$2y$12$wq9574nlh3qVJWMjzEpleuvZd6mGzOW6vJS0gq31JoMDeVBF6IXrK','visitor','2026-01-29 13:11:07','2026-01-29 13:11:07'),
+('MonikaHauznerova','$2y$12$XXgQAGCH6GfL6f3Ar6ZKFObFjE7x.2A35FuvtUtkmFls2Gqt5H/ki','representative','2026-01-27 12:02:16','2026-01-27 12:04:01'),
+('Nadiia','$2y$12$A/07u1K8BsANs2ng2OW/SuDyPjQj5xdrm08jfx34GdNlbC8ZGFaS.','visitor','2025-02-10 11:43:14','2025-02-10 11:43:14'),
+('Natalia','$2y$12$87GTqrpURTp1r.3uMTHQh.XS58iL4OvVQno.NammsD77vn/qGwS22','visitor','2025-01-19 11:28:50','2025-01-19 11:28:50'),
+('nataliebockova','$2y$12$b.KoMhS8pMGIjK3w1FPykuqwSdH1KtnXVnv6YyP3sHn469kPo/U8e','visitor','2026-01-28 08:03:35','2026-01-28 08:03:35'),
+('Nicole','$2y$12$/2kou70H5tzOoiHl2kwm.eYarUq5FGr5MHdDX7Bm9sqb2yiHRaX16','visitor','2026-01-28 16:19:06','2026-01-28 16:19:06'),
+('NikolaSafrankova','$2y$12$FTlzLBRIjkHchHdwnPhdJeabIWACBcw.3H6kFqPE2flL5e2o7LZJ2','visitor','2025-01-30 12:28:33','2025-01-30 12:28:33'),
+('Oleksandr8067','$2y$12$6Ns0TovhSI.JxdXih3MzIOKLVuub0aumIa1AcqBw22d5H/CsBAsPq','visitor','2026-01-28 08:29:24','2026-01-28 08:29:24'),
+('Panasonic','$2y$12$OU4nVodnEar/aQQ/z523DOYBqqBfFJeMWSXf4eYjFfcgBWcYFCEE2','representative','2025-01-23 08:05:40','2025-01-23 08:10:57'),
+('PavlaBerankova','$2y$12$0pLFYw0N4dhSXbbeDW4nY.piqdJ/SR.HVRsDzY2rXU7C4BQ5uNS5e','visitor','2026-01-28 07:41:30','2026-01-28 07:41:30'),
+('pavlinapekarova','$2y$12$hIM4.u4377gMXKOEUrj8q.Q3aJApChWyfCG37XvoRq0XN8r4PtO9K','visitor','2026-01-28 07:27:10','2026-01-28 07:27:10'),
+('pes2704','$2y$12$.pryVpFu7qBrGgBAZDbcx.6./VNXDRYVw85KvsVk3BlJtTcxLb4E2','supervisor','2021-03-15 00:11:16','2021-03-19 18:49:42'),
+('Petr42','$2y$12$pcPhEKKH/mPsOItsHPl5Y.V32OR9mufnZZxcApsTgqxzWJx1sXDAG','visitor','2026-01-28 13:09:03','2026-01-28 13:09:03'),
+('Petra','$2y$12$Kk2MP81i/W/Jm0Rbn7NxtOpqx90UeK902CJDsUCWz32o1A.INYwlG','visitor','2026-01-28 08:20:53','2026-01-28 08:20:53'),
+('PetraSilva','$2y$12$Rmg3xCL09ymXzUjRN8qLb.mSOCu1JjDu2jUSLIwlqiM.OaMxLaiAO','representative','2025-01-21 16:06:41','2025-12-08 15:23:37'),
+('PetrKacirek','$2y$12$kBF78yTTlxXDzzjzZ905qOKfZ4CAElOFUJlGTlNSsFn8J/vju8ueC','representative','2026-01-26 14:54:36','2026-01-26 14:58:23'),
+('PetrNovak','$2y$12$cx9gCdl0Fa7ev6MpuwxYWe/Bgwxp1mTDifjpdGIGU0gfvnlCa73Xu','visitor','2026-01-22 10:18:12','2026-01-22 10:18:12'),
+('petrsmaha','$2y$12$cw.lprTrIq9NpZ5v3s0tkeBY2mnDrupsDa3ucQeK43/OQpwxPol9W','visitor','2026-01-28 22:09:27','2026-01-28 22:09:27'),
+('Petru','$2y$12$u5npNoGLZXEcm/4g91dW6uuYmJ.oNQaER9MFPCsQx9taCGpJwNKMa','visitor','2025-02-13 10:56:13','2025-02-13 10:59:42'),
+('Pishoha85','$2y$12$C9mfrE5lh9lrfOyiFK1mSOtpF615kIr12kctFlm/7hueLCwDVcUsq','visitor','2026-01-25 22:47:15','2026-01-25 22:47:15'),
+('PosekanaLenka','$2y$12$D14j4rhw/o7zB4mfB7u/6ubDxJBG5tgoZ0IZNMqHsiMYXKrfr5ddK','representative','2025-01-28 12:37:47','2025-01-28 14:45:22'),
+('PRESSOL','$2y$12$EpKvoVQoCieN.kFSJ/YsxeGEqhpye5fuAysdHWx5QJroPPTGlLVv2','representative','2025-01-16 13:54:58','2025-01-21 16:19:56'),
+('Primator24pl','$2y$12$CcXwG9eDI2WGL/y3a/WMFejOmv6U0Qn73xgj.HdNk.flIzwDOx3D2','visitor','2026-01-27 23:51:40','2026-01-27 23:51:40'),
+('qwertzu','$2y$12$VNuegzgkMwLG0omkLrm0cOg4dxZ8ONamD8PdUgGx.EM9anpIj0rl2','representative','2025-11-27 13:41:20','2026-01-27 23:21:05'),
+('Radana','$2y$12$TK1kVKQ4uq7iVkbJ.vaJou9RUqGmnyoPHSDZbSirc9d13hXjJZXf.','visitor','2026-01-20 11:32:07','2026-01-20 11:32:07'),
+('Raryna','$2y$12$tXZnsidwXxEuw/SfvJe1jeORfIkVssADAA7dzz7Y1zWXRydYTFtBi','visitor','2026-01-26 15:47:21','2026-01-26 15:47:21'),
+('representative','$2y$12$yXy4vdwwHafTz7bS21ScW.ca6svQoqAvBh1x3VtUGnPhUHMElhERC','representative','2025-01-09 17:47:50','2025-01-09 17:49:18'),
+('Representative1','$2y$12$KJJ7dYRaH2k2wZLUctPx7uby6DznlCGJiL1qBJSuyJfcyE0uFo8Yi','representative','2026-01-07 11:51:29','2026-01-07 12:05:55'),
+('romannovak','$2y$12$Si2.dICRxGiexbA1v5lvIO42Vh3bjRIfOMU6vlWVaUxDHfGnPIiiq','visitor','2026-05-30 21:05:20','2026-05-30 21:05:20'),
+('RSFElektronik','$2y$12$x.9SFSSeJEP5uM985zYnr.2cnbv/bcxC7qNDXAtAcp6CevLSWG7Te','visitor','2026-01-26 14:29:14','2026-01-26 14:29:14'),
+('RSFElektronik1670','$2y$12$4Cg6I8r9/jLqDRSAKF6FJOGCoFkUBSpS9TxvyK0/qzFxfrvQnv3cS','representative','2026-01-26 14:32:56','2026-01-26 14:50:09'),
+('SarkaFortova','$2y$12$fUlWk4.LEvakFfNbj9rqXeUxeWbLDJfVP7oGR8mtv3l9pgpGH8vtq','representative','2026-01-21 09:57:30','2026-01-21 10:09:36'),
+('Silhabova','$2y$12$sERJUql4MBMQ9q6MG08OjueUk0UBTpYI0.Mrchg1of4faInB2UjS.','visitor','2026-01-27 20:05:53','2026-01-27 20:05:53'),
+('Stegte','$2y$12$lE5h8KhG3JxUyJWNW49Ii.cMCp2JbsmTw9lNNtENBwVzOK1r8669.','visitor','2026-01-27 20:03:45','2026-01-27 20:03:45'),
+('supervisor','$2y$12$wfIvs0fJ3McnAwj49OhDbeOCmPKxznydqIoAvj6593yeE0eEWGEcO','supervisor','2025-04-01 13:17:52','2025-04-01 13:18:55'),
+('SWIETELSKY_2025','$2y$12$yo9mJOEdXTbWnIav6urAcefeipTFQkHKFCqiwP6pgPQF34zi8ZvK.','representative','2025-01-20 12:54:54','2025-01-20 12:56:17'),
+('SXmYPPGKxOLOXKCGojqk','$2y$12$/8xdM2itfICGhKUd/1nK4.krWHlwQyiO5rPe1RcdVO2nXM1ri1EqW','visitor','2026-07-24 18:42:41','2026-07-24 18:42:41'),
+('testtest','$2y$12$FVRXOU/NzpuGAoKc3PUj7.ZhCyHVzI7jhjqP6Y7xqGyZdJzEDcS.W','visitor','2026-01-27 11:37:00','2026-01-27 11:37:00'),
+('Tetiana','$2y$12$Y9NeZsHOA8qAtP2jSh8KVuKuutEV030QpNf/vnTAdvBEeiHz/gh/C','visitor','2026-01-26 14:02:02','2026-01-26 14:02:02'),
+('TomasPomahac','$2y$12$IVoo7ACC2ygC1UKXFukFUeBnVYjNKfcM6xt6NfXLIwbR84u2okamm','visitor','2026-01-28 11:16:27','2026-01-28 11:16:27'),
+('tomiczech','$2y$12$DTzBXEs3F1or9o1PnItKWuduYk7tkhvndKm8ehGJnTLBhCgZEqnqW','visitor','2026-01-28 06:08:45','2026-01-28 06:08:45'),
+('TOTEM','$2y$12$ocO3lHThtoG10e4fV5pEIeikMUQAZu9VPw2VALj6Q8V/fMhg8uXii','representative','2025-01-21 17:18:55','2025-01-22 07:00:04'),
+('TRPASLIK','$2y$12$Cilg9KMaxtJ13Zjt/OJzCeLP68wKZlRJ4J3NtJdtWUutGscBiPiwW','visitor','2026-01-23 15:56:36','2026-01-23 16:08:23'),
+('tyserovalucie','$2y$12$g.t3cf6zSUkaMmQJJlRPb.03YU8CEIVOMGk0JAkgwIUXsa1mdAtwK','representative','2025-01-16 07:32:08','2025-01-16 08:58:11'),
+('VeronikaBirndtova','$2y$12$KYX4Y7TKd709z.lwfDuQeeMAoMaCxZB96YQf2Ahmf7XffNoa5M43a','representative','2025-01-20 08:39:26','2025-01-20 08:52:30'),
+('VeronikaLevorova','$2y$12$PT6fYNlD35JRPPshoE67MeqUJ5t5HM18181QxvQMDfe5J9KMvM9ue','visitor','2026-01-28 09:31:10','2026-01-28 09:31:10'),
+('Veruwag','$2y$12$8AE9KaMX4ROpsjtxx2EH1eAjEiOzfeeICnWavnmwZUnPwcYEJDAKq','visitor','2026-01-29 05:57:26','2026-01-29 05:57:26'),
+('Viktorbrada','$2y$12$EzJWwvRUotgZq1AF/X1ObOrvo4PAEDMEYczGW/klSrFUWMU7ixpOq','visitor','2026-01-28 08:29:26','2026-01-28 08:29:26'),
+('visitor','$2y$12$5X8IuTK9LW7CXFirk7bHg.BAzDV20lE5Af7jAq17qMSagGr.pfK02','visitor','2021-04-11 14:02:46','2025-01-09 17:48:44'),
+('Visitor1','$2y$12$nn9M5ai95V8uOomF6cH6POSXYIQnO9OmKhVJ5Eka8VNa0reCem8zW','visitor','2026-01-05 14:04:23','2026-01-05 14:04:23'),
+('vlse2610','$2y$12$h3TLmzmdjgQj/4M2X/1cqutWmUFh0sYJWQM5uaiXXO13RutgrFIC6','editor','2021-03-15 00:11:16','2026-01-21 09:53:49'),
+('VTBgNBWYIOtOTtMr','$2y$12$Vx8IPGMbtqhsvU/yCwLmfey1MEk0T0FoX7XZnA7TSyNa9pc4rHEAG','visitor','2026-07-22 17:42:05','2026-07-22 17:42:05'),
+('Yuliia','$2y$12$OXIYDo49S/4OOjNa46wLAe.WxfAQuxam0Q8DkZZpgIZGRMchey52S','visitor','2026-02-03 12:08:13','2026-02-03 12:08:13'),
+('zalohaPRESSOL','$2y$12$EpKvoVQoCieN.kFSJ/YsxeGEqhpye5fuAysdHWx5QJroPPTGlLVv2',NULL,'2025-01-21 16:06:41','2025-01-21 16:06:41'),
+('ZanetaTamchynova','$2y$12$p3PPkRkgvjLLxJ9Y.CKmcekaBdG1ODtzgqJv0uIs2cOxwnqFwSaMq','representative','2025-01-21 08:56:48','2025-01-21 09:48:34'),
+('Zuzacek2','$2y$12$qO9Ta2WNys9BkYvfqw3LFeYFfYjlkJnqb7XNHan0cZiZ1oisANq1m','visitor','2026-01-28 17:16:08','2026-01-28 17:16:08'),
+('zuzanacasova','$2y$12$/YA8zrnJVJcfC7yMNa1T3OV/MDNr8QitTnJD9oxSv1RqN4B5xPWpK','visitor','2026-01-28 16:06:04','2026-01-28 16:06:04'),
+('ZuzanaMalikova','$2y$12$raGtZb62PxUEYuErbBHqIuAUOpFLhf4bo1GwnFRT/XFOMw.KBk3pW','representative','2025-01-14 15:06:33','2025-02-17 17:00:19'),
+('zuzanavorudova','$2y$12$N6nRKuZn/T65WU0ecrDOJuzjZWtBWmn/om4nJkvX4HUYMk4AhkZh2','visitor','2025-01-30 09:10:24','2025-01-30 09:10:24');
+/*!40000 ALTER TABLE `credentials` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `login`
+--
+
+DROP TABLE IF EXISTS `login`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `login` (
+  `login_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`login_name`),
+  UNIQUE KEY `login_name` (`login_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `login`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `login` WRITE;
+/*!40000 ALTER TABLE `login` DISABLE KEYS */;
+INSERT INTO `login` VALUES
+('Alina'),
+('anka73'),
+('AnnaRozumova'),
+('Anna_1'),
+('anta2208'),
+('ARTANDE'),
+('aXXLnwqRJdskcbfqT'),
+('Barbie25Girl'),
+('BlahutovaM'),
+('bohumila'),
+('Brabcova'),
+('cermi123'),
+('cgJbwfhMXBlMhQyWHO'),
+('cvicenec'),
+('cvicitel'),
+('cySFIhjTzIvNrMLEMyoZzDO'),
+('Daikin'),
+('David42'),
+('DHL_Plzensko'),
+('Dzklatovy1_'),
+('EcqEydZehTwNGCcHgEN'),
+('editor'),
+('Eliska123'),
+('Elxkv'),
+('EuVPlzen1'),
+('EvaCanning'),
+('events_administrator'),
+('feXrjXmrtKEQRIXAnprXdaR'),
+('FilipFarajzl'),
+('fMYlVPxDAUWaVSbA'),
+('FOThxJONaTbLFVLkjP'),
+('FsplvBuSmlAYylGxf'),
+('GqzsbwjQeRgxLXSeBwiTH'),
+('HanaEM'),
+('HelenaKorsova'),
+('hledampraci'),
+('hrabakj'),
+('IdXEjDnGoLHbUsDaWgvy'),
+('ingrid'),
+('Irena_Kowalska'),
+('jab1408'),
+('JanaCernikova'),
+('JanaStara'),
+('Jana_Brabcova'),
+('JaroslavCajthamljaro5'),
+('Jarusa'),
+('jenda'),
+('JerryNoName'),
+('JINDRA'),
+('JINDRA85'),
+('Jindrich'),
+('JiriLottes'),
+('Jitka'),
+('jjenda'),
+('joe29'),
+('Juliie'),
+('Karel'),
+('kasl2405'),
+('Khrystyna'),
+('khrystynaanniuk'),
+('Kooperativa'),
+('Kortus'),
+('Koubovska'),
+('KristynaKindlova'),
+('KristynaVysehradska'),
+('kYxGnQVTYXCGSPFa'),
+('Lenka'),
+('LenkaPosekana'),
+('Lubos'),
+('LubosTrojan'),
+('lucagreba'),
+('Lucie'),
+('LucieMaskova'),
+('LucieMuchkova'),
+('Luciestr'),
+('LucieZikova'),
+('manpower'),
+('MAREKNECAS'),
+('marina8067'),
+('marketa'),
+('marketasarkisov'),
+('MarSne'),
+('MartinaKorandova'),
+('Maryan'),
+('masl0303'),
+('MICHAELA'),
+('Michaela16'),
+('MiichaelaJaneckova'),
+('MilosKucera'),
+('MnwYGUcFYzGYfNnToqdvend'),
+('MonikaHauznerova'),
+('MoZpsSwNALWpmlnmMb'),
+('Nadiia'),
+('Natalia'),
+('nataliebockova'),
+('Nicole'),
+('NikolaHaschova'),
+('NikolaSafrankova'),
+('OhTeTEcewLZcwLpHVZRCVPG'),
+('Oleksandr'),
+('Oleksandr8067'),
+('Panasonic'),
+('PavlaBerankova'),
+('pavlinapekarova'),
+('pBJkAYydvVobRwturtvD'),
+('pes2704'),
+('Petr42'),
+('Petra'),
+('PetraSilva'),
+('PetrKacirek'),
+('PetrNovak'),
+('petrsmaha'),
+('Petru'),
+('Pishoha85'),
+('PosekanaLenka'),
+('ppolanka'),
+('PRESSOL'),
+('Primator24pl'),
+('qwert'),
+('qwertz'),
+('qwertzu'),
+('Radana'),
+('Raryna'),
+('representative'),
+('Representative1'),
+('romannovak'),
+('RSFElektronik'),
+('RSFElektronik1670'),
+('Saniya'),
+('SarkaFortova'),
+('sFGIQlwYrZctAsrjq'),
+('Silhabova'),
+('Stegte'),
+('supervisor'),
+('Svob1'),
+('Svob2'),
+('SWIETELSKY_2025'),
+('SXmYPPGKxOLOXKCGojqk'),
+('testtest'),
+('Tetiana'),
+('tojsemja13N'),
+('TomasPomahac'),
+('tomiczech'),
+('TOTEM'),
+('TRPASLIK'),
+('TTUaVVkfxixlVUgNn'),
+('tyserovalucie'),
+('UrFCGWSKowqpbGUW'),
+('uRWvgwMEKHqLEyzKyVMMkXKA'),
+('VeronikaBirndtova'),
+('VeronikaLevorova'),
+('Veruwag'),
+('Viktorbrada'),
+('visitor'),
+('Visitor1'),
+('vlse2610'),
+('VpaDsTSdLnqeqVaVm'),
+('Vrankova'),
+('VTBgNBWYIOtOTtMr'),
+('wauTmfXTxHFzrTWJNlgYDMd'),
+('whCXHXNUZUUAvhKvrPgDwCA'),
+('xYCcQqwUYNBhnUhgSsqmOzxY'),
+('Yuliia'),
+('zalohaPRESSOL'),
+('ZanetaTamchynova'),
+('Zuzacek2'),
+('zuzanacasova'),
+('ZuzanaMalikova'),
+('zuzanavorudova');
+/*!40000 ALTER TABLE `login` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `registration`
+--
+
+DROP TABLE IF EXISTS `registration`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `registration` (
+  `login_name_fk` varchar(50) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `email_time` datetime DEFAULT NULL,
+  `uid` varchar(20) NOT NULL,
+  `info` varchar(250) DEFAULT NULL,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`login_name_fk`),
+  UNIQUE KEY `login_name_fk` (`login_name_fk`),
+  UNIQUE KEY `uid_UNIQUE` (`uid`),
+  CONSTRAINT `registration_ibfk_1` FOREIGN KEY (`login_name_fk`) REFERENCES `login` (`login_name`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `registration`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `registration` WRITE;
+/*!40000 ALTER TABLE `registration` DISABLE KEYS */;
+INSERT INTO `registration` VALUES
+('Alina','','alinapolikarpova9@gmail.com','2026-01-29 16:14:31','697b79568a924','','2026-01-29 15:14:30'),
+('anka73','thalia7C*','talianova@grafia.cz',NULL,'69257c1183a99','','2025-11-25 09:51:13'),
+('AnnaRozumova','','anna.rozumova108@gmail.com','2026-01-26 11:51:33','69774734bf047','','2026-01-26 10:51:32'),
+('Anna_1','Veletrh1','annamak@seznam.cz','2026-01-28 11:04:59','6979df4b34b8a','','2026-01-28 10:04:59'),
+('ARTANDE','','artande.eu@gmail.com','2026-04-24 12:15:37','69eb42c8d244c','ARTANDE interier s.r.o.','2026-04-24 10:15:36'),
+('aXXLnwqRJdskcbfqT','TIQb6oOVh8wLUAa1!','ug.e.g.eb.a.wati.701@gmail.com','2026-07-22 14:37:46','6a60b999d95a0','SHDMdHtxuXVeHRnH','2026-07-22 12:37:45'),
+('Barbie25Girl','','AnnaTalianova@seznam.cz','2025-11-26 21:51:09','6927683c4cb88','','2025-11-26 20:51:08'),
+('BlahutovaM','','conemar@seznam.cz','2026-01-27 17:56:43','6978ee4b660de','','2026-01-27 16:56:43'),
+('bohumila','','vaclavikova.b@seznam.cz','2026-01-27 21:19:24','69791dcc6695d','','2026-01-27 20:19:24'),
+('Brabcova','','brabcova@grafia.cz','2025-01-14 16:16:29','67867fcc86392','Grafia','2025-01-14 15:16:28'),
+('cermi123','','cermimatej@centrum.cz','2026-01-28 11:33:30','6979e5f99dfc4','','2026-01-28 10:33:29'),
+('cgJbwfhMXBlMhQyWHO','M27bBlGFG0vKUAa1!','dledford4@tampabay.rr.com','2026-07-27 11:47:40','6a67293bbebc2','XEgFXjsboNTmbptjwWfwwloE','2026-07-27 09:47:39'),
+('cvicenec','','svoboda@grafia.cz','2025-01-10 14:22:53','67811f2c8252c','Velká Testovní','2025-01-10 13:22:52'),
+('cvicitel','','selnerova@grafia.cz','2025-01-14 14:26:20','678665fb53bab','Velká Testovní','2025-01-14 13:26:19'),
+('cySFIhjTzIvNrMLEMyoZzDO','j8PajRk07MzR9Aa1!','google@mbbagency.com','2026-07-23 18:50:02','6a6246397add9','TVaPVBUHLlJhhIFpQJIIYVuz','2026-07-23 16:50:01'),
+('Daikin','','zoubkova.k@daikinczech.cz','2026-01-28 06:55:45','6979a4e150c60','Daikin Industries Czech Republic s.r.o.','2026-01-28 05:55:45'),
+('David42','','prace@cermakdavid.cz','2026-01-28 14:19:19','697a0cd70e1be','','2026-01-28 13:19:19'),
+('DHL_Plzensko','PlzenskoDHL123','monika.hauznerova@dhl.com','2026-01-27 10:56:28','69788bcc45bec','DHL Supply Chain','2026-01-27 09:56:28'),
+('Dzklatovy1_','','personalni@dzklatovy.cz','2025-01-15 13:26:21','6787a96c7b5d8','Drůbežářský závod Klatovy a.s.','2025-01-15 12:26:20'),
+('EcqEydZehTwNGCcHgEN','l9T5xwbrkVaXyAa1!','sarahlindenfelser@yahoo.com','2026-07-22 16:33:23','6a60d4b2b47fa','pmCmZCzokAMOhsjisRBd','2026-07-22 14:33:22'),
+('Eliska123','','5100eliska@seznam.cz','2025-03-11 11:06:50','67d00b398aeb0','','2025-03-11 10:06:49'),
+('Elxkv','','kvetonovaeliska@seznam.cz','2026-02-11 23:56:05','698d090500db4','','2026-02-11 22:56:05'),
+('EuVPlzen1','','prague.hr@engelvoelkers.com','2025-01-17 13:14:22','678a499da00e5','Engel & Völkers','2025-01-17 12:14:21'),
+('EvaCanning','','e.canning@4flow.com','2025-01-27 17:40:12','6797b6ebd0266','4flow','2025-01-27 16:40:11'),
+('feXrjXmrtKEQRIXAnprXdaR','JKl2Dj3gYrxyaAa1!','joshua_hb@yahoo.com','2026-07-25 18:15:44','6a64e1303e528','jvdnyHqxHwfGjyyNuSu','2026-07-25 16:15:44'),
+('FilipFarajzl','','filipfarajzl1@seznam.cz','2026-01-27 20:36:34','697913c21e355','','2026-01-27 19:36:34'),
+('fMYlVPxDAUWaVSbA','SRPy0nFLPJAaIAa1!','g.i.o.va.gn.olig.iu.9.2@gmail.com','2026-07-23 09:53:44','6a61c8881cc90','ucFPZpRtBpuUXwHfdMLfwrh','2026-07-23 07:53:44'),
+('FOThxJONaTbLFVLkjP','dKblC7GY798MIAa1!','e-shop@mc2saintbarth.com','2026-07-23 16:48:44','6a6229cbdbfdf','pVLiwmOwunJgDlcI','2026-07-23 14:48:43'),
+('FsplvBuSmlAYylGxf','zAwMFzCkcULoAAa1!','j.oanmarie0.029@gmail.com','2026-07-22 18:22:24','6a60ee4080d50','ZziAaaKetUGbVvyiceOqy','2026-07-22 16:22:24'),
+('GqzsbwjQeRgxLXSeBwiTH','CWqf3ZpfquGPDAa1!','david@libertydaytonchrysler.com','2026-07-26 18:16:34','6a6632e1d996e','MMxskCxshJRMbuGgazCACzF','2026-07-26 16:16:33'),
+('HanaEM','','Mastna.h@gmail.com','2025-02-03 14:45:05','67a0c8607941a','','2025-02-03 13:45:04'),
+('HelenaKorsova','','helena.korsova@loxxess.com','2025-01-16 12:10:45','6788e93471570','LOXXESS Bor s.r.o.','2025-01-16 11:10:44'),
+('hledampraci','ja23Bhledam','talianova@grafia.cz',NULL,'69208787ec83a','','2025-11-21 15:38:47'),
+('hrabakj','','j-hrabak@jtekt-cs.cz','2025-01-16 11:53:34','6788e52d5c262','JTEKT COLUMN SYSTEMS CZECH s.r.o.','2025-01-16 10:53:33'),
+('IdXEjDnGoLHbUsDaWgvy','s9t9imrwjqPgzAa1!','summitspringsshootingsports@cox.net','2026-07-24 05:43:01','6a62df44ed7df','cxuxiuqDhJpmENPMVFLwzft','2026-07-24 03:43:00'),
+('ingrid','6mnsWPpTgEEFK54','inga.afk@gmail.com','2026-01-23 19:47:20','6973c238490b0','','2026-01-23 18:47:20'),
+('Irena_Kowalska','','talianova@grafia.cz','2026-01-22 16:39:46','697244c197d99','Armor ČR','2026-01-22 15:39:45'),
+('JanaCernikova','','jana.cernikova2@uradprace.cz','2026-01-27 10:07:53','6978806949f51','Krajská pobočka ÚP ČR v Plzni','2026-01-27 09:07:53'),
+('JanaStara','','arlien@seznam.cz','2026-01-28 17:49:40','697a3e23cd17b','','2026-01-28 16:49:39'),
+('Jana_Brabcova','','zenacz@seznam.cz','2026-01-20 12:30:27','696f6752f1cf5','','2026-01-20 11:30:26'),
+('JaroslavCajthamljaro5','','jaro5@c-mail.cz','2026-01-23 16:51:12','697398f033330','','2026-01-23 15:51:12'),
+('Jarusa','','jarusa06@seznam.cz','2026-03-02 14:13:28','69a58cf86046c','','2026-03-02 13:13:28'),
+('jenda','','redanto@seznam.cz','2026-01-28 10:30:56','6979d74fe5c17','','2026-01-28 09:30:55'),
+('JerryNoName','','talianova@grafia.cz','2025-11-26 23:30:25','69277f809ffd4','','2025-11-26 22:30:24'),
+('JINDRA','351648730297Jh','jindra.thurova@seznam.cz','2025-02-12 17:09:59','67acc7d6a64f4','','2025-02-12 16:09:58'),
+('JINDRA85','','jindra.thurova@seznam.cz','2025-02-12 18:21:58','67acd8b5c4967','','2025-02-12 17:21:57'),
+('Jindrich','','krajovan@gmail.com','2025-02-15 16:42:58','67b0b6017ef66','','2025-02-15 15:42:57'),
+('JiriLottes','','talianova@grafia.cz','2025-12-01 17:11:14','692dbe222cbb4','TechSoft','2025-12-01 16:11:14'),
+('Jitka','','jitka.rubasova44@atlas.cz','2026-01-28 13:35:41','697a029ce3f3b','Grafia','2026-01-28 12:35:40'),
+('jjenda','','colg@seznam.cz','2026-01-28 10:27:52','6979d697a7711','','2026-01-28 09:27:51'),
+('joe29','','josefsramek95@gmail.com','2025-01-26 11:55:18','67961495e92eb','','2025-01-26 10:55:17'),
+('Juliie','','juliyashumlya@gmail.com','2026-02-03 13:12:47','6981e63f77740','','2026-02-03 12:12:47'),
+('Karel','','Karel.Hint@gmail.com','2026-01-22 15:47:33','697238852fe9d','','2026-01-22 14:47:33'),
+('Khrystyna','Demon666','khrystynaanniuk@gmail.com','2025-02-09 13:55:56','67a8a5dc1be59','','2025-02-09 12:55:56'),
+('khrystynaanniuk','','khrystynaanniuk@gmail.com','2025-02-09 13:53:14','67a8a539d9dc1','','2025-02-09 12:53:13'),
+('Kooperativa','','kcechurova@koop.cz','2025-01-17 13:48:35','678a51a2e6384','Kooperativa pojišťovna, a.s., VIG','2025-01-17 12:48:34'),
+('Kortus','','jara.kortus@gmail.com','2026-01-28 14:52:10','697a148a2d14c','','2026-01-28 13:52:10'),
+('Koubovska','','sona.koubovska@seznam.cz','2025-03-07 11:28:18','67caca40e8b47','','2025-03-07 10:28:16'),
+('KristynaKindlova','','kindlova.kristyna@cpost.cz','2026-01-15 10:09:19','6968aebe5a536','Česká Pošta, s.p.','2026-01-15 09:09:18'),
+('KristynaVysehradska','','kristyna.vysehradska@stock.cz','2026-01-26 16:31:08','697788bbc7853','STOCK Plzeň - Božkov s.r.o.','2026-01-26 15:31:07'),
+('kYxGnQVTYXCGSPFa','PjGZTNEfOJ4hFAa1!','fantasiajuarez@icould.com','2026-07-26 21:47:33','6a666454975cb','NuJzsiuTVKXiwWPMrk','2026-07-26 19:47:32'),
+('Lenka','','lenkahoranova@seznam.cz','2026-01-27 20:03:19','69790bf73d11d','','2026-01-27 19:03:19'),
+('LenkaPosekana','','lposekana@obchod.rsts.cz','2025-01-28 13:28:38','6798cd7541f66','','2025-01-28 12:28:37'),
+('Lubos','','boraneklubos@gmail.com','2025-03-15 20:35:35','67d5d6866cbba','','2025-03-15 19:35:34'),
+('LubosTrojan','Markétka123','lubostrojan78@gmail.com','2026-01-28 14:49:55','697a1402ac799','','2026-01-28 13:49:54'),
+('lucagreba','','lucie.stulikova@sew-eurodrive.cz','2026-01-13 11:31:58','69661f1e1d48a','SEW EURODRICE CZ s.r.o.','2026-01-13 10:31:58'),
+('Lucie','','lucie.zikova@rodenstock.cz','2026-01-09 13:02:32','6960ee57578da','','2026-01-09 12:02:31'),
+('LucieMaskova','','maskova.lu@gmail.com','2026-01-28 09:49:36','6979cda03e48c','','2026-01-28 08:49:36'),
+('LucieMuchkova','','lucie.muchkova@gmail.com','2026-01-26 20:58:53','6977c77d2ac27','','2026-01-26 19:58:53'),
+('Luciestr','','stroblova.luci@gmail.com','2026-01-28 15:15:48','697a1a144b9aa','','2026-01-28 14:15:48'),
+('LucieZikova','','lucie.zikova@rodenstock.cz','2026-01-09 13:03:35','6960ee9738abb','Rodenstock ČR s.r.o.','2026-01-09 12:03:35'),
+('manpower','','plzen@manpower.cz','2025-01-14 14:54:34','67866c9988597','Manpower','2025-01-14 13:54:33'),
+('MAREKNECAS','','mareknecas85@gmail.com','2025-01-30 10:42:11','679b49731a871','','2025-01-30 09:42:11'),
+('marina8067','','marina.khvorostenko.87@gmail.com','2026-01-27 22:32:43','69792efaec9c5','','2026-01-27 21:32:42'),
+('marketa','','jungova@centrumhajek.eu','2026-01-19 14:45:34','696e357d03089','CENTRUM HÁJEK z.ú.','2026-01-19 13:45:33'),
+('marketasarkisov','','extern.sarkisovova@daimlertruck.com','2025-01-23 10:17:27','679209266ecf2','Daimler Buses Česká republika s.r.o.','2025-01-23 09:17:26'),
+('MarSne','','martin.sneberger@volny.cz','2026-01-28 12:21:25','6979f1354eb41','','2026-01-28 11:21:25'),
+('MartinaKorandova','','martina.korandova@pcr.cz','2025-01-14 15:37:28','67932f0bdaa67','Krajské ředitelství policie Plzeňského kraje','2025-01-24 06:11:23'),
+('Maryan','','Mar_bizon@ukr.net','2026-01-10 19:48:46','69629f0d69d3e','','2026-01-10 18:48:45'),
+('MICHAELA','','michaela.koppova@schmenk.cz','2025-01-14 15:37:29','678676a8919d4','SCHÄFER - MENK S.R.O.','2025-01-14 14:37:28'),
+('Michaela16','','misa.korbelova@seznam.cz','2026-01-27 12:59:33','6978a8a4cc4b9','','2026-01-27 11:59:32'),
+('MiichaelaJaneckova','','michaela.janeckova@sew-eurodrive.cz','2026-01-29 09:32:52','697b1b33a20b4','SEW-EURODRIVE CZ','2026-01-29 08:32:51'),
+('MilosKucera','','miloskucera305@gmail.com','2026-01-29 14:10:40','697b5c4f86d16','','2026-01-29 13:10:39'),
+('MnwYGUcFYzGYfNnToqdvend','bosZlbg17yzn1Aa1!','lori.e.n29.77@gmail.com','2026-07-27 02:53:51','6a66ac1f0281c','yfhXTXXNLgeLqQSutZdqHB','2026-07-27 00:53:51'),
+('MonikaHauznerova','','monika.hauznerova@dhl.com','2026-01-27 12:32:50','6978a26279ccd','DHL Solution k.s.','2026-01-27 11:32:50'),
+('MoZpsSwNALWpmlnmMb','vGYN0GuSoN8OAAa1!','zena.benn.ett0.82.5@gmail.com','2026-07-25 09:13:46','6a64622993b60','WABKHYmYIBVhbRwcsA','2026-07-25 07:13:45'),
+('Nadiia','','Sotylanadia28@gmail.com','2025-02-10 12:41:33','67a9e5ec470c4','','2025-02-10 11:41:32'),
+('Natalia','','natalia0787@ukr.net','2025-01-19 12:28:02','678ce1c182077','','2025-01-19 11:28:01'),
+('nataliebockova','','natbock@seznam.cz','2026-01-28 09:03:24','6979c2cc0af8b','','2026-01-28 08:03:24'),
+('Nicole','','nicole.fischerova94@seznam.cz','2026-01-28 17:18:38','697a36de4643f','','2026-01-28 16:18:38'),
+('NikolaHaschova','Nikool1987','nikola.haschova@seznam.cz','2026-01-22 10:04:03','6971e8024092c','','2026-01-22 09:04:02'),
+('NikolaSafrankova','','nikola82@seznam.cz','2025-01-30 13:28:20','679b7063488d2','','2025-01-30 12:28:19'),
+('OhTeTEcewLZcwLpHVZRCVPG','L9YiR7O7YwZmKAa1!','o.r.t.hoch.k@gmail.com','2026-07-23 21:55:34','6a6271b656c8f','bYAQAhAYyKqfsRDUgFQGTWOQ','2026-07-23 19:55:34'),
+('Oleksandr','Mvh2168067mvh','marina.khvorostenko.87@gmail.com','2026-01-28 09:24:21','6979c7b5831b6','','2026-01-28 08:24:21'),
+('Oleksandr8067','','duginetsa@gmail.com','2026-01-28 09:29:12','6979c8d7d2519','','2026-01-28 08:29:11'),
+('Panasonic','','nada.salzmannova@eu.panasonic.com','2025-01-23 09:05:00','6791f82c0c11a','Panasonic Heating & Ventilation Air-Conditioning','2025-01-23 08:05:00'),
+('PavlaBerankova','','berankova@grafia.cz','2026-01-28 08:39:04','6979bd17ec5e5','','2026-01-28 07:39:03'),
+('pavlinapekarova','','pekarova.pavca@seznam.cz','2026-01-27 19:50:18','697908ea18cb5','','2026-01-27 18:50:18'),
+('pBJkAYydvVobRwturtvD','hVTX6vfkAeAIiAa1!','zina.seal@northcoast.com','2026-01-21 02:55:53','697032291a224','ylezAwSabzllwbxbPHuxuq','2026-01-21 01:55:53'),
+('Petr42','','veletrhprace@petralbrecht.cz','2026-01-28 14:08:38','697a0a559eec6','','2026-01-28 13:08:37'),
+('Petra','','ppatockova@email.cz','2026-01-28 09:15:37','6979c5a97f793','','2026-01-28 08:15:37'),
+('PetraSilva','peSi81GO','talianova@grafia.cz','2025-12-01 17:26:09','692dc1a0d5639','NewIndustria IO, Go Deal AI s.r.o.','2025-12-01 16:26:08'),
+('PetrKacirek','','kacirek@hsl.cz','2026-01-26 15:54:03','6977800b68adb','Hospic svatého Lazara','2026-01-26 14:54:03'),
+('PetrNovak','','talianova@grafia.cz','2026-01-22 11:17:31','6971f93aeb8a5','','2026-01-22 10:17:30'),
+('petrsmaha','','smazak98@seznam.cz','2026-01-28 23:07:11','697a888f7bc75','','2026-01-28 22:07:11'),
+('Petru','','petruskaa3@gmail.com','2025-02-13 11:55:50','67adcfb5d92a3','','2025-02-13 10:55:49'),
+('Pishoha85','','pishoha85@gmail.com','2026-01-25 23:46:50','69769d59aaffb','','2026-01-25 22:46:49'),
+('PosekanaLenka','','lposekana@obchod.rsts.cz','2025-01-28 13:37:23','6798cf82e26f2','Raiffeisen stavební spořitelna a.s.','2025-01-28 12:37:22'),
+('ppolanka','Pomelogrep25','vapefepo@gmail.com','2026-02-02 18:14:29','6980db74e9bf4','','2026-02-02 17:14:28'),
+('PRESSOL','','alena.svehlova@pressol.com','2025-01-16 14:46:48','67890dc7ee96d','PRESSOL Tschechien s.r.o.','2025-01-16 13:46:47'),
+('Primator24pl','','porobiony666@gmail.com','2026-01-28 00:51:21','69794f788e2b9','','2026-01-27 23:51:20'),
+('qwert','Qwert1','svoboda@grafia.cz',NULL,'69285088ec7b5','','2025-11-27 13:22:16'),
+('qwertz','Qwertz1','svoboda@grafia.cz',NULL,'6928530e200e4','','2025-11-27 13:33:02'),
+('qwertzu','','svoboda@grafia.cz','2025-11-27 14:40:48','692854df93cfa','','2025-11-27 13:40:47'),
+('Radana','','radana.euv@gmail.com','2026-01-20 12:27:39','696f66ab341ea','','2026-01-20 11:27:39'),
+('Raryna','','rastvorovaxenie@gmail.com','2026-01-26 16:47:08','69778c7ba698f','','2026-01-26 15:47:07'),
+('Representative1','','selnerova@grafia.cz','2026-01-07 12:50:08','695e48702dbc2','Velkááá','2026-01-07 11:50:08'),
+('romannovak','','leady@ambreasia.cz','2026-05-30 23:04:48','6a1b50f040dfe','','2026-05-30 21:04:48'),
+('RSFElektronik','','lucie.vlasakova@rsf-elektronik.cz','2026-01-26 15:26:22','6977798d8a291','','2026-01-26 14:26:21'),
+('RSFElektronik1670','','lucie.vlasakova@rsf-elektronik.cz','2026-01-26 15:32:25','69777af8b5c22','RSF Elektronik spol. s r.o.','2026-01-26 14:32:24'),
+('Saniya','Aliza@0126','saniyahafiz@yahoo.com','2026-01-27 23:03:58','6979364df157c','','2026-01-27 22:03:57'),
+('SarkaFortova','','sarka.fortova@Wabtec.com','2026-01-21 10:42:15','69709f76e2d85','Wabtec Corporation–Faiveley Transport Plzeň s.r.o.','2026-01-21 09:42:14'),
+('sFGIQlwYrZctAsrjq','L4j815ZR4daPEAa1!','calvinng_94@yahoo.com','2026-07-23 23:21:44','6a6285e8022c8','cyRYDHqdIiKPawxRvtdwNUb','2026-07-23 21:21:44'),
+('Silhabova','','p.silhabova@seznam.cz','2026-01-27 21:02:53','697919ed7cd9d','','2026-01-27 20:02:53'),
+('Stegte','','ter4ka@seznam.cz','2026-01-27 21:03:34','69791a15a4726','','2026-01-27 20:03:33'),
+('Svob1','Svob1','svoboda@grafia.cz',NULL,'6793bda97c93f','','2025-01-24 16:19:53'),
+('Svob2','Svob2','svoboda@grafia.cz','2025-01-24 17:26:24','6793bf2fa760a','','2025-01-24 16:26:23'),
+('SWIETELSKY_2025','','m.netrebova@swietelsky.cz','2025-01-20 13:54:34','678e478992f76','SWIETELSKY stavební s.r.o.','2025-01-20 12:54:33'),
+('SXmYPPGKxOLOXKCGojqk','','hsuong@newchelsea.ca','2026-07-24 20:41:53','6a63b1f10fd96','QoCPPyEGFxMSjUBtjDXAo','2026-07-24 18:41:53'),
+('testtest','','slehoferova@grafia.cz','2026-01-27 12:34:59','6978a2e2d673e','Grafia','2026-01-27 11:34:58'),
+('Tetiana','','tania.kov@icloud.com','2026-01-26 15:01:30','697773b9a1c8d','','2026-01-26 14:01:29'),
+('tojsemja13N','thalia1*25SV','talianova@grafia.cz',NULL,'6920755a11653','','2025-11-21 14:21:14'),
+('TomasPomahac','','tomaspomahac@gmail.com','2026-01-28 12:16:02','6979eff273598','','2026-01-28 11:16:02'),
+('tomiczech','','tomas.salamanek@gmail.com','2026-01-28 07:02:16','6979a6685e63d','','2026-01-28 06:02:16'),
+('TOTEM','','kropacova@totemplzen.cz','2025-01-21 18:18:04','678fd6cb4f321','TOTEM z.s.','2025-01-21 17:18:03'),
+('TRPASLIK','','jaro5@c-mail.cz','2026-01-23 16:56:23','69739a2786045','','2026-01-23 15:56:23'),
+('TTUaVVkfxixlVUgNn','KpxmqrK7hUfTVAa1!','1.ell.a.vaug.h.n.5@gmail.com','2026-07-24 22:59:24','6a63d22bd4683','WVpioZypDzdOYOlwiokQDRKf','2026-07-24 20:59:23'),
+('tyserovalucie','','lucie.tyserova@bergerbohemia.cz','2025-01-16 08:31:52','6788b5e77510a','BERGER BOHEMIA a.s.','2025-01-16 07:31:51'),
+('UrFCGWSKowqpbGUW','0NOliZnzijV8OAa1!','admin@lcgnh.com','2026-07-24 13:12:01','6a63488182706','YenrjQkvQKYDJrueySQIG','2026-07-24 11:12:01'),
+('uRWvgwMEKHqLEyzKyVMMkXKA','vv9izkB0OKXlMAa1!','pa.ul.50.m.ac@gmail.com','2026-07-22 20:49:57','6a6110d4ba864','unILQHjILIszvPZAZayRah','2026-07-22 18:49:56'),
+('VeronikaBirndtova','','veronika.birndtova@pens.com','2025-01-20 09:39:04','678e0ba79499e','National Pen Czech s.r.o.','2025-01-20 08:39:03'),
+('VeronikaLevorova','','veronikalevor@gmail.com','2026-01-28 10:30:56','6979d75057958','','2026-01-28 09:30:56'),
+('Veruwag','','veronikasl@centrum.cz','2026-01-28 14:02:14','697a08d612538','','2026-01-28 13:02:14'),
+('Viktorbrada','','viktor.brada@gmail.com','2026-01-28 09:28:26','6979c8a9dad09','','2026-01-28 08:28:25'),
+('visitor','visitor','svoboda@grafia.cz','2021-04-11 15:55:09','6072ffbce2e5f',NULL,'2021-04-11 13:55:08'),
+('Visitor1','','selnerova@grafia.cz','2026-01-05 15:00:30','695bc3fd9607d','','2026-01-05 14:00:29'),
+('VpaDsTSdLnqeqVaVm','lY0QbSe8zixh6Aa1!','m.arc.j..ga.gn.on@gmail.com',NULL,'6a638875ba3c5','HgGITNyhNKzACVIsYuJmWb','2026-07-24 15:44:53'),
+('Vrankova','Oloucha*1972','O.Vrankova@seznam.cz','2026-01-26 18:45:04','6977a8206a56b','','2026-01-26 17:45:04'),
+('VTBgNBWYIOtOTtMr','','yamili@targetparkusa.com','2026-07-22 19:40:02','6a610072446f9','WhxkZuzzErljaiUSZgslRRz','2026-07-22 17:40:02'),
+('wauTmfXTxHFzrTWJNlgYDMd','KsDsn0qx7x8wyAa1!','ca.le.b.al.varez.diaz@gmail.com','2026-07-26 08:50:37','6a65ae3cc017d','KfuFQhSLJyhXbDCisvytGog','2026-07-26 06:50:36'),
+('whCXHXNUZUUAvhKvrPgDwCA','X5mNgPxW6L1EnAa1!','aj.a.m.es.n.eal.1.96.2@gmail.com','2026-07-22 23:27:53','6a6135d95059d','gawWrAJiyjPIjCUXxQY','2026-07-22 21:27:53'),
+('xYCcQqwUYNBhnUhgSsqmOzxY','srChKpYwPFn1hAa1!','r.i.c.h.t.er.ge.r.a.l.d@gmail.com','2026-07-23 20:24:25','6a625c58d0e3c','cdclvDoRHkTXfhiaC','2026-07-23 18:24:24'),
+('Yuliia','','juliyashumlya@gmail.com','2026-02-03 13:04:09','6981e4393f9a8','','2026-02-03 12:04:09'),
+('ZanetaTamchynova','','zaneta.tamchynova@wienerberger.com','2025-01-21 09:55:49','678f6114f209e','Wienerberger s.r.o.','2025-01-21 08:55:48'),
+('Zuzacek2','','zuza.cek@seznam.cz','2026-01-28 14:32:08','697a0fd8119b3','','2026-01-28 13:32:08'),
+('zuzanacasova','','zuzana.casova@seznam.cz','2026-01-28 17:02:47','697a332709783','','2026-01-28 16:02:47'),
+('ZuzanaMalikova','','marketing@lorenc-logistic.cz','2025-01-14 16:05:13','67867d28f083e','Lorenc Logistic, s.r.o.','2025-01-14 15:05:12'),
+('zuzanavorudova','','vorudova.z@email.cz','2025-01-30 10:09:56','679b41e35fef9','','2025-01-30 09:09:55');
+/*!40000 ALTER TABLE `registration` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `role`
+--
+
+DROP TABLE IF EXISTS `role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `role` (
+  `role` varchar(50) NOT NULL,
+  PRIMARY KEY (`role`),
+  UNIQUE KEY `role_UNIQUE` (`role`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `role`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `role` WRITE;
+/*!40000 ALTER TABLE `role` DISABLE KEYS */;
+INSERT INTO `role` VALUES
+('editor'),
+('events_administrator'),
+('representative'),
+('supervisor'),
+('visitor');
+/*!40000 ALTER TABLE `role` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Dumping events for database 'najdisicz02'
+--
+
+--
+-- Dumping routines for database 'najdisicz02'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
+
+-- Dump completed on 2026-10-15 22:52:14
