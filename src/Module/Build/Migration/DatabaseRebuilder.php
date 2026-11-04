@@ -40,7 +40,9 @@ final class DatabaseRebuilder
         $dropped = $this->dropAllTables($pdo, $dbName);
         $this->importDump($manipulator, $dumpPath);
 
-        $runner = $this->connections->createRunner($target);
+        // Po importu dumpu struktura = baseline; gate by byla redundantní (a false-positive
+        // riziko kvůli normalizaci dump vs information_schema). Skip před journal init.
+        $runner = $this->connections->createRunner($target, bypassStructureGate: true);
         $baseline = $runner->baseline($target, $this->release);
         $migrated = $runner->migrate($target);
         $status = $runner->status($target);

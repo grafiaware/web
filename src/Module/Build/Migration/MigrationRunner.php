@@ -14,6 +14,7 @@ final class MigrationRunner
         private readonly MigrationScanner $scanner,
         private readonly MigrationJournal $journal,
         private readonly SqlExecutorInterface $executor,
+        private readonly ?BaselineStructureGate $structureGate = null,
     ) {
     }
 
@@ -28,9 +29,11 @@ final class MigrationRunner
      */
     public function status(MigrationTarget $target): array
     {
+        $this->guardStructureBeforeJournal($target);
         $definitions = $this->scanner->scan($target);
         $fileVersions = array_map(static fn (MigrationDefinition $d): string => $d->version, $definitions);
         $applied = $this->journal->getAppliedVersions();
+        // Status při virgin žurnálu tabulku nevytváří (jen čte). CREATE až baseline/migrate.
         $appliedSet = array_fill_keys($applied, true);
         $fileSet = array_fill_keys($fileVersions, true);
 
@@ -67,6 +70,7 @@ final class MigrationRunner
      */
     public function migrate(MigrationTarget $target): array
     {
+        $this->guardStructureBeforeJournal($target);
         $this->journal->ensureTable();
         $appliedSet = array_fill_keys($this->journal->getAppliedVersions(), true);
         $appliedNow = [];
@@ -93,13 +97,13 @@ final class MigrationRunner
         MigrationTarget $target,
         string $release = ReleaseBaseline::PRODUCTION
     ): array {
-        unset($target); // cíl určuje připojení (žurnál v dané DB); marker je stejný formát
         if (!ReleaseBaseline::isValid($release)) {
             throw new \InvalidArgumentException(
                 "Release baseline musí být rok YYYY (např. 2025), dostáno: {$release}"
             );
         }
 
+        $this->guardStructureBeforeJournal($target);
         $this->journal->ensureTable();
         if ($this->journal->isApplied($release)) {
             return [];
@@ -107,6 +111,14 @@ final class MigrationRunner
         $this->journal->record($release);
 
         return [$release];
+    }
+
+    /**
+     * Před prvním vytvořením/zápisem schema_migrations: live struktura == baseline dump.
+     */
+    private function guardStructureBeforeJournal(MigrationTarget $target): void
+    {
+        $this->structureGate?->assertMatchesBaseline($target, $this->journal);
     }
 
     /**

@@ -39,11 +39,64 @@ final class MigrationJournal
     }
 
     /**
+     * Žurnál ještě neexistuje nebo nemá žádný řádek — první init/baseline/migrate.
+     * Nevolá ensureTable (nevytváří tabulku).
+     */
+    public function isVirgin(): bool
+    {
+        if (!$this->tableExists()) {
+            return true;
+        }
+        $stmt = $this->pdo->query('SELECT 1 FROM ' . self::TABLE . ' LIMIT 1');
+        if ($stmt === false) {
+            return true;
+        }
+
+        return $stmt->fetchColumn() === false;
+    }
+
+    public function tableExists(): bool
+    {
+        $driver = $this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
+        if ($driver === 'sqlite') {
+            $stmt = $this->pdo->prepare(
+                "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = :name LIMIT 1"
+            );
+            $stmt->execute(['name' => self::TABLE]);
+
+            return (bool) $stmt->fetchColumn();
+        }
+
+        // MySQL 5.6 / 8 — information_schema (bez závislosti na DATABASE())
+        $stmt = $this->pdo->prepare(
+            'SELECT 1 FROM information_schema.TABLES
+             WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = :name AND TABLE_TYPE = \'BASE TABLE\'
+             LIMIT 1'
+        );
+        $stmt->execute(['name' => self::TABLE]);
+
+        return (bool) $stmt->fetchColumn();
+    }
+
+    /**
      * @return list<string>
      */
     public function getAppliedVersions(): array
     {
-        $this->ensureTable();
+        if ($this->isVirgin()) {
+            // Tabulka ještě není / je prázdná — nevynucujeme CREATE zde;
+            // ensureTable volá runner až po strukturální kontrole (BaselineStructureGate).
+            if (!$this->tableExists()) {
+                return [];
+            }
+        } else {
+            $this->ensureTable();
+        }
+
+        if (!$this->tableExists()) {
+            return [];
+        }
+
         $stmt = $this->pdo->query('SELECT version FROM ' . self::TABLE . ' ORDER BY version ASC');
         if ($stmt === false) {
             return [];
