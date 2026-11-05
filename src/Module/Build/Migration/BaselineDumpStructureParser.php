@@ -303,7 +303,7 @@ final class BaselineDumpStructureParser
             $rest,
             $dm
         ) === 1) {
-            $default = SchemaStructureNormalizer::defaultValue($dm[1]);
+            $default = SchemaStructureNormalizer::defaultValue($dm[1], $nullable);
         }
 
         $colCharset = $tableCharset;

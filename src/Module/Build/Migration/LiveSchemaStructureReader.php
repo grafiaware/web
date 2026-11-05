@@ -116,12 +116,14 @@ final class LiveSchemaStructureReader
                     ? (string) $row['collation_name']
                     : $tableCollation
             );
+            $nullable = strtoupper((string) $row['is_nullable']) === 'YES';
             $columns[$name] = [
                 'name' => $name,
                 'type' => SchemaStructureNormalizer::dataType((string) $row['column_type']),
-                'nullable' => strtoupper((string) $row['is_nullable']) === 'YES',
+                'nullable' => $nullable,
                 'default' => SchemaStructureNormalizer::defaultValue(
-                    $row['col_default'] === null ? null : (string) $row['col_default']
+                    $row['col_default'] === null ? null : (string) $row['col_default'],
+                    $nullable
                 ),
                 'extra' => SchemaStructureNormalizer::extra((string) ($row['extra'] ?? '')),
                 'charset' => $charset,

@@ -7,8 +7,9 @@ namespace Test\Unit\Build\Migration;
 use Build\Migration\BaselineDumpPaths;
 use Build\Migration\BaselineDumpStructureParser;
 use Build\Migration\MigrationTarget;
-use Build\Migration\SchemaStructureComparer;
 use Build\Migration\SchemaStructure;
+use Build\Migration\SchemaStructureComparer;
+use Build\Migration\SchemaStructureNormalizer;
 use PHPUnit\Framework\TestCase;
 
 final class BaselineDumpStructureParserTest extends TestCase
@@ -137,6 +138,64 @@ CREATE TABLE `role` (
 SQL;
         $expected = BaselineDumpStructureParser::parse($sql);
         $actual = BaselineDumpStructureParser::parse($sql);
+        $diff = SchemaStructureComparer::compare($expected, $actual);
+        $this->assertTrue($diff->isEmpty());
+    }
+
+    /**
+     * False positive z PR #81: nullable DEFAULT '' v dumpu vs information_schema COLUMN_DEFAULT=''
+     * (PDO string bez uvozovek) — dříve normalizer převáděl live '' → null → „default NULL ≠ dump ''“.
+     */
+    public function testEmptyStringDefaultMatchesInformationSchemaEmpty(): void
+    {
+        $sql = <<<'SQL'
+CREATE TABLE `company_to_network` (
+  `company_id` int(10) unsigned NOT NULL,
+  `network_id` int(10) unsigned NOT NULL,
+  `link` varchar(200) DEFAULT '',
+  `published` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`company_id`,`network_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+SQL;
+        $expected = BaselineDumpStructureParser::parse($sql);
+        $this->assertSame('', $expected->table('company_to_network')['columns']['link']['default']);
+        $this->assertSame('0', $expected->table('company_to_network')['columns']['published']['default']);
+
+        // Simulace LiveSchemaStructureReader po defaultValue(COLUMN_DEFAULT, nullable):
+        // IS vrací '' / '0' bez dumpových uvozovek.
+        $fromLive = BaselineDumpStructureParser::parse($sql);
+        $tables = $fromLive->tables();
+        $tables['company_to_network']['columns']['link']['default'] =
+            SchemaStructureNormalizer::defaultValue('', true);
+        $tables['company_to_network']['columns']['published']['default'] =
+            SchemaStructureNormalizer::defaultValue('0', true);
+        $actual = new SchemaStructure($tables, $fromLive->views());
+
+        $diff = SchemaStructureComparer::compare($expected, $actual);
+        $this->assertTrue(
+            $diff->isEmpty(),
+            'DEFAULT \'\' nesmí hlásit NULL ≠ dump \'\': ' . implode('; ', $diff->lines())
+        );
+    }
+
+    public function testNotNullImplicitEmptyDefaultMatchesMissingDumpDefault(): void
+    {
+        $sql = <<<'SQL'
+CREATE TABLE `t` (
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+SQL;
+        $expected = BaselineDumpStructureParser::parse($sql);
+        $this->assertNull($expected->table('t')['columns']['name']['default']);
+
+        // MySQL 5.6: NOT NULL bez DEFAULT → COLUMN_DEFAULT často ''
+        $normalized = SchemaStructureNormalizer::defaultValue('', false);
+        $this->assertNull($normalized);
+
+        $tables = $expected->tables();
+        $tables['t']['columns']['name']['default'] = $normalized;
+        $actual = new SchemaStructure($tables, $expected->views());
         $diff = SchemaStructureComparer::compare($expected, $actual);
         $this->assertTrue($diff->isEmpty());
     }
