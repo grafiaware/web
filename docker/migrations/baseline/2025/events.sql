@@ -2,13 +2,10 @@
 -- Source: dumps_produkce/events.sql
 -- structure + seed data
 -- No schema_migrations (journal written by rebuild CLI after import).
--- No schema-qualified identifiers; import into the target DB connection.
+-- No schema-qualified identifiers. Import into the target DB connection.
 
 SET FOREIGN_KEY_CHECKS=0;
 
---
--- Table structure for table `company`
---
 
 DROP TABLE IF EXISTS `company`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -24,9 +21,6 @@ CREATE TABLE `company` (
 ) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `company`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `company` WRITE;
@@ -122,9 +116,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `company_address`
---
 
 DROP TABLE IF EXISTS `company_address`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -141,9 +132,6 @@ CREATE TABLE `company_address` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `company_address`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `company_address` WRITE;
@@ -199,9 +187,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `company_contact`
---
 
 DROP TABLE IF EXISTS `company_contact`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -219,9 +204,6 @@ CREATE TABLE `company_contact` (
 ) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `company_contact`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `company_contact` WRITE;
@@ -290,9 +272,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `company_info`
---
 
 DROP TABLE IF EXISTS `company_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -309,9 +288,6 @@ CREATE TABLE `company_info` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `company_info`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `company_info` WRITE;
@@ -369,9 +345,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `company_parameter`
---
 
 DROP TABLE IF EXISTS `company_parameter`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -384,9 +357,6 @@ CREATE TABLE `company_parameter` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `company_parameter`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `company_parameter` WRITE;
@@ -403,9 +373,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `company_to_network`
---
 
 DROP TABLE IF EXISTS `company_to_network`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -423,9 +390,6 @@ CREATE TABLE `company_to_network` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `company_to_network`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `company_to_network` WRITE;
@@ -524,9 +488,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `company_version`
---
 
 DROP TABLE IF EXISTS `company_version`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -537,9 +498,6 @@ CREATE TABLE `company_version` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `company_version`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `company_version` WRITE;
@@ -554,9 +512,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `document`
---
 
 DROP TABLE IF EXISTS `document`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -570,9 +525,6 @@ CREATE TABLE `document` (
 ) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `document`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `document` WRITE;
@@ -582,9 +534,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `enroll`
---
 
 DROP TABLE IF EXISTS `enroll`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -600,9 +549,6 @@ CREATE TABLE `enroll` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `enroll`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `enroll` WRITE;
@@ -612,9 +558,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `event`
---
 
 DROP TABLE IF EXISTS `event`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -637,9 +580,6 @@ CREATE TABLE `event` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `event`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `event` WRITE;
@@ -649,9 +589,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `event_content`
---
 
 DROP TABLE IF EXISTS `event_content`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -671,9 +608,6 @@ CREATE TABLE `event_content` (
 ) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `event_content`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `event_content` WRITE;
@@ -683,9 +617,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `event_content_type`
---
 
 DROP TABLE IF EXISTS `event_content_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -699,9 +630,6 @@ CREATE TABLE `event_content_type` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `event_content_type`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `event_content_type` WRITE;
@@ -711,9 +639,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `event_link`
---
 
 DROP TABLE IF EXISTS `event_link`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -729,9 +654,6 @@ CREATE TABLE `event_link` (
 ) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `event_link`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `event_link` WRITE;
@@ -741,9 +663,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `event_link_phase`
---
 
 DROP TABLE IF EXISTS `event_link_phase`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -755,9 +674,6 @@ CREATE TABLE `event_link_phase` (
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `event_link_phase`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `event_link_phase` WRITE;
@@ -767,9 +683,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `institution`
---
 
 DROP TABLE IF EXISTS `institution`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -784,9 +697,6 @@ CREATE TABLE `institution` (
 ) ENGINE=InnoDB AUTO_INCREMENT=299 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `institution`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `institution` WRITE;
@@ -796,9 +706,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `institution_type`
---
 
 DROP TABLE IF EXISTS `institution_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -810,9 +717,6 @@ CREATE TABLE `institution_type` (
 ) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `institution_type`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `institution_type` WRITE;
@@ -822,9 +726,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `job`
---
 
 DROP TABLE IF EXISTS `job`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -847,9 +748,6 @@ CREATE TABLE `job` (
 ) ENGINE=InnoDB AUTO_INCREMENT=376 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `job`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `job` WRITE;
@@ -958,9 +856,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `job_tag`
---
 
 DROP TABLE IF EXISTS `job_tag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -973,9 +868,6 @@ CREATE TABLE `job_tag` (
 ) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `job_tag`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `job_tag` WRITE;
@@ -997,9 +889,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `job_to_tag`
---
 
 DROP TABLE IF EXISTS `job_to_tag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -1015,9 +904,6 @@ CREATE TABLE `job_to_tag` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `job_to_tag`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `job_to_tag` WRITE;
@@ -1216,9 +1102,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `login`
---
 
 DROP TABLE IF EXISTS `login`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -1229,9 +1112,6 @@ CREATE TABLE `login` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `login`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `login` WRITE;
@@ -1324,9 +1204,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `network`
---
 
 DROP TABLE IF EXISTS `network`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -1340,9 +1217,6 @@ CREATE TABLE `network` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `network`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `network` WRITE;
@@ -1358,9 +1232,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Temporary table structure for view `pocet_pozic`
---
 
 DROP TABLE IF EXISTS `pocet_pozic`;
 /*!50001 DROP VIEW IF EXISTS `pocet_pozic`*/;
@@ -1371,9 +1242,6 @@ SET character_set_client = utf8mb4;
   1 AS `pocet_pozic` */;
 SET character_set_client = @saved_cs_client;
 
---
--- Table structure for table `pozadovane_vzdelani`
---
 
 DROP TABLE IF EXISTS `pozadovane_vzdelani`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -1385,9 +1253,6 @@ CREATE TABLE `pozadovane_vzdelani` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `pozadovane_vzdelani`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `pozadovane_vzdelani` WRITE;
@@ -1405,9 +1270,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `representative`
---
 
 DROP TABLE IF EXISTS `representative`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -1423,9 +1285,6 @@ CREATE TABLE `representative` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `representative`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `representative` WRITE;
@@ -1502,9 +1361,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `visitor_job_request`
---
 
 DROP TABLE IF EXISTS `visitor_job_request`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -1535,9 +1391,6 @@ CREATE TABLE `visitor_job_request` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `visitor_job_request`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `visitor_job_request` WRITE;
@@ -1570,9 +1423,6 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Table structure for table `visitor_profile`
---
 
 DROP TABLE IF EXISTS `visitor_profile`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -1598,9 +1448,6 @@ CREATE TABLE `visitor_profile` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `visitor_profile`
---
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `visitor_profile` WRITE;
@@ -1625,21 +1472,9 @@ UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
---
--- Dumping events for database 'najdisicz03'
---
 
---
--- Dumping routines for database 'najdisicz03'
---
 
---
--- Current Database: `najdisicz03`
---
 
---
--- Final view structure for view `pocet_pozic`
---
 
 /*!50001 DROP VIEW IF EXISTS `pocet_pozic`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
@@ -1647,21 +1482,10 @@ SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
 /*!50001 SET character_set_client      = utf8mb4 */;
 /*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_uca1400_ai_ci */;
+/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`najdisicz004`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `pocet_pozic` AS select `name` AS `name`,count(`name`) AS `pocet_pozic` from (`company` join `job` on(`id` = `company_id`)) where `version_fk` = '2026' and `published` = 1 group by `name` order by `name` */;
+/*!50013 SQL SECURITY INVOKER */
+/*!50001 VIEW `pocet_pozic` AS select `company`.`name` AS `name`,count(`company`.`name`) AS `pocet_pozic` from (`company` join `job` on(`company`.`id` = `job`.`company_id`)) where `company`.`version_fk` = '2026' and `job`.`published` = 1 group by `company`.`name` order by `company`.`name` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
-
--- Dump completed on 2026-10-15 22:52:14

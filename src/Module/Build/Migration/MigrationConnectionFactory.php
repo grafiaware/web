@@ -59,17 +59,28 @@ final class MigrationConnectionFactory
         );
     }
 
-    public function createRunner(MigrationTarget $target): MigrationRunner
-    {
+    public function createRunner(
+        MigrationTarget $target,
+        bool $bypassStructureGate = false
+    ): MigrationRunner {
         $handler = $this->createHandler($target);
         $manipulator = new Manipulator($handler, $this->logger());
         $pdo = HandlerPdoUnwrapper::unwrap($handler);
         $root = MigrationPaths::defaultRoot($this->projectRoot);
+        $gate = $bypassStructureGate
+            ? BaselineStructureGate::disabled($pdo)
+            : new BaselineStructureGate(
+                $pdo,
+                $this->projectRoot,
+                true,
+                $this->databaseName($target)
+            );
 
         return new MigrationRunner(
             new MigrationScanner($root),
             new MigrationJournal($pdo),
-            new ManipulatorSqlExecutor($manipulator)
+            new ManipulatorSqlExecutor($manipulator),
+            $gate
         );
     }
 

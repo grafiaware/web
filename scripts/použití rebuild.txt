@@ -1,0 +1,15 @@
+cd C:\Users\pes2704\git_repo_for_vscode\web
+
+drift:
+cd C:\Users\pes2704\git_repo_for_vscode\web
+php scripts/db-rebuild.php --drift-check --target=all
+php scripts/db-rebuild.php --drift-check --target=red
+php scripts/db-rebuild.php --drift-check --target=auth
+php scripts/db-rebuild.php --drift-check --target=events
+
+rebuild
+cd C:\Users\pes2704\git_repo_for_vscode\web
+php scripts/db-rebuild.php --target=all --yes
+php scripts/db-rebuild.php --target=red --yes
+php scripts/db-rebuild.php --target=auth --yes
+php scripts/db-rebuild.php --target=events --yes

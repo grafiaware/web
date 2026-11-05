@@ -2,6 +2,7 @@
 
 namespace Build\Middleware\Build\Controler;
 
+use Build\Migration\BaselineStructureGate;
 use Build\Migration\HandlerPdoUnwrapper;
 use Build\Migration\ManipulatorSqlExecutor;
 use Build\Migration\MigrationJournal;
@@ -10,6 +11,7 @@ use Build\Migration\MigrationRunner;
 use Build\Migration\MigrationScanner;
 use Build\Migration\MigrationTarget;
 use Build\Migration\ReleaseBaseline;
+use Build\Migration\SchemaStructureMismatchException;
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\AttributesProvider\AttributesProvider;
 use Pes\Database\Handler\ConnectionInfo;
@@ -32,8 +34,12 @@ class MigrationControler extends BuildControlerAbstract
     public function status(ServerRequestInterface $request)
     {
         $target = $this->resolveTarget($request);
-        $runner = $this->createRunner($target);
-        $status = $runner->status($target);
+        try {
+            $runner = $this->createRunner($target);
+            $status = $runner->status($target);
+        } catch (SchemaStructureMismatchException $e) {
+            return $this->createHtmlReportResponse($this->renderStructureMismatch($e));
+        }
 
         $html = [];
         $html[] = '<h3>Stav migrací — ' . htmlspecialchars($target->value) . '</h3>';
@@ -51,8 +57,12 @@ class MigrationControler extends BuildControlerAbstract
     public function migrate(ServerRequestInterface $request)
     {
         $target = $this->resolveTarget($request);
-        $runner = $this->createRunner($target);
-        $applied = $runner->migrate($target);
+        try {
+            $runner = $this->createRunner($target);
+            $applied = $runner->migrate($target);
+        } catch (SchemaStructureMismatchException $e) {
+            return $this->createHtmlReportResponse($this->renderStructureMismatch($e));
+        }
 
         $html = [];
         $html[] = '<h3>Migrace dokončena — ' . htmlspecialchars($target->value) . '</h3>';
@@ -71,8 +81,12 @@ class MigrationControler extends BuildControlerAbstract
     {
         $target = $this->resolveTarget($request);
         $release = $this->resolveRelease($request);
-        $runner = $this->createRunner($target);
-        $recorded = $runner->baseline($target, $release);
+        try {
+            $runner = $this->createRunner($target);
+            $recorded = $runner->baseline($target, $release);
+        } catch (SchemaStructureMismatchException $e) {
+            return $this->createHtmlReportResponse($this->renderStructureMismatch($e));
+        }
 
         $html = [];
         $html[] = '<h3>Baseline ' . htmlspecialchars($release) . ' — ' . htmlspecialchars($target->value) . '</h3>';
@@ -121,6 +135,7 @@ class MigrationControler extends BuildControlerAbstract
 
     private function createRunner(MigrationTarget $target): MigrationRunner
     {
+        $connectionInfo = $this->connectionInfoFor($target);
         $handler = $this->createHandler($target);
         $logger = FileLogger::getInstance(
             $this->container->get('build.db.logs.directory'),
@@ -132,12 +147,26 @@ class MigrationControler extends BuildControlerAbstract
 
         // Handler (pes-database) už není PDO — žurnál bere raw PDO přes unwrap (všechny targety).
         $pdo = HandlerPdoUnwrapper::unwrap($handler);
+        $dbName = (string) $connectionInfo->getDbName();
 
         return new MigrationRunner(
             new MigrationScanner(MigrationPaths::defaultRoot()),
             new MigrationJournal($pdo),
-            new ManipulatorSqlExecutor($manipulator)
+            new ManipulatorSqlExecutor($manipulator),
+            new BaselineStructureGate($pdo, null, true, $dbName !== '' ? $dbName : null)
         );
+    }
+
+    private function renderStructureMismatch(SchemaStructureMismatchException $e): string
+    {
+        $lines = htmlspecialchars($e->getMessage());
+        $lines = nl2br($lines, false);
+
+        return '<h3>Blokováno — struktura DB ≠ baseline dump</h3>'
+            . '<p>První zápis do <code>schema_migrations</code> vyžaduje shodu struktury '
+            . '(ne dat) s <code>docker/migrations/baseline/2025/'
+            . htmlspecialchars($e->target->value) . '.sql</code>.</p>'
+            . '<pre style="white-space:pre-wrap">' . $lines . '</pre>';
     }
 
     private function createHandler(MigrationTarget $target): Handler
