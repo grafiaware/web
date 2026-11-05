@@ -17,11 +17,8 @@ class ConfigurationFeatures {
     public static function features(): array {
         return [
             // 'vp.losovani' => false,   // D1 – příklad, klíče přidávají jednotlivé balíky
-            'vp.registrace-emailem' => false,   // A1 – registrace e-mailem (heslo volitelné), přihlášení e-mailem nebo jménem
-            'vp.prihlaseni-odkazem' => false,   // A2 – jednorázový přihlašovací odkaz e-mailem místo zapomenutého hesla
-            'vp.zakladani-uctu' => false,       // A6 – zakládání účtů administrátorem (formulář v admin-credentials, heslo mailem)
-            'vp.osobni-jmeno' => false,         // A8 – osobní jméno uživatele (zadání při registraci, změna v okně odhlášení)
-            'vp.sprava-roli' => false,          // A9 – správa účtů a rolí (role *_role_grantor, global_role_grantor, logy, zpomalené přihlašování)
+            'vp.registrace-emailem' => true,   // A1 – registrace e-mailem (heslo volitelné), přihlášení e-mailem nebo jménem
+            'vp.prihlaseni-odkazem' => true,   // A2 – jednorázový přihlašovací odkaz e-mailem místo zapomenutého hesla
         ];
     }
 }
