@@ -6,9 +6,10 @@ declare(strict_types=1);
  * Regeneruje docker/migrations/baseline/2025/{auth,events,red}.sql
  * z lokálních dumps_produkce/ (gitignore).
  *
- * Odstraní schema_migrations, schema kvalifikátory (jen známá DB jména),
- * USE/CREATE DATABASE, a přes BaselineDumpSanitizer i DEFINER /
- * SQL SECURITY DEFINER→INVOKER / privilege statements / nebezpečné komentáře.
+ * Odstraní schema_migrations, schema kvalifikátory (jen známá DB jména —
+ * ne table.column ve VIEW), USE/CREATE DATABASE, a přes BaselineDumpSanitizer
+ * i DEFINER / SQL SECURITY DEFINER→INVOKER / utf8mb4_uca1400_ai_ci→unicode_ci /
+ * privilege statements / nebezpečné komentáře.
  */
 
 $root = dirname(__DIR__);
@@ -42,23 +43,43 @@ function stripSchemaQualifiers(string $sql): string
     return preg_replace('/`(?:' . $schemas . ')`\s*\.\s*(`[A-Za-z0-9_]+`)/i', '$1', $sql) ?? $sql;
 }
 
-/** Navicat-style dumps often omit DROP before CREATE TABLE. */
+/**
+ * Navicat-style dumps often omit DROP before CREATE TABLE.
+ * Skip when DROP TABLE IF EXISTS for the same table already appears just above
+ * (mysqldump typically has DROP, then session SET, then CREATE).
+ */
 function ensureDropTableBeforeCreate(string $sql): string
 {
-    return preg_replace_callback(
+    if (!preg_match_all(
         '/^CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?`([^`]+)`/im',
-        static function (array $m): string {
-            return "DROP TABLE IF EXISTS `{$m[1]}`;\n{$m[0]}";
-        },
-        $sql
-    ) ?? $sql;
+        $sql,
+        $matches,
+        PREG_OFFSET_CAPTURE | PREG_SET_ORDER
+    )) {
+        return $sql;
+    }
+
+    for ($i = count($matches) - 1; $i >= 0; $i--) {
+        $table = $matches[$i][1][0];
+        $pos = (int) $matches[$i][0][1];
+        $before = substr($sql, max(0, $pos - 600), min(600, $pos));
+        if (preg_match('/DROP\s+TABLE\s+IF\s+EXISTS\s+`' . preg_quote($table, '/') . '`\s*;/i', $before) === 1) {
+            continue;
+        }
+        $sql = substr($sql, 0, $pos) . "DROP TABLE IF EXISTS `{$table}`;\n" . substr($sql, $pos);
+    }
+
+    return $sql;
 }
 
-/** Ensure DROP VIEW before CREATE VIEW (rebuild may leave views after DROP TABLE). */
+/**
+ * Ensure DROP VIEW before plain CREATE VIEW (rebuild may leave views after DROP TABLE).
+ * Skip mysqldump versioned stubs (/*!50001 CREATE VIEW …) — those already have DROP VIEW.
+ */
 function ensureDropViewBeforeCreate(string $sql): string
 {
     return preg_replace_callback(
-        '/\bCREATE\s+(?:ALGORITHM\s*=\s*\w+\s+)?(?:DEFINER\s*=\s*(?:`[^`]+`|\'[^\']+\'|"[^"]+"|[^\s@\'"`]+)\s*@\s*(?:`[^`]+`|\'[^\']+\'|"[^"]+"|[^\s\'"`]+)\s+)?(?:SQL\s+SECURITY\s+\w+\s+)?VIEW\s+`([^`]+)`/i',
+        '/(?<!\/\*!\d{5} )\bCREATE\s+(?:ALGORITHM\s*=\s*\w+\s+)?(?:DEFINER\s*=\s*(?:`[^`]+`|\'[^\']+\'|"[^"]+"|[^\s@\'"`]+)\s*@\s*(?:`[^`]+`|\'[^\']+\'|"[^"]+"|[^\s\'"`]+)\s+)?(?:SQL\s+SECURITY\s+\w+\s+)?VIEW\s+`([^`]+)`/i',
         static function (array $m): string {
             return "DROP VIEW IF EXISTS `{$m[1]}`;\n{$m[0]}";
         },

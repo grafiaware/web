@@ -71,6 +71,20 @@ SQL;
         $this->assertStringContainsString('/*!40101 SET character_set_client = utf8mb4 */;', $out);
     }
 
+    public function testRewritesMariaDbUca1400Collation(): void
+    {
+        $sql = <<<'SQL'
+/*!50001 SET collation_connection      = utf8mb4_uca1400_ai_ci */;
+/*!50001 VIEW `pocet_pozic` AS select 1 AS `x` */;
+SQL;
+
+        $out = BaselineDumpSanitizer::sanitize($sql);
+
+        $this->assertStringNotContainsString('uca1400', $out);
+        $this->assertStringContainsString('utf8mb4_unicode_ci', $out);
+        $this->assertStringContainsString('VIEW `pocet_pozic`', $out);
+    }
+
     public function testStripsOrphanOldVarRestores(): void
     {
         $sql = <<<'SQL'
@@ -78,12 +92,14 @@ SET FOREIGN_KEY_CHECKS=0;
 CREATE TABLE t (id INT);
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 SQL;
 
         $out = BaselineDumpSanitizer::sanitize($sql);
 
         $this->assertStringNotContainsString('@OLD_FOREIGN_KEY_CHECKS', $out);
         $this->assertStringNotContainsString('@OLD_SQL_MODE', $out);
+        $this->assertStringNotContainsString('@OLD_NOTE_VERBOSITY', $out);
         $this->assertStringContainsString('CREATE TABLE t (id INT);', $out);
     }
 }
