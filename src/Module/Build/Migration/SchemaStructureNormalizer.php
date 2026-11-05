@@ -58,15 +58,26 @@ final class SchemaStructureNormalizer
         return $t;
     }
 
-    public static function defaultValue(?string $default): ?string
+    /**
+     * Normalizuje COLUMN_DEFAULT / dump DEFAULT pro porovnání.
+     *
+     * MySQL 5.6/8 quirks:
+     * - information_schema vrací prázdný default jako '' (ne NULL) — DEFAULT '' musí zůstat '';
+     * - u NOT NULL bez explicitního DEFAULT často hlásí '' (implicitní) — sjednotíme na null,
+     *   stejně jako dump parser bez klauzule DEFAULT.
+     *
+     * @param bool $nullable true = sloupec IS NULLABLE / bez NOT NULL
+     */
+    public static function defaultValue(?string $default, bool $nullable = true): ?string
     {
         if ($default === null) {
             return null;
         }
         $d = trim($default);
-        if ($d === '' || strcasecmp($d, 'NULL') === 0) {
+        if (strcasecmp($d, 'NULL') === 0) {
             return null;
         }
+        // Dump: DEFAULT '' → token "''"; live IS: COLUMN_DEFAULT = '' (bez uvozovek).
         $d = trim($d, "'\"");
         $upper = strtoupper($d);
         if ($upper === 'CURRENT_TIMESTAMP' || $upper === 'CURRENT_TIMESTAMP()') {
@@ -74,6 +85,11 @@ final class SchemaStructureNormalizer
         }
         if (preg_match('/^current_timestamp(?:\(\d*\))?$/i', $d) === 1) {
             return 'current_timestamp()';
+        }
+        // NOT NULL + '' z information_schema ≈ chybějící DEFAULT v dumpu (implicitní '').
+        // Nullable DEFAULT '' musí zůstat '' — jinak false positive (NULL ≠ dump '').
+        if ($d === '' && !$nullable) {
+            return null;
         }
 
         return strtolower($d);
