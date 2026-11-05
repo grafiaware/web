@@ -16,6 +16,7 @@ final class BaselineDumpSanitizer
         $sql = self::stripPlainComments($sql);
         $sql = self::stripDefinerClauses($sql);
         $sql = self::rewriteSecurityDefinerToInvoker($sql);
+        $sql = self::rewriteMariaDbUca1400Collation($sql);
         $sql = self::stripPrivilegeAndSystemStatements($sql);
         $sql = self::stripEmptyVersionedComments($sql);
         $sql = self::stripOrphanOldVarRestores($sql);
@@ -64,6 +65,15 @@ final class BaselineDumpSanitizer
         return preg_replace('/SQL\s+SECURITY\s+DEFINER/i', 'SQL SECURITY INVOKER', $sql) ?? $sql;
     }
 
+    /**
+     * MariaDB mysqldump často nastaví session collation utf8mb4_uca1400_ai_ci u VIEW.
+     * MySQL 8 ji nezná (errno 1273) → CREATE VIEW po DROP VIEW selže a view chybí.
+     */
+    private static function rewriteMariaDbUca1400Collation(string $sql): string
+    {
+        return str_ireplace('utf8mb4_uca1400_ai_ci', 'utf8mb4_unicode_ci', $sql);
+    }
+
     private static function stripPrivilegeAndSystemStatements(string $sql): string
     {
         $patterns = [
@@ -99,8 +109,9 @@ final class BaselineDumpSanitizer
     {
         $names = 'TIME_ZONE|SQL_MODE|FOREIGN_KEY_CHECKS|UNIQUE_CHECKS|CHARACTER_SET_CLIENT|CHARACTER_SET_RESULTS|COLLATION_CONNECTION|NOTE_VERBOSITY';
 
+        // mysqldump: /*!40101 SET …=@OLD_… */; MariaDB: /*M!100616 SET …=@OLD_… */;
         return preg_replace(
-            '#/\*!(?:M!)?\d+\s+SET\s+(?:@@session\.)?(?:' . $names . ')\s*=\s*@OLD_[A-Z_]+\s*\*/\s*;?\s*#i',
+            '#/\*(?:!|M!)\d+\s+SET\s+(?:@@session\.)?(?:' . $names . ')\s*=\s*@OLD_[A-Z_]+\s*\*/\s*;?\s*#i',
             '',
             $sql
         ) ?? $sql;
