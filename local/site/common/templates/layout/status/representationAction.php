@@ -11,7 +11,7 @@ $mustSelectCompany = !$isAdministrator && (count($idCompanyArray)>1);
     <button class="ui page icon button btn-modalActions">
         <p><b>Akce reprezentanta</b></p>
         <p class="">
-            <i class="user icon"></i><?= $loginName ?>
+            <i class="user icon"></i><?= htmlspecialchars((string) ($userName ?? $loginName)) ?>
             <div class="ui divider"></div>
                 <?php if($mustSelectCompany) {?>
                     <i class="briefcase icon"></i><?= $hasRepreCompany ? "zastupuje $companyName" : "Nemá vybranou firmu" ?>
@@ -24,7 +24,7 @@ $mustSelectCompany = !$isAdministrator && (count($idCompanyArray)>1);
     <div class="ui mini page modal transition hidden modalActions">
         <i class="white close icon"></i>
         <div class="content">
-                <p class="text velky zadne-okraje"><i class="user icon"></i><?= $loginName ?></p>
+                <p class="text velky zadne-okraje"><i class="user icon"></i><?= htmlspecialchars((string) ($userName ?? $loginName)) ?></p>
                 <form class="ui form centered" method="POST" action="events/v1/representation">
                     <div class="text okraje-vertical">
                     <?php if($mustSelectCompany) {
