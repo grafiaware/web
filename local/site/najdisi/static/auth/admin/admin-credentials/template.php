@@ -22,6 +22,10 @@ use Auth\Model\Entity\LoginInterface;
 
 
 use Auth\Middleware\Login\Controler\AuthControler;
+use Auth\Model\Dao\RegistrationDao;
+use Auth\Model\Dao\LoginProfileDao;
+use Auth\Service\AccountService;
+use Application\Feature\FeatureFlags;
 
 
 
@@ -30,7 +34,11 @@ use Auth\Middleware\Login\Controler\AuthControler;
 $statusViewModel = $container->get(StatusViewModel::class);
 $getEditable = $statusViewModel->getRepresentativeActions()->getDataEditable();   //TODO: SV editace dat pro events admin
 $userRole = $statusViewModel->getUserRole();
-if ($userRole == RoleEnum::EVENTS_ADMINISTRATOR) {
+// A6: zakládání účtů – supervisor a events_administrator (docs/vp/zadani/A6.md)
+$features = FeatureFlags::fromConfiguration();
+$canCreateAccounts = $features->isEnabled('vp.zakladani-uctu') && AccountService::canCreateAccounts($userRole);
+$displayNameEnabled = $features->isEnabled('vp.osobni-jmeno');
+if ($userRole == RoleEnum::EVENTS_ADMINISTRATOR || $canCreateAccounts) {
     /** @var CredentialsRepoInterface $credentialsRepo */ 
     $credentialsRepo = $container->get(CredentialsRepo::class );
     /** @var RoleRepoInterface $roleRepo */ 
@@ -58,6 +66,21 @@ if ($userRole == RoleEnum::EVENTS_ADMINISTRATOR) {
         $selectRoles [$role->getRole()] = $role->getRole() ;
     }    
     
+    $allowedRoles = $canCreateAccounts ? AccountService::allowedRoles($userRole, array_filter(array_keys($selectRoles), fn($r) => $r !== AuthControler::NULL_VALUE)) : [];
+    // A6: e-mail (a osobní jméno A8) u účtů ve výpisu
+    $emails = [];
+    $displayNames = [];
+    if ($canCreateAccounts) {
+        foreach ($container->get(RegistrationDao::class)->find('1=1', []) as $registrationRow) {
+            $emails[$registrationRow['login_name_fk']] = (string) $registrationRow['email'];
+        }
+        if ($displayNameEnabled) {
+            foreach ($container->get(LoginProfileDao::class)->find('display_name IS NOT NULL', []) as $profileRow) {
+                $displayNames[$profileRow['login_name_fk']] = (string) $profileRow['display_name'];
+            }
+        }
+    }
+
     $selecty = [];
     $selecty['selectRoles'] = $selectRoles;
     $selecty['selectLoginNames'] = $selectLoginNames;
@@ -76,7 +99,12 @@ if ($userRole == RoleEnum::EVENTS_ADMINISTRATOR) {
                     'roleFk' => ($entity->getRoleFk()) ?? AuthControler::NULL_VALUE , 
                     'selectRoles' =>  $selectRoles,                     
                     'loginNameFk' =>  $entity->getLoginNameFk(),
-                    'passwordHash' => $entity->getPasswordHash()                                               
+                    'passwordHash' => $entity->getPasswordHash(),
+                    'showAccountInfo' => $canCreateAccounts,
+                    'email' => $emails[$entity->getLoginNameFk()] ?? '',
+                    'displayName' => $displayNames[$entity->getLoginNameFk()] ?? '',
+                    'canSendSetPasswordLink' => $canCreateAccounts && in_array($entity->getRoleFk(), $allowedRoles, true)
+                            && ($emails[$entity->getLoginNameFk()] ?? '') !== '',
                     ];
             }   
     }
@@ -85,6 +113,14 @@ if ($userRole == RoleEnum::EVENTS_ADMINISTRATOR) {
                                               
   ?>
     
+    <?php if ($canCreateAccounts): ?>
+        <?= $this->insert(__DIR__.'/new-account.php', [
+                'allowedRoles' => $allowedRoles,
+                'displayNameEnabled' => $displayNameEnabled,
+                'passwordPattern' => ConfigurationCache::auth()['passwordPattern'],
+                'passwordInfo' => ConfigurationCache::auth()['passwordInfo'],
+            ]) ?>
+    <?php endif; ?>
     <div class="ui styled fluid accordion">           
         <div>             
            <b>CREDENTIALS-tabulka</b>                                 
@@ -92,7 +128,7 @@ if ($userRole == RoleEnum::EVENTS_ADMINISTRATOR) {
         ------------------------------------------------------                      
         <div>      
             <?php  if (isset ($credentialsEntities) ) {   ?>                                
-                    <span>Login Name | PasswordHash | Role</span>                                 
+                    <span>Login Name | <?= $canCreateAccounts ? 'E-mail | ' : '' ?>PasswordHash | Role</span>                                 
                 <?= $this->repeat(__DIR__.'/credentials.php',  $credentials )  ?>                         
             <?php }   ?>      
                                       
