@@ -13,6 +13,9 @@ use FrontControler\FrontControlerAbstract;
 use Application\Feature\FeatureFlags;
 use Auth\Service\AuthMailer;
 use Auth\Service\LoginTokenService;
+use Auth\Service\DisplayNameService;
+use Auth\Model\Entity\LoginAggregateFullInterface;
+use Status\Model\Entity\SecurityInterface;
 use Site\ConfigurationCache;
 use Mail\MailSettings;
 use Mail\MessageFactory\HtmlMessage;
@@ -54,6 +57,21 @@ class LoginControlerAbstract extends FrontControlerAbstract {
         return $scheme . '://' . $host . $this->getBasePath($request) . $restUri;  // getBasePath končí /
     }
 
+    /**
+     * Přihlásí uživatele (nový bezpečnostní kontext v session) a načte jeho osobní jméno (A8) pro zobrazení.
+     * Všechna přihlášení v Auth jdou přes tuto metodu.
+     */
+    protected function startUserContext(LoginAggregateFullInterface $loginAggregateFull): SecurityInterface {
+        $security = $this->statusSecurityRepo->get();
+        $security->newContext($loginAggregateFull);
+        $displayName = null;
+        if ($this->featureFlags()->isEnabled('vp.osobni-jmeno')) {
+            $displayName = $this->container->get(DisplayNameService::class)->get($loginAggregateFull->getLoginName());
+        }
+        $security->setInfo(SecurityInterface::INFO_DISPLAY_NAME, $displayName);
+        return $security;
+    }
+
     protected function authMailer(): AuthMailer {
         return new AuthMailer(
             $this->container->get(MailInterface::class),
@@ -66,13 +84,15 @@ class LoginControlerAbstract extends FrontControlerAbstract {
      * Akce se provádí až POSTem – GET odkaz z e-mailu může otevřít i bezpečnostní skener pošty.
      */
     protected function createActionPageResponse(ServerRequestInterface $request, string $title, string $text,
-            string $formRestUri = '', string $buttonText = ''): ResponseInterface {
+            string $formRestUri = '', string $buttonText = '', array $passwordField = []): ResponseInterface {
         $html = (string) (new ViewFactory())->phpTemplateView(__DIR__ . '/Pages/action.php', [
                 'title' => $title,
                 'text' => $text,
                 'formAction' => $formRestUri === '' ? '' : $this->getBasePath($request) . $formRestUri,
                 'buttonText' => $buttonText,
                 'homeUrl' => $this->getBasePath($request),
+                // A6: volitelné pole pro nové heslo ['name', 'pattern', 'info', 'error']
+                'passwordField' => $passwordField,
             ])->setRenderer(new PhpTemplateRenderer());
         return $this->createStringOKResponse($html)->withHeader('Cache-Control', 'no-store');
     }

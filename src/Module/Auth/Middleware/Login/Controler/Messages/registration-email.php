@@ -33,7 +33,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="padding: 10px;"><p style="margin: 5px 0;">Po dokončení registrace budete rovnou přihlášeni. Pokud jste se neregistrovali, tento e-mail ignorujte.</p></td>
+                    <td style="padding: 10px;"><p style="margin: 5px 0;">Po dokončení registrace budete rovnou přihlášeni. Pokud jste se neregistrovali, tento e-mail ignorujte.</p>
+                        <?php if (isset($deleteAfterDays)): ?><p style="margin: 5px 0;">Nedokončená registrace se po <?= htmlspecialchars($deleteAfterDays) ?> dnech smaže.</p><?php endif; ?></td>
                 </tr>
                 <tr>
                     <td style="padding: 10px;"><p style="margin: 5px 0;">Toto je automaticky generovaný e-mail. Na tento e-mail, prosím, neodpovídejte.</p>

@@ -27,6 +27,7 @@ use Auth\Model\Entity\LoginAggregateCredentials;
 use Auth\Model\Entity\Registration;
 use Auth\Model\Repository\LoginAggregateFullRepo;
 use Auth\Model\Dao\CredentialsDao;
+use Auth\Model\Dao\RegistrationDao;
 use Pes\Model\RowData\RowData;
 use Status\Model\Enum\FlashSeverityEnum;
 use Psr\Http\Message\ResponseInterface;
@@ -167,6 +168,7 @@ class ConfirmControler extends LoginControlerAbstract
                         
                         // vymazání hesla z registrace
                         $registrationEntity->setPasswordHash('');                                             
+                        $this->container->get(RegistrationDao::class)->markConfirmed($loginNameFk);  // A3 čas potvrzení
                     } //neni credentials - tak ho vytvoril
                     
                     else {
@@ -232,6 +234,7 @@ class ConfirmControler extends LoginControlerAbstract
             'role_fk' => RoleEnum::VISITOR,
         ]);
         $this->container->get(CredentialsDao::class)->insert($credentialsRow);
+        $this->container->get(RegistrationDao::class)->markConfirmed($loginName);  // A3 čas potvrzení
         $registration->setPasswordHash('');   // čitelné heslo z registrace pryč (zapíše flush repository)
         $this->registrationRepo->flush();
 
@@ -246,7 +249,7 @@ class ConfirmControler extends LoginControlerAbstract
 
         $loginAggregateFull = $this->container->get(LoginAggregateFullRepo::class)->get($loginName);
         if (isset($loginAggregateFull)) {
-            $this->statusSecurityRepo->get()->newContext($loginAggregateFull);
+            $this->startUserContext($loginAggregateFull);
             $this->addFlashMessage("Registrace je dokončená, jste přihlášeni.", FlashSeverityEnum::SUCCESS);
         } else {
             $this->addFlashMessage("Registrace je dokončená. Přihlaste se.");

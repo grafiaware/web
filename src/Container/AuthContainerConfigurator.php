@@ -42,6 +42,11 @@ use Auth\Model\Repository\RegistrationRepo;
 use Auth\Model\Dao\LoginTokenDao;
 use Auth\Service\LoginTokenService;
 use Auth\Service\LoginNameGenerator;
+use Auth\Service\DisplayNameService;
+use Auth\Service\AccountService;
+use Auth\Service\EventsLoginWriter;
+use Auth\Service\UnconfirmedRegistrationCleaner;
+use Auth\Model\Dao\LoginProfileDao;
 
 use Auth\Model\Hydrator\LoginChildRegistrationHydrator;
 use Auth\Model\Repository\LoginAggregateRegistrationRepo;
@@ -72,6 +77,10 @@ use Pes\Database\Handler\HandlerInterface;
 // controller
 use Auth\Middleware\Login\Controler\LoginLogoutControler;
 use Auth\Middleware\Login\Controler\LoginLinkControler;
+use Auth\Middleware\Login\Controler\DisplayNameControler;
+use Auth\Middleware\Login\Controler\AccountControler;
+use Auth\Middleware\Login\Controler\SetPasswordControler;
+use Auth\Middleware\Login\Controler\UnconfirmedRegistrationControler;
 use Auth\Middleware\Login\Controler\RegistrationControler;
 use Auth\Middleware\Login\Controler\ConfirmControler;
 use Auth\Middleware\Login\Controler\PasswordControler;
@@ -273,6 +282,36 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
             LoginTokenService::class => function(ContainerInterface $c) {
                 return new LoginTokenService($c->get(LoginTokenDao::class));
             },
+            LoginProfileDao::class => function(ContainerInterface $c) {
+                return new LoginProfileDao(
+                        $c->get(Handler::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
+            },
+            DisplayNameService::class => function(ContainerInterface $c) {
+                return new DisplayNameService($c->get(LoginProfileDao::class));
+            },
+            AccountService::class => function(ContainerInterface $c) {
+                $auth = \Site\ConfigurationCache::auth();
+                return new AccountService(
+                        $c->get(LoginDao::class),
+                        $c->get(CredentialsDao::class),
+                        $c->get(RegistrationDao::class),
+                        $c->get(RoleDao::class),
+                        $c->get(LoginNameGenerator::class),
+                        $c->get(DisplayNameService::class),
+                        $c->get(LoginTokenService::class),
+                        new EventsLoginWriter(),
+                        $auth['passwordPattern'],
+                        $auth['passwordInfo']);
+            },
+            UnconfirmedRegistrationCleaner::class => function(ContainerInterface $c) {
+                return new UnconfirmedRegistrationCleaner(
+                        $c->get(RegistrationDao::class),
+                        \Pes\Logger\FileLogger::getInstance(
+                            $c->has('auth.logs.directory') ? $c->get('auth.logs.directory') : 'Logs/Auth',
+                            'UnconfirmedRegistrations.log', \Pes\Logger\FileLogger::APPEND_TO_LOG));
+            },
             LoginNameGenerator::class => function(ContainerInterface $c) {
                 $loginDao = $c->get(LoginDao::class);
                 return new LoginNameGenerator(fn(string $loginName) => $loginDao->get(['login_name' => $loginName]) !== null);
@@ -394,6 +433,39 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(LoginAggregateRegistrationRepo::class))
                     )->injectContainer($c);  // inject component kontejner
                     ;
+            },
+            AccountControler::class => function(ContainerInterface $c) {
+                return (new AccountControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AccountService::class))
+                    )->injectContainer($c);  // inject component kontejner
+            },
+            UnconfirmedRegistrationControler::class => function(ContainerInterface $c) {
+                return (new UnconfirmedRegistrationControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(UnconfirmedRegistrationCleaner::class))
+                    )->injectContainer($c);  // inject component kontejner
+            },
+            SetPasswordControler::class => function(ContainerInterface $c) {
+                return (new SetPasswordControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(LoginTokenService::class),
+                        $c->get(LoginAggregateFullRepo::class))
+                    )->injectContainer($c);  // inject component kontejner
+            },
+            DisplayNameControler::class => function(ContainerInterface $c) {
+                return (new DisplayNameControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(DisplayNameService::class))
+                    )->injectContainer($c);  // inject component kontejner
             },
             LoginLinkControler::class => function(ContainerInterface $c) {
                 return (new LoginLinkControler(

@@ -31,6 +31,7 @@ use Auth\Model\Entity\Registration;
 use Auth\Model\Entity\LoginAggregateRegistration;
 use Auth\Model\Dao\RegistrationDao;
 use Auth\Service\LoginNameGenerator;
+use Auth\Service\DisplayNameService;
 use Status\Model\Enum\FlashSeverityEnum;
 use Psr\Http\Message\ResponseInterface;
 
@@ -275,9 +276,13 @@ class RegistrationControler extends LoginControlerAbstract
             $aggregate->setRegistration($registration);
             $this->loginAggregateRegistrationRepo->add($aggregate);
             $this->loginAggregateRegistrationRepo->flush();
+            if ($this->featureFlags()->isEnabled('vp.osobni-jmeno')) {  // A8 – nepovinné osobní jméno
+                $this->container->get(DisplayNameService::class)->set($loginName,
+                    (string) $requestParams->getParsedBodyParam($request, 'displayName', ''));
+            }
 
             $saved = $this->loginAggregateRegistrationRepo->get($loginName)->getRegistration();
-            $this->authMailer()->sendRegistration($email, $loginName, $this->absoluteUrl($request, "auth/v1/confirm/{$saved->getUid()}"));
+            $this->authMailer()->sendRegistration($email, $loginName, $this->absoluteUrl($request, "auth/v1/confirm/{$saved->getUid()}"), $this->cleanupDays());
             $saved->setEmailTime(new \DateTime());
         }
         $this->addFlashMessage("Děkujeme. Na adresu {$email} jsme poslali e-mail s dalším postupem.");
@@ -290,6 +295,13 @@ class RegistrationControler extends LoginControlerAbstract
      * @param string[] $existing všechny loginy s e-mailem
      * @param string[] $confirmed potvrzené loginy s e-mailem
      */
+    /**
+     * A3: počet dní do smazání nedokončené registrace pro text e-mailu; null = úklid vypnutý.
+     */
+    private function cleanupDays(): ?int {
+        return $this->featureFlags()->isEnabled('vp.uklid-registraci') ? UnconfirmedRegistrationControler::days() : null;
+    }
+
     private function handleExistingEmail(ServerRequestInterface $request, string $email, array $existing, array $confirmed): void
     {
         if ($confirmed) {
@@ -300,59 +312,11 @@ class RegistrationControler extends LoginControlerAbstract
         }
         $registration = $this->loginAggregateRegistrationRepo->get($existing[0])?->getRegistration();
         if ($registration) {
-            $this->authMailer()->sendRegistration($email, $existing[0], $this->absoluteUrl($request, "auth/v1/confirm/{$registration->getUid()}"));
+            $this->authMailer()->sendRegistration($email, $existing[0], $this->absoluteUrl($request, "auth/v1/confirm/{$registration->getUid()}"), $this->cleanupDays());
             $registration->setEmailTime(new \DateTime());
         }
     }
 
-    /**
-     *
-     * ###############
-     * ### verze 1 ###
-     * ###############
-     *
-     * @param ServerRequestInterface $request
-     * @return type
-     */
-    public function register1(ServerRequestInterface $request)
-    {
-        $requestParams = new RequestParams();
-        $register = $requestParams->getParsedBodyParam($request, 'register', FALSE);
-
-        if ($register) {
-            $fieldNameJmeno = ConfigurationCache::auth()['fieldNameJmeno'];
-            $fieldNameHeslo = ConfigurationCache::auth()['fieldNameHeslo'];
-            $fieldNameEmail = ConfigurationCache::auth()['fieldNameEmail'];
-
-            $registerJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
-            $registerHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
-            $registerEmail = $requestParams->getParsedBodyParam($request, $fieldNameEmail, FALSE);
-
-            if ($registerJmeno AND $registerHeslo AND  $registerEmail ) {
-                /** @var  LoginAggregateCredentials $loginAggregateCeredentialsEntity  */
-                $loginAggregateCeredentialsEntity = $this->loginAggregateCredentialsRepo->get($registerJmeno);
-                if (! isset($loginAggregateCeredentialsEntity) ) {
-                    $registerHesloHash = (new Password())->getPasswordHash($registerHeslo);
-                    $credentials = new Credentials();
-                    $credentials->setPasswordHash($registerHesloHash);
-                    $credentials->setLoginNameFk($registerJmeno);
-
-                    /** @var  LoginAggregate $loginAggregateCeredentialsEntity  */
-                    $loginAggregateCeredentialsEntity = new LoginAggregateCredentials();
-                    $loginAggregateCeredentialsEntity->setLoginName($registerJmeno);
-                    $loginAggregateCeredentialsEntity->setCredentials($credentials);
-                    $this->loginAggregateCredentialsRepo->add($loginAggregateCeredentialsEntity);
-                 } else {
-                    $this->addFlashMessage("Záznam se zadaným jménem jiz existuje. Zadejte jiné jméno!");
-                 }
-            }
-        }
-        return $this->redirectSeeLastGet($request); // 303 See Other
-    }
-    
-    
-    
-    
     public function sendMailCompletRegistrationRepre(ServerRequestInterface $request) {
         $requestParams = new RequestParams();
         $companyName = $requestParams->getParsedBodyParam($request, 'companyName');

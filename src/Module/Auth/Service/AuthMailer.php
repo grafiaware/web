@@ -25,8 +25,15 @@ class AuthMailer {
     ) {
     }
 
-    public function sendRegistration(string $email, string $loginName, string $confirmationUrl): void {
-        $this->send('registration-email.php', 'Registrace.', ['confirmationUrl' => $confirmationUrl],
+    /**
+     * @param int|null $deleteAfterDays A3: věta o smazání nedokončené registrace (null = bez věty)
+     */
+    public function sendRegistration(string $email, string $loginName, string $confirmationUrl, ?int $deleteAfterDays = null): void {
+        $context = ['confirmationUrl' => $confirmationUrl];
+        if ($deleteAfterDays !== null) {
+            $context['deleteAfterDays'] = (string) $deleteAfterDays;
+        }
+        $this->send('registration-email.php', 'Registrace.', $context,
             $this->settings->addRecipients($this->settings->party('info')->addTo($email, $loginName), 'bcc', 'registration.bcc'));
     }
 
@@ -60,6 +67,14 @@ class AuthMailer {
     public function sendLoginLinks(string $email, array $links, int $ttlMinutes): void {
         $this->send('loginlink.php', 'Přihlašovací odkaz.', ['links' => $links, 'ttlMinutes' => (string) $ttlMinutes],
             $this->settings->party('noreply')->addTo($email, count($links) === 1 ? $links[0]['loginName'] : $email));
+    }
+
+    /**
+     * A6: odkaz na nastavení hesla pro účet založený administrátorem („heslo mailem“).
+     */
+    public function sendSetPasswordLink(string $email, string $loginName, string $url, int $ttlHours): void {
+        $this->send('setpassword.php', 'Nastavení hesla.', ['loginName' => $loginName, 'url' => $url, 'ttlHours' => (string) $ttlHours],
+            $this->settings->party('noreply')->addTo($email, $loginName));
     }
 
     private function send(string $template, string $subject, array $context, $party, bool $withLogo = true): void {
