@@ -84,13 +84,15 @@ class LoginControlerAbstract extends FrontControlerAbstract {
      * Akce se provádí až POSTem – GET odkaz z e-mailu může otevřít i bezpečnostní skener pošty.
      */
     protected function createActionPageResponse(ServerRequestInterface $request, string $title, string $text,
-            string $formRestUri = '', string $buttonText = ''): ResponseInterface {
+            string $formRestUri = '', string $buttonText = '', array $passwordField = []): ResponseInterface {
         $html = (string) (new ViewFactory())->phpTemplateView(__DIR__ . '/Pages/action.php', [
                 'title' => $title,
                 'text' => $text,
                 'formAction' => $formRestUri === '' ? '' : $this->getBasePath($request) . $formRestUri,
                 'buttonText' => $buttonText,
                 'homeUrl' => $this->getBasePath($request),
+                // A6: volitelné pole pro nové heslo ['name', 'pattern', 'info', 'error']
+                'passwordField' => $passwordField,
             ])->setRenderer(new PhpTemplateRenderer());
         return $this->createStringOKResponse($html)->withHeader('Cache-Control', 'no-store');
     }
