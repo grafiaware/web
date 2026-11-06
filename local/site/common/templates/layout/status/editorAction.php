@@ -7,7 +7,7 @@ use Red\Middleware\Redactor\Controler\PresentationActionControler;
    <button class="ui page icon button btn-modalActions">
         <p><b>Editační akce</b></p>
         <p class="">
-            <i class="user icon"></i><?= $loginName ?>
+            <i class="user icon"></i><?= htmlspecialchars((string) ($userName ?? $loginName)) ?>
             <div class="ui divider"></div>            
             <i class="<?= $editContent ? "green" : "red"?> power off icon"></i> <?= ($editContent ? "edituje " : "needituje ") ?>
         </p>
@@ -16,7 +16,7 @@ use Red\Middleware\Redactor\Controler\PresentationActionControler;
     <div class="ui mini page modal transition hidden modalActions">
         <i class="white close icon"></i>
         <div class="content">
-            <p class="text velky zadne-okraje"><i class="user icon"></i><?= $loginName ?></p>
+            <p class="text velky zadne-okraje"><i class="user icon"></i><?= htmlspecialchars((string) ($userName ?? $loginName)) ?></p>
 
             <form class="ui form" method="POST" action="red/v1/presentation/editoraction">
                 <div class="ui toggle checkbox">

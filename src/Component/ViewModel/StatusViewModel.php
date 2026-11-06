@@ -112,6 +112,20 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
     }
 
     #[\Override]
+    public function getUserDisplayName(): ?string {
+        if (!\Application\Feature\FeatureFlags::fromConfiguration()->isEnabled('vp.osobni-jmeno')) {
+            return null;
+        }
+        $displayName = $this->statusSecurity?->getInfo(\Status\Model\Entity\SecurityInterface::INFO_DISPLAY_NAME);
+        return (is_string($displayName) && $displayName !== '') ? $displayName : null;
+    }
+
+    #[\Override]
+    public function getUserNameForDisplay(): ?string {
+        return $this->getUserDisplayName() ?? $this->getUserLoginName();
+    }
+
+    #[\Override]
     public function getUserLoginHash(): ?string {
         $loginAggregate = $this->statusSecurity?->getLoginAggregate();
         return isset($loginAggregate) ? $loginAggregate->getLoginNameHash() : null;

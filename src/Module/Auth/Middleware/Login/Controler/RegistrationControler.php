@@ -31,6 +31,7 @@ use Auth\Model\Entity\Registration;
 use Auth\Model\Entity\LoginAggregateRegistration;
 use Auth\Model\Dao\RegistrationDao;
 use Auth\Service\LoginNameGenerator;
+use Auth\Service\DisplayNameService;
 use Status\Model\Enum\FlashSeverityEnum;
 use Psr\Http\Message\ResponseInterface;
 
@@ -275,6 +276,10 @@ class RegistrationControler extends LoginControlerAbstract
             $aggregate->setRegistration($registration);
             $this->loginAggregateRegistrationRepo->add($aggregate);
             $this->loginAggregateRegistrationRepo->flush();
+            if ($this->featureFlags()->isEnabled('vp.osobni-jmeno')) {  // A8 – nepovinné osobní jméno
+                $this->container->get(DisplayNameService::class)->set($loginName,
+                    (string) $requestParams->getParsedBodyParam($request, 'displayName', ''));
+            }
 
             $saved = $this->loginAggregateRegistrationRepo->get($loginName)->getRegistration();
             $this->authMailer()->sendRegistration($email, $loginName, $this->absoluteUrl($request, "auth/v1/confirm/{$saved->getUid()}"));

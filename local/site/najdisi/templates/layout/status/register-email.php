@@ -39,6 +39,12 @@ $auth = ConfigurationCache::auth();
                     <input type="email" name="email" placeholder="vas@email.cz" maxlength="100"
                            autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false" required>
                 </div>
+                <?php if (\Application\Feature\FeatureFlags::fromConfiguration()->isEnabled('vp.osobni-jmeno')): ?>
+                <div class="field">
+                    <label>Vaše jméno (nepovinné)</label>
+                    <input type="text" name="displayName" placeholder="Např. Jan Novák" maxlength="100" autocomplete="name">
+                </div>
+                <?php endif; ?>
                 <div class="field">
                     <label>Heslo (nepovinné)</label>
                     <input type="password" name="<?= $auth['fieldNameHeslo'] ?>" placeholder="Heslo"
