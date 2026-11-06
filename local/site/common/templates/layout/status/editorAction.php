@@ -5,7 +5,7 @@ use Red\Middleware\Redactor\Controler\PresentationActionControler;
     <input type="hidden" name="hidden" value="hidden" /> 
     <!--hidden proměná zajišťuje vznik $_POST pole v PHP - bez ní pokud není checkbox checked, proměnná checkbox inputu neexistuje a protože jiná proměnná ve formuláři není, nevznikne $_POST-->
    <button class="ui page icon button btn-modalActions">
-        <p><b>Akce editora</b></p>
+        <p><b>Editační akce</b></p>
         <p class="">
             <i class="user icon"></i><?= $loginName ?>
             <div class="ui divider"></div>            
