@@ -41,7 +41,9 @@ use Pes\Core\Text\Text;
                                 E-mail: info@grafia.cz </p>
                             </div> 
                         </div>
-                        
+                        <?=
+                            $paticka;
+                        ?>
                     </div>
                     <div class="column right aligned">
                         <p><button type="button" class="ui button" data-cc="show-preferencesModal">Chci upravit nastavení souhlasu s cookies</button></p>
