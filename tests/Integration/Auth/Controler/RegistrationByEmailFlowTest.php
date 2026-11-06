@@ -168,6 +168,11 @@ final class RegistrationByEmailFlowTest extends AppRunner
         $this->assertNotNull($cred);
         $this->assertSame('', $cred['password_hash']);
         $this->assertSame('visitor', $cred['role_fk']);
+        // A3: potvrzení zapíše čas do registration.confirmed
+        $stmt = $this->container->get(\Pes\Database\Handler\Handler::class)->prepare("SELECT confirmed FROM registration WHERE login_name_fk = :l");
+        $stmt->bindValue(':l', self::$loginName);
+        $stmt->execute();
+        $this->assertNotEmpty($stmt->fetchColumn(), 'registration.confirmed je vyplněné');
         $this->assertTrue($this->security->hasValidSecurityContext());
         $this->assertSame(self::$loginName, $this->security->getLoginAggregate()->getLoginName());
 

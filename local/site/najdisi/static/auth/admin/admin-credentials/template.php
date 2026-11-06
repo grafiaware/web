@@ -25,6 +25,8 @@ use Auth\Middleware\Login\Controler\AuthControler;
 use Auth\Model\Dao\RegistrationDao;
 use Auth\Model\Dao\LoginProfileDao;
 use Auth\Service\AccountService;
+use Auth\Service\UnconfirmedRegistrationCleaner;
+use Auth\Middleware\Login\Controler\UnconfirmedRegistrationControler;
 use Application\Feature\FeatureFlags;
 
 
@@ -38,7 +40,10 @@ $userRole = $statusViewModel->getUserRole();
 $features = FeatureFlags::fromConfiguration();
 $canCreateAccounts = $features->isEnabled('vp.zakladani-uctu') && AccountService::canCreateAccounts($userRole);
 $displayNameEnabled = $features->isEnabled('vp.osobni-jmeno');
-if ($userRole == RoleEnum::EVENTS_ADMINISTRATOR || $canCreateAccounts) {
+// A3: nepotvrzené registrace – výpis pro supervisor a events_administrator, úklid jen supervisor (docs/vp/zadani/A3.md)
+$showUnconfirmed = $features->isEnabled('vp.uklid-registraci')
+        && in_array($userRole, [RoleEnum::SUPERVISOR, RoleEnum::EVENTS_ADMINISTRATOR], true);
+if ($userRole == RoleEnum::EVENTS_ADMINISTRATOR || $canCreateAccounts || $showUnconfirmed) {
     /** @var CredentialsRepoInterface $credentialsRepo */ 
     $credentialsRepo = $container->get(CredentialsRepo::class );
     /** @var RoleRepoInterface $roleRepo */ 
@@ -113,6 +118,17 @@ if ($userRole == RoleEnum::EVENTS_ADMINISTRATOR || $canCreateAccounts) {
                                               
   ?>
     
+    <?php if ($showUnconfirmed):
+        /** @var UnconfirmedRegistrationCleaner $cleaner */
+        $cleaner = $container->get(UnconfirmedRegistrationCleaner::class);
+        $unconfirmedDays = UnconfirmedRegistrationControler::days(); ?>
+        <?= $this->insert(__DIR__.'/unconfirmed.php', [
+                'pendingRepresentatives' => $cleaner->pendingRepresentatives($unconfirmedDays),
+                'preview' => $cleaner->preview($unconfirmedDays),
+                'days' => $unconfirmedDays,
+                'canClean' => $userRole === RoleEnum::SUPERVISOR,
+            ]) ?>
+    <?php endif; ?>
     <?php if ($canCreateAccounts): ?>
         <?= $this->insert(__DIR__.'/new-account.php', [
                 'allowedRoles' => $allowedRoles,

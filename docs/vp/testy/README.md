@@ -8,6 +8,7 @@ název `<kódy balíků>-test-<co se testuje>.md`.
 | [A1-A2-test-registrace-a-prihlaseni.md](A1-A2-test-registrace-a-prihlaseni.md) | A1, A2 (+ krátká kontrola Z1, Z3, Z4) |
 | [A8-test-osobni-jmeno.md](A8-test-osobni-jmeno.md) | A8 |
 | [A6-test-zakladani-uctu.md](A6-test-zakladani-uctu.md) | A6 |
+| [A3-test-uklid-registraci.md](A3-test-uklid-registraci.md) | A3 |
 
 ## Jak hlásit výsledky (návrh, čeká na schválení)
 
