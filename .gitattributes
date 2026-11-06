@@ -1,0 +1,2 @@
+# Knihovny třetích stran beze změny konců řádků (core.autocrlf na Windows)
+public/site/common/js/lib/** -text
