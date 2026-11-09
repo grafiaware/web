@@ -20,7 +20,8 @@ use Access\Enum\AccessPresentationEnum;
 class MenuComponentEventsAdmin extends MenuComponentAbstract {
     public static function getComponentPermissions(): array {
         return [
-            RoleEnum::EVENTS_ADMINISTRATOR => [AccessPresentationEnum::DISPLAY => true]
+            RoleEnum::EVENTS_ADMINISTRATOR => [AccessPresentationEnum::DISPLAY => true],
+            RoleEnum::SUPERVISOR => [AccessPresentationEnum::DISPLAY => true]
         ];
     }
     
