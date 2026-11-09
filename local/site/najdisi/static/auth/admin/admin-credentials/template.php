@@ -38,7 +38,7 @@ $userRole = $statusViewModel->getUserRole();
 $features = FeatureFlags::fromConfiguration();
 $canCreateAccounts = $features->isEnabled('vp.zakladani-uctu') && AccountService::canCreateAccounts($userRole);
 $displayNameEnabled = $features->isEnabled('vp.osobni-jmeno');
-if ($userRole == RoleEnum::EVENTS_ADMINISTRATOR || $canCreateAccounts OR $userRole == RoleEnum::SUPERVISOR || $canCreateAccounts) {
+if ($userRole == RoleEnum::EVENTS_ADMINISTRATOR || $canCreateAccounts) {
     /** @var CredentialsRepoInterface $credentialsRepo */ 
     $credentialsRepo = $container->get(CredentialsRepo::class );
     /** @var RoleRepoInterface $roleRepo */ 
