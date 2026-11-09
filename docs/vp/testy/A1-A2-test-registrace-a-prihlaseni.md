@@ -56,10 +56,10 @@ přesné znění hlášky a případně snímek obrazovky.
 
 ## B. Kontrola v databázi (auth)
 
-| #   | Dotaz                                                                                                               | Očekávaný výsledek                                                                    | Výsledek | Poznámka |
-| --- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | -------- | -------- |
-| B1  | `SELECT login_name_fk, purpose, created, expires, used, LENGTH(token_hash) FROM login_token ORDER BY created DESC;` | Jen hash tokenu (délka 64), nikde čitelný token; použité odkazy mají vyplněné `used`  |          |          |
-| B2  | Dotaz níže (nové účty)                                                                                              | U registrace prázdné heslo; role `visitor`; účet z A7 má prázdný hash v `credentials` |          |          |
+| #   | Dotaz                                                                                                               | Očekávaný výsledek                                                                    | Výsledek                                                  | Poznámka                                                                                                                                                                         |
+| --- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| B1  | `SELECT login_name_fk, purpose, created, expires, used, LENGTH(token_hash) FROM login_token ORDER BY created DESC;` | Jen hash tokenu (délka 64), nikde čitelný token; použité odkazy mají vyplněné `used`  | **???** vypsány "nějaké"" záznamy. (~Mozna je to dobře?~) | Ano, ve vysledku selectu neni citelny token, protoze neni vybran.  Nevím , které byly použity, takže nezkontroluju, že je to správně. Rozhodně to neukazuje  "Jen hash tokenu.." |
+| B2  | Dotaz níže (nové účty)                                                                                              | U registrace prázdné heslo; role `visitor`; účet z A7 má prázdný hash v `credentials` | ok                                                        | Zaregistrovan ucet bez hesla, prisel mail, dokoncena registrace, -  pak je rovnou prihlasen.  Ano v credantials.password_hash je prazdno.                                        |
 
 ```sql
 SELECT r.login_name_fk, r.email, r.password_hash = '' AS bez_hesla_v_registraci,
@@ -70,19 +70,19 @@ WHERE r.email LIKE '%@example.test';
 
 ## C. S vypnutými přepínači (`false`)
 
-| #   | Co udělat                                | Očekávaný výsledek                                 | Výsledek | Poznámka |
-| --- | ---------------------------------------- | -------------------------------------------------- | -------- | -------- |
-| C1  | Otevřít formulář registrace a přihlášení | Vypadají jako dřív; funguje „zapomenuté heslo“     |          |          |
-| C2  | Otevřít adresu `/auth/v1/loginlink/abc`  | 404                                                |          |          |
-| C3  | Změna hesla s heslem kratším než 8 znaků | Odmítnuto (pravidlo platí i s vypnutými přepínači) |          |          |
+| #   | Co udělat                                | Očekávaný výsledek                                 | Výsledek    | Poznámka                                                                                                                                                |
+| --- | ---------------------------------------- | -------------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| C1  | Otevřít formulář registrace a přihlášení | Vypadají jako dřív; funguje „zapomenuté heslo“     | **ERROR**?? | kdy dřív?- vypadají jako na hostingu.<br/><br/>V kombinaci 'Prihlaseni-tl. zapomenute heslo-vyplnene jmeno-tl. Prihlasit' ... zadny mail neprijde.<br/> |
+| C2  | Otevřít adresu `/auth/v1/loginlink/abc`  | 404                                                | ok          |                                                                                                                                                         |
+| C3  | Změna hesla s heslem kratším než 8 znaků | Odmítnuto (pravidlo platí i s vypnutými přepínači) | ok          | nelze zadat kratsi nez 8 znaku                                                                                                                          |
 
 ## D. Další sloučené balíky (krátká kontrola)
 
-| #   | Co udělat                                                                                        | Očekávaný výsledek                                                                             | Výsledek | Poznámka |
-| --- | ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- | -------- | -------- |
-| D1  | Z1: nový účet se přihlásí a otevře stránku veletrhu                                              | Účet je v tabulce `events.login`                                                               |          |          |
-| D2  | Z3: projít e-maily v smtp4dev                                                                    | Správné logo a odesílatel; kopie organizátorovi jdou na `@najdisi.test`, ne na skutečné adresy |          |          |
-| D3  | Z4 (jen pokud běžela migrace events `20260104000003_alter_login_pro_synchro`): přejmenovat login | Nové jméno se propíše i do `visitor_profile` a `representative`                                |          |          |
+| #       | Co udělat                                                                                        | Očekávaný výsledek                                                                             | Výsledek  | Poznámka                                                                                                                                                                                                                                 |
+| ------- | ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| D1      | Z1: nový účet se přihlásí a otevře stránku veletrhu                                              | Účet je v tabulce `events.login`                                                               | ok        | kdyz mam vypnute prepinace- prijde registracni email stary a po odkliknuti uz neprijde dokonceni registrace.------<br/>Pak jsem zapla prepinace .------vysledek  vysel ok<br/>                                                           |
+| D2      | Z3: projít e-maily v smtp4dev                                                                    | Správné logo a odesílatel; kopie organizátorovi jdou na `@najdisi.test`, ne na skutečné adresy | **NEVIM** | --V mailech je logo Grafia, nevim jestli je "spravné".<br/>--Odesilatel je  info@najdisi.cz.<br/>--Jeden mail jde na zadanou mail.adresu, a druhy na webmaster@najdisi.test.<br/>--...Nevim co je "skutecna adresa", na kterou to nejde. |
+| <br/>D3 | Z4 (jen pokud běžela migrace events `20260104000003_alter_login_pro_synchro`): přejmenovat login | Nové jméno se propíše i do `visitor_profile` a `representative`                                |           |                                                                                                                                                                                                                                          |
 
 ## Po testu
 
