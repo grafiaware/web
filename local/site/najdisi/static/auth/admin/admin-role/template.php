@@ -18,7 +18,9 @@ $statusViewModel = $container->get(StatusViewModel::class);
 $representativeActions = $statusViewModel->getRepresentativeActions();
 $getEditable = isset($representativeActions) ? $representativeActions->getDataEditable() : false;   //TODO: SV editace dat pro events admin
 $userRole = $statusViewModel->getUserRole();
-if ($userRole == RoleEnum::EVENTS_ADMINISTRATOR)  {
+// A9 (docs/vp/zadani/A9.md): s přepínačem vp.sprava-roli tabulku rolí spravuje global_role_grantor a auth_role_grantor
+$rolePolicy = \Auth\Service\RoleGrantPolicy::fromConfiguration();
+if ($rolePolicy->grantorsEnabled() ? $rolePolicy->canManageRoleTable($userRole) : $userRole == RoleEnum::EVENTS_ADMINISTRATOR)  {
     
     /** @var RoleRepoInterface $roleRepo */ 
     $roleRepo = $container->get(RoleRepoInterface::class );

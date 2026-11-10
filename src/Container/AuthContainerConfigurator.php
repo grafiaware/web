@@ -308,7 +308,11 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(LoginTokenService::class),
                         new EventsLoginWriter(),
                         $auth['passwordPattern'],
-                        $auth['passwordInfo']);
+                        $auth['passwordInfo'],
+                        \Auth\Service\RoleGrantPolicy::fromConfiguration(),   // A9
+                        $c->get(LoginProfileDao::class),
+                        $c->get(\Auth\Service\AccountChangeLog::class),
+                        $c->get(\Auth\Service\RoleChangeLog::class));
             },
             LoginNameGenerator::class => function(ContainerInterface $c) {
                 $loginDao = $c->get(LoginDao::class);
@@ -505,6 +509,16 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             \Auth\Service\AccountChangeLog::class => function(ContainerInterface $c) {
                 return new \Auth\Service\AccountChangeLog(self::auditLogger($c, 'AccountChanges.log'));
+            },
+            \Auth\Service\LoginThrottle::class => function(ContainerInterface $c) {
+                $auth = \Site\ConfigurationCache::auth();
+                return new \Auth\Service\LoginThrottle($c->get(LoginProfileDao::class),
+                        (int) ($auth['loginThrottleFreeAttempts'] ?? 5),
+                        (int) ($auth['loginThrottleBaseSeconds'] ?? 30),
+                        (int) ($auth['loginThrottleMaxSeconds'] ?? 900));
+            },
+            \Auth\Service\GlobalRoleGrantor::class => function(ContainerInterface $c) {
+                return \Auth\Service\GlobalRoleGrantor::fromConfiguration();
             },
             \Auth\Service\LoginLog::class => function(ContainerInterface $c) {
                 return new \Auth\Service\LoginLog(self::auditLogger($c, 'LoginSelf.log'), self::auditLogger($c, 'LoginAdmin.log'));
