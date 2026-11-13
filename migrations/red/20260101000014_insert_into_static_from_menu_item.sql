@@ -1,56 +1,15 @@
-/* 
- * naplní tabulku static hodnotami z menu_item
+/*
+ * Jednorázové naplnění template slugem z menu_item.title patřilo k prvnímu
+ * CREATE prázdné tabulky static. Tehdy ležely šablony v jedné složce a jméno
+ * složky se odvozovalo z title (malá písmena, bez diakritiky, mezery jako pomlčky).
+ * Path se doplňovalo ručně až po přesunu šablon do složek.
+ *
+ * Baseline 2025 už má path i template vyplněné. INSERT všech static položek
+ * by přidal druhé řádky bez path a rozbil vazbu menu_item → static.
+ *
+ * Odvození jména složky z title pro web bez tabulky static zůstává v kódu:
+ * Pes\Core\Text\FriendlyUrl::friendlyUrlText(), volané z
+ * Red\Service\ItemApi\ItemApiService pro api generator "template".
  */
-/**
- * Author:  pes2704
- * Created: 9. 12. 2025
- */
 
--- MySQL neumí regulární výrazy
-
-
-INSERT INTO static (menu_item_id_fk, template, creator) 
-
-SELECT
-id AS menu_item_id_fk, 
-LOWER(
-	REPLACE(
-            REPLACE(
-                REPLACE(
-                    REPLACE(
-                        REPLACE(
-                            REPLACE(
-                                REPLACE(
-                                    REPLACE(
-                                        REPLACE(
-                                            REPLACE(
-                                                REPLACE(
-                                                    REPLACE(
-                                                        REPLACE(
-                                                            REPLACE(
-                                                                REPLACE(
-                                                                    REPLACE(
-                                                                        REPLACE(
-                                                                            REPLACE(
-                                                                                REPLACE(lower(title),'á','a'),
-                                                                            'č','c'),
-                                                                        'ď','d'),
-                                                                    'é','e'),
-                                                                'ě','e'),
-                                                            'í','i'),
-                                                        'ň','n'),
-                                                    'ó','o'),
-                                                'ř','r'),
-                                            'š','s'),
-                                        'ť','t'),
-                                    'ú','u'),
-                                'ů','u'),
-                            'ý','y'),
-                        'ž','z'),
-                    '.', '-'),
-                ' ', '-'),
-            '\t', '-'),
-        '\n', '-')
-    ) AS template,
-'transform' AS creator
-FROM menu_item WHERE api_generator_fk='static';
+UPDATE `static` SET `template` = `template` WHERE 0;
