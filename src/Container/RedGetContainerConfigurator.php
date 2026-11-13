@@ -71,6 +71,7 @@ use Red\Component\View\Menu\DriverButtonsComponent;
 use Red\Component\View\Menu\MenuComponentRed;
 use Red\Component\View\Menu\MenuComponentSupervisor;
 use Red\Component\View\Menu\MenuComponentEventsAdmin;
+use Red\Component\View\Menu\MenuComponentRoleGrantor;
 use Red\Component\View\Menu\MenuComponentEventsRepresentative;
 use Red\Component\View\Menu\MenuComponentEventsVisitor;
 use Red\Component\View\Menu\MenuComponentRedAdmin;
@@ -287,6 +288,12 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
+            MenuComponentRoleGrantor::class => function(ContainerInterface $c) {
+                $component = new MenuComponentRoleGrantor($c->get(ComponentConfiguration::class), $c);  // kontejner
+                $component->setRendererName(MenuRenderer::class);
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
             MenuComponentEventsRepresentative::class => function(ContainerInterface $c) {
                 $component = new MenuComponentEventsRepresentative($c->get(ComponentConfiguration::class), $c);  // kontejner
                 $component->setRendererName(MenuRenderer::class);                
@@ -448,6 +455,28 @@ class RedGetContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 if($accessPresentation->isAllowed(MenuComponentEventsAdmin::class, AccessPresentationEnum::DISPLAY)) {
+                    $component->setItemType($menuConfig['itemtype']);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
+                    /** @var MenuViewModel $viewModel */
+                    $viewModel = $c->get(MenuViewModel::class);
+                    $viewModel->setMenuRootName($menuConfig['rootName']);
+                    $component->setData($viewModel);
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+                return $component;
+            },
+            // A9 (docs/vp/zadani/A9.md): menu správy účtů a rolí. Kořen menu zakládá správce ručně v redakčním systému;
+            // dokud kořen neexistuje (nebo site menu nemá v konfiguraci), komponenta nic nezobrazí.
+            'menuRoleGrantor' => function(ContainerInterface $c) {
+                /** @var MenuComponentRoleGrantor $component */
+                $component = $c->get(MenuComponentRoleGrantor::class);
+                $menuConfig = $c->get('menu.services')['menuRoleGrantor'] ?? null;
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+                if (isset($menuConfig)
+                        && $accessPresentation->isAllowed(MenuComponentRoleGrantor::class, AccessPresentationEnum::DISPLAY)
+                        && $c->get(MenuRootRepo::class)->get($menuConfig['rootName']) !== null) {
                     $component->setItemType($menuConfig['itemtype']);
                     $component->setRenderersNames($menuConfig['levelRenderer'], $menuConfig['levelRendererEditable']);
                     /** @var MenuViewModel $viewModel */

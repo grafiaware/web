@@ -200,6 +200,13 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
+    /** A9: logger pro auditní logy Auth (FileLogger, připojuje do jednoho souboru). */
+    private static function auditLogger(ContainerInterface $c, string $file): \Pes\Logger\FileLogger {
+        return \Pes\Logger\FileLogger::getInstance(
+            $c->has('auth.logs.directory') ? $c->get('auth.logs.directory') : 'Logs/Auth',
+            $file, \Pes\Logger\FileLogger::APPEND_TO_LOG);
+    }
+
     public function getServicesDefinitions(): iterable {
         return [
             Sql::class => function(ContainerInterface $c) {
@@ -303,7 +310,11 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(LoginTokenService::class),
                         new EventsLoginWriter(),
                         $auth['passwordPattern'],
-                        $auth['passwordInfo']);
+                        $auth['passwordInfo'],
+                        \Auth\Service\RoleGrantPolicy::fromConfiguration(),   // A9
+                        $c->get(LoginProfileDao::class),
+                        $c->get(\Auth\Service\AccountChangeLog::class),
+                        $c->get(\Auth\Service\RoleChangeLog::class));
             },
             UnconfirmedRegistrationCleaner::class => function(ContainerInterface $c) {
                 return new UnconfirmedRegistrationCleaner(
@@ -506,9 +517,29 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class),
                         $c->get(RoleRepo::class ),                       
                         $c->get(CredentialsRepo::class ))          
-                    )->injectContainer($c);  // inject component kontejner
-                    ;
+                    )->injectContainer($c)  // inject component kontejner
+                    ->setRoleChangeLog($c->get(\Auth\Service\RoleChangeLog::class));
             },        
+            // A9: logy (docs/vp/zadani/A9.md) – bez hesel, tokenů a e-mailů
+            \Auth\Service\RoleChangeLog::class => function(ContainerInterface $c) {
+                return new \Auth\Service\RoleChangeLog(self::auditLogger($c, 'RoleChanges.log'));
+            },
+            \Auth\Service\AccountChangeLog::class => function(ContainerInterface $c) {
+                return new \Auth\Service\AccountChangeLog(self::auditLogger($c, 'AccountChanges.log'));
+            },
+            \Auth\Service\LoginThrottle::class => function(ContainerInterface $c) {
+                $auth = \Site\ConfigurationCache::auth();
+                return new \Auth\Service\LoginThrottle($c->get(LoginProfileDao::class),
+                        (int) ($auth['loginThrottleFreeAttempts'] ?? 5),
+                        (int) ($auth['loginThrottleBaseSeconds'] ?? 30),
+                        (int) ($auth['loginThrottleMaxSeconds'] ?? 900));
+            },
+            \Auth\Service\GlobalRoleGrantor::class => function(ContainerInterface $c) {
+                return \Auth\Service\GlobalRoleGrantor::fromConfiguration();
+            },
+            \Auth\Service\LoginLog::class => function(ContainerInterface $c) {
+                return new \Auth\Service\LoginLog(self::auditLogger($c, 'LoginSelf.log'), self::auditLogger($c, 'LoginAdmin.log'));
+            },
 
             // configuration - používá parametry nastavené metodou getParams()
             ComponentConfiguration::class => function(ContainerInterface $c) {

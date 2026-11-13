@@ -68,7 +68,7 @@ class SetPasswordControler extends LoginControlerAbstract {
 
         $loginAggregateFull = $this->loginAggregateFullRepo->get($loginName);
         if (isset($loginAggregateFull)) {
-            $this->startUserContext($loginAggregateFull);
+            $this->startUserContext($loginAggregateFull, 'nastavení hesla');
             $this->addFlashMessage("Heslo je nastavené, jste přihlášeni. Příště se přihlásíte jménem {$loginName} a heslem.", FlashSeverityEnum::SUCCESS);
         } else {
             $this->addFlashMessage("Heslo je nastavené. Přihlaste se jménem {$loginName}.", FlashSeverityEnum::SUCCESS);

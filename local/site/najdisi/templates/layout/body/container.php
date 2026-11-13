@@ -42,6 +42,13 @@ use Status\Session\SessionUnlockPolicy;
     <div id="loader">
         <p class="spinnertext">Načítání...</p>
     </div>
+    <?php if (\Auth\Service\GlobalRoleGrantor::fromConfiguration()->isActive()): /* A9: docs/vp/zadani/A9.md */ ?>
+    <div class="global-role-grantor-varovani" role="alert"
+         style="position: sticky; top: 0; z-index: 2000; background: #9f1c1c; color: #fff; padding: 10px 16px; font-weight: bold; text-align: center;">
+        Web se nesmí používat: není vypnuté globální přidělování rolí (global_role_grantor).
+        <span style="font-weight: normal;">Po dokončení zásahu ho správce serveru vypne v konfiguraci (ConfigurationRoot.local.php).</span>
+    </div>
+    <?php endif; ?>
     <div id="loaded">
         <div class="ui grid centered">
             <div class="row">

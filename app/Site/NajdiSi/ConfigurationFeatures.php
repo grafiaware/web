@@ -22,6 +22,7 @@ class ConfigurationFeatures {
             'vp.zakladani-uctu' => false,       // A6 – zakládání účtů administrátorem (formulář v admin-credentials, heslo mailem)
             'vp.uklid-registraci' => false,     // A3 – úklid nepotvrzených registrací a výpis čekajících zástupců v administraci účtů
             'vp.osobni-jmeno' => false,         // A8 – osobní jméno uživatele (zadání při registraci, změna v okně odhlášení)
+            'vp.sprava-roli' => false,          // A9 – správa účtů a rolí (role *_role_grantor, global_role_grantor, logy, zpomalené přihlašování)
         ];
     }
 }

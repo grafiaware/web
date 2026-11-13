@@ -1,0 +1,15 @@
+<?php
+/**
+ * A9 (docs/vp/zadani/A9.md): vzor konfigurace účtu global_role_grantor.
+ *
+ * Zkopírujte jako ConfigurationRoot.local.php (stejná složka) JEN na serveru – soubor je v .gitignore a nesmí do gitu.
+ * Hash hesla vytvořte:  php scripts/global-role-grantor-hash.php
+ *
+ * Účet smí jen přidělovat role a spravovat účty. Dokud je zapnutý, web na každé stránce varuje, že se nesmí používat.
+ * Po dokončení zásahu nastavte 'enabled' => false nebo soubor smažte.
+ */
+return [
+    'enabled' => false,
+    'loginName' => 'global_role_grantor',
+    'passwordHash' => '',
+];

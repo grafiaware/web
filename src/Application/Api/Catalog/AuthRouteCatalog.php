@@ -49,6 +49,8 @@ final class AuthRouteCatalog implements ModuleRouteCatalogInterface {
             new RouteDefinition('POST', '/auth/v1/account', AccountControler::class, 'create', MutationResponseMode::BROWSER_FORM, 'vp.zakladani-uctu'),
             new RouteDefinition('POST', '/auth/v1/api/account', AccountControler::class, 'createJson', MutationResponseMode::MACHINE_API, 'vp.zakladani-uctu'),
             new RouteDefinition('POST', '/auth/v1/account/:loginname/setpasswordlink', AccountControler::class, 'sendSetPasswordLink', MutationResponseMode::BROWSER_FORM, 'vp.zakladani-uctu'),
+            // A9 správa účtů a rolí (docs/vp/zadani/A9.md)
+            new RouteDefinition('POST', '/auth/v1/account/:loginname/update', AccountControler::class, 'update', MutationResponseMode::BROWSER_FORM, 'vp.sprava-roli'),
             new RouteDefinition('GET', '/auth/v1/setpassword/:token', SetPasswordControler::class, 'page', null, 'vp.zakladani-uctu'),
             new RouteDefinition('POST', '/auth/v1/setpassword/:token', SetPasswordControler::class, 'save', MutationResponseMode::BROWSER_FORM, 'vp.zakladani-uctu'),
             new RouteDefinition('POST', '/auth/v1/admin/unconfirmed/clean', UnconfirmedRegistrationControler::class, 'clean', MutationResponseMode::BROWSER_FORM, 'vp.uklid-registraci'),

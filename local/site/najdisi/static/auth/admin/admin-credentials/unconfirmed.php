@@ -5,7 +5,7 @@
  * @var array $pendingRepresentatives [['loginName', 'company', 'email', 'created', 'daysLeft'], …]
  * @var array $preview ['visitors', 'representatives', 'total']
  * @var int $days
- * @var bool $canClean jen supervisor
+ * @var bool $canClean smí spustit úklid (RoleGrantPolicy::canCleanUnconfirmed)
  */
 ?>
 <div class="ui segment nepotvrzene-registrace">
@@ -44,6 +44,6 @@
         <button class="ui red button" type="submit">Smazat starší než <?= (int) $days ?> dní</button>
     </form>
     <?php elseif (!$canClean): ?>
-    <p class="maly text">Úklid spouští supervisor.</p>
+    <p class="maly text">Úklid spouští správce účtů.</p>
     <?php endif; ?>
 </div>

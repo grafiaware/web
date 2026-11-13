@@ -12,3 +12,5 @@
 !/docker/migrations/dumps/.gitkeep
 /uri.log
 /_www_na_logs/
+# A9: účet global_role_grantor – lokální konfigurace na serveru, nikdy do gitu (#92)
+app/Site/*/ConfigurationRoot.local.php
