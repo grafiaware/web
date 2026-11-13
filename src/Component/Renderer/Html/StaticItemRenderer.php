@@ -7,13 +7,14 @@ use Component\ViewModel\StaticItemViewModelInterface;
 use Pes\Core\Text\Html;
 use Pes\View\Renderer\ClassMap\ClassMapInterface;
 use Red\Middleware\Redactor\Controler\StaticControler;
+use StaticRegistry\Service\StaticTemplateLocation;
 use Template\Compiler\TemplateCompilerInterface;
 
 /**
  * Renderer static stránky: v edit módu formulář path/template, pak PHP šablona.
  *
- * Pokud getTemplateOptions() vrátí seznam z remote modulu, zobrazí select boxy;
- * jinak textová pole (red static, nebo remote list nedostupný).
+ * Pokud getTemplateOptions() vrátí seznam z remote modulu, zobrazí jeden select
+ * (path i template v jedné hodnotě). Jinak textová pole (red static, nebo remote list nedostupný).
  *
  * @author pes2704
  */
@@ -33,12 +34,15 @@ class StaticItemRenderer extends HtmlRendererAbstract {
         $html = '';
         if ($viewModel->isEditable()) {
             $id = $viewModel->getStaticItemId();
+            $options = $viewModel->getTemplateOptions();
+            $fields = $options === []
+                ? $this->renderPathField($viewModel) . $this->renderTemplateField($viewModel)
+                : $this->renderLocationSelect($viewModel, $options);
             $html = 
                 Html::tag("div", ["class"=>"ui blue segment"],
                     Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/static/$id"],
                         Html::tag('p', [], "Parametry static stránky:")
-                        . $this->renderPathField($viewModel)
-                        . $this->renderTemplateField($viewModel)
+                        . $fields
                         .Html::tag('p', [])
                         .Html::tag("div", [],
                             Html::tag("button", [], "Odeslat")
@@ -51,64 +55,61 @@ class StaticItemRenderer extends HtmlRendererAbstract {
         return $html;
     }
 
-    /** Select z remote templates, nebo text input jako fallback. */
+    /** Textová pole, když seznam šablon z auth/events není k dispozici (red static, nebo remote list selhal). */
     private function renderPathField(StaticItemViewModelInterface $viewModel): string {
-        $options = $viewModel->getTemplateOptions();
-        if ($options === []) {
-            return Html::input(
-                StaticControler::PATH_VAR_NAME,
-                "Path: ",
-                [StaticControler::PATH_VAR_NAME => $viewModel->getStaticItemPath()]
-            );
-        }
-        return $this->renderTemplateSelect(
+        return Html::input(
             StaticControler::PATH_VAR_NAME,
-            'Path: ',
-            $viewModel->getStaticItemPath(),
-            $options,
-            'path'
+            "Path: ",
+            [StaticControler::PATH_VAR_NAME => $viewModel->getStaticItemPath()]
         );
     }
 
     private function renderTemplateField(StaticItemViewModelInterface $viewModel): string {
-        $options = $viewModel->getTemplateOptions();
-        if ($options === []) {
-            return Html::input(
-                StaticControler::TEMPLATE_VAR_NAME,
-                "Template: ",
-                [StaticControler::TEMPLATE_VAR_NAME => $viewModel->getStaticItemTemplate()]
-            );
-        }
-        return $this->renderTemplateSelect(
+        return Html::input(
             StaticControler::TEMPLATE_VAR_NAME,
-            'Template: ',
-            $viewModel->getStaticItemTemplate(),
-            $options,
-            'template'
+            "Template: ",
+            [StaticControler::TEMPLATE_VAR_NAME => $viewModel->getStaticItemTemplate()]
         );
     }
 
     /**
+     * Jeden select ukládá path i template najednou.
+     * Dva oddělené selecty posílaly prázdný template (scanner ho neměl) a path, které nesedělo na uloženou hodnotu,
+     * takže odeslání formuláře přepsalo path prázdným řetězcem.
+     *
      * @param array<int, array{path: string, template: string, fullTemplatePath?: string}> $options
      */
-    private function renderTemplateSelect(string $fieldName, string $label, string $currentValue, array $options, string $valueKey): string {
-        $selectOptions = ['' => '— vyberte —'];
+    private function renderLocationSelect(StaticItemViewModelInterface $viewModel, array $options): string {
+        $currentPath = $viewModel->getStaticItemPath();
+        $currentTemplate = $viewModel->getStaticItemTemplate();
+        $currentValue = StaticTemplateLocation::encode($currentPath, $currentTemplate);
+        $selectOptions = [];
+        $currentListed = false;
         foreach ($options as $option) {
-            $value = (string) ($option[$valueKey] ?? '');
-            $labelText = ($option['path'] ?? '') . ($option['template'] ?? '');
-            if (($option['fullTemplatePath'] ?? '') !== '') {
-                $labelText = $option['fullTemplatePath'];
+            $path = (string) ($option['path'] ?? '');
+            $template = (string) ($option['template'] ?? '');
+            $value = StaticTemplateLocation::encode($path, $template);
+            if ($value === '') {
+                continue;
             }
-            $selectOptions[$value] = $labelText;
+            $selectOptions[$value] = $path . $template;
+            if ($value === $currentValue) {
+                $currentListed = true;
+            }
         }
-        $attributes = ['name' => $fieldName, 'id' => $fieldName];
+        if (!$currentListed) {
+            $selectOptions = [$currentValue => 'aktuální: ' . $currentPath . $currentTemplate] + $selectOptions;
+        }
         $optionsHtml = '';
         foreach ($selectOptions as $value => $text) {
             $selected = ((string) $value === $currentValue) ? ' selected="selected"' : '';
             $optionsHtml .= '<option value="' . htmlspecialchars((string) $value, ENT_QUOTES) . '"' . $selected . '>'
                 . htmlspecialchars($text, ENT_QUOTES) . '</option>';
         }
-        return Html::tag('label', [], $label)
-            . Html::tag('select', $attributes, $optionsHtml);
+        return Html::tag('label', [], 'Šablona: ')
+            . Html::tag('select', [
+                'name' => StaticControler::LOCATION_VAR_NAME,
+                'id' => StaticControler::LOCATION_VAR_NAME,
+            ], $optionsHtml);
     }
 }
