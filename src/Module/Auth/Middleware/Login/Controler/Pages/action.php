@@ -4,6 +4,8 @@
 /** @var string $formAction prázdné = bez formuláře */
 /** @var string $buttonText */
 /** @var string $homeUrl */
+/** @var array $passwordField prázdné = bez pole; jinak ['name', 'pattern', 'info', 'error'] (A6 nastavení hesla) */
+$passwordField = $passwordField ?? [];
 ?>
 <!DOCTYPE html>
 <html lang="cs">
@@ -20,6 +22,10 @@
             p { font-size: 16px; line-height: 1.5; }
             button { width: 100%; padding: 14px; font-size: 18px; font-weight: bold; color: #fff; background: #e8590c; border: 0; border-radius: 4px; cursor: pointer; }
             a { color: #e8590c; }
+            label { display: block; font-weight: bold; margin: 0 0 6px; }
+            input[type=password] { width: 100%; box-sizing: border-box; padding: 12px; font-size: 18px; margin: 0 0 6px; border: 1px solid #aaa; border-radius: 4px; }
+            .info { font-size: 14px; color: #555; margin: 0 0 16px; }
+            .error { color: #b00020; font-weight: bold; }
         </style>
     </head>
     <body>
@@ -28,6 +34,13 @@
             <p><?= htmlspecialchars($text) ?></p>
             <?php if ($formAction !== ''): ?>
             <form method="POST" action="<?= htmlspecialchars($formAction) ?>">
+                <?php if ($passwordField): ?>
+                <?php if (($passwordField['error'] ?? '') !== ''): ?><p class="error"><?= htmlspecialchars($passwordField['error']) ?></p><?php endif; ?>
+                <label for="password">Nové heslo</label>
+                <input type="password" id="password" name="<?= htmlspecialchars($passwordField['name']) ?>" autocomplete="new-password" required
+                       pattern="<?= htmlspecialchars($passwordField['pattern']) ?>" title="<?= htmlspecialchars($passwordField['info']) ?>">
+                <p class="info"><?= htmlspecialchars($passwordField['info']) ?></p>
+                <?php endif; ?>
                 <button type="submit" name="confirm" value="1"><?= htmlspecialchars($buttonText) ?></button>
             </form>
             <?php endif; ?>

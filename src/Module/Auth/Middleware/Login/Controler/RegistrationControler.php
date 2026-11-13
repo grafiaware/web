@@ -310,54 +310,6 @@ class RegistrationControler extends LoginControlerAbstract
         }
     }
 
-    /**
-     *
-     * ###############
-     * ### verze 1 ###
-     * ###############
-     *
-     * @param ServerRequestInterface $request
-     * @return type
-     */
-    public function register1(ServerRequestInterface $request)
-    {
-        $requestParams = new RequestParams();
-        $register = $requestParams->getParsedBodyParam($request, 'register', FALSE);
-
-        if ($register) {
-            $fieldNameJmeno = ConfigurationCache::auth()['fieldNameJmeno'];
-            $fieldNameHeslo = ConfigurationCache::auth()['fieldNameHeslo'];
-            $fieldNameEmail = ConfigurationCache::auth()['fieldNameEmail'];
-
-            $registerJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
-            $registerHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
-            $registerEmail = $requestParams->getParsedBodyParam($request, $fieldNameEmail, FALSE);
-
-            if ($registerJmeno AND $registerHeslo AND  $registerEmail ) {
-                /** @var  LoginAggregateCredentials $loginAggregateCeredentialsEntity  */
-                $loginAggregateCeredentialsEntity = $this->loginAggregateCredentialsRepo->get($registerJmeno);
-                if (! isset($loginAggregateCeredentialsEntity) ) {
-                    $registerHesloHash = (new Password())->getPasswordHash($registerHeslo);
-                    $credentials = new Credentials();
-                    $credentials->setPasswordHash($registerHesloHash);
-                    $credentials->setLoginNameFk($registerJmeno);
-
-                    /** @var  LoginAggregate $loginAggregateCeredentialsEntity  */
-                    $loginAggregateCeredentialsEntity = new LoginAggregateCredentials();
-                    $loginAggregateCeredentialsEntity->setLoginName($registerJmeno);
-                    $loginAggregateCeredentialsEntity->setCredentials($credentials);
-                    $this->loginAggregateCredentialsRepo->add($loginAggregateCeredentialsEntity);
-                 } else {
-                    $this->addFlashMessage("Záznam se zadaným jménem jiz existuje. Zadejte jiné jméno!");
-                 }
-            }
-        }
-        return $this->redirectSeeLastGet($request); // 303 See Other
-    }
-    
-    
-    
-    
     public function sendMailCompletRegistrationRepre(ServerRequestInterface $request) {
         $requestParams = new RequestParams();
         $companyName = $requestParams->getParsedBodyParam($request, 'companyName');

@@ -43,6 +43,8 @@ use Auth\Model\Dao\LoginTokenDao;
 use Auth\Service\LoginTokenService;
 use Auth\Service\LoginNameGenerator;
 use Auth\Service\DisplayNameService;
+use Auth\Service\AccountService;
+use Auth\Service\EventsLoginWriter;
 use Auth\Model\Dao\LoginProfileDao;
 
 use Auth\Model\Hydrator\LoginChildRegistrationHydrator;
@@ -75,6 +77,8 @@ use Pes\Database\Handler\HandlerInterface;
 use Auth\Middleware\Login\Controler\LoginLogoutControler;
 use Auth\Middleware\Login\Controler\LoginLinkControler;
 use Auth\Middleware\Login\Controler\DisplayNameControler;
+use Auth\Middleware\Login\Controler\AccountControler;
+use Auth\Middleware\Login\Controler\SetPasswordControler;
 use Auth\Middleware\Login\Controler\RegistrationControler;
 use Auth\Middleware\Login\Controler\ConfirmControler;
 use Auth\Middleware\Login\Controler\PasswordControler;
@@ -194,6 +198,13 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
+    /** A9: logger pro auditní logy Auth (FileLogger, připojuje do jednoho souboru). */
+    private static function auditLogger(ContainerInterface $c, string $file): \Pes\Logger\FileLogger {
+        return \Pes\Logger\FileLogger::getInstance(
+            $c->has('auth.logs.directory') ? $c->get('auth.logs.directory') : 'Logs/Auth',
+            $file, \Pes\Logger\FileLogger::APPEND_TO_LOG);
+    }
+
     public function getServicesDefinitions(): iterable {
         return [
             Sql::class => function(ContainerInterface $c) {
@@ -284,6 +295,24 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             DisplayNameService::class => function(ContainerInterface $c) {
                 return new DisplayNameService($c->get(LoginProfileDao::class));
+            },
+            AccountService::class => function(ContainerInterface $c) {
+                $auth = \Site\ConfigurationCache::auth();
+                return new AccountService(
+                        $c->get(LoginDao::class),
+                        $c->get(CredentialsDao::class),
+                        $c->get(RegistrationDao::class),
+                        $c->get(RoleDao::class),
+                        $c->get(LoginNameGenerator::class),
+                        $c->get(DisplayNameService::class),
+                        $c->get(LoginTokenService::class),
+                        new EventsLoginWriter(),
+                        $auth['passwordPattern'],
+                        $auth['passwordInfo'],
+                        \Auth\Service\RoleGrantPolicy::fromConfiguration(),   // A9
+                        $c->get(LoginProfileDao::class),
+                        $c->get(\Auth\Service\AccountChangeLog::class),
+                        $c->get(\Auth\Service\RoleChangeLog::class));
             },
             LoginNameGenerator::class => function(ContainerInterface $c) {
                 $loginDao = $c->get(LoginDao::class);
@@ -407,6 +436,23 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                     )->injectContainer($c);  // inject component kontejner
                     ;
             },
+            AccountControler::class => function(ContainerInterface $c) {
+                return (new AccountControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AccountService::class))
+                    )->injectContainer($c);  // inject component kontejner
+            },
+            SetPasswordControler::class => function(ContainerInterface $c) {
+                return (new SetPasswordControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(LoginTokenService::class),
+                        $c->get(LoginAggregateFullRepo::class))
+                    )->injectContainer($c);  // inject component kontejner
+            },
             DisplayNameControler::class => function(ContainerInterface $c) {
                 return (new DisplayNameControler(
                         $c->get(StatusSecurityRepo::class),
@@ -454,9 +500,29 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class),
                         $c->get(RoleRepo::class ),                       
                         $c->get(CredentialsRepo::class ))          
-                    )->injectContainer($c);  // inject component kontejner
-                    ;
+                    )->injectContainer($c)  // inject component kontejner
+                    ->setRoleChangeLog($c->get(\Auth\Service\RoleChangeLog::class));
             },        
+            // A9: logy (docs/vp/zadani/A9.md) – bez hesel, tokenů a e-mailů
+            \Auth\Service\RoleChangeLog::class => function(ContainerInterface $c) {
+                return new \Auth\Service\RoleChangeLog(self::auditLogger($c, 'RoleChanges.log'));
+            },
+            \Auth\Service\AccountChangeLog::class => function(ContainerInterface $c) {
+                return new \Auth\Service\AccountChangeLog(self::auditLogger($c, 'AccountChanges.log'));
+            },
+            \Auth\Service\LoginThrottle::class => function(ContainerInterface $c) {
+                $auth = \Site\ConfigurationCache::auth();
+                return new \Auth\Service\LoginThrottle($c->get(LoginProfileDao::class),
+                        (int) ($auth['loginThrottleFreeAttempts'] ?? 5),
+                        (int) ($auth['loginThrottleBaseSeconds'] ?? 30),
+                        (int) ($auth['loginThrottleMaxSeconds'] ?? 900));
+            },
+            \Auth\Service\GlobalRoleGrantor::class => function(ContainerInterface $c) {
+                return \Auth\Service\GlobalRoleGrantor::fromConfiguration();
+            },
+            \Auth\Service\LoginLog::class => function(ContainerInterface $c) {
+                return new \Auth\Service\LoginLog(self::auditLogger($c, 'LoginSelf.log'), self::auditLogger($c, 'LoginAdmin.log'));
+            },
 
             // configuration - používá parametry nastavené metodou getParams()
             ComponentConfiguration::class => function(ContainerInterface $c) {

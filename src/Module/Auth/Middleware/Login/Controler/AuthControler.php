@@ -20,6 +20,8 @@ use Auth\Model\Entity\RoleInterface;
 use Auth\Model\Entity\Role;
 
 use Status\Model\Enum\FlashSeverityEnum;
+use Auth\Service\RoleGrantPolicy;
+use Auth\Service\RoleChangeLog;
 
 
 /**
@@ -61,12 +63,58 @@ class AuthControler extends FrontControlerAbstract {
              
     }
     
+    private ?RoleGrantPolicy $roleGrantPolicy = null;
+    private ?RoleChangeLog $roleChangeLog = null;
+
+    /** V testech lze podstrčit; jinak podle přepínače vp.sprava-roli (A9). */
+    public function setRoleGrantPolicy(RoleGrantPolicy $policy): static {
+        $this->roleGrantPolicy = $policy;
+        return $this;
+    }
+
+    public function setRoleChangeLog(?RoleChangeLog $log): static {
+        $this->roleChangeLog = $log;
+        return $this;
+    }
+
+    private function policy(): RoleGrantPolicy {
+        return $this->roleGrantPolicy ??= RoleGrantPolicy::fromConfiguration();
+    }
+
+    /**
+     * A9: hrubé oprávnění k akcím kontroléru – role, které spravují účty nebo tabulku role.
+     * Jemná kontrola (kterou roli komu) je v RoleGrantPolicy u každé akce.
+     */
     protected function getActionPermissions(): array {
-        return [
-            RoleEnum::SUPERVISOR => [AccessActionEnum::GET => true, AccessActionEnum::POST => true],
-            RoleEnum::EVENTS_ADMINISTRATOR => [AccessActionEnum::GET => true, AccessActionEnum::POST => true],
-        ];
-    }    
+        $permissions = [];
+        foreach (array_unique(array_merge($this->policy()->managerRoles(),
+                $this->policy()->grantorsEnabled() ? [RoleEnum::GLOBAL_ROLE_GRANTOR, RoleEnum::AUTH_ROLE_GRANTOR] : [RoleEnum::SUPERVISOR, RoleEnum::EVENTS_ADMINISTRATOR])) as $role) {
+            $permissions[$role] = [AccessActionEnum::GET => true, AccessActionEnum::POST => true];
+        }
+        return $permissions;
+    }
+
+    private function actorLogin(): string {
+        return (string) $this->statusSecurityRepo->get()->getLoginAggregate()?->getLoginName();
+    }
+
+    private function actorRole(): ?string {
+        return $this->statusSecurityRepo->get()->getLoginAggregate()?->getCredentials()?->getRoleFk();
+    }
+
+    /** Úpravy tabulky role (stránka admin-role) – jen role, které ji smí spravovat. */
+    private function mayManageRoleTable(): bool {
+        return $this->isAllowed(AccessActionEnum::POST) && $this->policy()->canManageRoleTable($this->actorRole());
+    }
+
+    /** @return string[] */
+    private function allRoles(): array {
+        $roles = [];
+        foreach ($this->roleRepo->findAll() as $role) {
+            $roles[] = $role->getRole();
+        }
+        return $roles;
+    }
      
     /**
      * 
@@ -75,7 +123,7 @@ class AuthControler extends FrontControlerAbstract {
      */
     public function addRole (ServerRequestInterface $request) {                 
         
-        if($this->isAllowed(AccessActionEnum::POST)) {            
+        if($this->mayManageRoleTable()) {            
 
                 /** @var RoleInterface $roleE*/
                 $roleE = new Role(); //new                
@@ -107,7 +155,7 @@ class AuthControler extends FrontControlerAbstract {
      */
     public function updateRole (ServerRequestInterface $request, $role) {                    
         
-        if($this->isAllowed(AccessActionEnum::POST)) {            
+        if($this->mayManageRoleTable()) {            
                 /** @var Role $roleE */
                 $roleE = $this->roleRepo->get($role);             
                 $roleE->setRole((new RequestParams())->getParsedBodyParam($request, 'role') );                        
@@ -128,7 +176,7 @@ class AuthControler extends FrontControlerAbstract {
      */
     public function removeRole (ServerRequestInterface $request, $role ) {                                    
         
-        if($this->isAllowed(AccessActionEnum::POST)) {                    
+        if($this->mayManageRoleTable()) {                    
             
             //KDYZ je pouzite tak NE
             //-------------------------------------------------
@@ -164,13 +212,29 @@ class AuthControler extends FrontControlerAbstract {
         
         if($this->isAllowed(AccessActionEnum::POST)) {            
                 /** @var CredentialsInterface $credentials */
-                $credentials = $this->credentialsRepo->get($loginNameFk);             
-                if ( (new RequestParams())->getParsedBodyParam($request, 'selectRole') != self::NULL_VALUE )   {
-                      $credentials->setRoleFk ((new RequestParams())->getParsedBodyParam($request, 'selectRole') );
-                }    
-                 else {
-                    $credentials->setRoleFk( null );
-                }                     
+                $credentials = $this->credentialsRepo->get($loginNameFk);
+                $selected = (new RequestParams())->getParsedBodyParam($request, 'selectRole', self::NULL_VALUE);
+                $newRole = ($selected === self::NULL_VALUE || $selected === '' || $selected === null) ? null : (string) $selected;
+                if (!isset($credentials)) {
+                    $this->addFlashMessage("Účet neexistuje.", FlashSeverityEnum::WARNING);
+                    return $this->redirectSeeLastGet($request);
+                }
+                $oldRole = $credentials->getRoleFk();
+                if ($newRole === $oldRole) {
+                    return $this->redirectSeeLastGet($request);
+                }
+                // A9: kontrola na serveru – nikdo nemění vlastní roli, jen role, které smí přidělit (platí vždy)
+                $allRoles = $this->allRoles();
+                $denial = ($newRole !== null && !in_array($newRole, $allRoles, true))
+                        ? "Role {$newRole} neexistuje."
+                        : $this->policy()->roleChangeDenial($this->actorLogin(), $this->actorRole(), (string) $loginNameFk, $oldRole, $newRole, $allRoles);
+                if ($denial !== null) {
+                    $this->addFlashMessage($denial, FlashSeverityEnum::WARNING);
+                    return $this->redirectSeeLastGet($request);
+                }
+                $credentials->setRoleFk($newRole);
+                $this->roleChangeLog?->record($this->actorLogin(), (string) $loginNameFk, $oldRole, $newRole);
+                $this->addFlashMessage("Role účtu {$loginNameFk}: " . ($newRole ?? 'bez role') . ".", FlashSeverityEnum::SUCCESS);
         
         } else {
             $this->addFlashMessage("Nemáte oprávnění k požadované operaci!", FlashSeverityEnum::WARNING);

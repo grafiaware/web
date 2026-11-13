@@ -17,6 +17,9 @@ use Pes\Core\Text\Html;
                 <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuEventsAdmin", 'data-nav-target-id'=>'menu_target'])  ?>
             </nav>                     
             <nav class="svisle-menu svisle-menu--opravneni">
+                <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuRoleGrantor", 'data-nav-target-id'=>'menu_target'])  ?>
+            </nav>
+            <nav class="svisle-menu svisle-menu--opravneni">
                 <?= Html::tag('div', ['class'=>'cascade', 'data-red-apiuri'=>"red/v1/component/menuEventsRepresentative", 'data-nav-target-id'=>'menu_target'])  ?>
             </nav>            
             <nav class="svisle-menu svisle-menu--opravneni">
