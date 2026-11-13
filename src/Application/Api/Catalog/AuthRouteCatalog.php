@@ -12,6 +12,7 @@ use Auth\Middleware\Login\Controler\LoginLinkControler;
 use Auth\Middleware\Login\Controler\DisplayNameControler;
 use Auth\Middleware\Login\Controler\AccountControler;
 use Auth\Middleware\Login\Controler\SetPasswordControler;
+use Auth\Middleware\Login\Controler\UnconfirmedRegistrationControler;
 use Auth\Middleware\Login\Controler\LoginLogoutControler;
 use Auth\Middleware\Login\Controler\PasswordControler;
 use Auth\Middleware\Login\Controler\QrImageControler;
@@ -52,6 +53,7 @@ final class AuthRouteCatalog implements ModuleRouteCatalogInterface {
             new RouteDefinition('POST', '/auth/v1/account/:loginname/update', AccountControler::class, 'update', MutationResponseMode::BROWSER_FORM, 'vp.sprava-roli'),
             new RouteDefinition('GET', '/auth/v1/setpassword/:token', SetPasswordControler::class, 'page', null, 'vp.zakladani-uctu'),
             new RouteDefinition('POST', '/auth/v1/setpassword/:token', SetPasswordControler::class, 'save', MutationResponseMode::BROWSER_FORM, 'vp.zakladani-uctu'),
+            new RouteDefinition('POST', '/auth/v1/admin/unconfirmed/clean', UnconfirmedRegistrationControler::class, 'clean', MutationResponseMode::BROWSER_FORM, 'vp.uklid-registraci'),
             new RouteDefinition('POST', '/auth/v1/displayname', DisplayNameControler::class, 'change', MutationResponseMode::BROWSER_FORM, 'vp.osobni-jmeno'),
             new RouteDefinition('POST', '/auth/v1/forgottenpassword', PasswordControler::class, 'forgottenPassword', MutationResponseMode::BROWSER_FORM),
             new RouteDefinition('POST', '/auth/v1/changepassword', PasswordControler::class, 'changePassword', MutationResponseMode::BROWSER_FORM),

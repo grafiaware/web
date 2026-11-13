@@ -41,6 +41,12 @@ final class RoleGrantPolicy {
     private const ROLE_TABLE_A6 = [RoleEnum::SUPERVISOR, RoleEnum::EVENTS_ADMINISTRATOR];
     private const ROLE_TABLE_A9 = [RoleEnum::GLOBAL_ROLE_GRANTOR, RoleEnum::AUTH_ROLE_GRANTOR];
 
+    /** A3: kdo vidí nepotvrzené registrace (výpis čekajících zástupců) a kdo spouští úklid. */
+    private const UNCONFIRMED_VIEW_A6 = [RoleEnum::SUPERVISOR, RoleEnum::EVENTS_ADMINISTRATOR];
+    private const UNCONFIRMED_CLEAN_A6 = [RoleEnum::SUPERVISOR];
+    private const UNCONFIRMED_VIEW_A9 = [RoleEnum::GLOBAL_ROLE_GRANTOR, RoleEnum::AUTH_ROLE_GRANTOR, RoleEnum::EVENTS_ROLE_GRANTOR];
+    private const UNCONFIRMED_CLEAN_A9 = [RoleEnum::GLOBAL_ROLE_GRANTOR, RoleEnum::AUTH_ROLE_GRANTOR];
+
     public function __construct(private bool $grantorsEnabled) {
     }
 
@@ -104,6 +110,16 @@ final class RoleGrantPolicy {
 
     public function canManageRoleTable(?string $actorRole): bool {
         return in_array($actorRole, $this->grantorsEnabled ? self::ROLE_TABLE_A9 : self::ROLE_TABLE_A6, true);
+    }
+
+    /** A3: výpis nepotvrzených registrací a čekajících zástupců firem v administraci účtů. */
+    public function canViewUnconfirmed(?string $actorRole): bool {
+        return in_array($actorRole, $this->grantorsEnabled ? self::UNCONFIRMED_VIEW_A9 : self::UNCONFIRMED_VIEW_A6, true);
+    }
+
+    /** A3: smazání nepotvrzených registrací starších než N dní. */
+    public function canCleanUnconfirmed(?string $actorRole): bool {
+        return in_array($actorRole, $this->grantorsEnabled ? self::UNCONFIRMED_CLEAN_A9 : self::UNCONFIRMED_CLEAN_A6, true);
     }
 
     private function roleEditDenial(string $actorLogin, ?string $actorRole, string $targetLogin, ?string $targetRole, array $allRoles): ?string {

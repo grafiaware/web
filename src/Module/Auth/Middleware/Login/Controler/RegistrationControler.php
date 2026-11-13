@@ -282,7 +282,7 @@ class RegistrationControler extends LoginControlerAbstract
             }
 
             $saved = $this->loginAggregateRegistrationRepo->get($loginName)->getRegistration();
-            $this->authMailer()->sendRegistration($email, $loginName, $this->absoluteUrl($request, "auth/v1/confirm/{$saved->getUid()}"));
+            $this->authMailer()->sendRegistration($email, $loginName, $this->absoluteUrl($request, "auth/v1/confirm/{$saved->getUid()}"), $this->cleanupDays());
             $saved->setEmailTime(new \DateTime());
         }
         $this->addFlashMessage("Děkujeme. Na adresu {$email} jsme poslali e-mail s dalším postupem.");
@@ -295,6 +295,13 @@ class RegistrationControler extends LoginControlerAbstract
      * @param string[] $existing všechny loginy s e-mailem
      * @param string[] $confirmed potvrzené loginy s e-mailem
      */
+    /**
+     * A3: počet dní do smazání nedokončené registrace pro text e-mailu; null = úklid vypnutý.
+     */
+    private function cleanupDays(): ?int {
+        return $this->featureFlags()->isEnabled('vp.uklid-registraci') ? UnconfirmedRegistrationControler::days() : null;
+    }
+
     private function handleExistingEmail(ServerRequestInterface $request, string $email, array $existing, array $confirmed): void
     {
         if ($confirmed) {
@@ -305,7 +312,7 @@ class RegistrationControler extends LoginControlerAbstract
         }
         $registration = $this->loginAggregateRegistrationRepo->get($existing[0])?->getRegistration();
         if ($registration) {
-            $this->authMailer()->sendRegistration($email, $existing[0], $this->absoluteUrl($request, "auth/v1/confirm/{$registration->getUid()}"));
+            $this->authMailer()->sendRegistration($email, $existing[0], $this->absoluteUrl($request, "auth/v1/confirm/{$registration->getUid()}"), $this->cleanupDays());
             $registration->setEmailTime(new \DateTime());
         }
     }
