@@ -1,4 +1,4 @@
--- Testovací prostředí: menu „menu role grantor“ (varianta b v docs/vp/testy/A-test-sprava-uctu.md).
+-- Testovací prostředí: menu „menu role grantor“ (varianta b v docs/vp/testy/A3-A6-A8-A9-test-sprava-uctu.md).
 --
 -- Jen pro lokální a testovací DB, NE pro produkci a NE jako migrace: na produkci zakládá kořen menu a přesouvá
 -- položky Petr ručně v redakčním systému (rozhodnutí v A9).
@@ -9,7 +9,7 @@
 --   2. Přesune pod něj položky se šablonou admin-credentials a admin-role (hledá se podle tabulky static, ne podle názvu).
 --      Položky zůstanou aktivní. Položka, která už pod kořenem je, se nepřesouvá.
 -- Skript lze spustit opakovaně. Návrat do varianty a: rebuild DB (scripts/db-rebuild.php) nebo ruční přesun v redakčním systému.
--- Běží na MySQL 8 i MariaDB. Spuštění: mysql najdisi < scripts/test-menu-role-grantor.sql
+-- Syntaxe je pro MySQL 8 i MariaDB; ověřeno zatím jen na MariaDB 10.11. Spuštění: mysql najdisi < scripts/test-menu-role-grantor.sql
 
 START TRANSACTION;
 
