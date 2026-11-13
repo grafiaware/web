@@ -1,4 +1,9 @@
-/* 
+/*
+ * Archiv AlterRedDatabase. Nespouštět po importu baseline 2025.
+ * Aktivní migrace je migrations/red/20260101000013_drop_and_create_new_static.sql
+ * a tabulku static už nedropuje — DROP by vyprázdnil path.
+ */
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Other/SQLTemplate.sql to edit this template
  */

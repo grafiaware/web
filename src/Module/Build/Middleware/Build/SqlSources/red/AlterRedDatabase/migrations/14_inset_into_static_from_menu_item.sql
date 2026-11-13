@@ -1,4 +1,9 @@
-/* 
+/*
+ * Archiv AlterRedDatabase — prvotní naplnění prázdné tabulky static slugem z title.
+ * Nespouštět po importu baseline 2025 (path by zůstalo prázdné a vznikly by duplicity).
+ * Aktivní migrace migrations/red/20260101000014_insert_into_static_from_menu_item.sql data nemění.
+ */
+/*
  * naplní tabulku static hodnotami z menu_item
  */
 /**
