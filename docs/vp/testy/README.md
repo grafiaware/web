@@ -6,10 +6,7 @@ název `<kódy balíků>-test-<co se testuje>.md`.
 | Scénář | Balíky |
 |---|---|
 | [A1-A2-test-registrace-a-prihlaseni.md](A1-A2-test-registrace-a-prihlaseni.md) | A1, A2 (+ krátká kontrola Z1, Z3, Z4) |
-| [A8-test-osobni-jmeno.md](A8-test-osobni-jmeno.md) | A8 |
-| [A6-test-zakladani-uctu.md](A6-test-zakladani-uctu.md) | A6 |
-| [A3-test-uklid-registraci.md](A3-test-uklid-registraci.md) | A3 |
-| [A9-test-sprava-roli.md](A9-test-sprava-roli.md) | A9 |
+| [A3-A6-A8-A9-test-sprava-uctu.md](A3-A6-A8-A9-test-sprava-uctu.md) | A3, A6, A8, A9 – správa účtů a rolí (nahrazuje dřívější samostatné scénáře; menu varianta b: `scripts/test-menu-role-grantor.sql`) |
 
 ## Jak hlásit výsledky (návrh, čeká na schválení)
 
