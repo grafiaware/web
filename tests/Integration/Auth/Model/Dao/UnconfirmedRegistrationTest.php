@@ -13,6 +13,7 @@ use Auth\Model\Dao\RegistrationDao;
 use Auth\Model\Entity\Credentials;
 use Auth\Model\Entity\LoginAggregateFull;
 use Auth\Service\LoginTokenService;
+use Auth\Service\RoleGrantPolicy;
 use Auth\Service\UnconfirmedRegistrationCleaner;
 use Pes\Container\Container;
 use Pes\Database\Handler\Handler;
@@ -30,7 +31,7 @@ use Test\Support\AuthControllerContainerFactory;
 
 /**
  * A3 (docs/vp/zadani/A3.md): sloupec confirmed (migrace auth 20261106000002), výběr a smazání nepotvrzených registrací,
- * ruční úklid jen supervisor.
+ * ruční úklid: bez přepínače A9 jen supervisor, s ním global_role_grantor a auth_role_grantor (RoleGrantPolicy).
  */
 final class UnconfirmedRegistrationTest extends AppRunner
 {
@@ -161,21 +162,36 @@ final class UnconfirmedRegistrationTest extends AppRunner
 
     public function testOnlySupervisorMayClean(): void
     {
-        foreach (['' => 401, 'events_administrator' => 303, 'editor' => 303] as $role => $status) {
-            [$controler, $calls] = $this->controler($role);
+        foreach (['' => 401, 'events_administrator' => 303, 'editor' => 303, 'auth_role_grantor' => 303] as $role => $status) {
+            [$controler, $calls] = $this->controler($role, false);
             $this->assertSame($status, $controler->clean($this->createPostRequest([]))->getStatusCode());
             $this->assertSame(0, $calls->count, 'role ' . ($role ?: 'nepřihlášený') . ' nesmaže nic');
         }
-        [$controler, $calls] = $this->controler('supervisor');
+        [$controler, $calls] = $this->controler('supervisor', false);
         $this->assertSame(303, $controler->clean($this->createPostRequest([]))->getStatusCode());
         $this->assertSame(1, $calls->count);
         $this->assertSame(14, $calls->days);
     }
 
+    /** S přepínačem vp.sprava-roli (A9) spouští úklid jen global_role_grantor a auth_role_grantor. */
+    public function testA9GrantorsMayClean(): void
+    {
+        foreach (['supervisor', 'events_administrator', 'events_role_grantor', 'red_role_grantor'] as $role) {
+            [$controler, $calls] = $this->controler($role, true);
+            $this->assertSame(303, $controler->clean($this->createPostRequest([]))->getStatusCode());
+            $this->assertSame(0, $calls->count, "role $role nesmaže nic");
+        }
+        foreach (['auth_role_grantor', 'global_role_grantor'] as $role) {
+            [$controler, $calls] = $this->controler($role, true);
+            $this->assertSame(303, $controler->clean($this->createPostRequest([]))->getStatusCode());
+            $this->assertSame(1, $calls->count, "role $role smaže");
+        }
+    }
+
     /**
      * Kontrolér s úklidem nad podstrčeným DAO (skutečný úklid by smazal data vývojové DB).
      */
-    private function controler(string $role): array
+    private function controler(string $role, bool $grantors): array
     {
         $security = new Security();
         if ($role !== '') {
@@ -203,7 +219,7 @@ final class UnconfirmedRegistrationTest extends AppRunner
         $flash->method('get')->willReturn(new Flash());
         $pres = $this->createStub(StatusPresentationRepo::class);
         $pres->method('getClone')->willReturn(new Presentation());
-        $controler = (new UnconfirmedRegistrationControler($sec, $flash, $pres, new UnconfirmedRegistrationCleaner($dao)))
+        $controler = (new UnconfirmedRegistrationControler($sec, $flash, $pres, new UnconfirmedRegistrationCleaner($dao), new RoleGrantPolicy($grantors)))
             ->injectContainer($this->container);
         foreach (AuthRouteCatalog::definitions() as $d) {
             if ($d->urlPattern === '/auth/v1/admin/unconfirmed/clean') {

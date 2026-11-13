@@ -458,7 +458,8 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(UnconfirmedRegistrationCleaner::class))
+                        $c->get(UnconfirmedRegistrationCleaner::class),
+                        \Auth\Service\RoleGrantPolicy::fromConfiguration())   // A3 + A9: kdo smí spustit úklid
                     )->injectContainer($c);  // inject component kontejner
             },
             SetPasswordControler::class => function(ContainerInterface $c) {

@@ -3,7 +3,7 @@
 - **Balík:** A3 (#45), zadání [`docs/vp/zadani/A3.md`](../zadani/A3.md)
 - **Prostředí:** lokální instalace větve `master-vp`, site NajdiSi, smtp4dev, **kopie DB** (úklid maže data – před testem zálohu `single_login`)
 - **Migrace:** auth `20261106000002_registration_confirmed` spuštěná (`/build`)
-- **Účty pro test:** `supervisor`, `events_administrator`, `editor`
+- **Účty pro test:** `supervisor`, `events_administrator`, `editor`; pro část s A9 navíc `auth_role_grantor`, `events_role_grantor`
 
 ## Záznam testu
 
@@ -27,12 +27,12 @@ Lokálně (bez commitu) zapněte v `app/Site/NajdiSi/ConfigurationFeatures.php` 
 |---|---|---|---|---|
 | 1 | `SELECT COUNT(*), SUM(confirmed IS NULL) FROM registration;` | Potvrzené registrace (mají `credentials`) mají `confirmed` vyplněné, ostatní `NULL` | | |
 
-## Se zapnutým přepínačem
+## Se zapnutým přepínačem `vp.uklid-registraci` (A9 `vp.sprava-roli` vypnuto)
 
 | # | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 |---|---|---|---|---|
 | 2 | supervisor otevře administraci účtů (admin-credentials) | Blok „Nepotvrzené registrace“: tabulka čekajících zástupců firem (účet, firma, e-mail, datum, „Smaže se za“), počet ke smazání (návštěvníci / zástupci), červené tlačítko „Smazat starší než 14 dní“ | | |
-| 3 | events_administrator otevře admin-credentials | Stejný výpis, místo tlačítka „Úklid spouští supervisor.“ | | |
+| 3 | events_administrator otevře admin-credentials | Stejný výpis, místo tlačítka „Úklid spouští správce účtů.“ | | |
 | 4 | editor otevře admin-credentials | Blok se nezobrazí | | |
 | 5 | supervisor: tlačítko „Smazat…“ → v potvrzovacím okně Zrušit | Nic se nesmaže | | |
 | 6 | Nová registrace e-mailem, nepotvrdit | V e-mailu věta „Nedokončená registrace se po 14 dnech smaže.“; ve výpisu se objeví (zástupce firmy, pokud byl zaškrtnutý) se „14 dní“ | | |
@@ -40,6 +40,15 @@ Lokálně (bez commitu) zapněte v `app/Site/NajdiSi/ConfigurationFeatures.php` 
 | 8 | `Logs/Auth/UnconfirmedRegistrations.log` (ve složce logů) | Řádek s počtem a jménem supervisora, žádné e-maily | | |
 | 9 | Potvrdit registraci z bodu 6 | `confirmed` vyplněné; z výpisu zmizí | | |
 | 10 | Účty s credentials (potvrzené, ručně dokončení zástupci, účty z A6) | Úklid je nesmaže | | |
+
+## Zapnuté `vp.uklid-registraci` i `vp.sprava-roli` (A9)
+
+| # | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
+|---|---|---|---|---|
+| 10a | auth_role_grantor otevře admin-credentials | Blok „Nepotvrzené registrace“ s tlačítkem „Smazat…“; úklid funguje jako v bodě 7 | | |
+| 10b | events_role_grantor otevře admin-credentials | Výpis bez tlačítka („Úklid spouští správce účtů.“) | | |
+| 10c | supervisor a events_administrator otevřou admin-credentials | Blok se nezobrazí (s A9 účty nespravují) | | |
+| 10d | events_role_grantor odešle `POST /auth/v1/admin/unconfirmed/clean` (např. z konzole prohlížeče) | Hláška „Nemáte oprávnění spustit úklid registrací.“, nic se nesmaže | | |
 
 ## S vypnutým přepínačem
 
