@@ -14,6 +14,12 @@ use Application\Feature\FeatureFlags;
 use Auth\Service\AuthMailer;
 use Auth\Service\LoginTokenService;
 use Auth\Service\DisplayNameService;
+use Auth\Service\AccountOrigin;
+use Auth\Service\LoginLog;
+use Auth\Service\LoginThrottle;
+use Auth\Service\RoleGrantPolicy;
+use Auth\Model\Dao\LoginProfileDao;
+use Auth\Model\Dao\RegistrationDao;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 use Status\Model\Entity\SecurityInterface;
 use Site\ConfigurationCache;
@@ -61,15 +67,37 @@ class LoginControlerAbstract extends FrontControlerAbstract {
      * Přihlásí uživatele (nový bezpečnostní kontext v session) a načte jeho osobní jméno (A8) pro zobrazení.
      * Všechna přihlášení v Auth jdou přes tuto metodu.
      */
-    protected function startUserContext(LoginAggregateFullInterface $loginAggregateFull): SecurityInterface {
+    protected function startUserContext(LoginAggregateFullInterface $loginAggregateFull, string $method = 'heslo',
+            bool $fromConfiguration = false): SecurityInterface {
         $security = $this->statusSecurityRepo->get();
         $security->newContext($loginAggregateFull);
+        if ($this->featureFlags()->isEnabled(RoleGrantPolicy::FEATURE)) {
+            // A9: čas posledního přihlášení, vynulování zpomalení, log přihlášení
+            $loginName = $loginAggregateFull->getLoginName();
+            try {
+                if (!$fromConfiguration) {
+                    $this->container->get(LoginThrottle::class)->success($loginName);
+                }
+                $this->container->get(LoginLog::class)->success($loginName, $fromConfiguration ? null : $this->accountOrigin($loginName), $method);
+            } catch (\Throwable $e) {
+                // log a statistika nesmí zabránit přihlášení
+            }
+        }
         $displayName = null;
         if ($this->featureFlags()->isEnabled('vp.osobni-jmeno')) {
             $displayName = $this->container->get(DisplayNameService::class)->get($loginAggregateFull->getLoginName());
         }
         $security->setInfo(SecurityInterface::INFO_DISPLAY_NAME, $displayName);
         return $security;
+    }
+
+    /**
+     * A9: typ účtu (self | admin | legacy) – z login_profile.origin, jinak odvozený z registrace.
+     */
+    protected function accountOrigin(string $loginName): string {
+        $stored = $this->container->get(LoginProfileDao::class)->getOrigin($loginName);
+        $registration = $stored === null ? $this->container->get(RegistrationDao::class)->get(['login_name_fk' => $loginName]) : null;
+        return AccountOrigin::resolve($stored, $registration !== null ? (string) $registration['email'] : null);
     }
 
     protected function authMailer(): AuthMailer {

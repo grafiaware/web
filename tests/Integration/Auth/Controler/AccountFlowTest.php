@@ -361,7 +361,8 @@ final class AccountFlowTest extends AppRunner
         $c = $this->container;
         $service = new AccountService($c->get(LoginDao::class), $failingCredentials, $c->get(RegistrationDao::class),
             $c->get(RoleDao::class), $c->get(LoginNameGenerator::class), $c->get(DisplayNameService::class),
-            $c->get(LoginTokenService::class), new EventsLoginWriter(), '.{8,}', 'Heslo musí mít nejméně 8 znaků.');
+            $c->get(LoginTokenService::class), new EventsLoginWriter(), '.{8,}', 'Heslo musí mít nejméně 8 znaků.',
+            new \Auth\Service\RoleGrantPolicy(false));
         $login = self::PREFIX . 'fail' . substr(uniqid(), -6);
         try {
             $service->create(new AccountRequest(self::email(), 'visitor', $login, 'heslo-1234'), 'supervisor');

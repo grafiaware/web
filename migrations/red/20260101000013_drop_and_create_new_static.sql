@@ -1,22 +1,12 @@
-/* 
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Other/SQLTemplate.sql to edit this template
- */
-/**
- * Author:  pes2704
- * Created: 1. 1. 2026
+/*
+ * Po baseline 2025 tabulka static už existuje a obsahuje path i template
+ * (viz docker/migrations/baseline/2025/red.sql).
+ *
+ * Původní podoba tohoto skriptu (DROP TABLE + CREATE) pochází z
+ * SqlSources/red/AlterRedDatabase a běžela jen při prvním vytvoření tabulky
+ * nad starou databází. Po importu baseline by stejný DROP smazal path.
+ *
+ * Schéma z baseline se nemění. Příkaz níže jen ověří, že tabulka a sloupec path jsou.
  */
 
-DROP TABLE IF EXISTS `static`;
-
-CREATE TABLE `static` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `menu_item_id_fk` int(11) unsigned NOT NULL,
-  `path` varchar(250) NOT NULL DEFAULT '',
-  `template` varchar(150) NOT NULL,
-  `creator` varchar(100) DEFAULT '',
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `menu_item_id_fk2` (`menu_item_id_fk`),
-  CONSTRAINT `menu_item_id_fk2` FOREIGN KEY (`menu_item_id_fk`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+UPDATE `static` SET `path` = `path` WHERE 0;
