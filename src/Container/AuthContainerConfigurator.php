@@ -43,6 +43,8 @@ use Auth\Model\Dao\LoginTokenDao;
 use Auth\Service\LoginTokenService;
 use Auth\Service\LoginNameGenerator;
 use Auth\Service\DisplayNameService;
+use Auth\Service\AccountService;
+use Auth\Service\EventsLoginWriter;
 use Auth\Model\Dao\LoginProfileDao;
 
 use Auth\Model\Hydrator\LoginChildRegistrationHydrator;
@@ -75,6 +77,8 @@ use Pes\Database\Handler\HandlerInterface;
 use Auth\Middleware\Login\Controler\LoginLogoutControler;
 use Auth\Middleware\Login\Controler\LoginLinkControler;
 use Auth\Middleware\Login\Controler\DisplayNameControler;
+use Auth\Middleware\Login\Controler\AccountControler;
+use Auth\Middleware\Login\Controler\SetPasswordControler;
 use Auth\Middleware\Login\Controler\RegistrationControler;
 use Auth\Middleware\Login\Controler\ConfirmControler;
 use Auth\Middleware\Login\Controler\PasswordControler;
@@ -285,6 +289,20 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
             DisplayNameService::class => function(ContainerInterface $c) {
                 return new DisplayNameService($c->get(LoginProfileDao::class));
             },
+            AccountService::class => function(ContainerInterface $c) {
+                $auth = \Site\ConfigurationCache::auth();
+                return new AccountService(
+                        $c->get(LoginDao::class),
+                        $c->get(CredentialsDao::class),
+                        $c->get(RegistrationDao::class),
+                        $c->get(RoleDao::class),
+                        $c->get(LoginNameGenerator::class),
+                        $c->get(DisplayNameService::class),
+                        $c->get(LoginTokenService::class),
+                        new EventsLoginWriter(),
+                        $auth['passwordPattern'],
+                        $auth['passwordInfo']);
+            },
             LoginNameGenerator::class => function(ContainerInterface $c) {
                 $loginDao = $c->get(LoginDao::class);
                 return new LoginNameGenerator(fn(string $loginName) => $loginDao->get(['login_name' => $loginName]) !== null);
@@ -406,6 +424,23 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(LoginAggregateRegistrationRepo::class))
                     )->injectContainer($c);  // inject component kontejner
                     ;
+            },
+            AccountControler::class => function(ContainerInterface $c) {
+                return (new AccountControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(AccountService::class))
+                    )->injectContainer($c);  // inject component kontejner
+            },
+            SetPasswordControler::class => function(ContainerInterface $c) {
+                return (new SetPasswordControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(LoginTokenService::class),
+                        $c->get(LoginAggregateFullRepo::class))
+                    )->injectContainer($c);  // inject component kontejner
             },
             DisplayNameControler::class => function(ContainerInterface $c) {
                 return (new DisplayNameControler(

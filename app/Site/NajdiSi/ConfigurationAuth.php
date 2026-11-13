@@ -51,6 +51,8 @@ class ConfigurationAuth extends ConfigurationConstants {
                 'loginLinkTtlMinutes' => 30,
                 'loginLinkLimitCount' => 3,
                 'loginLinkLimitMinutes' => 15,
+                // A6 zakládání účtů administrátorem – odkaz „heslo mailem“ (docs/vp/zadani/A6.md)
+                'setPasswordLinkTtlHours' => 72,
                 'roleVisitor' => RoleEnum::VISITOR,
                 'roleRepresentative' => RoleEnum::REPRESENTATIVE,
                 'roleEventsAdministrator' => RoleEnum::EVENTS_ADMINISTRATOR,
