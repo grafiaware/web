@@ -30,7 +30,9 @@ class LogoutViewModel extends ViewModelAbstract implements LogoutViewModelInterf
 
     public function getIterator(): ArrayIterator {
         return new ArrayIterator([
-            'userName' => $this->getUserLoginName(),
+            'userName' => $this->status->getUserNameForDisplay() ?? '',
+            'loginName' => $this->getUserLoginName(),
+            'displayName' => $this->status->getUserDisplayName() ?? '',
             'userRole' => $this->getUserRole()
         ]);
     }

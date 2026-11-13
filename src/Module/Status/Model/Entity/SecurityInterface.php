@@ -28,6 +28,12 @@ use Events\Model\Entity\RepresentationActionsInterface;
 interface SecurityInterface extends SecurityPersistableEntityInterface {
 
     /**
+     * Klíč info: osobní jméno přihlášeného uživatele pro zobrazení (A8, docs/vp/zadani/A8.md), null = není.
+     */
+    public const INFO_DISPLAY_NAME = 'displayName';
+
+
+    /**
      * Nastaví výchozí parametry po vzniku security kontextu. Určeno pro volání po přihlášení uživatele.
      * 
      * @param LoginAggregateFullInterface $loginAggregate

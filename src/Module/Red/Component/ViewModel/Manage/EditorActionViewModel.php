@@ -25,7 +25,8 @@ class EditorActionViewModel extends ViewModelAbstract implements EditorActionVie
     public function getIterator(): ArrayIterator {
         $arr =[
                         'editContent' => $this->statusViewModel->presentEditableContent(),
-                        'loginName' => $this->statusViewModel->getUserLoginName()
+                        'loginName' => $this->statusViewModel->getUserLoginName(),
+                        'userName' => $this->statusViewModel->getUserNameForDisplay()
         ];
         return new ArrayIterator($arr);
     }

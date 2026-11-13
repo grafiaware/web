@@ -13,6 +13,9 @@ use FrontControler\FrontControlerAbstract;
 use Application\Feature\FeatureFlags;
 use Auth\Service\AuthMailer;
 use Auth\Service\LoginTokenService;
+use Auth\Service\DisplayNameService;
+use Auth\Model\Entity\LoginAggregateFullInterface;
+use Status\Model\Entity\SecurityInterface;
 use Site\ConfigurationCache;
 use Mail\MailSettings;
 use Mail\MessageFactory\HtmlMessage;
@@ -52,6 +55,21 @@ class LoginControlerAbstract extends FrontControlerAbstract {
         $scheme = $request->getUri()->getScheme() ?: 'https';
         $host = $request->getServerParams()['HTTP_HOST'] ?? $request->getUri()->getHost();
         return $scheme . '://' . $host . $this->getBasePath($request) . $restUri;  // getBasePath končí /
+    }
+
+    /**
+     * Přihlásí uživatele (nový bezpečnostní kontext v session) a načte jeho osobní jméno (A8) pro zobrazení.
+     * Všechna přihlášení v Auth jdou přes tuto metodu.
+     */
+    protected function startUserContext(LoginAggregateFullInterface $loginAggregateFull): SecurityInterface {
+        $security = $this->statusSecurityRepo->get();
+        $security->newContext($loginAggregateFull);
+        $displayName = null;
+        if ($this->featureFlags()->isEnabled('vp.osobni-jmeno')) {
+            $displayName = $this->container->get(DisplayNameService::class)->get($loginAggregateFull->getLoginName());
+        }
+        $security->setInfo(SecurityInterface::INFO_DISPLAY_NAME, $displayName);
+        return $security;
     }
 
     protected function authMailer(): AuthMailer {

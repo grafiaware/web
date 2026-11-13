@@ -6,6 +6,7 @@ název `<kódy balíků>-test-<co se testuje>.md`.
 | Scénář | Balíky |
 |---|---|
 | [A1-A2-test-registrace-a-prihlaseni.md](A1-A2-test-registrace-a-prihlaseni.md) | A1, A2 (+ krátká kontrola Z1, Z3, Z4) |
+| [A8-test-osobni-jmeno.md](A8-test-osobni-jmeno.md) | A8 |
 
 ## Jak hlásit výsledky (návrh, čeká na schválení)
 
