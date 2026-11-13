@@ -60,6 +60,8 @@ class ConfigurationAuth extends ConfigurationConstants {
                 'loginThrottleFreeAttempts' => 5,
                 'loginThrottleBaseSeconds' => 30,
                 'loginThrottleMaxSeconds' => 900,
+                // A3 úklid nepotvrzených registrací (docs/vp/zadani/A3.md) – počet dní od registrace
+                'unconfirmedRegistrationDays' => 14,
                 'roleVisitor' => RoleEnum::VISITOR,
                 'roleRepresentative' => RoleEnum::REPRESENTATIVE,
                 'roleEventsAdministrator' => RoleEnum::EVENTS_ADMINISTRATOR,

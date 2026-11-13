@@ -25,6 +25,8 @@ use Auth\Middleware\Login\Controler\AuthControler;
 use Auth\Model\Dao\RegistrationDao;
 use Auth\Model\Dao\LoginProfileDao;
 use Auth\Service\AccountService;
+use Auth\Service\UnconfirmedRegistrationCleaner;
+use Auth\Middleware\Login\Controler\UnconfirmedRegistrationControler;
 use Auth\Service\AccountOrigin;
 use Auth\Service\RoleGrantPolicy;
 use Application\Feature\FeatureFlags;
@@ -42,7 +44,10 @@ $policy = RoleGrantPolicy::fromConfiguration($features);
 $a9 = $policy->grantorsEnabled();
 $canCreateAccounts = $features->isEnabled('vp.zakladani-uctu') && $policy->canManageAccounts($userRole);
 $displayNameEnabled = $features->isEnabled('vp.osobni-jmeno');
-$pageAllowed = $a9 ? $policy->canManageAccounts($userRole) : ($userRole == RoleEnum::EVENTS_ADMINISTRATOR || $canCreateAccounts);
+// A3: nepotvrzené registrace – výpis a úklid podle RoleGrantPolicy (docs/vp/zadani/A3.md)
+$showUnconfirmed = $features->isEnabled('vp.uklid-registraci') && $policy->canViewUnconfirmed($userRole);
+$pageAllowed = ($a9 ? $policy->canManageAccounts($userRole) : ($userRole == RoleEnum::EVENTS_ADMINISTRATOR || $canCreateAccounts))
+        || $showUnconfirmed;
 if ($pageAllowed) {
     /** @var CredentialsRepoInterface $credentialsRepo */ 
     $credentialsRepo = $container->get(CredentialsRepo::class );
@@ -139,6 +144,17 @@ if ($pageAllowed) {
                                               
   ?>
     
+    <?php if ($showUnconfirmed):
+        /** @var UnconfirmedRegistrationCleaner $cleaner */
+        $cleaner = $container->get(UnconfirmedRegistrationCleaner::class);
+        $unconfirmedDays = UnconfirmedRegistrationControler::days(); ?>
+        <?= $this->insert(__DIR__.'/unconfirmed.php', [
+                'pendingRepresentatives' => $cleaner->pendingRepresentatives($unconfirmedDays),
+                'preview' => $cleaner->preview($unconfirmedDays),
+                'days' => $unconfirmedDays,
+                'canClean' => $policy->canCleanUnconfirmed($userRole),
+            ]) ?>
+    <?php endif; ?>
     <?php if ($a9 && $canCreateAccounts): ?>
         <?= $this->insert(__DIR__.'/new-account-a9.php', [
                 'allowedRoles' => $allowedRoles,

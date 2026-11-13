@@ -25,8 +25,15 @@ class AuthMailer {
     ) {
     }
 
-    public function sendRegistration(string $email, string $loginName, string $confirmationUrl): void {
-        $this->send('registration-email.php', 'Registrace.', ['confirmationUrl' => $confirmationUrl],
+    /**
+     * @param int|null $deleteAfterDays A3: věta o smazání nedokončené registrace (null = bez věty)
+     */
+    public function sendRegistration(string $email, string $loginName, string $confirmationUrl, ?int $deleteAfterDays = null): void {
+        $context = ['confirmationUrl' => $confirmationUrl];
+        if ($deleteAfterDays !== null) {
+            $context['deleteAfterDays'] = (string) $deleteAfterDays;
+        }
+        $this->send('registration-email.php', 'Registrace.', $context,
             $this->settings->addRecipients($this->settings->party('info')->addTo($email, $loginName), 'bcc', 'registration.bcc'));
     }
 

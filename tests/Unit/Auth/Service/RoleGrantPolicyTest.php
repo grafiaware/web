@@ -109,4 +109,32 @@ final class RoleGrantPolicyTest extends TestCase
         $this->assertFalse($p->canManageRoleTable(RoleEnum::EVENTS_ADMINISTRATOR));
         $this->assertTrue((new RoleGrantPolicy(false))->canManageRoleTable(RoleEnum::EVENTS_ADMINISTRATOR));
     }
+
+    /** A3: výpis nepotvrzených registrací a úklid – bez A9 supervisor (úklid) a events_administrator (výpis). */
+    public function testUnconfirmedA6(): void
+    {
+        $p = new RoleGrantPolicy(false);
+        $this->assertTrue($p->canViewUnconfirmed(RoleEnum::SUPERVISOR));
+        $this->assertTrue($p->canViewUnconfirmed(RoleEnum::EVENTS_ADMINISTRATOR));
+        $this->assertFalse($p->canViewUnconfirmed(RoleEnum::AUTH_ROLE_GRANTOR));
+        $this->assertTrue($p->canCleanUnconfirmed(RoleEnum::SUPERVISOR));
+        $this->assertFalse($p->canCleanUnconfirmed(RoleEnum::EVENTS_ADMINISTRATOR));
+        $this->assertFalse($p->canCleanUnconfirmed(null));
+    }
+
+    /** A3 + A9: výpis global, auth a events_role_grantor; úklid jen global a auth_role_grantor. */
+    public function testUnconfirmedA9(): void
+    {
+        $p = new RoleGrantPolicy(true);
+        foreach ([RoleEnum::GLOBAL_ROLE_GRANTOR, RoleEnum::AUTH_ROLE_GRANTOR, RoleEnum::EVENTS_ROLE_GRANTOR] as $r) {
+            $this->assertTrue($p->canViewUnconfirmed($r), $r);
+        }
+        foreach ([RoleEnum::SUPERVISOR, RoleEnum::EVENTS_ADMINISTRATOR, RoleEnum::RED_ROLE_GRANTOR, null] as $r) {
+            $this->assertFalse($p->canViewUnconfirmed($r), (string) $r);
+            $this->assertFalse($p->canCleanUnconfirmed($r), (string) $r);
+        }
+        $this->assertTrue($p->canCleanUnconfirmed(RoleEnum::AUTH_ROLE_GRANTOR));
+        $this->assertTrue($p->canCleanUnconfirmed(RoleEnum::GLOBAL_ROLE_GRANTOR));
+        $this->assertFalse($p->canCleanUnconfirmed(RoleEnum::EVENTS_ROLE_GRANTOR));
+    }
 }

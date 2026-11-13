@@ -45,6 +45,7 @@ use Auth\Service\LoginNameGenerator;
 use Auth\Service\DisplayNameService;
 use Auth\Service\AccountService;
 use Auth\Service\EventsLoginWriter;
+use Auth\Service\UnconfirmedRegistrationCleaner;
 use Auth\Model\Dao\LoginProfileDao;
 
 use Auth\Model\Hydrator\LoginChildRegistrationHydrator;
@@ -79,6 +80,7 @@ use Auth\Middleware\Login\Controler\LoginLinkControler;
 use Auth\Middleware\Login\Controler\DisplayNameControler;
 use Auth\Middleware\Login\Controler\AccountControler;
 use Auth\Middleware\Login\Controler\SetPasswordControler;
+use Auth\Middleware\Login\Controler\UnconfirmedRegistrationControler;
 use Auth\Middleware\Login\Controler\RegistrationControler;
 use Auth\Middleware\Login\Controler\ConfirmControler;
 use Auth\Middleware\Login\Controler\PasswordControler;
@@ -314,6 +316,13 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(\Auth\Service\AccountChangeLog::class),
                         $c->get(\Auth\Service\RoleChangeLog::class));
             },
+            UnconfirmedRegistrationCleaner::class => function(ContainerInterface $c) {
+                return new UnconfirmedRegistrationCleaner(
+                        $c->get(RegistrationDao::class),
+                        \Pes\Logger\FileLogger::getInstance(
+                            $c->has('auth.logs.directory') ? $c->get('auth.logs.directory') : 'Logs/Auth',
+                            'UnconfirmedRegistrations.log', \Pes\Logger\FileLogger::APPEND_TO_LOG));
+            },
             LoginNameGenerator::class => function(ContainerInterface $c) {
                 $loginDao = $c->get(LoginDao::class);
                 return new LoginNameGenerator(fn(string $loginName) => $loginDao->get(['login_name' => $loginName]) !== null);
@@ -442,6 +451,15 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(AccountService::class))
+                    )->injectContainer($c);  // inject component kontejner
+            },
+            UnconfirmedRegistrationControler::class => function(ContainerInterface $c) {
+                return (new UnconfirmedRegistrationControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(UnconfirmedRegistrationCleaner::class),
+                        \Auth\Service\RoleGrantPolicy::fromConfiguration())   // A3 + A9: kdo smí spustit úklid
                     )->injectContainer($c);  // inject component kontejner
             },
             SetPasswordControler::class => function(ContainerInterface $c) {
