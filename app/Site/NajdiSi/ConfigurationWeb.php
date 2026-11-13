@@ -342,6 +342,14 @@ class ConfigurationWeb extends ConfigurationConstants {
                         'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
                         'targetId'=>'content',
                         ],
+                    // A9 (docs/vp/zadani/A9.md): správa účtů a rolí – role *_role_grantor; kořen menu se zakládá ručně
+                    'menuRoleGrantor' => [
+                        'rootName' => 'menu role grantor',
+                        'itemtype' => ItemTypeEnum::MULTILEVEL,
+                        'levelRenderer' => 'menuVertical.levelRenderer',
+                        'levelRendererEditable' => 'menuVertical.levelRenderer.editable',
+                        'targetId'=>'content',
+                        ],
                     'menuEventsRepresentative' => [
                         'rootName' => 'menu representative',
                         'itemtype' => ItemTypeEnum::ONELEVEL,

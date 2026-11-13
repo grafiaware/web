@@ -29,6 +29,10 @@ use Auth\Model\Entity\LoginAggregateFull;
 use Status\Model\Entity\SecurityInterface;
 use Status\Model\Enum\FlashSeverityEnum;
 use Auth\Model\Dao\RegistrationDao;
+use Auth\Service\GlobalRoleGrantor;
+use Auth\Service\LoginLog;
+use Auth\Service\LoginThrottle;
+use Auth\Service\RoleGrantPolicy;
 
 /**
  * Description of PostControler
@@ -36,6 +40,9 @@ use Auth\Model\Dao\RegistrationDao;
  * @author pes2704
  */
 class LoginLogoutControler extends LoginControlerAbstract {
+
+    /** Hash pro ověření hesla u neexistujícího účtu (stejná doba odezvy) – heslo k němu neexistuje. */
+    private const DUMMY_HASH = '$2y$12$2IOAejUY1CucOFU9wpAoE.2scljtOHfNqg7JSazOeJeaBgePLcI0C';
 
     private $authenticator;
     private $superAuthenticator;
@@ -79,6 +86,9 @@ class LoginLogoutControler extends LoginControlerAbstract {
                     }
                     $loginJmeno = $loginNames[0] ?? '';
                 }
+                if ($this->featureFlags()->isEnabled(RoleGrantPolicy::FEATURE)) {
+                    return $this->loginA9($request, (string) $loginJmeno, (string) $loginHeslo);
+                }
                 /** @var LoginAggregateFull $loginAggregateFull */
                 $loginAggregateFull = $loginJmeno ? $this->loginAggregateFullRepo->get($loginJmeno) : null;
 
@@ -94,6 +104,57 @@ class LoginLogoutControler extends LoginControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
     
+    /**
+     * A9 (docs/vp/zadani/A9.md): přihlášení heslem s účtem global_role_grantor z konfigurace, zpomalením a logy.
+     */
+    private function loginA9(ServerRequestInterface $request, string $loginJmeno, string $loginHeslo) {
+        /** @var LoginLog $log */
+        $log = $this->container->get(LoginLog::class);
+        /** @var GlobalRoleGrantor $grantor */
+        $grantor = $this->container->get(GlobalRoleGrantor::class);
+        if ($loginJmeno !== '' && $grantor->matches($loginJmeno)) {
+            // účet z konfigurace má přednost před stejnojmenným účtem v DB; bez zpomalení (místo něj varování na webu)
+            if ($grantor->verify($loginHeslo)) {
+                $this->startUserContext($grantor->loginAggregate(), 'heslo', true);
+                $this->addFlashMessage("Jste přihlášeni jako správce přidělování rolí z konfigurace serveru.", FlashSeverityEnum::SUCCESS);
+            } else {
+                $log->failure($grantor->loginName(), null, 'špatné heslo');
+                $this->addFlashMessage("Neplatné přihlášení!", FlashSeverityEnum::WARNING);
+            }
+            return $this->redirectSeeLastGet($request);
+        }
+
+        /** @var LoginAggregateFull $loginAggregateFull */
+        $loginAggregateFull = $loginJmeno !== '' ? $this->loginAggregateFullRepo->get($loginJmeno) : null;
+        if (!isset($loginAggregateFull)) {
+            password_verify($loginHeslo, self::DUMMY_HASH);   // stejná doba odezvy jako u existujícího účtu
+            $log->failure(null, null, 'účet neexistuje');
+            $this->addFlashMessage("Neplatné přihlášení!", FlashSeverityEnum::WARNING);
+            return $this->redirectSeeLastGet($request);
+        }
+        $loginName = $loginAggregateFull->getLoginName();
+        $origin = $this->accountOrigin($loginName);
+        /** @var LoginThrottle $throttle */
+        $throttle = $this->container->get(LoginThrottle::class);
+        $locked = $throttle->secondsLocked($loginName);
+        if ($locked > 0) {
+            $log->failure($loginName, $origin, 'blokováno – příliš mnoho pokusů');
+            $this->addFlashMessage("Příliš mnoho neúspěšných pokusů. Zkuste to znovu " . LoginThrottle::waitText($locked) . ".", FlashSeverityEnum::WARNING);
+            return $this->redirectSeeLastGet($request);
+        }
+        if ($this->authenticator->authenticate($loginAggregateFull, $loginHeslo)) {
+            $this->startUserContext($loginAggregateFull, 'heslo');   // nuluje zpomalení, zapíše log a poslední přihlášení
+            $this->addFlashMessage("Jste přihlášeni.", FlashSeverityEnum::SUCCESS);
+            return $this->redirectSeeLastGet($request);
+        }
+        $delay = $throttle->failure($loginName);
+        $log->failure($loginName, $origin, 'špatné heslo');
+        $this->addFlashMessage($delay > 0
+                ? "Neplatné přihlášení! Příliš mnoho neúspěšných pokusů – další pokus " . LoginThrottle::waitText($delay) . "."
+                : "Neplatné přihlášení!", FlashSeverityEnum::WARNING);
+        return $this->redirectSeeLastGet($request);
+    }
+
     public function superlogin(ServerRequestInterface $request) {
         $requestParams = new RequestParams();
         $login = $requestParams->getParsedBodyParam($request, 'login', FALSE);
