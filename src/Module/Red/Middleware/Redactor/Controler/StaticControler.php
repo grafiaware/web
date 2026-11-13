@@ -6,10 +6,12 @@ use FrontControler\FrontControlerAbstract;
 use Pes\Http\Request\RequestParams;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Red\Model\Entity\StaticItemInterface;
 use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\StaticItemRepo;
 use Red\Service\StaticRegistry\Exception\StaticRegistryPushException;
 use Red\Service\StaticRegistry\StaticRegistryPushService;
+use StaticRegistry\Service\StaticTemplateLocation;
 use Status\Model\Enum\FlashSeverityEnum;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
@@ -27,6 +29,8 @@ class StaticControler extends FrontControlerAbstract {
 
     const PATH_VAR_NAME = "path";
     const TEMPLATE_VAR_NAME = "template";
+    /** JSON {"path","template"} z jednoho selectu v editoru. */
+    const LOCATION_VAR_NAME = "staticLocation";
     
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
@@ -42,23 +46,53 @@ class StaticControler extends FrontControlerAbstract {
     /**
      * POST /red/v1/static/:staticId
      *
-     * Flush StaticItem do UnitOfWork probíhá na konci requestu; push jde ihned s aktuálními hodnotami entity.
+     * Nejdřív flush do MySQL (sloupec updated nastaví server), pak push do SQLite
+     * s časem už uloženým v řádku. Push před flushem posílal staré updated
+     * a SQLite zápis zahodil (lokální updated >= příchozí).
      */
     public function update(ServerRequestInterface $request, $staticId): ResponseInterface {
-        $path = (new RequestParams())->getParam($request, self::PATH_VAR_NAME);
-        $template = (new RequestParams())->getParam($request, self::TEMPLATE_VAR_NAME);        
+        $location = $this->readLocation($request);
+        if ($location === null) {
+            $this->addFlashMessage('Neplatný výběr šablony. Path a template se nezměnily.', FlashSeverityEnum::WARNING);
+            return $this->redirectSeeLastGet($request);
+        }
         $static = $this->staticRepo->get($staticId);
-        $static->setPath($path);
-        $static->setTemplate($template);
+        $static->setPath($location['path']);
+        $static->setTemplate($location['template']);
         $static->setCreator($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
 
+        $this->staticRepo->flush();
+        $stored = $this->staticRepo->get($staticId) ?? $static;
+
         // Sync na remote registry — selhání push neblokuje editaci (jen flash warning)
-        $this->pushRemoteRegistry($request, $static);
+        $this->pushRemoteRegistry($request, $stored);
         
         return $this->redirectSeeLastGet($request);
     }
 
-    private function pushRemoteRegistry(ServerRequestInterface $request, \Red\Model\Entity\StaticItemInterface $static): void {
+    /**
+     * Select editoru posílá obě hodnoty v staticLocation.
+     * Textová pole posílají path a template zvlášť.
+     *
+     * @return array{path: ?string, template: ?string}|null null = neplatný select, nic nezapisovat
+     */
+    private function readLocation(ServerRequestInterface $request): ?array {
+        $params = new RequestParams();
+        $encoded = $params->getParam($request, self::LOCATION_VAR_NAME);
+        if (is_string($encoded) && $encoded !== '') {
+            $decoded = StaticTemplateLocation::decode($encoded);
+            if ($decoded === null) {
+                return null;
+            }
+            return $decoded;
+        }
+        return [
+            'path' => $params->getParam($request, self::PATH_VAR_NAME),
+            'template' => $params->getParam($request, self::TEMPLATE_VAR_NAME),
+        ];
+    }
+
+    private function pushRemoteRegistry(ServerRequestInterface $request, StaticItemInterface $static): void {
         $menuItem = $this->menuItemRepo->getById((int) $static->getMenuItemIdFk());
         if ($menuItem === null) {
             return;

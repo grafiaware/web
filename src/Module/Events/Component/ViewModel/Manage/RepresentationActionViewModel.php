@@ -69,6 +69,7 @@ class RepresentationActionViewModel extends ViewModelAbstract implements Represe
         
         $array = [
             'loginName' => $this->status->getUserLoginName(),
+            'userName' => $this->status->getUserNameForDisplay(),
             'isAdministrator' => $this->isAdministrator(),
             'idCompanyArray' => $this->createIdCompanyArray($this->status->getUserLoginName(), $placeholderKey, 'Vyberte zastupovanou firmu'),
             'selectedCompanyId' => $companyId,

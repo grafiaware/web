@@ -51,6 +51,15 @@ class ConfigurationAuth extends ConfigurationConstants {
                 'loginLinkTtlMinutes' => 30,
                 'loginLinkLimitCount' => 3,
                 'loginLinkLimitMinutes' => 15,
+                // A6 zakládání účtů administrátorem – odkaz „heslo mailem“ (docs/vp/zadani/A6.md)
+                'setPasswordLinkTtlHours' => 72,
+                // A9 správa účtů a rolí (docs/vp/zadani/A9.md)
+                // global_role_grantor – jen z lokálního souboru na serveru (není v gitu, #92); bez souboru účet neexistuje
+                'globalRoleGrantor' => \Auth\Service\GlobalRoleGrantor::loadConfigFile(__DIR__ . '/ConfigurationRoot.local.php'),
+                // zpomalené přihlašování: po N neúspěšných pokusech prodleva base × 2^(pokusy nad limit), nejvýš max
+                'loginThrottleFreeAttempts' => 5,
+                'loginThrottleBaseSeconds' => 30,
+                'loginThrottleMaxSeconds' => 900,
                 'roleVisitor' => RoleEnum::VISITOR,
                 'roleRepresentative' => RoleEnum::REPRESENTATIVE,
                 'roleEventsAdministrator' => RoleEnum::EVENTS_ADMINISTRATOR,

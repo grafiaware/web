@@ -26,6 +26,10 @@ interface StatusViewModelInterface extends ViewModelInterface {
 
     public function getUserRole(): ?string;
     public function getUserLoginName(): ?string;
+    /** Osobní jméno přihlášeného uživatele (A8), null = nezadané. */
+    public function getUserDisplayName(): ?string;
+    /** Jméno pro zobrazení: osobní jméno, jinak přihlašovací jméno; null = nepřihlášen. */
+    public function getUserNameForDisplay(): ?string;
     public function getUserLoginHash(): ?string;
     public function getUserEmail(): ?string;
     public function isUserLoggedIn(): bool;

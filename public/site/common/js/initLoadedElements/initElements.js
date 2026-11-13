@@ -489,6 +489,13 @@ function initJqueryEvents() {
         })
         .modal('show');
     });
+    //modalni okno pro zmenu osobniho jmena (A8)
+    $('.btn-zmena-jmena').click(function(){
+        $('.page.modal.zmena-jmena').modal({
+            useCSS   : true
+        })
+        .modal('show');
+    });
     //modalni okno pro prihlaseni
     $('.btn-login').click(function(){
         $('.page.modal.login').modal({

@@ -64,8 +64,7 @@ class LoginLinkControler extends LoginControlerAbstract {
             $this->addFlashMessage("Přihlašovací odkaz už není platný. Nechte si poslat nový.", FlashSeverityEnum::WARNING);
             return $this->createResponseRedirectSeeOther($request, '');
         }
-        $security = $this->statusSecurityRepo->get();
-        $security->newContext($loginAggregateFull);
+        $security = $this->startUserContext($loginAggregateFull, 'odkaz');
         // po přihlášení odkazem lze nastavit nové heslo bez starého (po dobu platnosti odkazu)
         $ttl = (int) (\Site\ConfigurationCache::auth()['loginLinkTtlMinutes'] ?? 30);
         $security->setInfo(self::INFO_PASSWORD_SET_UNTIL, time() + 60 * $ttl);

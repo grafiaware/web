@@ -21,8 +21,9 @@ class StaticTemplateScanner implements StaticTemplateScannerInterface {
     /**
      * {@inheritdoc}
      *
-     * path = relativní cesta od WEB_STATIC včetně koncového lomítka (např. events/company/).
-     * template zůstává prázdný — celá cesta je v path (editor typicky ukládá path bez odděleného template).
+     * path = nadřazená složka od WEB_STATIC včetně koncového lomítka (events/, events/admin/, nebo '').
+     * template = jméno složky, ve které leží template.php (profil-firmy).
+     * Stejné rozdělení jako sloupce static.path a static.template v baseline.
      */
     public function scan(string $prefix, string $siteCode): array {
         $basePath = ConfigurationCache::componentControler()['static'] ?? '';
@@ -44,10 +45,10 @@ class StaticTemplateScanner implements StaticTemplateScannerInterface {
         foreach ($regex as $fileInfo) {
             /** @var \SplFileInfo $fileInfo */
             $fullDir = str_replace('\\', '/', $fileInfo->getPath());
-            $relativeFromStatic = rtrim($this->relativePath($basePath, $fullDir), '/') . '/';
+            $location = StaticTemplateLocation::fromDirectory($this->relativePath($basePath, $fullDir));
             $templates[] = [
-                'path' => $relativeFromStatic,
-                'template' => '',
+                'path' => $location['path'],
+                'template' => $location['template'],
                 'fullTemplatePath' => str_replace('\\', '/', $fileInfo->getPathname()),
             ];
         }

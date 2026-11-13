@@ -246,7 +246,7 @@ class ConfirmControler extends LoginControlerAbstract
 
         $loginAggregateFull = $this->container->get(LoginAggregateFullRepo::class)->get($loginName);
         if (isset($loginAggregateFull)) {
-            $this->statusSecurityRepo->get()->newContext($loginAggregateFull);
+            $this->startUserContext($loginAggregateFull, 'potvrzení registrace');
             $this->addFlashMessage("Registrace je dokončená, jste přihlášeni.", FlashSeverityEnum::SUCCESS);
         } else {
             $this->addFlashMessage("Registrace je dokončená. Přihlaste se.");

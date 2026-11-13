@@ -62,6 +62,22 @@ class AuthMailer {
             $this->settings->party('noreply')->addTo($email, count($links) === 1 ? $links[0]['loginName'] : $email));
     }
 
+    /**
+     * A6: odkaz na nastavení hesla pro účet založený administrátorem („heslo mailem“).
+     */
+    public function sendSetPasswordLink(string $email, string $loginName, string $url, int $ttlHours): void {
+        $this->send('setpassword.php', 'Nastavení hesla.', ['loginName' => $loginName, 'url' => $url, 'ttlHours' => (string) $ttlHours],
+            $this->settings->party('noreply')->addTo($email, $loginName));
+    }
+
+    /**
+     * A9: oznámení na původní adresu, že správce účtů změnil e-mail účtu (nová adresa se v e-mailu neuvádí).
+     */
+    public function sendEmailChanged(string $oldEmail, string $loginName): void {
+        $this->send('emailchanged.php', 'Změna e-mailu účtu.', ['loginName' => $loginName],
+            $this->settings->party('noreply')->addTo($oldEmail, $loginName));
+    }
+
     private function send(string $template, string $subject, array $context, $party, bool $withLogo = true): void {
         if ($withLogo) {
             $context['data_logo_grafia'] = $this->settings->logoDataUri('grafia');
