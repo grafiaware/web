@@ -27,24 +27,23 @@ $dis = $isAdmin ? '' : 'disabled';
 
 <div class="card">
     <h2>Rozpis kol</h2>
-    <table>
-        <?php foreach ($rounds as $r): ?>
-        <tr>
-            <td><a class="btn small" href="events/v1/lottery/round/<?= (int) $r['id'] ?>">Losovat <?= (new DateTimeImmutable($r['draw_at']))->format('G:i') ?></a></td>
-            <td>
-                <form method="POST" action="events/v1/lottery/<?= $id ?>/round/<?= (int) $r['id'] ?>" class="row">
-                    <input type="datetime-local" name="draw_at" value="<?= $dtl($r['draw_at']) ?>" required <?= $dis ?>>
-                    <label class="inline"><input type="checkbox" name="substitute" value="1" <?= (int) $r['substitute'] ? 'checked' : '' ?> <?= $dis ?>>losuje se náhradník</label>
-                    <?php if ($isAdmin): ?><button type="submit" class="small">Uložit</button><?php endif; ?>
-                </form>
-                <span class="muted"><?= $r['status'] === 'drawn' ? 'vylosováno ' . $t($r['drawn']) : 'plánováno' ?></span>
-            </td>
-            <td><?php if ($isAdmin && $r['status'] !== 'drawn'): ?>
-                <form method="POST" action="events/v1/lottery/<?= $id ?>/round/<?= (int) $r['id'] ?>/remove" onsubmit="return confirm('Smazat kolo?')">
-                    <button type="submit" class="small secondary">Smazat</button></form><?php endif; ?></td>
-        </tr>
-        <?php endforeach; ?>
-    </table>
+    <?php foreach ($rounds as $r): ?>
+    <div style="border-bottom:1px solid #ddd; padding:8px 0">
+        <p class="row" style="align-items:center">
+            <a class="btn small" style="flex:0 0 auto" href="events/v1/lottery/round/<?= (int) $r['id'] ?>">Losovat <?= (new DateTimeImmutable($r['draw_at']))->format('G:i') ?></a>
+            <span class="muted"><?= $r['status'] === 'drawn' ? 'vylosováno ' . $t($r['drawn']) : 'plánováno' ?></span>
+        </p>
+        <form method="POST" action="events/v1/lottery/<?= $id ?>/round/<?= (int) $r['id'] ?>" class="row">
+            <input type="datetime-local" name="draw_at" value="<?= $dtl($r['draw_at']) ?>" required <?= $dis ?>>
+            <label class="inline"><input type="checkbox" name="substitute" value="1" <?= (int) $r['substitute'] ? 'checked' : '' ?> <?= $dis ?>>losuje se náhradník</label>
+            <?php if ($isAdmin): ?><button type="submit" class="small">Uložit</button><?php endif; ?>
+        </form>
+        <?php if ($isAdmin && $r['status'] !== 'drawn'): ?>
+        <form method="POST" action="events/v1/lottery/<?= $id ?>/round/<?= (int) $r['id'] ?>/remove" onsubmit="return confirm('Smazat kolo?')">
+            <button type="submit" class="small secondary">Smazat kolo</button></form>
+        <?php endif; ?>
+    </div>
+    <?php endforeach; ?>
     <?php if ($isAdmin): ?>
     <form method="POST" action="events/v1/lottery/<?= $id ?>/round" class="row">
         <div><label>Nové kolo</label><input type="datetime-local" name="draw_at" required></div>

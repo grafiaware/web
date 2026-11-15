@@ -32,8 +32,8 @@ $dm = fn($dt) => (new DateTimeImmutable($dt))->format('j. n. G:i');
         <?php if (!$item['joined']): ?>
             <form class="ui form" method="POST" action="events/v1/lottery/<?= (int) $l['id'] ?>/join">
                 <?php foreach ($item['questions'] as $q): $qid = (int) $q['id']; $opts = SurveyValidator::options($q['options']); ?>
-                    <div class="field <?= (int) $q['required'] ? 'required' : '' ?>">
-                        <label><?= htmlspecialchars($q['text']) ?></label>
+                    <div class="field">
+                        <label><?= htmlspecialchars($q['text']) ?><?= (int) $q['required'] ? ' <span style="color:#db2828">*</span>' : '' ?></label>
                         <?php if ($q['type'] === SurveyValidator::TYPE_TEXT): ?>
                             <textarea name="q[<?= $qid ?>]" rows="2" <?= (int) $q['required'] ? 'required' : '' ?>></textarea>
                         <?php else: foreach ($opts as $o): ?>
@@ -45,7 +45,7 @@ $dm = fn($dt) => (new DateTimeImmutable($dt))->format('j. n. G:i');
                         <?php endforeach; endif; ?>
                     </div>
                 <?php endforeach; ?>
-                <div class="field required">
+                <div class="field">
                     <label><input type="checkbox" name="consent" value="1" required>
                         Souhlasím s <?= $l['rules_url'] ? '<a href="' . htmlspecialchars($l['rules_url']) . '" target="_blank" rel="noopener">pravidly losování</a>' : 'pravidly losování' ?></label>
                 </div>
