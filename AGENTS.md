@@ -42,6 +42,8 @@ Do `master` se nepushuje přímo. Do `master-vp` standardně přes pull request;
 - Texty, hlášky a e-maily česky. E-maily přes sdílené šablony, adresy odesílatelů z konfigurace (ne natvrdo v kontroléru).
 - Hesla a tokeny nikdy v čitelné podobě v DB, logu ani e-mailu. Výjimka: stávající dočasné heslo v `registration`
   do potvrzení registrace (záměr kvůli ručnímu dokončení registrace vystavovatele, řeší odložený balík Z6) — nerozšiřovat.
+  Identifikátory, které nepřihlašují (QR kód návštěvníka a kód papírového lístku pro losování – D1, D1c; jen vydají
+  nebo prodlouží los), nejsou tajné údaje a smí být v DB čitelně (rozhodl Petr 16. 11. 2026).
 - `app/Site/active-site.php` a `local/site/site-name.less` měň jen lokálně, necommituj je.
 - Necommituj dumpy DB s osobními údaji, `vendor/`, `node_modules/`, logy.
 
