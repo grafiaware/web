@@ -39,10 +39,29 @@ trait LotteryQueryTrait {
             $stmt->bindValue(':' . $name, $value, $value === null ? \PDO::PARAM_NULL : (is_int($value) ? \PDO::PARAM_INT : \PDO::PARAM_STR));
         }
         $stmt->execute();
-        return $stmt->rowCount();
+        $this->rowCount = $stmt->rowCount();
+        return $this->rowCount;
+    }
+
+    /**
+     * Provede $work v transakci (pokud už transakce neběží). Výjimka = rollback.
+     */
+    public function transaction(callable $work): mixed {
+        if ($this->dbHandler->inTransaction()) {
+            return $work();
+        }
+        $this->dbHandler->beginTransaction();
+        try {
+            $ret = $work();
+            $this->dbHandler->commit();
+            return $ret;
+        } catch (\Throwable $e) {
+            $this->dbHandler->rollBack();
+            throw $e;
+        }
     }
 
     public function lastId(): int {
-        return (int) $this->lastInsertIdValue();
+        return (int) $this->dbHandler->lastInsertId();
     }
 }
