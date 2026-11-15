@@ -3,7 +3,7 @@
 - **Větev roadmapy:** V2 Losování (viz [ROADMAP.md](../ROADMAP.md))
 - **Issue:** #108 (navazuje na D1 #46)
 - **Řešitel:** Claude
-- **Stav zadání:** návrh (16. 11. 2026) – čeká na schválení
+- **Stav zadání:** schváleno (Petr, 16. 11. 2026)
 
 ## Cíl
 
@@ -47,7 +47,7 @@ Nepatří sem:
 ## Závislosti
 
 D1 (#46) – tabulky losování, skener, `LotteryPresence`, `LotteryDraw`, anketa. Vyvíjí se ve stejné větvi
-`vp/d1-losovani` jako samostatné commity (`D1c: …`) – nebo vlastní větev z ní, rozhodne Petr při schválení.
+`vp/d1-losovani` a jednom PR jako samostatné commity (`D1c: …`) – rozhodl Petr 16. 11. kvůli termínu.
 
 ## Databáze
 
@@ -136,7 +136,5 @@ MySQL 8 zatím ne. Další krok: schválení (spolu s revizí D1), implementace 
 
 ## Otevřené otázky
 
-1. **Formát lístku:** kolik lístků na A4 (návrh: 4 – lístek A6 na výšku, ústřižek dole) a stačí tisk z prohlížeče
-   + CSV pro vaši aplikaci? (návrh: ano)
-2. **Větev:** D1c ve stejné větvi a PR jako D1, nebo vlastní větev a PR? (návrh: stejná větev, oddělené commity –
-   kvůli termínu jeden test a jedno nasazení)
+Zodpovězeno 16. 11. 2026: 4 lístky na A4 (může se změnit); D1 a D1c v jedné větvi `vp/d1-losovani` a jednom PR,
+oddělené commity.
