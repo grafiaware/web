@@ -20,6 +20,34 @@ class ConfigurationEvents extends ConfigurationConstants {
     const EVENTS_TEMPLATES_COMMON = 'local/site/common/templates/events/';
     const EVENTS_TEMPLATES_SITE = 'local/site/'.self::WEB_SITE.'templates/events/';
 
+    /**
+     * D1 (#46): losování – platnost losu na místě, akce prodlužující platnost, stanoviště skeneru.
+     * Popis: docs/vp/zadani/D1.md (Konfigurace). Funkci zapíná přepínač vp.losovani (ConfigurationFeatures).
+     */
+    public static function lottery() {
+        return [
+            'oneWinAcrossLotteries' => false,
+            'presence' => [
+                'issueMinMinutes' => 30,   // los hraje nejdřív v kole za 30 min od vydání
+                'issueRounds' => 2,        // a nejvýš ve 2 kolech
+                // akce prodlužující platnost: klíč => minuty (platnost do času akce + minuty);
+                // klíč, který tu není, platnost neprodlouží (akce se jen zaznamená)
+                'refresh' => [
+                    'vchod' => 60,         // opakovaný sken u vchodu při platném losu
+                    'infostanek' => 60,
+                    'rucne' => 60,         // ruční prodloužení obsluhou (vyhledání podle jména)
+                    // 'stanek' => 60,     // sken u stánku (D2)
+                ],
+            ],
+            'stations' => [               // stanoviště skeneru: klíč => [název, vydává los, akce prodloužení]
+                'vchod' => ['label' => 'Vchod', 'issue' => true, 'refresh' => 'vchod'],
+                'infostanek' => ['label' => 'Infostánek', 'issue' => false, 'refresh' => 'infostanek'],
+            ],
+            'scan' => ['maxOfflineMinutes' => 240],   // starší sken z fronty offline server odmítne
+            'mail' => ['sender' => 'info'],           // odesílatel e-mailu po zapojení (MailSettings::party)
+        ];
+    }
+
     public static function dbEvents() {
 
         return [

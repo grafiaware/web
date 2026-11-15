@@ -15,6 +15,18 @@ use Pes\Model\Builder\Sql;
 // repo
 use Events\Model\Context\ContextProvider;
 
+// D1 losování
+use Events\Model\Dao\Lottery\LotteryDao;
+use Events\Model\Dao\Lottery\LotteryRoundDao;
+use Events\Model\Dao\Lottery\LotteryPrizeDao;
+use Events\Model\Dao\Lottery\LotteryQuestionDao;
+use Events\Model\Dao\Lottery\LotteryAnswerDao;
+use Events\Model\Dao\Lottery\LotteryTicketDao;
+use Events\Model\Dao\Lottery\VisitorCodeDao;
+use Events\Model\Dao\Lottery\LotteryPresenceDao;
+use Events\Model\Dao\Lottery\LotteryPresenceEventDao;
+use Events\Model\Dao\Lottery\LotteryWinnerDao;
+
 use Events\Model\Dao\LoginDao;
 use Events\Model\Hydrator\LoginHydrator;
 use Events\Model\Repository\LoginRepo;
@@ -462,6 +474,37 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new VisitorJobRequestRepo($c->get(VisitorJobRequestDao::class), $c->get(VisitorJobRequestHydrator::class));
             },
 
+            // D1 losování (docs/vp/zadani/D1.md)
+            LotteryDao::class => function(ContainerInterface $c) {
+                return new LotteryDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            LotteryRoundDao::class => function(ContainerInterface $c) {
+                return new LotteryRoundDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            LotteryPrizeDao::class => function(ContainerInterface $c) {
+                return new LotteryPrizeDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            LotteryQuestionDao::class => function(ContainerInterface $c) {
+                return new LotteryQuestionDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            LotteryAnswerDao::class => function(ContainerInterface $c) {
+                return new LotteryAnswerDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            LotteryTicketDao::class => function(ContainerInterface $c) {
+                return new LotteryTicketDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            VisitorCodeDao::class => function(ContainerInterface $c) {
+                return new VisitorCodeDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            LotteryPresenceDao::class => function(ContainerInterface $c) {
+                return new LotteryPresenceDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            LotteryPresenceEventDao::class => function(ContainerInterface $c) {
+                return new LotteryPresenceEventDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            LotteryWinnerDao::class => function(ContainerInterface $c) {
+                return new LotteryWinnerDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
             VisitorProfileDao::class => function(ContainerInterface $c) {
                 return new VisitorProfileDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
