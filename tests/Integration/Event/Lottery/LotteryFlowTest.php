@@ -47,7 +47,7 @@ final class LotteryFlowTest extends AppRunner {
             self::$logins[$k] = $login;
             self::$c->get(LotteryDao::class)->exec("INSERT INTO login (login_name) VALUES (:n)", ['n' => $login]);
         }
-        self::$now = new DateTimeImmutable('2027-01-27 09:00:00');
+        self::$now = new DateTimeImmutable('2027-01-27 09:00:00', new \DateTimeZone('Europe/Prague'));
     }
 
     public static function tearDownAfterClass(): void {
@@ -73,7 +73,7 @@ final class LotteryFlowTest extends AppRunner {
     }
 
     private function at(string $hm): void {
-        self::$now = new DateTimeImmutable("2027-01-27 {$hm}:00");
+        self::$now = new DateTimeImmutable("2027-01-27 {$hm}:00", new \DateTimeZone('Europe/Prague'));
     }
 
     public function testFlow(): void {
@@ -115,7 +115,7 @@ final class LotteryFlowTest extends AppRunner {
         $this->assertSame('not_valid', $scan->scan($id, $s->codeFor($b), 'infostanek', null, 'obsluha')['result'], 'infostánek nevydává');
         // fronta offline: sken v 10:25 odeslaný v 10:50
         $this->at('10:50');
-        $offline = (new DateTimeImmutable('2027-01-27 10:25:00'))->format(DATE_ATOM);
+        $offline = (new DateTimeImmutable('2027-01-27 10:25:00', new \DateTimeZone('Europe/Prague')))->format(DATE_ATOM);
         $this->assertSame('issued', $scan->scan($id, $s->codeFor($b), 'vchod', $offline, 'obsluha')['result']);
         $this->assertSame('2027-01-27 10:25:00', $s->presence($id, $b)['issued']);
         // c dostane los pozdě – do 11:00 nehraje
@@ -149,13 +149,16 @@ final class LotteryFlowTest extends AppRunner {
         $unclaimed = $draw->winnersOfLottery($id, true);
         $this->assertCount(1, $unclaimed);
 
-        // prodloužení na infostánku ve 12:30 → platí do 13:30
+        // prodloužení na infostánku ve 12:30 (los propadl ve 12:00) → platí do 13:30, hraje ve 13:00
         $this->at('12:30');
         $res = $scan->scan($id, $s->codeFor($other), 'infostanek', null, 'obsluha');
-        if ($other !== $sub['winner']['login_login_name_fk']) {
-            $this->assertSame('refreshed', $res['result'], $res['message']);
-            $this->assertSame('2027-01-27 13:30:00', $s->presence($id, $other)['valid_until']);
-        }
+        $this->assertSame('refreshed', $res['result'], $res['message']);
+        $this->assertSame('2027-01-27 13:30:00', $s->presence($id, $other)['valid_until']);
+        $this->assertStringContainsString('13:00', $res['message']);
+        // u vchodu se propadlý los vydá znovu (znovu 30 min): ve 12:40 → hraje až od 13:10
+        $this->at('12:40');
+        $this->assertSame('issued', $scan->scan($id, $s->codeFor($first), 'vchod', null, 'obsluha')['result']);
+        $this->assertSame('2027-01-27 13:10:00', $s->presence($id, $first)['eligible_from']);
         $status = $s->visitorStatus($id, $first);
         $this->assertCount(1, $status['wins']);
         $this->assertTrue($status['joined']);

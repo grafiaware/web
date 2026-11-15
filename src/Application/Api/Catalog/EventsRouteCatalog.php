@@ -16,6 +16,9 @@ use Events\Middleware\Events\Controler\RepresentationControler;
 use Events\Middleware\Events\Controler\SynchroControler;
 use Events\Middleware\Events\Controler\VisitorJobRequestControler;
 use Events\Middleware\Events\Controler\VisitorProfileControler;
+use Events\Middleware\Events\Controler\Lottery\LotteryAdminControler;
+use Events\Middleware\Events\Controler\Lottery\LotteryStaffControler;
+use Events\Middleware\Events\Controler\Lottery\LotteryVisitorControler;
 use FrontControler\Response\MutationResponseMode;
 use StaticRegistry\Middleware\Controler\StaticRegistryControler;
 
@@ -94,6 +97,35 @@ final class EventsRouteCatalog implements ModuleRouteCatalogInterface {
             new RouteDefinition('POST', '/events/v1/eventlink/:eventLinkId', EventControler_2::class, 'updateEventLink', MutationResponseMode::BROWSER_FORM),
             new RouteDefinition('POST', '/events/v1/eventlink/:eventLinkId/remove', EventControler_2::class, 'removeEventLink', MutationResponseMode::BROWSER_FORM),
             new RouteDefinition('POST', '/events/v1/maintenance/archivecompanies/:sourceVersion/:targetVersion', MaintenanceControler::class, 'archiveCompanies', MutationResponseMode::MACHINE_API),
+            // D1 losování (docs/vp/zadani/D1.md), přepínač vp.losovani
+            new RouteDefinition('GET', '/events/v1/mycode/page', LotteryVisitorControler::class, 'myCodePage', null, 'vp.losovani'),
+            new RouteDefinition('GET', '/events/v1/mycode/image', LotteryVisitorControler::class, 'myCodeImage', null, 'vp.losovani'),
+            new RouteDefinition('GET', '/events/v1/mycode/sw', LotteryVisitorControler::class, 'serviceWorker', null, 'vp.losovani'),
+            new RouteDefinition('GET', '/events/v1/scan/:code', LotteryVisitorControler::class, 'scanLanding', null, 'vp.losovani'),
+            new RouteDefinition('POST', '/events/v1/lottery/:id/join', LotteryVisitorControler::class, 'join', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
+            new RouteDefinition('GET', '/events/v1/lottery', LotteryAdminControler::class, 'index', null, 'vp.losovani'),
+            new RouteDefinition('POST', '/events/v1/lottery', LotteryAdminControler::class, 'saveLottery', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
+            new RouteDefinition('GET', '/events/v1/lottery/:id', LotteryAdminControler::class, 'detail', null, 'vp.losovani'),
+            new RouteDefinition('POST', '/events/v1/lottery/:id', LotteryAdminControler::class, 'saveLottery', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
+            new RouteDefinition('POST', '/events/v1/lottery/:id/round', LotteryAdminControler::class, 'saveRound', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
+            new RouteDefinition('POST', '/events/v1/lottery/:id/round/:roundId', LotteryAdminControler::class, 'saveRound', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
+            new RouteDefinition('POST', '/events/v1/lottery/:id/round/:roundId/remove', LotteryAdminControler::class, 'removeRound', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
+            new RouteDefinition('POST', '/events/v1/lottery/:id/prize', LotteryAdminControler::class, 'savePrize', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
+            new RouteDefinition('POST', '/events/v1/lottery/:id/prize/:prizeId', LotteryAdminControler::class, 'savePrize', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
+            new RouteDefinition('POST', '/events/v1/lottery/:id/prize/:prizeId/remove', LotteryAdminControler::class, 'removePrize', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
+            new RouteDefinition('POST', '/events/v1/lottery/:id/question', LotteryAdminControler::class, 'saveQuestion', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
+            new RouteDefinition('POST', '/events/v1/lottery/:id/question/:questionId', LotteryAdminControler::class, 'saveQuestion', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
+            new RouteDefinition('POST', '/events/v1/lottery/:id/question/:questionId/remove', LotteryAdminControler::class, 'removeQuestion', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
+            new RouteDefinition('GET', '/events/v1/lottery/:id/winners', LotteryAdminControler::class, 'winners', null, 'vp.losovani'),
+            new RouteDefinition('GET', '/events/v1/lottery/:id/unclaimed/csv', LotteryAdminControler::class, 'unclaimedCsv', null, 'vp.losovani'),
+            new RouteDefinition('GET', '/events/v1/lottery/:id/scanner', LotteryStaffControler::class, 'scanner', null, 'vp.losovani'),
+            new RouteDefinition('POST', '/events/v1/lottery/:id/scan', LotteryStaffControler::class, 'scan', MutationResponseMode::MACHINE_API, 'vp.losovani'),
+            new RouteDefinition('GET', '/events/v1/lottery/:id/visitor', LotteryStaffControler::class, 'searchVisitor', null, 'vp.losovani'),
+            new RouteDefinition('POST', '/events/v1/lottery/:id/presence', LotteryStaffControler::class, 'presence', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
+            new RouteDefinition('GET', '/events/v1/lottery/round/:roundId', LotteryStaffControler::class, 'roundPage', null, 'vp.losovani'),
+            new RouteDefinition('POST', '/events/v1/lottery/round/:roundId/draw', LotteryStaffControler::class, 'draw', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
+            new RouteDefinition('POST', '/events/v1/lottery/winner/:winnerId/claimed', LotteryStaffControler::class, 'claimed', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
+            new RouteDefinition('POST', '/events/v1/lottery/winner/:winnerId/substitute', LotteryStaffControler::class, 'substitute', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
         ];
     }
 }

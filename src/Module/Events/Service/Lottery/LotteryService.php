@@ -43,6 +43,8 @@ class LotteryService {
     /** @var callable():DateTimeImmutable */
     private $clock;
 
+    private \DateTimeZone $tz;
+
     public function __construct(
         private LotteryDao $lotteryDao,
         private LotteryRoundDao $roundDao,
@@ -58,11 +60,17 @@ class LotteryService {
         private RandomSourceInterface $random,
         ?callable $clock = null,
     ) {
-        $this->clock = $clock ?? fn() => new DateTimeImmutable();
+        $this->tz = new \DateTimeZone($config->timezone);
+        $this->clock = $clock ?? fn() => new DateTimeImmutable('now', $this->tz);
     }
 
     public function now(): DateTimeImmutable {
         return ($this->clock)();
+    }
+
+    /** Čas z DB (DATETIME bez zóny) v časové zóně losování. */
+    public function time(string $dbValue): DateTimeImmutable {
+        return new DateTimeImmutable($dbValue, $this->tz);
     }
 
     public function config(): LotteryConfig {
@@ -225,8 +233,8 @@ class LotteryService {
     public function canJoin(array $lottery): bool {
         $now = $this->now();
         return $lottery['status'] === self::STATUS_OPEN
-            && ($lottery['join_from'] === null || new DateTimeImmutable($lottery['join_from']) <= $now)
-            && ($lottery['join_until'] === null || new DateTimeImmutable($lottery['join_until']) >= $now);
+            && ($lottery['join_from'] === null || $this->time($lottery['join_from']) <= $now)
+            && ($lottery['join_until'] === null || $this->time($lottery['join_until']) >= $now);
     }
 
     public function isJoined(int $lotteryId, string $loginName): bool {
@@ -323,15 +331,27 @@ class LotteryService {
             ['l' => $lotteryId, 'n' => $loginName]);
     }
 
-    /** @return DateTimeImmutable[] */
-    public function roundTimes(int $lotteryId): array {
-        return array_map(fn($r) => new DateTimeImmutable($r['draw_at']), $this->rounds($lotteryId));
+    /**
+     * Plánované časy kol. $onlyOpen: jen nevylosovaná kola s časem >= $from (pro výpis „hraje v kolech“).
+     *
+     * @return DateTimeImmutable[]
+     */
+    public function roundTimes(int $lotteryId, bool $onlyOpen = false, ?DateTimeImmutable $from = null): array {
+        $ret = [];
+        foreach ($this->rounds($lotteryId) as $r) {
+            $t = $this->time($r['draw_at']);
+            if (!$onlyOpen || ($r['status'] !== 'drawn' && ($from === null || $t >= $from))) {
+                $ret[] = $t;
+            }
+        }
+        return $ret;
     }
 
     /**
      * Vydání nebo prodloužení losu akcí $event v čase $at.
      *
-     * $allowIssue: stanoviště, které los vydává (vchod) – neplatný / nevydaný los vydá znovu; jinak jen prodlužuje.
+     * $allowIssue: stanoviště, které los vydává (vchod) – nevydaný nebo propadlý los vydá znovu; ostatní stanoviště
+     * a akce jen prodlužují už vydaný los (i propadlý) na čas akce + interval.
      *
      * @return array{result: string, validUntil: ?DateTimeImmutable, eligibleFrom: ?DateTimeImmutable}
      */
@@ -344,10 +364,12 @@ class LotteryService {
             $calc = PresenceCalculator::fromConfig($this->config);
             $presence = $this->presenceDao->row("SELECT * FROM lottery_presence WHERE lottery_id_fk = :l AND login_login_name_fk = :n FOR UPDATE",
                 ['l' => $lotteryId, 'n' => $loginName]);
-            $valid = $presence !== null && $calc->isValidAt(new DateTimeImmutable($presence['valid_until']), $at);
+            $valid = $presence !== null && $calc->isValidAt($this->time($presence['valid_until']), $at);
             $log = ['scanned' => $at->format(self::DT), 'by' => $by, 'station' => $station];
 
-            if (!$valid) {
+            // vchod: nevydaný nebo propadlý los vydá znovu (30 min, N kol); jinde jen prodlouží už vydaný los
+            // (i propadlý – akce potvrzuje přítomnost teď, platnost = čas akce + interval)
+            if ($presence === null || (!$valid && $allowIssue)) {
                 if (!$allowIssue) {
                     return ['result' => self::P_NOT_VALID, 'validUntil' => null, 'eligibleFrom' => null];
                 }
@@ -368,18 +390,18 @@ class LotteryService {
             }
 
             $presenceId = (int) $presence['id'];
-            $validUntil = new DateTimeImmutable($presence['valid_until']);
+            $validUntil = $this->time($presence['valid_until']);
             $minutes = $this->config->refreshMinutes($event);
             if ($minutes === null) {
                 $this->logEvent($presenceId, $event, $validUntil, $log);
-                return ['result' => self::P_LOGGED, 'validUntil' => $validUntil, 'eligibleFrom' => new DateTimeImmutable($presence['eligible_from'])];
+                return ['result' => self::P_LOGGED, 'validUntil' => $validUntil, 'eligibleFrom' => $this->time($presence['eligible_from'])];
             }
             $new = $calc->refresh($validUntil, $at, $minutes);
             if ($new != $validUntil) {
                 $this->presenceDao->exec("UPDATE lottery_presence SET valid_until = :v WHERE id = :id", ['v' => $new->format(self::DT), 'id' => $presenceId]);
             }
             $this->logEvent($presenceId, $event, $new, $log);
-            return ['result' => self::P_REFRESHED, 'validUntil' => $new, 'eligibleFrom' => new DateTimeImmutable($presence['eligible_from'])];
+            return ['result' => self::P_REFRESHED, 'validUntil' => $new, 'eligibleFrom' => $this->time($presence['eligible_from'])];
         });
     }
 
@@ -413,21 +435,22 @@ class LotteryService {
         $plays = [];
         $valid = false;
         if ($presence !== null) {
-            $from = new DateTimeImmutable($presence['eligible_from']);
-            $until = new DateTimeImmutable($presence['valid_until']);
+            $from = $this->time($presence['eligible_from']);
+            $until = $this->time($presence['valid_until']);
             $valid = $calc->isValidAt($until, $now);
             foreach ($rounds as $r) {
-                if ($calc->isEligible($from, $until, new DateTimeImmutable($r['draw_at']))) {
+                if ($calc->isEligible($from, $until, $this->time($r['draw_at']))) {
                     $plays[] = $r;
                 }
             }
         }
-        $remaining = array_filter($plays, fn($r) => $r['status'] !== 'drawn' && new DateTimeImmutable($r['draw_at']) >= $now);
+        $remaining = array_filter($plays, fn($r) => $r['status'] !== 'drawn' && $this->time($r['draw_at']) >= $now);
         return [
             'joined' => $this->isJoined($lotteryId, $loginName),
             'tickets' => $this->ticketCount($lotteryId, $loginName),
             'presence' => $presence,
             'valid' => $valid && count($remaining) > 0,
+            'expired' => $presence !== null && !$valid,   // platnost uplynula (prodloužit / vydat znovu)
             'plays' => $plays,
             'remaining' => array_values($remaining),
             'wins' => $this->winsOf($lotteryId, $loginName),
@@ -445,6 +468,13 @@ class LotteryService {
         $row = $this->presenceDao->row("SELECT name, surname FROM visitor_profile WHERE login_login_name = :n", ['n' => $loginName]);
         $name = trim(($row['name'] ?? '') . ' ' . ($row['surname'] ?? ''));
         return $name !== '' ? $name : $loginName;
+    }
+
+    public function phoneOf(string $loginName): string {
+        if ($loginName === '') {
+            return '';
+        }
+        return (string) ($this->presenceDao->row("SELECT phone FROM visitor_profile WHERE login_login_name = :n", ['n' => $loginName])['phone'] ?? '');
     }
 
     /**

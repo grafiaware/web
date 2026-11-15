@@ -26,6 +26,7 @@ final class LotteryConfig {
         public readonly bool $oneWinAcrossLotteries = false,
         public readonly int $maxOfflineMinutes = 240,
         public readonly string $joinedMailSender = 'info',
+        public readonly string $timezone = 'Europe/Prague',
     ) {
     }
 
@@ -39,6 +40,7 @@ final class LotteryConfig {
             (bool) ($c['oneWinAcrossLotteries'] ?? $d->oneWinAcrossLotteries),
             (int) ($c['scan']['maxOfflineMinutes'] ?? $d->maxOfflineMinutes),
             (string) ($c['mail']['sender'] ?? $d->joinedMailSender),
+            (string) ($c['timezone'] ?? $d->timezone),
         );
     }
 

@@ -65,7 +65,7 @@ class LotteryScanService {
         $p = $this->lotteries->presenceAction($lotteryId, $login, $event, $at, $by, $allowIssue, $station);
         $rounds = $p['eligibleFrom'] && $p['validUntil']
             ? PresenceCalculator::fromConfig($this->lotteries->config())->eligibleRounds($p['eligibleFrom'], $p['validUntil'],
-                array_filter($this->lotteries->roundTimes($lotteryId), fn($t) => $t >= $at))
+                $this->lotteries->roundTimes($lotteryId, true, $at))
             : [];
         $list = implode(', ', array_map(fn(DateTimeImmutable $t) => $t->format('G:i'), $rounds));
         switch ($p['result']) {
@@ -73,14 +73,14 @@ class LotteryScanService {
                 $msg = $rounds ? "Los vydán – hraje v kolech {$list}." : 'Los vydán, ale dnes už nezbývá žádné kolo losování.';
                 return $this->out(true, self::R_ISSUED, $msg, $name, $login, $at);
             case LotteryService::P_REFRESHED:
-                $msg = 'Prodlouženo do ' . $p['validUntil']->format('G:i') . ($rounds ? " – hraje v kolech {$list}." : '.');
+                $msg = 'Přítomnost potvrzena, los platí do ' . $p['validUntil']->format('G:i') . ($rounds ? " – hraje v kolech {$list}." : '.');
                 return $this->out(true, self::R_REFRESHED, $msg, $name, $login, $at);
             case LotteryService::P_LOGGED:
                 return $this->out(true, self::R_LOGGED, 'Zaznamenáno (platnost se nemění).', $name, $login, $at);
             case LotteryService::P_NOT_JOINED:
                 return $this->out(false, self::R_NOT_JOINED, 'Není zapojen do losování – ať se zapojí v profilu a přijde znovu.', $name, $login, $at);
             default:
-                return $this->out(false, self::R_NOT_VALID, 'Nemá platný los – pošlete ho ke vchodu.', $name, $login, $at);
+                return $this->out(false, self::R_NOT_VALID, 'Los zatím nebyl vydán – pošlete návštěvníka ke vchodu.', $name, $login, $at);
         }
     }
 

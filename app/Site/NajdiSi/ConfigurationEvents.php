@@ -26,6 +26,7 @@ class ConfigurationEvents extends ConfigurationConstants {
      */
     public static function lottery() {
         return [
+            'timezone' => 'Europe/Prague',      // časy kol a losů (DATETIME v DB) jsou v této zóně
             'oneWinAcrossLotteries' => false,
             'presence' => [
                 'issueMinMinutes' => 30,   // los hraje nejdřív v kole za 30 min od vydání

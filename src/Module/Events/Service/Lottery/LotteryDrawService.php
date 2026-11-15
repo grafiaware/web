@@ -109,7 +109,7 @@ class LotteryDrawService {
             if ($prize === null) {
                 return null;
             }
-            return $this->insertWinner($round, $prize, $by, null, []);
+            return $this->insertWinner($round, $prize, $by, null);
         });
     }
 
@@ -148,11 +148,8 @@ class LotteryDrawService {
             $now = $this->lotteries->now()->format(self::DT);
             $this->winnerDao->exec("UPDATE lottery_winner SET status = 'forfeited', forfeited = :t, forfeited_by = :b WHERE id = :id",
                 ['t' => $now, 'b' => $by, 'id' => $winnerId]);
-            $forfeitedOfPrize = array_column($this->winnerDao->rows("SELECT login_login_name_fk FROM lottery_winner
-                WHERE prize_id_fk = :p AND status = 'forfeited' AND login_login_name_fk IS NOT NULL", ['p' => (int) $winner['prize_id_fk']]),
-                'login_login_name_fk');
             $prize = $this->lotteries->prize((int) $winner['prize_id_fk']);
-            $new = $this->insertWinner($round, $prize, $by, $winnerId, $forfeitedOfPrize);
+            $new = $this->insertWinner($round, $prize, $by, $winnerId);
             return ['forfeited' => true, 'winner' => $new];
         });
     }
@@ -189,7 +186,14 @@ class LotteryDrawService {
         return $rows;
     }
 
-    private function insertWinner(array $round, array $prize, string $by, ?int $replacesId, array $exclude): ?array {
+    /** Propadlí výherci ceny – o tutéž cenu už nehrají (v dalších kolech o jiné ceny ano). */
+    private function forfeitedOfPrize(int $prizeId): array {
+        return array_column($this->winnerDao->rows("SELECT login_login_name_fk FROM lottery_winner
+            WHERE prize_id_fk = :p AND status = 'forfeited' AND login_login_name_fk IS NOT NULL", ['p' => $prizeId]), 'login_login_name_fk');
+    }
+
+    private function insertWinner(array $round, array $prize, string $by, ?int $replacesId): ?array {
+        $exclude = $this->forfeitedOfPrize((int) $prize['id']);
         $login = (new WeightedDraw($this->random))->pick($this->participants($round, $exclude));
         if ($login === null) {
             return null;

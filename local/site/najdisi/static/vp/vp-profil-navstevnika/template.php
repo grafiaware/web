@@ -78,6 +78,11 @@ if ($isVisitor) {
                 'text' => 'Vyplňte <a href="web/v1/page/item/607400995acdd" target="_blank">ANKETU NÁVŠTĚVNÍKA</a> a zařaďte se do slosování o ceny, které proběhne 28. dubna!'
             ]
         ];
+    // D1: losování v profilu nahradí odkaz na papírovou anketu
+    $losovaniZapnuto = \Application\Feature\FeatureFlags::fromConfiguration()->isEnabled('vp.losovani');
+    if ($losovaniZapnuto) {
+        $zpravy = array_values(array_filter($zpravy, fn($z) => $z['nazev'] !== 'Anketa a slosování'));
+    }
     ?>
 
     <article class="paper">
@@ -93,6 +98,11 @@ if ($isVisitor) {
             <content>
                 <?= $this->insert(ConfigurationCache::commonTemplates()['templates']."layout/info/zpravy.php", $zpravy) ?>
             </content>
+            <?php if ($losovaniZapnuto): ?>
+            <content>
+                <?php include "content/losovani.php" ?>
+            </content>
+            <?php endif; ?>
             <content>
                 <?php include "content/profil.php" ?>       <!-- Tiny pro .edit-userinput -->
             </content>
@@ -136,6 +146,11 @@ else {
             <content>             
                 <?= $this->insert(ConfigurationCache::commonTemplates()['templates']."layout/info/zpravy.php", $zpravy) ?>
             </content>
+            <?php if (\Application\Feature\FeatureFlags::fromConfiguration()->isEnabled('vp.losovani') AND !isset($role)): ?>
+            <content>
+                <div class="ui info message"><b>Losování o ceny:</b> zaregistrujte se, přihlaste a zapojte se do losování ve svém profilu.</div>
+            </content>
+            <?php endif; ?>
         </section>
     </article>
     <?php
