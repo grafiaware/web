@@ -58,14 +58,24 @@ A1 (registrace bez hesla) se ukládání hesla netýká.
 | Pohled `pocet_pozic` s pevným ročníkem '2026' | ruční změna každý rok | I3 |
 | Tabulky programu (event…) na produkci nepoužité, program běží z array modelů | nejdřív převod G0 | G0 |
 
-## Stav testů (22. 10. 2026, PHP 8.4, PES z Packagistu)
+## Stav testů (15. 11. 2026, větev `master-vp`)
 
-Předpoklad pro Z7: testy musí být zelené. Příčiny chyb jsou v kódu a testech repa (autoload, fixtures, chybějící soubory), ne v balících PES.
+Inventura `*Test.php` (bez `NoTests_Tools_and_Devs`): **117** souborů — Unit **36**, Integration Auth **19** / Event **49** / Red **11** / Mail **1**, Functional **1**.
+CI (Z7): na PR do `master` / `master-vp` běží `phpunit --testsuite unit` (PHP 8.4). Integrace v CI až po Z10 (dumpy).
+Skupina `mail-integration` je v `tests/phpunit.xml` defaultně vyloučená. RowData unit testy jsou mimo web (Pes / `pes-model`).
 
-| Sada | Výsledek | Příčiny chyb |
+| Sada / oblast | Stav | Poznámka |
 |---|---|---|
-| unit | opraveno v Z7 (PR) – 76 testů, 0 chyb, 1 přeskočený (kampaň 2021, chybí šablona) | dříve: chybějící PSR-4 `Form\\`, mail fixtures s prázdným logem, `HtmlMessage` TypeError u vnořených polí, chybějící šablona `podekovani-odkazy-igelitka2.php` |
-| integration | 497 testů, 60 chyb, 9 selhání (prázdné DB se strukturou) | většina: test očekává data nebo DB red (`najdisi`); `Events\Model\Entity\Login::getDeletedDueToAuth()` vrací `string`, z DB přijde `null`/int (týká se Z1); zastaralé testy Red (`ContextProviderMock::changeContext`, `ItemAction::setTypeFk`) |
+| Unit (Z7) | zelená v CI | Mail: 1 skip (kampaň 2021, chybí šablona); dříve: PSR-4 `Form\\`, HtmlMessage kontext, fixtures |
+| Unit Auth (A1–A9) | hotovo | `LoginNameGenerator`, `LoginTokenService`, `UnconfirmedRegistrationCleaner`, `AccountServiceRoles`, `DisplayNameService`, `RoleGrantPolicy`, `LoginThrottle` + Access/Firewall/SessionUnlock |
+| Unit Build/Migration | hotovo (9) | scanner, runner, drift, baseline dump/gate, schema normalizer |
+| Auth integrace / flow | hotovo pro A1–A9 | `RegistrationByEmailFlow`, `AccountFlow`, `DisplayNameFlow`, `RoleChangeFlow`, `AccountA9Flow`, `UnconfirmedRegistration`, `LoginTokenDao` + Login/Password/Confirm |
+| Events Dao/Repo | silné CRUD + workflow | včetně Network/CompanyVersion/Info/Parameter/ToNetwork, `EnrollWorkflow`, `CompanyArchive`; **kontrolery bez testů** |
+| Red Dao/Repo | částečně | Paper/Asset/ItemAction/…; část skip bez seedu „Tests Integration“; **kontrolery bez testů** |
+| Functional | otevřené | `AppRunnerTest` stále rozbitý assert; chybí login/403 E2E |
+| Ruční VP | `docs/vp/testy/` | A1–A2; A3+A6+A8+A9 správa účtů (HTTP ověřeno 13. 11. 2026) |
+
+**Zbývá z dřívějšího návrhu P1–P3:** `OpravneniDaoTest`, Red/Events kontrolery, Functional HTTP; integrační CI po Z10.
 
 ## Změny akce → balíky webu
 
