@@ -5,6 +5,7 @@ namespace Events\Middleware\Events\Controler\Lottery;
 use Auth\Service\Qr\QrImageGenerator;
 use Events\Service\Lottery\AuthLookup;
 use Events\Service\Lottery\LotteryMailer;
+use Events\Service\Lottery\LotteryPaperService;
 use Events\Service\Lottery\LotteryService;
 use Events\Service\Lottery\VisitorCodeGenerator;
 use Psr\Http\Message\ResponseInterface;
@@ -33,7 +34,8 @@ class LotteryVisitorControler extends LotteryControlerAbstract {
             LotteryService $lotteries,
             private QrImageGenerator $qr,
             private AuthLookup $authLookup,
-            private LotteryMailer $mailer) {
+            private LotteryMailer $mailer,
+            private LotteryPaperService $papers) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo, $lotteries);
     }
 
@@ -118,6 +120,17 @@ JS;
     }
 
     public function scanLanding(ServerRequestInterface $request, $code): ResponseInterface {
+        // D1c: QR z ústřižku papírového lístku (L<kód>)
+        $paperCode = LotteryPaperService::codeFromScannedText((string) $code);
+        if ($paperCode !== null) {
+            $ticket = $this->isStaff() ? $this->papers->byCode($paperCode) : null;
+            if ($ticket !== null) {
+                return $this->createResponseRedirectSeeOther($request, 'events/v1/lottery/' . (int) $ticket['lottery_id_fk']
+                    . '/paper?q=' . LotteryPaperService::formatNumber((int) $ticket['number']));
+            }
+            return $this->page($request, 'Lístek do losování', 'text.php', ['text' => $this->isStaff() ? 'Neznámý lístek.'
+                : 'Toto je ústřižek lístku do losování. Ústřižek si nechte – je dokladem výhry. Při výhře vás vyvoláme číslem.']);
+        }
         $code = VisitorCodeGenerator::fromScannedText((string) $code);
         if (!$this->isStaff()) {
             return $this->page($request, 'Kód pro losování', 'text.php',

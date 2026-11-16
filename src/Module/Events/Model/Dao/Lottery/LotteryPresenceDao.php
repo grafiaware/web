@@ -31,6 +31,7 @@ class LotteryPresenceDao extends DaoEditAbstract implements DaoEditAutoincrement
             'issued_by',
             'eligible_from',
             'valid_until',
+            'paper_ticket_id_fk',   // D1c
         ];
     }
 

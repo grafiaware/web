@@ -62,14 +62,15 @@ abstract class LotteryControlerAbstract extends FrontControlerAbstract {
     }
 
     /**
-     * Samostatná stránka (bez layoutu webu, pro telefon). $template je soubor v Pages/.
+     * Samostatná stránka (bez layoutu webu, pro telefon). $template je soubor v Pages/, $layout také (D1c: _print.php pro tisk).
      */
-    protected function page(ServerRequestInterface $request, string $title, string $template, array $data = [], int $status = 200): ResponseInterface {
+    protected function page(ServerRequestInterface $request, string $title, string $template, array $data = [], int $status = 200,
+            string $layout = '_layout.php'): ResponseInterface {
         $base = $this->getBasePath($request);
         $render = fn(string $file, array $vars) => (string) (new ViewFactory())->phpTemplateView(__DIR__ . '/Pages/' . $file, $vars)
             ->setRenderer(new PhpTemplateRenderer());
         $body = $render($template, $data + ['base' => $base]);
-        $html = $render('_layout.php', [
+        $html = $render($layout, [
             'title' => $title,
             'body' => $body,
             'base' => $base,

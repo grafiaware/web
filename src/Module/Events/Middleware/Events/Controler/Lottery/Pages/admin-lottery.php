@@ -21,6 +21,7 @@ $dis = $isAdmin ? '' : 'disabled';
             <a class="btn" href="events/v1/lottery/<?= $id ?>/scanner?station=<?= urlencode($key) ?>">Skener: <?= $h($s['label'] ?? $key) ?></a>
         <?php endforeach; ?>
         <a class="btn secondary" href="events/v1/lottery/<?= $id ?>/winners">Výhry</a>
+        <a class="btn secondary" href="events/v1/lottery/<?= $id ?>/paper">Papírové lístky</a>
         <?php if ($isAdmin): ?><a class="btn secondary" href="events/v1/lottery/<?= $id ?>/unclaimed/csv">Export nevyzvednutých (CSV)</a><?php endif; ?>
     </p>
 </div>

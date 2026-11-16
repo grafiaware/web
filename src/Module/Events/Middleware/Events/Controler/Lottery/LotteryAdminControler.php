@@ -4,6 +4,7 @@ namespace Events\Middleware\Events\Controler\Lottery;
 
 use Events\Service\Lottery\AuthLookup;
 use Events\Service\Lottery\LotteryDrawService;
+use Events\Service\Lottery\LotteryPaperService;
 use Events\Service\Lottery\LotteryService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -145,10 +146,12 @@ class LotteryAdminControler extends LotteryControlerAbstract {
         }
         $out = fopen('php://temp', 'w+');
         fwrite($out, "\xEF\xBB\xBF");
-        fputcsv($out, ['Cena', 'Kolo', 'Jméno', 'Přihlašovací jméno', 'E-mail', 'Telefon', 'Vylosováno'], ';', '"', '\\');
+        fputcsv($out, ['Cena', 'Kolo', 'Jméno', 'Lístek', 'Přihlašovací jméno', 'E-mail', 'Telefon', 'Vylosováno'], ';', '"', '\\');
         foreach ($this->draws->winnersOfLottery((int) $id, true) as $w) {
             $login = (string) $w['login_login_name_fk'];
-            fputcsv($out, [$w['prize_name'], $w['round_draw_at'] ?? '', $w['display_name'], $login,
+            // D1c: u lístku bez e-mailu dohledá kontakt organizátor v odevzdané anketě podle čísla
+            $paper = $w['paper_number'] !== null ? LotteryPaperService::formatNumber((int) $w['paper_number']) : '';
+            fputcsv($out, [$w['prize_name'], $w['round_draw_at'] ?? '', $w['display_name'], $paper, $login,
                 $login !== '' ? ($this->authLookup->emailOf($login) ?? '') : '', $this->lotteries->phoneOf($login), $w['drawn']], ';', '"', '\\');
         }
         rewind($out);

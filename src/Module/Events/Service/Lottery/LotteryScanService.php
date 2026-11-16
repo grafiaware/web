@@ -7,6 +7,7 @@ use DateTimeImmutable;
 /**
  * D1 (#46): zpracování skenu QR kódu obsluhou na stanovišti (vchod = vydání / prodloužení, infostánek = prodloužení).
  * Čas skenu může přijít z fronty offline v telefonu obsluhy (ScanTime).
+ * D1c (#108): rozpozná i papírový lístek – kód L<12 znaků> z QR ústřižku nebo ručně zadané číslo lístku.
  */
 class LotteryScanService {
 
@@ -20,8 +21,9 @@ class LotteryScanService {
     public const R_UNKNOWN_STATION = 'unknown_station';
     public const R_TOO_OLD = 'too_old';
     public const R_LOTTERY_CLOSED = 'lottery_closed';
+    public const R_OTHER_LOTTERY = 'other_lottery';
 
-    public function __construct(private LotteryService $lotteries) {
+    public function __construct(private LotteryService $lotteries, private LotteryPaperService $papers) {
     }
 
     /**
@@ -36,6 +38,20 @@ class LotteryScanService {
         $lottery = $this->lotteries->lottery($lotteryId);
         if ($lottery === null || $lottery['status'] !== LotteryService::STATUS_OPEN) {
             return $this->out(false, self::R_LOTTERY_CLOSED, 'Losování není otevřené.');
+        }
+        $paper = $this->paperFromText($lotteryId, $scannedText);
+        if ($paper !== null) {
+            if ($paper['ticket'] === null) {
+                return $this->out(false, $paper['result'], $paper['message']);
+            }
+            $label = LotteryPaperService::label((int) $paper['ticket']['number']);
+            $at = ScanTime::resolve($scannedAt, $this->lotteries->now(), $config->maxOfflineMinutes);
+            if ($at === null) {
+                return $this->out(false, self::R_TOO_OLD, 'Sken je příliš starý, naskenujte lístek znovu.', $label);
+            }
+            $p = $this->lotteries->presenceActionPaper($lotteryId, (int) $paper['ticket']['id'], (string) $station['refresh'], $at, $by,
+                (bool) $station['issue'], $stationKey);
+            return $this->result($lotteryId, $p, $label, null, $at, 'Lístek zatím nebyl vydán – lístek se odevzdává u vchodu.');
         }
         $code = VisitorCodeGenerator::fromScannedText($scannedText);
         if ($code === null) {
@@ -60,9 +76,39 @@ class LotteryScanService {
             $this->lotteries->now(), $by, 'rucne');
     }
 
+    /**
+     * Papírový lístek v naskenovaném / zadaném textu: null = není to lístek; jinak lístek nebo chybový výsledek.
+     *
+     * @return array{ticket: ?array, result: string, message: string}|null
+     */
+    private function paperFromText(int $lotteryId, string $text): ?array {
+        $code = LotteryPaperService::codeFromScannedText($text);
+        if ($code !== null) {
+            $ticket = $this->papers->byCode($code);
+            if ($ticket === null) {
+                return ['ticket' => null, 'result' => self::R_UNKNOWN_CODE, 'message' => 'Neznámý lístek.'];
+            }
+            if ((int) $ticket['lottery_id_fk'] !== $lotteryId) {
+                return ['ticket' => null, 'result' => self::R_OTHER_LOTTERY, 'message' => 'Lístek patří k jinému losování.'];
+            }
+            return ['ticket' => $ticket, 'result' => '', 'message' => ''];
+        }
+        $number = LotteryPaperService::numberFromText($text);
+        if ($number !== null) {
+            $ticket = $this->papers->byNumber($lotteryId, $number);
+            return $ticket !== null ? ['ticket' => $ticket, 'result' => '', 'message' => '']
+                : ['ticket' => null, 'result' => self::R_UNKNOWN_CODE, 'message' => 'Lístek č. ' . LotteryPaperService::formatNumber($number) . ' v tomto losování není.'];
+        }
+        return null;
+    }
+
     private function apply(int $lotteryId, string $login, string $event, bool $allowIssue, DateTimeImmutable $at, string $by, string $station): array {
         $name = $this->lotteries->displayName($login);
         $p = $this->lotteries->presenceAction($lotteryId, $login, $event, $at, $by, $allowIssue, $station);
+        return $this->result($lotteryId, $p, $name, $login, $at, 'Los zatím nebyl vydán – pošlete návštěvníka ke vchodu.');
+    }
+
+    private function result(int $lotteryId, array $p, string $name, ?string $login, DateTimeImmutable $at, string $notValidMessage): array {
         $rounds = $p['eligibleFrom'] && $p['validUntil']
             ? PresenceCalculator::fromConfig($this->lotteries->config())->eligibleRounds($p['eligibleFrom'], $p['validUntil'],
                 $this->lotteries->roundTimes($lotteryId, true, $at))
@@ -80,7 +126,7 @@ class LotteryScanService {
             case LotteryService::P_NOT_JOINED:
                 return $this->out(false, self::R_NOT_JOINED, 'Není zapojen do losování – ať se zapojí v profilu a přijde znovu.', $name, $login, $at);
             default:
-                return $this->out(false, self::R_NOT_VALID, 'Los zatím nebyl vydán – pošlete návštěvníka ke vchodu.', $name, $login, $at);
+                return $this->out(false, self::R_NOT_VALID, $notValidMessage, $name, $login, $at);
         }
     }
 

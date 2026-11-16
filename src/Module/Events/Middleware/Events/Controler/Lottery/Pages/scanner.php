@@ -25,8 +25,8 @@ $id = (int) $lottery['id'];
     <p id="queue" class="muted"></p>
 </div>
 <div class="card">
-    <h2>Kód ručně</h2>
-    <form id="manual" class="row"><input type="text" id="manualCode" placeholder="12 znaků z QR kódu" autocomplete="off"><button type="submit">Odeslat</button></form>
+    <h2>Kód nebo číslo lístku ručně</h2>
+    <form id="manual" class="row"><input type="text" id="manualCode" placeholder="kód z QR nebo číslo lístku" autocomplete="off"><button type="submit">Odeslat</button></form>
 </div>
 <div class="card">
     <h2>Vyhledat návštěvníka (bez kódu)</h2>

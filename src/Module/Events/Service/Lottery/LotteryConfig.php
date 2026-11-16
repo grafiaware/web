@@ -27,11 +27,13 @@ final class LotteryConfig {
         public readonly int $maxOfflineMinutes = 240,
         public readonly string $joinedMailSender = 'info',
         public readonly string $timezone = 'Europe/Prague',
+        public readonly int $paperPerPage = 4,   // D1c: lístků na stránku A4 při tisku (4 nebo 2)
     ) {
     }
 
     public static function fromArray(array $c): self {
         $d = new self();
+        $perPage = (int) ($c['paper']['perPage'] ?? $d->paperPerPage);
         return new self(
             (int) ($c['presence']['issueMinMinutes'] ?? $d->issueMinMinutes),
             max(1, (int) ($c['presence']['issueRounds'] ?? $d->issueRounds)),
@@ -41,6 +43,7 @@ final class LotteryConfig {
             (int) ($c['scan']['maxOfflineMinutes'] ?? $d->maxOfflineMinutes),
             (string) ($c['mail']['sender'] ?? $d->joinedMailSender),
             (string) ($c['timezone'] ?? $d->timezone),
+            in_array($perPage, [2, 4], true) ? $perPage : $d->paperPerPage,
         );
     }
 

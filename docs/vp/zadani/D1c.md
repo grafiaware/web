@@ -51,7 +51,7 @@ D1 (#46) – tabulky losování, skener, `LotteryPresence`, `LotteryDraw`, anket
 
 ## Databáze
 
-Migrace `migrations/events/2026112xxxxxxx_lottery_paper.sql` (po migraci D1, jen přidává):
+Migrace `migrations/events/20261116000002_d1c_lottery_paper.sql` (po migraci D1, jen přidává):
 
 ```sql
 CREATE TABLE lottery_paper_ticket (
@@ -67,7 +67,7 @@ CREATE TABLE lottery_paper_ticket (
   KEY lottery_paper_ticket_login_idx (login_login_name_fk),
   CONSTRAINT lottery_paper_ticket_lottery_fk FOREIGN KEY (lottery_id_fk) REFERENCES lottery (id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT lottery_paper_ticket_login_fk FOREIGN KEY (login_login_name_fk) REFERENCES login (login_name) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 ALTER TABLE lottery_presence
   ADD COLUMN paper_ticket_id_fk INT UNSIGNED NULL DEFAULT NULL,
@@ -92,15 +92,20 @@ ALTER TABLE lottery_winner
 
 ## Rozhraní
 
-- Model: `LotteryPaperTicket…` (Dao, Repo, Entity, hydrátor).
-- Účastník losování `PaperTicketParticipant` (rozhraní z D1); `LotteryScan` rozpozná prefix `L`.
+- Model: **odchylka od vzoru modulu, stejná jako v D1** – `LotteryPaperTicketDao` + služba `LotteryPaperService`
+  s poli místo Entity/Hydrator/Repository ([ADR 001](../../architektura/001-model-dao-sluzby-bez-entit.md));
+  stránky `Pages/` v kontroléru `LotteryPaperControler` místo komponent
+  ([ADR 002](../../architektura/002-stranky-pages-bez-komponent.md)). Převoditelné na původní vzor spolu s D1.
+- Účastník losování: klíč `Participant` (`v:<login>` / `p:<id lístku>`) v seznamu účastníků kola; přítomnost
+  `LotteryService::presenceActionPaper()` se stejnými pravidly jako u návštěvníka; `LotteryScanService` rozpozná
+  `L<kód>` z QR i ručně zadané číslo lístku.
 - Routy (`$feature = 'vp.losovani'`, obsluha / `events_administrator`):
 
 | Metoda | Routa | Kdo | Co |
 |---|---|---|---|
 | POST | `/events/v1/lottery/:id/paper` | `events_administrator` | vytvoření sady lístků (počet) |
-| GET | `/events/v1/lottery/:id/paper/print?from=&to=` | `events_administrator` | tisková stránka |
-| GET | `/events/v1/lottery/:id/paper.csv` | `events_administrator` | export CSV pro tisk štítků |
+| GET | `/events/v1/lottery/:id/paper/print?from=&to=&per=` | `events_administrator` | tisková stránka (4 nebo 2 na A4) |
+| GET | `/events/v1/lottery/:id/paper/csv` | `events_administrator` | export CSV pro tisk štítků |
 | GET | `/events/v1/lottery/:id/paper?q=` | obsluha | přehled, vyhledání podle čísla |
 
 - Šablony: tisková stránka (A4, lístek + ústřižek, QR jako obrázek), přehled lístků; zobrazení „Lístek č.“
@@ -129,6 +134,21 @@ Stejný jako D1: `vp.losovani`.
 - Ruční: tisk 2 stran na tiskárně, sken výtisku telefonem (Android, iPhone), losování s 2 registrovanými a 3 lístky.
 
 ## Stav a další krok
+
+16. 11. 2026 (implementace, větev `vp/d1-losovani`): **D1c hotové, čeká na test na hostingu s telefony a tiskárnou.**
+- Migrace `20261116000002_d1c_lottery_paper.sql` (podle zadání, kolace `utf8mb4_general_ci` jako D1).
+- `LotteryPaperService` (sada lístků – čísla navazují, kódy z abecedy D1; vyhledání podle kódu a čísla; přehled),
+  přítomnost lístku přes společnou logiku s návštěvníkem, lístky v `LotteryDrawService::participants()` (1 los),
+  výherce „Lístek č. 0427“ v losování, přehledu výher i exportu (nový sloupec Lístek).
+- `LotteryPaperControler` + `Pages/paper.php` (přehled, vyhledání, nová sada, tisk, CSV), `paper-print.php`
+  + `_print.php` (A4: 4 lístky 2×2 nebo 2 lístky; anketní díl s otázkami z D1, ústřižek s velkým číslem a QR).
+  Počet na stránku v konfiguraci `lottery.paper.perPage` (výchozí 4), volba i na stránce.
+- Skener: ruční pole přijme i číslo lístku; sken QR ústřižku telefonem návštěvníka ukáže pokyn, obsluze přehled lístku.
+- Ověřeno: unit `PaperTicketTest` (5), integrační `LotteryFlowTest::testPaperTickets` (opakovaně, náhoda bez chyb),
+  HTTP (sada, tisk, CSV, sken QR i čísla, infostánek, losování kola s lístky, export), náhled tisku v Chromiu
+  do PDF a dekódování QR z PDF v rozlišení 150 dpi.
+- Neověřeno: tisk na skutečné tiskárně a sken výtisku telefonem; MySQL 8; hosting.
+Další krok: test na hostingu (telefony obsluhy, tisk 2 stran), pak pull request D1 + D1c do `master-vp`.
 
 16. 11. 2026: návrh zadání podle rozhodnutí Petra (15. 11.): ústřižek s velkým číslem a QR, vyvolání číslem,
 lístky jako účastníci téhož slosování, generátor tiskových dat ve webu, anketa z D1. SQL ověřeno na MariaDB 10.11,

@@ -26,10 +26,12 @@ use Events\Model\Dao\Lottery\VisitorCodeDao;
 use Events\Model\Dao\Lottery\LotteryPresenceDao;
 use Events\Model\Dao\Lottery\LotteryPresenceEventDao;
 use Events\Model\Dao\Lottery\LotteryWinnerDao;
+use Events\Model\Dao\Lottery\LotteryPaperTicketDao;
 use Events\Service\Lottery\LotteryConfig;
 use Events\Service\Lottery\LotteryService;
 use Events\Service\Lottery\LotteryDrawService;
 use Events\Service\Lottery\LotteryScanService;
+use Events\Service\Lottery\LotteryPaperService;
 use Events\Service\Lottery\CryptoRandomSource;
 
 use Events\Model\Dao\LoginDao;
@@ -491,7 +493,13 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new LotteryDrawService($c->get(LotteryService::class), $c->get(LotteryWinnerDao::class), new CryptoRandomSource());
             },
             LotteryScanService::class => function(ContainerInterface $c) {
-                return new LotteryScanService($c->get(LotteryService::class));
+                return new LotteryScanService($c->get(LotteryService::class), $c->get(LotteryPaperService::class));
+            },
+            LotteryPaperService::class => function(ContainerInterface $c) {
+                return new LotteryPaperService($c->get(LotteryService::class), $c->get(LotteryPaperTicketDao::class), new CryptoRandomSource());
+            },
+            LotteryPaperTicketDao::class => function(ContainerInterface $c) {
+                return new LotteryPaperTicketDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
             LotteryDao::class => function(ContainerInterface $c) {
                 return new LotteryDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);

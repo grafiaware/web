@@ -46,6 +46,7 @@ class ConfigurationEvents extends ConfigurationConstants {
             ],
             'scan' => ['maxOfflineMinutes' => 240],   // starší sken z fronty offline server odmítne
             'mail' => ['sender' => 'info'],           // odesílatel e-mailu po zapojení (MailSettings::party)
+            'paper' => ['perPage' => 4],              // D1c: papírových lístků na stránku A4 při tisku (4 nebo 2)
         ];
     }
 

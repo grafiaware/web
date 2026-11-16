@@ -17,6 +17,7 @@ use Events\Middleware\Events\Controler\SynchroControler;
 use Events\Middleware\Events\Controler\VisitorJobRequestControler;
 use Events\Middleware\Events\Controler\VisitorProfileControler;
 use Events\Middleware\Events\Controler\Lottery\LotteryAdminControler;
+use Events\Middleware\Events\Controler\Lottery\LotteryPaperControler;
 use Events\Middleware\Events\Controler\Lottery\LotteryStaffControler;
 use Events\Middleware\Events\Controler\Lottery\LotteryVisitorControler;
 use FrontControler\Response\MutationResponseMode;
@@ -118,6 +119,11 @@ final class EventsRouteCatalog implements ModuleRouteCatalogInterface {
             new RouteDefinition('POST', '/events/v1/lottery/:id/question/:questionId/remove', LotteryAdminControler::class, 'removeQuestion', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
             new RouteDefinition('GET', '/events/v1/lottery/:id/winners', LotteryAdminControler::class, 'winners', null, 'vp.losovani'),
             new RouteDefinition('GET', '/events/v1/lottery/:id/unclaimed/csv', LotteryAdminControler::class, 'unclaimedCsv', null, 'vp.losovani'),
+            // D1c (#108): papírové lístky
+            new RouteDefinition('GET', '/events/v1/lottery/:id/paper', LotteryPaperControler::class, 'overview', null, 'vp.losovani'),
+            new RouteDefinition('POST', '/events/v1/lottery/:id/paper', LotteryPaperControler::class, 'createSet', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
+            new RouteDefinition('GET', '/events/v1/lottery/:id/paper/print', LotteryPaperControler::class, 'printPage', null, 'vp.losovani'),
+            new RouteDefinition('GET', '/events/v1/lottery/:id/paper/csv', LotteryPaperControler::class, 'csv', null, 'vp.losovani'),
             new RouteDefinition('GET', '/events/v1/lottery/:id/scanner', LotteryStaffControler::class, 'scanner', null, 'vp.losovani'),
             new RouteDefinition('POST', '/events/v1/lottery/:id/scan', LotteryStaffControler::class, 'scan', MutationResponseMode::MACHINE_API, 'vp.losovani'),
             new RouteDefinition('GET', '/events/v1/lottery/:id/visitor', LotteryStaffControler::class, 'searchVisitor', null, 'vp.losovani'),

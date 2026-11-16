@@ -10,7 +10,8 @@ use Events\Model\Dao\Lottery\LotteryWinnerDao;
  *
  * Účastník kola = zapojený návštěvník s platnou přítomností pro plánovaný čas kola (eligible_from <= draw_at <= valid_until),
  * bez dosavadních výherců losování (propadlá výhra se nepočítá; o tutéž cenu propadlý výherce už nehraje).
- * Váha = počet neodebraných losů. D1c přidá papírové lístky jako další druh účastníka.
+ * Váha = počet neodebraných losů. D1c (#108): papírový lístek s platnou přítomností je účastník s 1 losem.
+ * Účastníci se rozlišují klíčem Participant (návštěvník / lístek).
  */
 class LotteryDrawService {
 
@@ -37,26 +38,37 @@ class LotteryDrawService {
     /**
      * Účastníci kola s váhou.
      *
-     * @param string[] $alsoExclude další vyloučené loginy (např. propadlí výherci ceny při losování náhradníka)
-     * @return array<string, int> login => počet losů
+     * @param string[] $alsoExclude další vyloučení účastníci – klíče Participant (např. propadlí výherci ceny při losování náhradníka)
+     * @return array<string, int> klíč Participant => počet losů
      */
     public function participants(array $round, array $alsoExclude = []): array {
         $lotteryId = (int) $round['lottery_id_fk'];
         $oneWinAcross = $this->lotteries->config()->oneWinAcrossLotteries;
-        $rows = $this->winnerDao->rows("SELECT p.login_login_name_fk AS login, COUNT(t.id) AS tickets
+        $params = ['l' => $lotteryId, 'd1' => $round['draw_at'], 'd2' => $round['draw_at']];
+        $visitors = $this->winnerDao->rows("SELECT p.login_login_name_fk AS login, COUNT(t.id) AS tickets
             FROM lottery_presence p
             JOIN lottery_ticket t ON t.lottery_id_fk = p.lottery_id_fk AND t.login_login_name_fk = p.login_login_name_fk AND t.removed IS NULL
             WHERE p.lottery_id_fk = :l AND p.login_login_name_fk IS NOT NULL
               AND p.eligible_from <= :d1 AND p.valid_until >= :d2
               AND NOT EXISTS (SELECT 1 FROM lottery_winner w WHERE w.login_login_name_fk = p.login_login_name_fk
                     AND w.status <> 'forfeited' AND " . ($oneWinAcross ? "1 = 1" : "w.lottery_id_fk = p.lottery_id_fk") . ")
-            GROUP BY p.login_login_name_fk",
-            ['l' => $lotteryId, 'd1' => $round['draw_at'], 'd2' => $round['draw_at']]);
+            GROUP BY p.login_login_name_fk", $params);
+        // D1c: lístek patří jen k jednomu losování, 1 los
+        $papers = $this->winnerDao->rows("SELECT p.paper_ticket_id_fk AS paper
+            FROM lottery_presence p
+            WHERE p.lottery_id_fk = :l AND p.paper_ticket_id_fk IS NOT NULL
+              AND p.eligible_from <= :d1 AND p.valid_until >= :d2
+              AND NOT EXISTS (SELECT 1 FROM lottery_winner w WHERE w.paper_ticket_id_fk = p.paper_ticket_id_fk AND w.status <> 'forfeited')",
+            $params);
         $ret = [];
-        foreach ($rows as $r) {
-            if (!in_array($r['login'], $alsoExclude, true)) {
-                $ret[(string) $r['login']] = (int) $r['tickets'];
-            }
+        foreach ($visitors as $r) {
+            $ret[Participant::visitor((string) $r['login'])] = (int) $r['tickets'];
+        }
+        foreach ($papers as $r) {
+            $ret[Participant::paper((int) $r['paper'])] = 1;
+        }
+        foreach ($alsoExclude as $key) {
+            unset($ret[$key]);
         }
         return $ret;
     }
@@ -162,51 +174,60 @@ class LotteryDrawService {
     }
 
     public function winner(int $winnerId): ?array {
-        return $this->winnerDao->row("SELECT w.*, p.name AS prize_name FROM lottery_winner w JOIN lottery_prize p ON p.id = w.prize_id_fk
+        $row = $this->winnerDao->row("SELECT w.*, p.name AS prize_name, pt.number AS paper_number FROM lottery_winner w
+            JOIN lottery_prize p ON p.id = w.prize_id_fk LEFT JOIN lottery_paper_ticket pt ON pt.id = w.paper_ticket_id_fk
             WHERE w.id = :id", ['id' => $winnerId]);
+        return $row !== null ? $this->decorate([$row])[0] : null;
     }
 
     /** Výhry kola (i propadlé), nejnovější první. */
     public function winnersOfRound(int $roundId): array {
-        return $this->decorate($this->winnerDao->rows("SELECT w.*, p.name AS prize_name FROM lottery_winner w
-            JOIN lottery_prize p ON p.id = w.prize_id_fk WHERE w.round_id_fk = :r ORDER BY w.id DESC", ['r' => $roundId]));
+        return $this->decorate($this->winnerDao->rows("SELECT w.*, p.name AS prize_name, pt.number AS paper_number FROM lottery_winner w
+            JOIN lottery_prize p ON p.id = w.prize_id_fk LEFT JOIN lottery_paper_ticket pt ON pt.id = w.paper_ticket_id_fk
+            WHERE w.round_id_fk = :r ORDER BY w.id DESC", ['r' => $roundId]));
     }
 
     /** Všechny výhry losování (přehled, export). */
     public function winnersOfLottery(int $lotteryId, bool $onlyUnclaimed = false): array {
-        return $this->decorate($this->winnerDao->rows("SELECT w.*, p.name AS prize_name, r.draw_at AS round_draw_at FROM lottery_winner w
+        return $this->decorate($this->winnerDao->rows("SELECT w.*, p.name AS prize_name, r.draw_at AS round_draw_at, pt.number AS paper_number FROM lottery_winner w
             JOIN lottery_prize p ON p.id = w.prize_id_fk LEFT JOIN lottery_round r ON r.id = w.round_id_fk
+            LEFT JOIN lottery_paper_ticket pt ON pt.id = w.paper_ticket_id_fk
             WHERE w.lottery_id_fk = :l " . ($onlyUnclaimed ? "AND w.status = 'drawn' " : "") . "ORDER BY r.draw_at, w.id", ['l' => $lotteryId]));
     }
 
     private function decorate(array $rows): array {
         foreach ($rows as &$r) {
-            $r['display_name'] = $r['login_login_name_fk'] !== null ? $this->lotteries->displayName($r['login_login_name_fk']) : '';
+            if (($r['paper_number'] ?? null) !== null) {
+                $r['display_name'] = LotteryPaperService::label((int) $r['paper_number']);   // D1c: vyvolá se číslem
+            } else {
+                $r['display_name'] = $r['login_login_name_fk'] !== null ? $this->lotteries->displayName($r['login_login_name_fk']) : '';
+            }
         }
         return $rows;
     }
 
-    /** Propadlí výherci ceny – o tutéž cenu už nehrají (v dalších kolech o jiné ceny ano). */
+    /** Propadlí výherci ceny (klíče Participant) – o tutéž cenu už nehrají (v dalších kolech o jiné ceny ano). */
     private function forfeitedOfPrize(int $prizeId): array {
-        return array_column($this->winnerDao->rows("SELECT login_login_name_fk FROM lottery_winner
-            WHERE prize_id_fk = :p AND status = 'forfeited' AND login_login_name_fk IS NOT NULL", ['p' => $prizeId]), 'login_login_name_fk');
+        return array_values(array_filter(array_map(fn($r) => Participant::ofRow($r), $this->winnerDao->rows(
+            "SELECT login_login_name_fk, paper_ticket_id_fk FROM lottery_winner WHERE prize_id_fk = :p AND status = 'forfeited'",
+            ['p' => $prizeId]))));
     }
 
     private function insertWinner(array $round, array $prize, string $by, ?int $replacesId): ?array {
         $exclude = $this->forfeitedOfPrize((int) $prize['id']);
-        $login = (new WeightedDraw($this->random))->pick($this->participants($round, $exclude));
-        if ($login === null) {
+        $key = (new WeightedDraw($this->random))->pick($this->participants($round, $exclude));
+        if ($key === null) {
             return null;
         }
+        $who = Participant::parse($key);
         $now = $this->lotteries->now()->format(self::DT);
-        $this->winnerDao->exec("INSERT INTO lottery_winner (lottery_id_fk, round_id_fk, prize_id_fk, login_login_name_fk, replaces_id_fk, drawn, drawn_by)
-            VALUES (:l, :r, :p, :n, :rep, :d, :b)", ['l' => (int) $round['lottery_id_fk'], 'r' => (int) $round['id'],
-            'p' => (int) $prize['id'], 'n' => $login, 'rep' => $replacesId, 'd' => $now, 'b' => $by]);
+        $this->winnerDao->exec("INSERT INTO lottery_winner (lottery_id_fk, round_id_fk, prize_id_fk, login_login_name_fk, paper_ticket_id_fk, replaces_id_fk, drawn, drawn_by)
+            VALUES (:l, :r, :p, :n, :pt, :rep, :d, :b)", ['l' => (int) $round['lottery_id_fk'], 'r' => (int) $round['id'],
+            'p' => (int) $prize['id'], 'n' => $who['login'], 'pt' => $who['paperId'], 'rep' => $replacesId, 'd' => $now, 'b' => $by]);
         $id = $this->winnerDao->lastId();
         $this->winnerDao->exec("UPDATE lottery_round SET status = 'drawn', drawn = COALESCE(drawn, :d), drawn_by = COALESCE(drawn_by, :b) WHERE id = :id",
             ['d' => $now, 'b' => $by, 'id' => (int) $round['id']]);
         $w = $this->winner($id);
-        $w['display_name'] = $this->lotteries->displayName($login);
         $w['participants'] = count($this->participants($round, $exclude)) + 1;
         return $w;
     }

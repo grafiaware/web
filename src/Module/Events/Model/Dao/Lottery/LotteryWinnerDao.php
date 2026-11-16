@@ -39,6 +39,7 @@ class LotteryWinnerDao extends DaoEditAbstract implements DaoEditAutoincrementKe
             'forfeited_by',
             'notified',
             'pickup_until',
+            'paper_ticket_id_fk',   // D1c
         ];
     }
 

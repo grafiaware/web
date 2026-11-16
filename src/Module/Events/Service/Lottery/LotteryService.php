@@ -360,10 +360,36 @@ class LotteryService {
         if (!$this->isJoined($lotteryId, $loginName)) {
             return ['result' => self::P_NOT_JOINED, 'validUntil' => null, 'eligibleFrom' => null];
         }
-        return $this->presenceDao->transaction(function () use ($lotteryId, $loginName, $event, $at, $by, $allowIssue, $station) {
+        return $this->presenceApply($lotteryId, 'login_login_name_fk', $loginName, $event, $at, $by, $allowIssue, $station);
+    }
+
+    /**
+     * D1c: vydání nebo prodloužení losu papírového lístku – stejná pravidla jako presenceAction(), lístek je zapojený vždy
+     * (patří do sady losování, 1 los).
+     */
+    public function presenceActionPaper(int $lotteryId, int $paperTicketId, string $event, DateTimeImmutable $at,
+            ?string $by, bool $allowIssue, ?string $station = null): array {
+        return $this->presenceApply($lotteryId, 'paper_ticket_id_fk', $paperTicketId, $event, $at, $by, $allowIssue, $station);
+    }
+
+    /** Přítomnost papírového lístku (D1c). */
+    public function paperPresence(int $lotteryId, int $paperTicketId): ?array {
+        return $this->presenceDao->row("SELECT * FROM lottery_presence WHERE lottery_id_fk = :l AND paper_ticket_id_fk = :n",
+            ['l' => $lotteryId, 'n' => $paperTicketId]);
+    }
+
+    /**
+     * @param string $column login_login_name_fk | paper_ticket_id_fk (jen tyto dva – název sloupce jde do SQL)
+     */
+    private function presenceApply(int $lotteryId, string $column, string|int $subject, string $event, DateTimeImmutable $at,
+            ?string $by, bool $allowIssue, ?string $station): array {
+        if (!in_array($column, ['login_login_name_fk', 'paper_ticket_id_fk'], true)) {
+            throw new \InvalidArgumentException("Neznámý účastník přítomnosti: {$column}");
+        }
+        return $this->presenceDao->transaction(function () use ($lotteryId, $column, $subject, $event, $at, $by, $allowIssue, $station) {
             $calc = PresenceCalculator::fromConfig($this->config);
-            $presence = $this->presenceDao->row("SELECT * FROM lottery_presence WHERE lottery_id_fk = :l AND login_login_name_fk = :n FOR UPDATE",
-                ['l' => $lotteryId, 'n' => $loginName]);
+            $presence = $this->presenceDao->row("SELECT * FROM lottery_presence WHERE lottery_id_fk = :l AND {$column} = :n FOR UPDATE",
+                ['l' => $lotteryId, 'n' => $subject]);
             $valid = $presence !== null && $calc->isValidAt($this->time($presence['valid_until']), $at);
             $log = ['scanned' => $at->format(self::DT), 'by' => $by, 'station' => $station];
 
@@ -374,10 +400,10 @@ class LotteryService {
                     return ['result' => self::P_NOT_VALID, 'validUntil' => null, 'eligibleFrom' => null];
                 }
                 $p = $calc->issue($at, $this->roundTimes($lotteryId));
-                $row = ['l' => $lotteryId, 'n' => $loginName, 'i' => $at->format(self::DT), 'b' => $by,
+                $row = ['l' => $lotteryId, 'n' => $subject, 'i' => $at->format(self::DT), 'b' => $by,
                     'e' => $p['eligibleFrom']->format(self::DT), 'v' => $p['validUntil']->format(self::DT)];
                 if ($presence === null) {
-                    $this->presenceDao->exec("INSERT INTO lottery_presence (lottery_id_fk, login_login_name_fk, issued, issued_by, eligible_from, valid_until)
+                    $this->presenceDao->exec("INSERT INTO lottery_presence (lottery_id_fk, {$column}, issued, issued_by, eligible_from, valid_until)
                         VALUES (:l, :n, :i, :b, :e, :v)", $row);
                     $presenceId = $this->presenceDao->lastId();
                 } else {
