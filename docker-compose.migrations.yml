@@ -1,5 +1,7 @@
 # Lokální MySQL pro ověření verzovaných migrací (Build panel).
 # PHP/web kontejner záměrně NENÍ — napojte stávající lokální stack na 127.0.0.1:3306.
+# Plný stack (Apache+PHP+DB+mail): docker-compose.yml — docs/vp/DOCKER.md
+# (nespouštějte oba najednou: konflikt portu 3306).
 # Návod: docs/migrace-db-docker.md
 #
 # Start:  docker compose -f docker-compose.migrations.yml up -d

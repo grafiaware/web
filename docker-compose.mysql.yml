@@ -1,0 +1,21 @@
+# Override pro MySQL 8 místo výchozí MariaDB.
+# Použití:
+#   DB_IMAGE=mysql:8.0 docker compose -f docker-compose.yml -f docker-compose.mysql.yml up -d --build
+#
+# Healthcheck a autentizace MySQL 8 se liší od MariaDB.
+
+services:
+  db:
+    image: ${DB_IMAGE:-mysql:8.0}
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --character-set-client-handshake=FALSE
+      - --default-authentication-plugin=mysql_native_password
+      - --sql-mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
