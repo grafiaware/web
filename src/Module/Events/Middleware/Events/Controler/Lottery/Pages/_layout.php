@@ -25,6 +25,9 @@
         header .t { flex: 1; font-size: 18px; font-weight: bold; }
         main { max-width: 720px; margin: 0 auto; padding: 12px 16px 40px; }
         .card { background: #fff; padding: 14px 16px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,.15); margin: 12px 0; }
+        .card .card { box-shadow: none; border: 1px solid #d6d6d6; background: #fafafa; margin: 10px 0; padding: 10px 12px; }
+        .card .card.new { border-style: dashed; background: #fff; }
+        .dt { display: flex; gap: 6px; } .dt input[type=date] { flex: 1 1 auto; min-width: 0; } .dt input.time { flex: 0 0 80px; }
         h1 { font-size: 22px; margin: 6px 0 12px; } h2 { font-size: 18px; margin: 0 0 10px; }
         button, .btn { display: inline-block; padding: 12px 16px; font-size: 17px; font-weight: bold; color: #fff; background: #e8590c; border: 0;
             border-radius: 4px; cursor: pointer; text-decoration: none; text-align: center; }
@@ -32,7 +35,7 @@
         button.big, .btn.big { width: 100%; padding: 20px; font-size: 24px; }
         button:disabled { opacity: .5; }
         label { display: block; font-weight: bold; margin: 10px 0 4px; }
-        input[type=text], input[type=number], input[type=datetime-local], input[type=search], input[type=url], textarea, select {
+        input[type=text], input[type=number], input[type=datetime-local], input[type=date], input[type=search], input[type=url], textarea, select {
             width: 100%; padding: 10px; font-size: 16px; border: 1px solid #aaa; border-radius: 4px; }
         input[type=checkbox] { transform: scale(1.3); margin-right: 8px; }
         table { border-collapse: collapse; width: 100%; } td, th { border-bottom: 1px solid #ddd; padding: 6px 4px; text-align: left; vertical-align: top; }

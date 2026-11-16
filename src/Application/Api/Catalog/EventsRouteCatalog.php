@@ -111,6 +111,7 @@ final class EventsRouteCatalog implements ModuleRouteCatalogInterface {
             new RouteDefinition('POST', '/events/v1/lottery/:id/round', LotteryAdminControler::class, 'saveRound', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
             new RouteDefinition('POST', '/events/v1/lottery/:id/round/:roundId', LotteryAdminControler::class, 'saveRound', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
             new RouteDefinition('POST', '/events/v1/lottery/:id/round/:roundId/remove', LotteryAdminControler::class, 'removeRound', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
+            new RouteDefinition('POST', '/events/v1/lottery/:id/round/:roundId/copy', LotteryAdminControler::class, 'copyRound', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
             new RouteDefinition('POST', '/events/v1/lottery/:id/prize', LotteryAdminControler::class, 'savePrize', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
             new RouteDefinition('POST', '/events/v1/lottery/:id/prize/:prizeId', LotteryAdminControler::class, 'savePrize', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
             new RouteDefinition('POST', '/events/v1/lottery/:id/prize/:prizeId/remove', LotteryAdminControler::class, 'removePrize', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),

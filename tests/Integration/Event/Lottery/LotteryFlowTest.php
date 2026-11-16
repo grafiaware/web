@@ -172,6 +172,32 @@ final class LotteryFlowTest extends AppRunner {
         $this->assertTrue($status['joined']);
     }
 
+    public function testCopyRound(): void {
+        $s = $this->service();
+        $id = $s->saveLottery(null, ['name' => self::PREFIX . 'duplikat', 'status' => 'open']);
+        $other = $s->saveLottery(null, ['name' => self::PREFIX . 'duplikat-jine', 'status' => 'open']);
+        $r = $s->saveRound($id, null, '2027-01-27T11:00', true);
+        $s->savePrize($id, null, ['name' => 'Batoh', 'quantity' => 2, 'priority' => 3, 'round_id_fk' => $r]);
+        $s->savePrize($id, null, ['name' => 'Hrnek', 'quantity' => 1, 'round_id_fk' => $r]);
+        $s->savePrize($id, null, ['name' => 'Kterékoli kolo', 'quantity' => 1, 'round_id_fk' => 0]);
+
+        $copy = $s->copyRound($id, $r, (string) LotteryService::dtFromParts('2027-01-27', '14:30'));
+        $this->assertNotNull($copy);
+        $round = $s->round($copy);
+        $this->assertSame('2027-01-27 14:30:00', $round['draw_at']);
+        $this->assertSame(1, (int) $round['substitute']);
+        $this->assertSame('planned', $round['status']);
+        $copied = array_values(array_filter($s->prizes($id), fn($p) => (int) $p['round_id_fk'] === $copy));
+        $this->assertSame(['Hrnek', 'Batoh'], array_column($copied, 'name'), 'řazení podle pořadí');
+        $this->assertSame([1, 2], array_map('intval', array_column($copied, 'quantity')));
+        $this->assertSame(3, (int) $copied[1]['priority']);
+        $this->assertCount(5, $s->prizes($id), 'cena bez kola se nekopíruje');
+
+        $this->assertNull($s->copyRound($id, $r, ''), 'bez času');
+        $this->assertNull($s->copyRound($other, $r, '2027-01-27 15:00'), 'kolo jiného losování');
+        $this->assertCount(2, $s->rounds($id));
+    }
+
     public function testPaperTickets(): void {
         $this->at('09:00');
         $s = $this->service();

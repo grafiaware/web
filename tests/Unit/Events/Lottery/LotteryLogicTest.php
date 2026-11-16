@@ -6,6 +6,7 @@ namespace Test\Unit\Events\Lottery;
 use DateTimeImmutable;
 use Events\Service\Lottery\CryptoRandomSource;
 use Events\Service\Lottery\LotteryConfig;
+use Events\Service\Lottery\LotteryService;
 use Events\Service\Lottery\ScanTime;
 use Events\Service\Lottery\SurveyValidator;
 use Events\Service\Lottery\VisitorCodeGenerator;
@@ -70,6 +71,19 @@ final class LotteryLogicTest extends TestCase {
         $this->assertArrayHasKey(1, $bad['errors']);
         $this->assertArrayHasKey(2, $bad['errors']);
         $this->assertArrayNotHasKey(3, $bad['errors']);
+    }
+
+    public function testDateTimeFromParts(): void {
+        $this->assertSame('2027-01-27 10:30:00', LotteryService::dtFromParts('2027-01-27', '10:30'));
+        $this->assertSame('2027-01-27 09:05:00', LotteryService::dtFromParts('2027-01-27', '9.05'));
+        $this->assertSame('2027-01-27 14:30:00', LotteryService::dtFromParts('2027-01-27', '1430'));
+        $this->assertSame('2027-01-27 11:00:00', LotteryService::dtFromParts('2027-01-27', ' 11 '));
+        $this->assertSame('2027-01-27 23:59:00', LotteryService::dtFromParts('2027-01-27', '', '23:59'));
+        $this->assertNull(LotteryService::dtFromParts('2027-01-27', ''), 'čas je povinný, když chybí výchozí');
+        $this->assertNull(LotteryService::dtFromParts('2027-01-27', '24:00'));
+        $this->assertNull(LotteryService::dtFromParts('2027-01-27', '10:75'));
+        $this->assertNull(LotteryService::dtFromParts('', '10:30'));
+        $this->assertNull(LotteryService::dtFromParts('27.1.2027', '10:30'));
     }
 
     public function testScanTime(): void {

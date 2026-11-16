@@ -59,7 +59,10 @@ class LotteryAdminControler extends LotteryControlerAbstract {
         if (!$this->isAdmin()) {
             return $this->denied($request);
         }
-        $lid = $this->lotteries->saveLottery($id === null ? null : (int) $id, $this->fields($request, ['name', 'description', 'status', 'join_from', 'join_until', 'rules_url']));
+        $data = $this->fields($request, ['name', 'description', 'status', 'join_from', 'join_until', 'rules_url']);
+        $data['join_from'] = $this->dateTimeParam($request, 'join_from', '00:00');
+        $data['join_until'] = $this->dateTimeParam($request, 'join_until', '23:59');
+        $lid = $this->lotteries->saveLottery($id === null ? null : (int) $id, $data);
         $this->addFlashMessage('Losování uloženo.', FlashSeverityEnum::SUCCESS);
         return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$lid}");
     }
@@ -69,8 +72,18 @@ class LotteryAdminControler extends LotteryControlerAbstract {
             return $this->denied($request);
         }
         $ok = $this->lotteries->saveRound((int) $id, $roundId === null ? null : (int) $roundId,
-            (string) $this->param($request, 'draw_at', ''), (bool) $this->param($request, 'substitute', false));
-        $this->addFlashMessage($ok ? 'Kolo uloženo.' : 'Zadejte datum a čas kola.', $ok ? FlashSeverityEnum::SUCCESS : FlashSeverityEnum::WARNING);
+            (string) $this->dateTimeParam($request, 'draw_at'), (bool) $this->param($request, 'substitute', false));
+        $this->addFlashMessage($ok ? 'Kolo uloženo.' : 'Zadejte datum a čas kola (např. 10:30).', $ok ? FlashSeverityEnum::SUCCESS : FlashSeverityEnum::WARNING);
+        return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$id}");
+    }
+
+    /** Duplikát kola s novým časem (včetně cen vázaných na kolo). */
+    public function copyRound(ServerRequestInterface $request, $id, $roundId): ResponseInterface {
+        if (!$this->isAdmin()) {
+            return $this->denied($request);
+        }
+        $ok = $this->lotteries->copyRound((int) $id, (int) $roundId, (string) $this->dateTimeParam($request, 'draw_at'));
+        $this->addFlashMessage($ok ? 'Kolo zduplikováno i s cenami kola.' : 'Zadejte datum a čas nového kola (např. 14:30).', $ok ? FlashSeverityEnum::SUCCESS : FlashSeverityEnum::WARNING);
         return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$id}");
     }
 
@@ -166,6 +179,18 @@ class LotteryAdminControler extends LotteryControlerAbstract {
     private function denied(ServerRequestInterface $request): ResponseInterface {
         $this->addFlashMessage('Nastavení losování může měnit jen jeho správce.', FlashSeverityEnum::WARNING);
         return $this->createResponseRedirectSeeOther($request, 'events/v1/lottery');
+    }
+
+    /**
+     * Datum a čas z dvojice polí <name>_date (type=date) a <name>_time (text); bez nich původní pole <name>.
+     * Neplatný vstup → '' (služba ho vyhodnotí jako chybějící).
+     */
+    private function dateTimeParam(ServerRequestInterface $request, string $name, string $defaultTime = ''): string {
+        $date = $this->param($request, $name . '_date');
+        if ($date === null) {
+            return (string) $this->param($request, $name, '');
+        }
+        return LotteryService::dtFromParts((string) $date, (string) $this->param($request, $name . '_time', ''), $defaultTime) ?? '';
     }
 
     private function fields(ServerRequestInterface $request, array $names): array {

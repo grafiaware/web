@@ -132,6 +132,27 @@ class LotteryService {
         return $roundId;
     }
 
+    /**
+     * Duplikát kola s novým časem: zkopíruje příznak náhradníka i ceny vázané na kolo (název, kusy, pořadí).
+     * Vrací id nového kola, null při chybném čase nebo cizím kole.
+     */
+    public function copyRound(int $lotteryId, int $roundId, string $drawAt): ?int {
+        $at = self::dtOrNull($drawAt);
+        $round = $this->round($roundId);
+        if ($at === null || $round === null || (int) $round['lottery_id_fk'] !== $lotteryId) {
+            return null;
+        }
+        return $this->roundDao->transaction(function () use ($lotteryId, $roundId, $at, $round): int {
+            $this->roundDao->exec("INSERT INTO lottery_round (lottery_id_fk, draw_at, substitute) VALUES (:l, :a, :s)",
+                ['l' => $lotteryId, 'a' => $at, 's' => (int) $round['substitute']]);
+            $newId = $this->roundDao->lastId();
+            $this->prizeDao->exec("INSERT INTO lottery_prize (lottery_id_fk, round_id_fk, name, quantity, priority)
+                SELECT lottery_id_fk, :n, name, quantity, priority FROM lottery_prize WHERE round_id_fk = :r AND lottery_id_fk = :l ORDER BY id",
+                ['n' => $newId, 'r' => $roundId, 'l' => $lotteryId]);
+            return $newId;
+        });
+    }
+
     /** Vylosované kolo nejde smazat (výhry by ztratily kolo). */
     public function removeRound(int $roundId): bool {
         return $this->roundDao->exec("DELETE FROM lottery_round WHERE id = :id AND status <> 'drawn'
@@ -533,6 +554,25 @@ class LotteryService {
     }
 
     /** Vstup z formuláře (datetime-local „2027-01-27T11:00“ nebo „2027-01-27 11:00“) → DATETIME, jinak null. */
+    /**
+     * Datum z pole type=date („2027-01-27“) a čas psaný z klávesnice („10:30“, „10.30“, „1030“, „10“) → „2027-01-27 10:30“.
+     * Prázdný čas → $defaultTime (např. „00:00“, „23:59“); prázdné datum nebo neplatný čas → null.
+     */
+    public static function dtFromParts(?string $date, ?string $time, string $defaultTime = ''): ?string {
+        $date = trim((string) $date);
+        $time = trim((string) $time);
+        if ($date === '' || !\DateTimeImmutable::createFromFormat('!Y-m-d', $date)) {
+            return null;
+        }
+        if ($time === '') {
+            $time = $defaultTime;
+        }
+        if (!preg_match('/^([01]?\d|2[0-3])(?:[:.]?([0-5]\d))?$/', $time, $m)) {
+            return null;
+        }
+        return self::dtOrNull(sprintf('%s %02d:%02d', $date, (int) $m[1], (int) ($m[2] ?? 0)));
+    }
+
     public static function dtOrNull(?string $value): ?string {
         $value = trim((string) $value);
         if ($value === '') {
