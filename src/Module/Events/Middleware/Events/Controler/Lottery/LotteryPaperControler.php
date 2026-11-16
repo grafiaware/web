@@ -2,8 +2,8 @@
 
 namespace Events\Middleware\Events\Controler\Lottery;
 
-use Auth\Service\Qr\QrImageGenerator;
 use Events\Service\Lottery\LotteryPaperService;
+use FrontControler\StatusEnum;
 use Events\Service\Lottery\LotteryService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -13,21 +13,18 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusSecurityRepo;
 
 /**
- * D1c (#108): papírové anketní lístky – vytvoření sady, tisková stránka (A4, lístek + ústřižek s velkým číslem a QR),
- * export CSV pro tisk štítků, přehled a vyhledání lístku podle čísla. Oprávnění: LotteryControlerAbstract.
+ * D1c (#108): papírové anketní lístky – vytvoření sady, data pro PDF (PDF skládá jsPDF v prohlížeči správce,
+ * public/site/common/js/lottery-paper-pdf.js), export CSV pro tisk štítků, přehled a vyhledání lístku podle čísla.
+ * Oprávnění: LotteryControlerAbstract.
  */
 class LotteryPaperControler extends LotteryControlerAbstract {
-
-    /** Nejvýš lístků na jednu tiskovou stránku (QR se generují při vykreslení). */
-    public const MAX_PRINT = 400;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
             LotteryService $lotteries,
-            private LotteryPaperService $papers,
-            private QrImageGenerator $qr) {
+            private LotteryPaperService $papers) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo, $lotteries);
     }
 
@@ -56,7 +53,7 @@ class LotteryPaperControler extends LotteryControlerAbstract {
             'isAdmin' => $this->isAdmin(),
             'perPage' => $this->lotteries->config()->paperPerPage,
             'maxSet' => LotteryPaperService::MAX_SET,
-            'maxPrint' => self::MAX_PRINT,
+            'maxPdf' => LotteryPaperService::MAX_PDF,
         ]);
     }
 
@@ -80,35 +77,29 @@ class LotteryPaperControler extends LotteryControlerAbstract {
         return $this->createResponseRedirectSeeOther($request, $back);
     }
 
-    /** Tisková stránka (A4, „Uložit jako PDF“ v prohlížeči). Rozsah ?from=&to=, počet na stránku ?per=4|2. */
-    public function printPage(ServerRequestInterface $request, $id): ResponseInterface {
+    /**
+     * Data pro PDF lístků (JSON): losování, otázky ankety, lístky v rozsahu ?from=&to=, adresa skenu a registrace, počet na A4.
+     * PDF vytvoří jsPDF v prohlížeči; server QR negeneruje.
+     */
+    public function pdfData(ServerRequestInterface $request, $id): ResponseInterface {
         if (!$this->isAdmin()) {
-            return $this->deniedPage($request, 'Tisk lístků je jen pro správce losování.');
-        }
-        $lottery = $this->lotteries->lottery((int) $id);
-        if ($lottery === null) {
-            return $this->page($request, 'Losování', 'text.php', ['text' => 'Losování neexistuje.'], 404);
+            return $this->createJsonOKResponse(['error' => 'PDF lístků může vytvořit jen správce losování.'], StatusEnum::_403_Forbidden)
+                ->withHeader('Cache-Control', 'no-store');
         }
         [$from, $to] = $this->range($request);
-        $tickets = $this->papers->tickets((int) $id, $from, $to);
-        if (count($tickets) > self::MAX_PRINT) {
-            return $this->page($request, 'Tisk lístků', 'text.php', ['text' => 'Vyberte nejvýš ' . self::MAX_PRINT
-                . ' lístků najednou (rozsah od–do).'], 400);
+        try {
+            $data = $this->papers->pdfData((int) $id, $from, $to);
+        } catch (\InvalidArgumentException $e) {
+            return $this->createJsonOKResponse(['error' => $e->getMessage()], StatusEnum::_400_BadRequest)->withHeader('Cache-Control', 'no-store');
         }
         $per = (int) $this->param($request, 'per', $this->lotteries->config()->paperPerPage);
-        foreach ($tickets as &$t) {
-            $url = $this->absoluteUrl($request, 'events/v1/scan/' . LotteryPaperService::scanCode($t['code']));
-            $t['qr'] = 'data:image/png;base64,' . base64_encode($this->qr->generate($url)->getString());
-            $t['label'] = LotteryPaperService::formatNumber((int) $t['number']);
+        $data['perPage'] = in_array($per, [2, 4], true) ? $per : $this->lotteries->config()->paperPerPage;
+        $data['scanBase'] = $this->absoluteUrl($request, 'events/v1/scan/');
+        $data['registerHost'] = preg_replace('~^https?://~', '', rtrim($this->absoluteUrl($request, ''), '/'));
+        if ($data['lottery']['rulesUrl'] !== null) {
+            $data['lottery']['rulesText'] = preg_replace('~^https?://~', '', $data['lottery']['rulesUrl']);
         }
-        unset($t);
-        return $this->page($request, 'Lístky ' . $lottery['name'], 'paper-print.php', [
-            'lottery' => $lottery,
-            'tickets' => $tickets,
-            'questions' => $this->lotteries->questions((int) $id),
-            'per' => in_array($per, [2, 4], true) ? $per : 4,
-            'registerUrl' => $this->absoluteUrl($request, ''),
-        ], 200, '_print.php');
+        return $this->createJsonOKResponse($data)->withHeader('Cache-Control', 'no-store');
     }
 
     /** Export CSV (číslo, kód, adresa QR) pro vlastní aplikaci na tisk štítků. */

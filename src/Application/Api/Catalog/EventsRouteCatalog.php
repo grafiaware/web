@@ -123,7 +123,7 @@ final class EventsRouteCatalog implements ModuleRouteCatalogInterface {
             // D1c (#108): papírové lístky
             new RouteDefinition('GET', '/events/v1/lottery/:id/paper', LotteryPaperControler::class, 'overview', null, 'vp.losovani'),
             new RouteDefinition('POST', '/events/v1/lottery/:id/paper', LotteryPaperControler::class, 'createSet', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
-            new RouteDefinition('GET', '/events/v1/lottery/:id/paper/print', LotteryPaperControler::class, 'printPage', null, 'vp.losovani'),
+            new RouteDefinition('GET', '/events/v1/lottery/:id/paper/data', LotteryPaperControler::class, 'pdfData', null, 'vp.losovani'),
             new RouteDefinition('GET', '/events/v1/lottery/:id/paper/csv', LotteryPaperControler::class, 'csv', null, 'vp.losovani'),
             new RouteDefinition('GET', '/events/v1/lottery/:id/scanner', LotteryStaffControler::class, 'scanner', null, 'vp.losovani'),
             new RouteDefinition('POST', '/events/v1/lottery/:id/scan', LotteryStaffControler::class, 'scan', MutationResponseMode::MACHINE_API, 'vp.losovani'),

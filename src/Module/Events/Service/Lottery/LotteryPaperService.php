@@ -14,6 +14,8 @@ class LotteryPaperService {
 
     public const CODE_PREFIX = 'L';
     public const MAX_SET = 2000;
+    /** Nejvýš lístků v jednom PDF (data pro jsPDF v prohlížeči; 5000 lístků ≈ 1250 stran A4). */
+    public const MAX_PDF = 5000;
 
     private const DT = 'Y-m-d H:i:s';
 
@@ -112,6 +114,38 @@ class LotteryPaperService {
     public function tickets(int $lotteryId, ?int $from = null, ?int $to = null): array {
         return $this->paperDao->rows("SELECT * FROM lottery_paper_ticket WHERE lottery_id_fk = :l AND number >= :f AND number <= :t
             ORDER BY number", ['l' => $lotteryId, 'f' => $from ?? 1, 't' => $to ?? PHP_INT_MAX]);
+    }
+
+    /**
+     * Data pro PDF lístků (jsPDF v prohlížeči): název losování, pravidla, otázky ankety, čísla a kódy lístků v rozsahu.
+     * Adresy (sken, registrace) doplní kontrolér. Víc než MAX_PDF lístků → InvalidArgumentException.
+     *
+     * @return array{lottery: array{id: int, name: string, rulesUrl: ?string}, questions: list<array{text: string, type: string,
+     *     required: bool, options: list<string>}>, tickets: list<array{number: int, label: string, code: string}>}
+     */
+    public function pdfData(int $lotteryId, ?int $from = null, ?int $to = null): array {
+        $lottery = $this->lotteries->lottery($lotteryId);
+        if ($lottery === null) {
+            throw new \InvalidArgumentException('Losování neexistuje.');
+        }
+        $tickets = $this->tickets($lotteryId, $from, $to);
+        if (count($tickets) > self::MAX_PDF) {
+            throw new \InvalidArgumentException('Do jednoho PDF lze dát nejvýš ' . self::MAX_PDF . ' lístků, zužte rozsah od–do.');
+        }
+        return [
+            'lottery' => ['id' => (int) $lottery['id'], 'name' => (string) $lottery['name'], 'rulesUrl' => $lottery['rules_url'] ?: null],
+            'questions' => array_map(fn(array $q) => [
+                'text' => (string) $q['text'],
+                'type' => (string) $q['type'],
+                'required' => (bool) (int) $q['required'],
+                'options' => $q['type'] === 'text' ? [] : SurveyValidator::options($q['options']),
+            ], $this->lotteries->questions($lotteryId)),
+            'tickets' => array_map(fn(array $t) => [
+                'number' => (int) $t['number'],
+                'label' => self::formatNumber((int) $t['number']),
+                'code' => self::scanCode($t['code']),
+            ], $tickets),
+        ];
     }
 
     /**

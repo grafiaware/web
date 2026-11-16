@@ -1,5 +1,5 @@
 <?php
-/** D1c: papírové lístky – přehled, vyhledání podle čísla, vytvoření sady, tisk a export (správce). */
+/** D1c: papírové lístky – přehled, vyhledání podle čísla, vytvoření sady, PDF (jsPDF v prohlížeči) a export CSV (správce). */
 /** @var array $lottery */
 /** @var array $stats printed, issued, valid, last */
 /** @var string $q */
@@ -7,7 +7,7 @@
 /** @var bool $isAdmin */
 /** @var int $perPage */
 /** @var int $maxSet */
-/** @var int $maxPrint */
+/** @var int $maxPdf */
 use Events\Service\Lottery\LotteryDrawService;
 use Events\Service\Lottery\LotteryPaperService;
 $id = (int) $lottery['id'];
@@ -56,18 +56,26 @@ $tm = fn($v) => $v ? (new DateTimeImmutable($v))->format('G:i') : '–';
 
 <?php if ($stats['printed']): ?>
 <div class="card">
-    <h2>Tisk a export</h2>
-    <p class="muted">Tisková stránka se otevře v novém okně; tiskněte na A4 v měřítku 100 % (bez přizpůsobení), případně „Uložit jako PDF“.
-        Najednou nejvýš <?= $maxPrint ?> lístků.</p>
-    <form method="GET" action="events/v1/lottery/<?= $id ?>/paper/print" target="_blank" class="row">
+    <h2>PDF lístků</h2>
+    <p class="muted">PDF se vytvoří v tomto prohlížeči a uloží do počítače. Tiskněte na A4 ve skutečné velikosti (100 %).
+        V jednom PDF nejvýš <?= $maxPdf ?> lístků.</p>
+    <form id="lottery-paper-pdf" class="row" onsubmit="return false"
+          data-url="events/v1/lottery/<?= $id ?>/paper/data"
+          data-font-regular="public/site/common/fonts/liberation-sans/LiberationSans-Regular.ttf"
+          data-font-bold="public/site/common/fonts/liberation-sans/LiberationSans-Bold.ttf">
         <div><label>Od čísla</label><input type="number" name="from" min="1" value="1"></div>
-        <div><label>Do čísla</label><input type="number" name="to" min="1" value="<?= min((int) $stats['last'], $maxPrint) ?>"></div>
+        <div><label>Do čísla</label><input type="number" name="to" min="1" value="<?= (int) $stats['last'] ?>"></div>
         <div><label>Na stránku A4</label><select name="per">
             <?php foreach ([4, 2] as $n): ?><option value="<?= $n ?>" <?= $n === $perPage ? 'selected' : '' ?>><?= $n ?> lístky</option><?php endforeach; ?>
         </select></div>
-        <button type="submit">Tisková stránka</button>
+        <button type="button" data-pdf-start>Stáhnout PDF</button>
+        <div style="flex-basis:100%"><progress max="1" value="0" hidden style="width:100%"></progress>
+            <p data-pdf-status class="muted" aria-live="polite"></p></div>
     </form>
     <p><a class="btn secondary" href="events/v1/lottery/<?= $id ?>/paper/csv">Export CSV (číslo, kód, adresa QR)</a></p>
 </div>
+<script src="public/site/common/js/lib/jspdf-4.2.1.umd.min.js"></script>
+<script src="public/site/common/js/lib/qrcode-generator-2.0.4.js"></script>
+<script src="public/site/common/js/lottery-paper-pdf.js"></script>
 <?php endif; ?>
 <?php endif; ?>

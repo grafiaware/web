@@ -215,6 +215,24 @@ final class LotteryFlowTest extends AppRunner {
         // sady: čísla navazují, kódy různé
         $this->assertSame(['from' => 1, 'to' => 3], $papers->createSet($id, 3));
         $this->assertSame(['from' => 4, 'to' => 5], $papers->createSet($id, 2));
+
+        // data pro PDF (jsPDF v prohlížeči): otázky ankety, lístky v rozsahu, kód se skenovým prefixem
+        $s->saveQuestion($id, null, ['text' => 'Co hledáte?', 'type' => 'multi', 'options' => "práci\n\n brigádu ", 'required' => 0, 'position' => 2]);
+        $s->saveQuestion($id, null, ['text' => 'Vzkaz', 'type' => 'text', 'options' => 'x', 'required' => 0, 'position' => 3]);
+        $pdf = $papers->pdfData($id, 2, 4);
+        $this->assertSame(self::PREFIX . 'listky', $pdf['lottery']['name']);
+        $this->assertSame([2, 3, 4], array_column($pdf['tickets'], 'number'));
+        $this->assertSame('0002', $pdf['tickets'][0]['label']);
+        $this->assertMatchesRegularExpression('/^L[23456789A-HJ-NP-Z]{12}$/', $pdf['tickets'][0]['code']);
+        $this->assertSame([['text' => 'Co hledáte?', 'type' => 'multi', 'required' => false, 'options' => ['práci', 'brigádu']],
+            ['text' => 'Vzkaz', 'type' => 'text', 'required' => false, 'options' => []]], $pdf['questions']);
+        $this->assertCount(5, $papers->pdfData($id)['tickets']);
+        try {
+            $papers->pdfData(999999999);
+            $this->fail('neexistující losování');
+        } catch (\InvalidArgumentException $e) {
+            $this->assertSame('Losování neexistuje.', $e->getMessage());
+        }
         $tickets = $papers->tickets($id);
         $this->assertSame([1, 2, 3, 4, 5], array_map(fn($t) => (int) $t['number'], $tickets));
         $this->assertCount(5, array_unique(array_column($tickets, 'code')));

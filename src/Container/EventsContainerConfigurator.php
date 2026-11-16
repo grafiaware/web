@@ -637,8 +637,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             LotteryPaperControler::class => function(ContainerInterface $c) {
                 return (new LotteryPaperControler($c->get(StatusSecurityRepo::class), $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class), $c->get(LotteryService::class), $c->get(LotteryPaperService::class),
-                        new QrImageGenerator()))->injectContainer($c);
+                        $c->get(StatusPresentationRepo::class), $c->get(LotteryService::class), $c->get(LotteryPaperService::class)))->injectContainer($c);
             },
             LotteryAdminControler::class => function(ContainerInterface $c) {
                 return (new LotteryAdminControler($c->get(StatusSecurityRepo::class), $c->get(StatusFlashRepo::class),

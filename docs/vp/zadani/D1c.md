@@ -23,7 +23,8 @@ Patří sem:
 - **Sada lístků k losování:** organizátor zadá počet (např. 300); web vytvoří lístky s pořadovým **číslem**
   (0001, 0002 … v rámci losování) a náhodným **kódem** (12 znaků, stejná abeceda jako kód návštěvníka v D1).
   Další sadu lze přidat (čísla navazují). Kód je identifikátor, ne tajný údaj (výjimka v AGENTS.md).
-- **Tisková data:** stránka pro tisk z prohlížeče (A4, CSS pro tisk, „Uložit jako PDF“), na stránce N lístků:
+- **Tisková data:** **PDF** (A4, 4 nebo 2 lístky na stránku) pro zvolený rozsah čísel jedním kliknutím, nejvýš 5000 lístků
+  v jednom PDF; PDF skládá prohlížeč správce (jsPDF), server posílá jen data (JSON). Na lístku:
   - **anketní díl:** název losování, kolonky jméno, příjmení, e-mail, otázky ankety z D1 s políčky, souhlas
     s pravidly (text a odkaz), malý kód a číslo;
   - **ústřižek** (oddělený čarou se střihem): **velké číslo**, QR kód, „Při výhře vás vyvoláme číslem. Ústřižek si
@@ -104,12 +105,18 @@ ALTER TABLE lottery_winner
 | Metoda | Routa | Kdo | Co |
 |---|---|---|---|
 | POST | `/events/v1/lottery/:id/paper` | `events_administrator` | vytvoření sady lístků (počet) |
-| GET | `/events/v1/lottery/:id/paper/print?from=&to=&per=` | `events_administrator` | tisková stránka (4 nebo 2 na A4) |
+| GET | `/events/v1/lottery/:id/paper/data?from=&to=&per=` | `events_administrator` | data pro PDF lístků (JSON) |
 | GET | `/events/v1/lottery/:id/paper/csv` | `events_administrator` | export CSV pro tisk štítků |
 | GET | `/events/v1/lottery/:id/paper?q=` | obsluha | přehled, vyhledání podle čísla |
 
-- Šablony: tisková stránka (A4, lístek + ústřižek, QR jako obrázek), přehled lístků; zobrazení „Lístek č.“
-  ve skeneru, losování a exportu.
+- PDF lístků (rozhodl Petr 17. 11. 2026 po srovnání FPDF a jsPDF): `public/site/common/js/lottery-paper-pdf.js`
+  skládá PDF v prohlížeči z JSON (`LotteryPaperService::pdfData()` + adresy z kontroléru). QR vektorově
+  (qrcode-generator, oprava M), písmo TTF přímo (Liberation Sans, SIL OFL), plné UTF-8. Když se anketa nevejde,
+  písmo ankety se zmenší nejvýš na 80 %, jinak hláška (zvolit 2 na A4 nebo zkrátit otázky).
+  **Nové knihovny (uvedeno předem):** jsPDF 4.2.1 a qrcode-generator 2.0.4 (obě MIT) v `public/site/common/js/lib/`,
+  písmo v `public/site/common/fonts/liberation-sans/`. Není to nový vzor modelu ani view (nástroj pro výstup PDF);
+  stránka zůstává v `Pages/` podle ADR 002.
+- Šablony: přehled lístků s formulářem PDF; zobrazení „Lístek č.“ ve skeneru, losování a exportu.
 
 ## Přepínač
 
@@ -118,7 +125,7 @@ Stejný jako D1: `vp.losovani`.
 ## Akceptační kritéria
 
 1. Vytvoření sady 300 lístků dá čísla 0001–0300 s různými kódy; další sada pokračuje 0301…
-2. Tisková stránka vytiskne lístky s otázkami ankety z D1 a ústřižkem s velkým číslem a QR; QR jde naskenovat
+2. PDF obsahuje lístky s otázkami ankety z D1 a ústřižkem s velkým číslem a QR; QR jde naskenovat
    skenerem D1 i z výtisku na běžné kancelářské tiskárně.
 3. Sken lístku u vchodu vydá los se stejnou platností jako u registrovaného; opakovaný sken prodlouží; neznámý
    kód nebo lístek jiného losování → chyba. Offline fronta funguje i pro lístky.
@@ -134,6 +141,17 @@ Stejný jako D1: `vp.losovani`.
 - Ruční: tisk 2 stran na tiskárně, sken výtisku telefonem (Android, iPhone), losování s 2 registrovanými a 3 lístky.
 
 ## Stav a další krok
+
+17. 11. 2026 (PDF lístků, větev `vp/d1-losovani`): tisková HTML stránka nahrazena PDF z prohlížeče (jsPDF).
+- Důvod: generování QR v PHP bylo u Petra velmi pomalé (40 lístků > 30 s), PDF chce kvůli tisku z jiné aplikace
+  a předání k tisku. Srovnání (prototypy na stejných datech, 4000 lístků): FPDF na serveru 24 s / 6,8 MB, ale písma
+  převáděná na windows-1250 a limit běhu na hostingu; jsPDF v prohlížeči ~15 s / 18 MB, TTF přímo, server jen JSON.
+- Server: `GET …/paper/data` (správce, jinak 403 JSON; nad 5000 lístků 400), `LotteryPaperService::pdfData()`.
+  Zrušeno: `paper/print`, `Pages/paper-print.php`, `Pages/_print.php`, PNG QR v kontroléru lístků.
+- Ověřeno: integrační test `pdfData`; v Chromiu stažení PDF 4 i 2 na A4 z formuláře, QR z vykreslené strany
+  (150 dpi) přečteny všechny, 4000 lístků = 1000 stran za ~15 s, zmenšení/odmítnutí dlouhé ankety.
+- Neověřeno: tisk na tiskárně, sken výtisku telefonem, Firefox a Edge.
+Další krok: Petr vyzkouší PDF a tisk; pak test na hostingu a pull request D1 + D1c.
 
 16. 11. 2026 (implementace, větev `vp/d1-losovani`): **D1c hotové, čeká na test na hostingu s telefony a tiskárnou.**
 - Migrace `20261116000002_d1c_lottery_paper.sql` (podle zadání, kolace `utf8mb4_general_ci` jako D1).
