@@ -43,6 +43,7 @@ Do `master` se nepushuje přímo. Do `master-vp` standardně přes pull request;
 - Hesla a tokeny nikdy v čitelné podobě v DB, logu ani e-mailu. Výjimka: stávající dočasné heslo v `registration`
   do potvrzení registrace (záměr kvůli ručnímu dokončení registrace vystavovatele, řeší odložený balík Z6) — nerozšiřovat.
 - `app/Site/active-site.php` a `local/site/site-name.less` měň jen lokálně, necommituj je.
+- Necommituj dumpy DB s osobními údaji, `vendor/`, `node_modules/`, logy.
 
 ## Architektura a návrhové vzory
 
@@ -50,13 +51,14 @@ Do `master` se nepushuje přímo. Do `master-vp` standardně přes pull request;
   kterou je možné bez velkých nákladů převést na stávající vzor návrhu a v takovém případě může být odsouhlasena dodatečně.
   Architektonické změny a změny návrhových vzorů navrhuj, to je žádoucí, ale je nutné upřednostnit jednotnost
   návrhových pravidel napříč systémem.
-- Odchylku od stávajícího vzoru vždy výslovně uveď v zadání balíku a v pull requestu, ne až dodatečně.
-  Už použitou odchylku (např. Dao + služby s poli místo Entity/Hydrator/Repository a šablony `Pages/` místo
-  komponent v A1 a D1) do rozhodnutí nerozšiřuj na další moduly a nezaváděj vedle ní další vzor.
+- Odchylku od vzoru můžeš provést jen takovou, od které se později dokážeš vrátit k použití původního vzoru.
+  Odchylku je nutné uvést v zadání balíku a v pull requestu předem.
+- Stávající odchylky popsané v `docs/architektura/` (ADR 001: Dao + služby s poli místo Entity/Hydrator/Repository,
+  ADR 002: šablony `Pages/` místo komponent) se smí šířit do dalších modulů, protože je lze refaktorovat
+  na původní vzor. Vedle nich ale nesmí vzniknout další vzor.
 - Diskuse a rozhodnutí o architektuře se vedou odděleně od balíků VP:
   záznamy rozhodnutí (ADR) v `docs/architektura/NNN-<slug>.md`, issues se štítkem `architektura`,
-  větve `arch/<kód>-<popis>`, zprávy commitů s kódem `ARCH:` (nebo kódem konkrétního ADR).
-- Necommituj dumpy DB s osobními údaji, `vendor/`, `node_modules/`, logy.
+  větve `arch/<kód>-<popis>`, zprávy commitů s kódem `ARCH:`.
 
 ## Databáze a migrace
 
