@@ -64,7 +64,7 @@ class EventDaoTest extends AppRunner {
         $rowData->import( ['title' => 'proEventDaoTest' ,
                                     'perex' => 'AAAA',
                                     'party' => 'bbbb',
-                                    'event_content_type_id_fk' => 3 ] );
+                                    'event_content_type_id_fk' => \Test\Integration\Event\Fixture\TestContentType::id() ] );
         $eventContentDao->insert($rowData);
         self::$eventContentPrimaryKey = $eventContentDao->getLastInsertedPrimaryKey(); //pro autoincrement
     }
@@ -101,6 +101,7 @@ class EventDaoTest extends AppRunner {
         $rowPdoData = new RowData(self::$lastEventPrimaryKey);
         $eventDao->delete($rowPdoData);
 
+        \Test\Integration\Event\Fixture\TestContentType::remove();
     }
 
     public function testSetUp() {
