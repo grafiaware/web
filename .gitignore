@@ -1,4 +1,5 @@
 /vendor/
+.env
 /nbproject/private/
 /public/site/common/css/
 /node_modules/

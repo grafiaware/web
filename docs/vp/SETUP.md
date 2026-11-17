@@ -1,5 +1,13 @@
 # Lokální prostředí pro vývoj VP
 
+## Doporučený způsob: Docker Desktop
+
+Celý stack (Apache + PHP 8.4 + MariaDB + smtp4dev), HTTPS z LAN/mobilu, Playwright:
+
+→ **[DOCKER.md](DOCKER.md)** (`docker compose up -d --build`).
+
+Níže zůstává klasická instalace (PHP na hostu + Docker jen pro DB/mail), kterou plný compose nahrazuje.
+
 ## Co je potřeba
 
 - PHP 8.4 (rozšíření pdo_mysql, mbstring, gd, intl, zip), Composer, Node.js (kompilace LESS), Git.
@@ -58,7 +66,8 @@ Mail integrace (`--testsuite mail-integration`) potřebuje `docker-compose.mail-
 ### E-maily při vývoji — jen fake SMTP
 
 - Všechny site mají `mail.paramsname => 'smtp4dev'` (SMTP na `localhost:25`, nic se nedoručí, e-maily se jen zachytí).
-- Lokálně: `docker compose -f docker-compose.mail-test.yml up -d`, zachycené e-maily na http://localhost:5000.
+- Plný Docker stack: služba `mail` (viz [DOCKER.md](DOCKER.md)). Jen mail: `docker compose -f docker-compose.mail-test.yml up -d`.
+- Zachycené e-maily: http://localhost:5000 (UI i API pro Playwright / PHPUnit).
 - Cloud (agent): jednoduchý SMTP server v Pythonu (`aiosmtpd`) na `127.0.0.1:25`, e-maily ukládá jako `.eml`.
 - Mimo produkční hosting (`PES_RUNNING_ON_PRODUCTION_HOST` = false) jdou pevní příjemci NajdiSi (kopie registrace,
   registrace vystavovatele, testmail) na smyšlené adresy `@najdisi.test`; skutečné adresy jen na produkci.

@@ -55,6 +55,39 @@
             "runOptions": {
                 "runOn": "folderOpen"
             }
+        },
+        {
+            "label": "Docker: up (web+db+mail)",
+            "type": "shell",
+            "command": "docker compose up -d --build",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Docker: down",
+            "type": "shell",
+            "command": "docker compose down",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "E2E: Playwright smoke",
+            "type": "shell",
+            "command": "npm test",
+            "options": {
+                "cwd": "${workspaceFolder}/tests/e2e"
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
         }
     ]
 }

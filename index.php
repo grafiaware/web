@@ -25,7 +25,17 @@ use Pes\Http\ResponseSender;
 
 $deploy = false;
 
-define('PROJECT_PATH', str_replace("\\", "/", preg_replace('/^'.preg_quote($_SERVER['DOCUMENT_ROOT'], '/') . '/', '', __DIR__))."/");
+// Docker / Linux: když je projekt DocumentRoot, výpočet z DOCUMENT_ROOT dá "/" a include selžou (Z11).
+// Kontejner nastaví WEB_PROJECT_PATH=/var/www/html/ (env nebo Apache SetEnv).
+$webProjectPath = getenv('WEB_PROJECT_PATH');
+if ($webProjectPath === false || $webProjectPath === '') {
+    $webProjectPath = $_SERVER['WEB_PROJECT_PATH'] ?? '';
+}
+if (is_string($webProjectPath) && $webProjectPath !== '') {
+    define('PROJECT_PATH', rtrim(str_replace('\\', '/', $webProjectPath), '/') . '/');
+} else {
+    define('PROJECT_PATH', str_replace("\\", "/", preg_replace('/^'.preg_quote($_SERVER['DOCUMENT_ROOT'], '/') . '/', '', __DIR__))."/");
+}
 //define('PROJECT_PATH', realpath(__DIR__ . '/..'));
 
 if ($deploy) {

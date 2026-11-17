@@ -1,0 +1,14 @@
+# Příklad varianty PHP 8.3 (stejný Dockerfile, jiný tag).
+#   docker compose -f docker-compose.yml -f docker-compose.php83.yml up -d --build
+#
+# Pozn.: composer.json projektu vyžaduje php ^8.4 — tuto variantu používejte
+# jen pro experimenty / starší větve, ne jako výchozí vývoj VP.
+
+services:
+  web:
+    build:
+      args:
+        PHP_VERSION: "8.3"
+    image: grafia-web-php:8.3
+    environment:
+      PHP_VERSION: "8.3"
