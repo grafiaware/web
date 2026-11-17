@@ -1,38 +1,33 @@
 <?php
-use Pes\Core\Text\Text;
+/**
+ * D1 (#46): vstup do administrace losování ze statické stránky (položka menu).
+ * Stránky losování (přehled, nastavení, kola, ceny, anketa, papírové lístky, skener, losování kola) jsou samostatné
+ * stránky bez layoutu webu (Pages/ v Events, ADR 002); odtud se na ně přechází odkazem (GET), akce na nich mají vlastní formuláře.
+ */
 use Pes\Core\Text\Html;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 
-use Events\Model\Repository\CompanyRepo;
-use Events\Model\Repository\CompanyRepoInterface;
-
+use Application\Feature\FeatureFlags;
 use Component\ViewModel\StatusViewModel;
 use Component\ViewModel\StatusViewModelInterface;
 use Access\Enum\RoleEnum;
 
 /** @var PhpTemplateRendererInterface $this */
 
+if (!FeatureFlags::fromConfiguration()->isEnabled('vp.losovani')) {
+    echo Html::p("Losování není zapnuté.", ["class" => "ui segment"]);
+    return;
+}
 
 /** @var StatusViewModelInterface $statusViewModel */
 $statusViewModel = $container->get(StatusViewModel::class);
-$representativeActions = $statusViewModel->getRepresentativeActions();
-$getEditable = isset($representativeActions) ? $representativeActions->getDataEditable() : false;   //TODO: SV editace dat pro events admin
-$userRole = $statusViewModel->getUserRole();
-if ($userRole == RoleEnum::EVENTS_ADMINISTRATOR) {
-
-/** @var PhpTemplateRendererInterface $this */
-?>       
-            <div>
-                <?=                
-                "<button class='ui primary button' type='submit' "
-                                . "formaction='".Text::encodeUrlPath("events/v1/lottery")."' > Administrace losování </button>" 
-                ?>     
-            </div>      
+if ($statusViewModel->getUserRole() == RoleEnum::EVENTS_ADMINISTRATOR) {
+?>
+    <div class="ui segment">
+        <p>Nastavení losování, kola a ceny, anketa, papírové lístky, skener u vchodu a losování kol.</p>
+        <a class="ui primary button" href="events/v1/lottery">Administrace losování</a>
+    </div>
 <?php
-    
-    
-    
 } else {
-    echo Html::p("Stránka je určena pouze pro administraci.", ["class"=>"ui orange segment"]);
-    
+    echo Html::p("Stránka je určena pouze pro administraci.", ["class" => "ui orange segment"]);
 }
