@@ -8,7 +8,6 @@ use Events\Middleware\Events\Controler\CompanyControler;
 use Events\Middleware\Events\Controler\ComponentEventsControler;
 use Events\Middleware\Events\Controler\ComponentStaticControler;
 use Events\Middleware\Events\Controler\EventControler;
-use Events\Middleware\Events\Controler\EventControler_2;
 use Events\Middleware\Events\Controler\FilterControler;
 use Events\Middleware\Events\Controler\JobControler;
 use Events\Middleware\Events\Controler\MaintenanceControler;
@@ -40,7 +39,7 @@ final class EventsRouteCatalog implements ModuleRouteCatalogInterface {
             new RouteDefinition('POST', '/events/v1/filterjob', FilterControler::class, 'filterJob', MutationResponseMode::BROWSER_FORM),
             new RouteDefinition('POST', '/events/v1/cleanfilterjob', FilterControler::class, 'cleanFilterJob', MutationResponseMode::BROWSER_FORM),
             new RouteDefinition('POST', '/events/v1/representation', RepresentationControler::class, 'setRepresentation', MutationResponseMode::BROWSER_FORM),
-            new RouteDefinition('POST', '/events/v1/enroll', EventControler::class, 'enroll', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/enroll', EventControler::class, 'enroll', MutationResponseMode::BROWSER_FORM, 'vp.program'),
             new RouteDefinition('POST', '/events/v1/company', CompanyControler::class, 'addCompany', MutationResponseMode::BROWSER_FORM),
             new RouteDefinition('POST', '/events/v1/company/:companyId', CompanyControler::class, 'updateCompany', MutationResponseMode::BROWSER_FORM),
             new RouteDefinition('POST', '/events/v1/company/:companyId/remove', CompanyControler::class, 'removeCompany', MutationResponseMode::BROWSER_FORM),
@@ -75,24 +74,27 @@ final class EventsRouteCatalog implements ModuleRouteCatalogInterface {
             new RouteDefinition('POST', '/events/v1/vzdelani', JobControler::class, 'addPozadovaneVzdelani', MutationResponseMode::BROWSER_FORM),
             new RouteDefinition('POST', '/events/v1/vzdelani/:stupen', JobControler::class, 'updatePozadovaneVzdelani', MutationResponseMode::BROWSER_FORM),
             new RouteDefinition('POST', '/events/v1/vzdelani/:stupen/remove', JobControler::class, 'removePozadovaneVzdelani', MutationResponseMode::BROWSER_FORM),
-            new RouteDefinition('POST', '/events/v1/institution', EventControler_2::class, 'addInstitution', MutationResponseMode::BROWSER_FORM),
-            new RouteDefinition('POST', '/events/v1/institution/:institutionId', EventControler_2::class, 'updateInstitution', MutationResponseMode::BROWSER_FORM),
-            new RouteDefinition('POST', '/events/v1/institution/:institutionId/remove', EventControler_2::class, 'removeInstitution', MutationResponseMode::BROWSER_FORM),
-            new RouteDefinition('POST', '/events/v1/institutiontype', EventControler_2::class, 'addInstitutionType', MutationResponseMode::BROWSER_FORM),
-            new RouteDefinition('POST', '/events/v1/institutiontype/:institutionTypeId', EventControler_2::class, 'updateInstitutionType', MutationResponseMode::BROWSER_FORM),
-            new RouteDefinition('POST', '/events/v1/institutiontype/:institutionTypeId/remove', EventControler_2::class, 'removeInstitutionType', MutationResponseMode::BROWSER_FORM),
-            new RouteDefinition('POST', '/events/v1/eventcontenttype', EventControler_2::class, 'addContentType', MutationResponseMode::BROWSER_FORM),
-            new RouteDefinition('POST', '/events/v1/eventcontenttype/:id', EventControler_2::class, 'updateContentType', MutationResponseMode::BROWSER_FORM),
-            new RouteDefinition('POST', '/events/v1/eventcontenttype/:id/remove', EventControler_2::class, 'removeContentType', MutationResponseMode::BROWSER_FORM),
-            new RouteDefinition('POST', '/events/v1/eventcontent', EventControler_2::class, 'addContent', MutationResponseMode::BROWSER_FORM),
-            new RouteDefinition('POST', '/events/v1/eventcontent/:idContent', EventControler_2::class, 'updateContent', MutationResponseMode::BROWSER_FORM),
-            new RouteDefinition('POST', '/events/v1/eventcontent/:idContent/remove', EventControler_2::class, 'removeContent', MutationResponseMode::BROWSER_FORM),
-            new RouteDefinition('POST', '/events/v1/eventlinkphase', EventControler_2::class, 'addEventLinkPhase', MutationResponseMode::BROWSER_FORM),
-            new RouteDefinition('POST', '/events/v1/eventlinkphase/:eventLinkPhaseId', EventControler_2::class, 'updateEventLinkPhase', MutationResponseMode::BROWSER_FORM),
-            new RouteDefinition('POST', '/events/v1/eventlinkphase/:eventLinkPhaseId/remove', EventControler_2::class, 'removeEventLinkPhase', MutationResponseMode::BROWSER_FORM),
-            new RouteDefinition('POST', '/events/v1/eventlink', EventControler_2::class, 'addEventLink', MutationResponseMode::BROWSER_FORM),
-            new RouteDefinition('POST', '/events/v1/eventlink/:eventLinkId', EventControler_2::class, 'updateEventLink', MutationResponseMode::BROWSER_FORM),
-            new RouteDefinition('POST', '/events/v1/eventlink/:eventLinkId/remove', EventControler_2::class, 'removeEventLink', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/institution', EventControler::class, 'addInstitution', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/institution/:institutionId', EventControler::class, 'updateInstitution', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/institution/:institutionId/remove', EventControler::class, 'removeInstitution', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/institutiontype', EventControler::class, 'addInstitutionType', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/institutiontype/:institutionTypeId', EventControler::class, 'updateInstitutionType', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/institutiontype/:institutionTypeId/remove', EventControler::class, 'removeInstitutionType', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/eventcontenttype', EventControler::class, 'addContentType', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/eventcontenttype/:id', EventControler::class, 'updateContentType', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/eventcontenttype/:id/remove', EventControler::class, 'removeContentType', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/eventcontent', EventControler::class, 'addContent', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/eventcontent/:idContent', EventControler::class, 'updateContent', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/eventcontent/:idContent/remove', EventControler::class, 'removeContent', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/eventlinkphase', EventControler::class, 'addEventLinkPhase', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/eventlinkphase/:eventLinkPhaseId', EventControler::class, 'updateEventLinkPhase', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/eventlinkphase/:eventLinkPhaseId/remove', EventControler::class, 'removeEventLinkPhase', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/eventlink', EventControler::class, 'addEventLink', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/eventlink/:eventLinkId', EventControler::class, 'updateEventLink', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/eventlink/:eventLinkId/remove', EventControler::class, 'removeEventLink', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/event', EventControler::class, 'addEvent', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/event/:eventId', EventControler::class, 'updateEvent', MutationResponseMode::BROWSER_FORM),
+            new RouteDefinition('POST', '/events/v1/event/:eventId/remove', EventControler::class, 'removeEvent', MutationResponseMode::BROWSER_FORM),
             new RouteDefinition('POST', '/events/v1/maintenance/archivecompanies/:sourceVersion/:targetVersion', MaintenanceControler::class, 'archiveCompanies', MutationResponseMode::MACHINE_API),
         ];
     }

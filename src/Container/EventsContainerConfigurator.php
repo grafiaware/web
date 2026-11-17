@@ -93,7 +93,7 @@ use Events\Middleware\Events\Controler\JobControler;
 use Events\Middleware\Events\Controler\DocumentControler;
 use Events\Middleware\Events\Controler\CompanyControler;
 use Events\Middleware\Events\Controler\VisitorJobRequestControler;
-use Events\Middleware\Events\Controler\EventControler_2;
+use Events\Middleware\Events\Controler\EventControler;
 use Events\Middleware\Events\Controler\FilterControler;
 use Events\Middleware\Events\Controler\MaintenanceControler;
 
@@ -102,6 +102,8 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Events\Model\Repository\VisitorJobRequestRepo;
+use Events\Model\Repository\EnrollRepo;
+use Events\Model\Repository\EventRepo;
 use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Repository\LoginRepo;
 use Events\Model\Repository\CompanyRepo;
@@ -713,8 +715,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                        )->injectContainer($c);
             },
                     
-            EventControler_2::class => function(ContainerInterface $c) {
-                return (new EventControler_2(
+            EventControler::class => function(ContainerInterface $c) {
+                return (new EventControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
@@ -724,7 +726,9 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(EventContentTypeRepo::class),
                         
                         $c->get(EventLinkPhaseRepo::class),
-                        $c->get(EventLinkRepo::class)  
+                        $c->get(EventLinkRepo::class),
+                        $c->get(EventRepo::class),
+                        $c->get(EnrollRepo::class)
                         )
                        )->injectContainer($c);
             },

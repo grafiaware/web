@@ -2,7 +2,7 @@
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Site\ConfigurationCache;
 
-use Events\Middleware\Events\Controler\EventControler_2;
+use Events\Middleware\Events\Controler\EventControler;
 
 use Pes\Core\Text\Text;
 use Pes\Core\Text\Html;

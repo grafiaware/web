@@ -15,7 +15,7 @@ use Events\Model\Repository\EventLinkRepo;
 use Events\Model\Entity\EventLinkInterface;
 use Events\Model\Entity\EventLink;
 
-use Events\Middleware\Events\Controler\EventControler_2;
+use Events\Middleware\Events\Controler\EventControler;
 
 /** @var PhpTemplateRendererInterface $this */
 
@@ -69,7 +69,7 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
                     'show' => ($entity->getShow()),
                     'href' =>  $entity->getHref(),
                     
-                    'eventLinkPhaseIdFk' => $entity->getLinkPhaseIdFk() ??  EventControler_2::NULL_VALUE_nahradni , 
+                    'eventLinkPhaseIdFk' => $entity->getLinkPhaseIdFk() ??  EventControler::NULL_VALUE_nahradni , 
                     'selectEventLinkPhasies' => $selectEventLinkPhasies
                     ];
             }   
@@ -99,7 +99,7 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
                 </div>  
                 <div class="active content">     
                     <?= $this->insert( __DIR__.'/event-link.php', [                                                           
-                                                'eventLinkPhaseIdFk' => ''  /*EventControler_2::NULL_VALUE_nahradni*/ ,
+                                                'eventLinkPhaseIdFk' => ''  /*EventControler::NULL_VALUE_nahradni*/ ,
                                                 'selectEventLinkPhasies' => $selectEventLinkPhasies,                                                            
                                                 'show' =>  "0",
                                                 'href' =>  "",

@@ -17,7 +17,7 @@ use Events\Model\Repository\InstitutionRepoInterface;
 use Events\Model\Repository\InstitutionRepo;
 use Events\Model\Entity\InstitutionInterface;
 
-use Events\Middleware\Events\Controler\EventControler_2;
+use Events\Middleware\Events\Controler\EventControler;
 
 /** @var PhpTemplateRendererInterface $this */
 
@@ -50,7 +50,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
   
     
     $selectInstitutions = [];
-    $selectInstitutions [EventControler_2::NULL_VALUE_nahradni] =  "" ;
+    $selectInstitutions [EventControler::NULL_VALUE_nahradni] =  "" ;
     $institutionEntities = $institutionRepo->findAll();
         /** @var InstitutionInterface $inst */ 
     foreach ( $institutionEntities as $inst ) {
@@ -78,11 +78,11 @@ use Events\Middleware\Events\Controler\EventControler_2;
                 
                 $institutionE = $institutionRepo->get(  ($entity->getInstitutionIdFk()) ?? ''    ) ;               
                 $eventContents[] = [
-                    'institutionIdFk' => ($entity->getInstitutionIdFk()) ?? EventControler_2::NULL_VALUE_nahradni , 
+                    'institutionIdFk' => ($entity->getInstitutionIdFk()) ?? EventControler::NULL_VALUE_nahradni , 
                     'selectInstitutions' => $selectInstitutions, 
                     'institutionName' => ( isset($institutionE) ? $institutionE->getName() : '' ),
                     
-                    'eventContentTypeIdFk' => ($entity->getEventContentTypeIdFk()), /*?? EventControler_2::NULL_VALUE_nahradni,*/
+                    'eventContentTypeIdFk' => ($entity->getEventContentTypeIdFk()), /*?? EventControler::NULL_VALUE_nahradni,*/
                     'selectContentTypes' => $selectContentTypes, 
                     
                     'title' =>  $entity->getTitle(),
@@ -117,7 +117,7 @@ use Events\Middleware\Events\Controler\EventControler_2;
             </div>  
             <div>     
                 <?= $this->insert( __DIR__.'/event-content.php', [ "selectInstitutions" => $selectInstitutions,
-                                                                   "institutionIdFk" =>  EventControler_2::NULL_VALUE_nahradni,                                                                  
+                                                                   "institutionIdFk" =>  EventControler::NULL_VALUE_nahradni,                                                                  
                     
                                                                    "selectContentTypes" => $selectContentTypes,
                                                                    "eventContentTypeIdFk" =>  ''//not null
