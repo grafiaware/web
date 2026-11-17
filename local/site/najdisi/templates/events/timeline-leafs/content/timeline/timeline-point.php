@@ -11,7 +11,7 @@ use Pes\Core\Text\Html;
 
                         <div class="timeline-section">
                             <div class="timeline-date">
-                                <?= $timelinePoint ?>
+                                <?= htmlspecialchars((string) $timelinePoint) ?>
                                 </div>
                             </div>
 

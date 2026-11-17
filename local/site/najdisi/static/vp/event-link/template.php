@@ -1,124 +1,45 @@
 <?php
+/**
+ * G0 (#116): správa odkazů eventů (adresa online vstupu nebo přihlášky, fáze = text tlačítka, zobrazit ano/ne)
+ * – jen events_administrator. Akce: EventControler (events/v1/eventlink).
+ */
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Site\ConfigurationCache;
-
-use Pes\Core\Text\Text;
 use Pes\Core\Text\Html;
-use Status\Model\Repository\StatusSecurityRepo;
-use Auth\Model\Entity\LoginAggregateFullInterface;
-
-
-use Events\Model\Repository\EventLinkPhaseRepo;
-use Events\Model\Entity\EventLinkPhaseInterface;
-use Events\Model\Entity\EventLinkPhase;
+use Component\ViewModel\StatusViewModel;
+use Access\Enum\RoleEnum;
 use Events\Model\Repository\EventLinkRepo;
-use Events\Model\Entity\EventLinkInterface;
-use Events\Model\Entity\EventLink;
-
-use Events\Middleware\Events\Controler\EventControler_2;
+use Events\Model\Repository\EventLinkRepoInterface;
+use Events\Model\Repository\EventLinkPhaseRepo;
+use Events\Model\Repository\EventLinkPhaseRepoInterface;
 
 /** @var PhpTemplateRendererInterface $this */
 
+/** @var StatusViewModel $statusViewModel */
+$statusViewModel = $container->get(StatusViewModel::class);
+if ($statusViewModel->getUserRole() != RoleEnum::EVENTS_ADMINISTRATOR) {
+    echo Html::p("Stránka je určena pouze pro administraci programu.", ["class" => "ui orange segment"]);
+    return;
+}
 
-$statusSecurityRepo = $container->get(StatusSecurityRepo::class);
-/** @var StatusSecurityRepo $statusSecurityRepo */
-$statusSecurity = $statusSecurityRepo->getClone();
-/** @var LoginAggregateFullInterface $loginAggregate */
-$loginAggregate = $statusSecurity->getLoginAggregate();
-
-//if (isset($loginAggregate)) {
-
-
-//    /** @var CompanyRepo $companyRepo */ 
-//    $companyRepo = $container->get(CompanyRepo::class );
-//    /** @var CompanyContactRepo $companyContactRepo */
-//    $companyContactRepo = $container->get(CompanyContactRepo::class );
-//    /** @var RepresentativeRepo $representativeRepo */
-//    $representativeRepo = $container->get(RepresentativeRepo::class );
-    
-    /** @var EventLinkRepo $eventLinkRepo */
-    $eventLinkRepo = $container->get(EventLinkRepo::class );
-     /** @var EventLinkPhaseRepo $EventLinkPhaseRepo */
-    $eventLinkPhaseRepo = $container->get(EventLinkPhaseRepo::class );
-            
-    //------------------------------------------------------------------    
-            
-   
-    
-        $selectEventLinkPhasies =[];  
-        $selectEventLinkPhasies [''] =  "vyber fázi - povinné pole" ;
-        $eventLinkPhaseEntities = $eventLinkPhaseRepo->findAll();
-        if (isset($eventLinkPhaseEntities) ) {
-            /** @var EventLinkPhaseInterface $ent */ 
-            foreach ( $eventLinkPhaseEntities as $ent) {
-                $selectEventLinkPhasies [$ent->getId()] =  $ent->getText() ?? '' ;
-            }                         
-        } 
-    
-        $eventLinks=[];      
-        $eventLinksEntities = $eventLinkRepo->findAll();
-        if ($eventLinksEntities) {      
-            /** @var EventLinkInterface $entity */
-            foreach ($eventLinksEntities as $entity) {
-                /** @var EventLinkPhaseInterface $eventLinkPhaseE */
-                $eventLinkPhaseE = $eventLinkPhaseRepo->get( $entity->getLinkPhaseIdFk() ?? '' ) ;
-                $phaseText = isset ($eventLinkPhaseE) ? $eventLinkPhaseE->getText()  : '' ;
-                
-                $eventLinks[] = [
-                    'eventLinkId' => $entity->getId(),
-                    'show' => ($entity->getShow()),
-                    'href' =>  $entity->getHref(),
-                    
-                    'eventLinkPhaseIdFk' => $entity->getLinkPhaseIdFk() ??  EventControler_2::NULL_VALUE_nahradni , 
-                    'selectEventLinkPhasies' => $selectEventLinkPhasies
-                    ];
-            }   
-        } 
-//        else {
-//             $eventLinks[] = [ 
-//                 'selectEventLinkPhase' => $selectEventLinkPhase
-//             ];
-//        }
-                              
-       // $selecty['selectEventLinkPhase'] = $selectEventLinkPhase;         
-  ?>
-
-
-    <div>
-    <div class="ui styled fluid accordion">   
-
-            Odkazy pro události <hr/>                      
-            <div class="active content">                    
-                <?php  if (isset ($eventLinks) ) {   ?> 
-                    <?= $this->repeat(__DIR__.'/event-link.php',  $eventLinks)  ?>             
-                <?php  }   ?>                
-
-                <div class="active title">
-                    <i class="dropdown icon"></i>
-                    Přidej další odkaz
-                </div>  
-                <div class="active content">     
-                    <?= $this->insert( __DIR__.'/event-link.php', [                                                           
-                                                'eventLinkPhaseIdFk' => ''  /*EventControler_2::NULL_VALUE_nahradni*/ ,
-                                                'selectEventLinkPhasies' => $selectEventLinkPhasies,                                                            
-                                                'show' =>  "0",
-                                                'href' =>  "",
-                    ] ) ?>                                                                                 
-                </div>                  
-            </div>            
-    </div>
-    </div>
-
-  <?php     
-//    } else { ?>
-          <div>
-          </div>   
-  <?php 
-//    }
-//   
-//} 
-//else{
-//     echo  "Údaje o instituticích smí vidět jen přihlášený." ; 
-//}
-    
-   ?>
+/** @var EventLinkPhaseRepoInterface $eventLinkPhaseRepo */
+$eventLinkPhaseRepo = $container->get(EventLinkPhaseRepo::class);
+$phases = [];
+foreach ($eventLinkPhaseRepo->findAll() as $phase) {
+    $phases[$phase->getId()] = $phase->getText();
+}
+/** @var EventLinkRepoInterface $eventLinkRepo */
+$eventLinkRepo = $container->get(EventLinkRepo::class);
+$rows = [];
+foreach ($eventLinkRepo->findAll() as $link) {
+    $rows[] = ['id' => $link->getId(), 'href' => $link->getHref(), 'show' => $link->getShow(),
+        'linkPhaseId' => $link->getLinkPhaseIdFk(), 'phases' => $phases];
+}
+?>
+<div class="ui segment">
+    <h3>Odkazy eventů</h3>
+    <p>Odkaz se k eventu přiřadí ve správě eventů (odkaz pro vstup u online eventu). Bez fází odkazů nejde odkaz uložit –
+        nejdřív je založte ve správě fází.</p>
+    <?= $this->repeat(__DIR__ . '/event-link.php', $rows) ?>
+    <h4>Nový odkaz</h4>
+    <?= $this->insert(__DIR__ . '/event-link.php', ['phases' => $phases]) ?>
+</div>

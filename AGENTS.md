@@ -10,7 +10,10 @@ zvlášť pro projekt **Veletrh práce (VP)** popsaný v [`docs/vp/`](docs/vp/RE
 - Jeden kód, více webů („sites“): `app/Site/{NajdiSi, Grafia, OtevreneAteliery, VeletrhPrace, TydenZdravi}`.
   Aktivní site se volí v `app/Site/active-site.php`.
 - **Produkční Veletrh práce běží jako site NajdiSi.** Deploy = `app/Site/NajdiSi`, `local/site/najdisi`
-  (šablony VP v `local/site/najdisi/static/vp`) + společné složky (`src`, `local/site/common`, `public/site/common`).
+  (šablony VP v `local/site/najdisi/static/vp`) + společné složky (`src`, `local/site/common`, `public/site/common`, `public/assets`).
+- Veřejné soubory: `public/site/common` jen pro to, co vzniklo jako součást projektu (vlastní JS, CSS, obrázky).
+  Externí knihovny a jiné převzaté zdroje patří do `public/assets` – JS knihovny do `public/assets/lib`
+  (soubor s verzí v názvu, licence, řádek v `public/assets/lib/README.md`), písma do `public/assets/fonts`.
 - Moduly v `src/Module/*`: Auth (DB auth = `single_login`), Events (DB `events`), Red (CMS), Web, Build, Sendmail, Consent…
 - Vzor modulu: `Application/Api/Catalog/*RouteCatalog` → `Middleware/*/Controler` → `Model/{Repository, Dao, Hydrator, Entity}`,
   kontejnery v `src/Container`.
@@ -42,6 +45,8 @@ Do `master` se nepushuje přímo. Do `master-vp` standardně přes pull request;
 - Texty, hlášky a e-maily česky. E-maily přes sdílené šablony, adresy odesílatelů z konfigurace (ne natvrdo v kontroléru).
 - Hesla a tokeny nikdy v čitelné podobě v DB, logu ani e-mailu. Výjimka: stávající dočasné heslo v `registration`
   do potvrzení registrace (záměr kvůli ručnímu dokončení registrace vystavovatele, řeší odložený balík Z6) — nerozšiřovat.
+  Identifikátory, které nepřihlašují (QR kód návštěvníka a kód papírového lístku pro losování – D1, D1c; jen vydají
+  nebo prodlouží los), nejsou tajné údaje a smí být v DB čitelně (rozhodl Petr 16. 11. 2026).
 - `app/Site/active-site.php` a `local/site/site-name.less` měň jen lokálně, necommituj je.
 - Necommituj dumpy DB s osobními údaji, `vendor/`, `node_modules/`, logy.
 

@@ -22,9 +22,6 @@ use Pes\Core\Text\Html;
         
         <?php include ConfigurationCache::eventTemplates()['templates']."presenter-job/content/job-list.php"; ?>
 
-        <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Náš program</p>
-        <?php 
-//         include 'profil/harmonogram.php'
-        ?>
+        <?php include 'profil/harmonogram.php' ?>
 
     </div>

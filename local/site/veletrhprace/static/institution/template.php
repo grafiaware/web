@@ -13,7 +13,7 @@ use Events\Model\Repository\InstitutionTypeRepo;
 use Events\Model\Entity\InstitutionInterface;
 use Events\Model\Entity\Institution;
 
-use Events\Middleware\Events\Controler\EventControler_2;
+use Events\Middleware\Events\Controler\EventControler;
 
 /** @var PhpTemplateRendererInterface $this */
 
@@ -41,7 +41,7 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
             
     //------------------------------------------------------------------    
         $selectInstitutionTypes =[];    
-        $selectInstitutionTypes [EventControler_2::NULL_VALUE_nahradni] =  "" ;
+        $selectInstitutionTypes [EventControler::NULL_VALUE_nahradni] =  "" ;
         $institutionTypeEntities = $institutionTypeRepo->findAll();
         if (isset($institutionTypeEntities) ) {
             /** @var InstitutionTypeInterface $entity */ 

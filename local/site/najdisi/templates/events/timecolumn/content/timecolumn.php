@@ -5,4 +5,6 @@ use Pes\Core\Text\Text;
 
 ?>
 
+<form name="event-enroll" action="" method="POST">
                         <?= $this->repeat(__DIR__.'/timecolumn/timerow.php', $event) ?>
+</form>

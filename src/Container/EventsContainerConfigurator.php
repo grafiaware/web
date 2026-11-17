@@ -93,7 +93,7 @@ use Events\Middleware\Events\Controler\JobControler;
 use Events\Middleware\Events\Controler\DocumentControler;
 use Events\Middleware\Events\Controler\CompanyControler;
 use Events\Middleware\Events\Controler\VisitorJobRequestControler;
-use Events\Middleware\Events\Controler\EventControler_2;
+use Events\Middleware\Events\Controler\EventControler;
 use Events\Middleware\Events\Controler\FilterControler;
 use Events\Middleware\Events\Controler\MaintenanceControler;
 
@@ -102,6 +102,8 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Events\Model\Repository\VisitorJobRequestRepo;
+use Events\Model\Repository\EnrollRepo;
+use Events\Model\Repository\EventRepo;
 use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Repository\LoginRepo;
 use Events\Model\Repository\CompanyRepo;
@@ -139,6 +141,22 @@ use Pes\View\Renderer\Container\TemplateRendererContainer;
 use Template\Compiler\TemplateCompiler;
 // view
 use Pes\View\View;
+// D1 losování
+use Events\Middleware\Events\Controler\Lottery\LotteryAdminControler;
+use Events\Middleware\Events\Controler\Lottery\LotteryPaperControler;
+use Events\Middleware\Events\Controler\Lottery\LotteryStaffControler;
+use Events\Middleware\Events\Controler\Lottery\LotteryVisitorControler;
+use Events\Service\Lottery\AuthLookup;
+use Events\Service\Lottery\LotteryConfig;
+use Events\Service\Lottery\LotteryDrawService;
+use Events\Service\Lottery\LotteryMailer;
+use Events\Service\Lottery\LotteryPaperService;
+use Events\Service\Lottery\LotteryScanService;
+use Events\Service\Lottery\LotteryService;
+use Auth\Service\Qr\QrImageGenerator;
+use Mail\MailSettings;
+use Mail\MessageFactory\HtmlMessage;
+use Pes\Mail\MailInterface;
 
 /**
  *
@@ -601,6 +619,33 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                     );
             },
             // front kontrolery
+            // D1 losování (docs/vp/zadani/D1.md)
+            AuthLookup::class => function(ContainerInterface $c) {
+                return new AuthLookup();
+            },
+            LotteryMailer::class => function(ContainerInterface $c) {
+                return new LotteryMailer($c->get(MailInterface::class), $c->get(HtmlMessage::class), MailSettings::fromConfiguration(),
+                    LotteryConfig::fromConfiguration());
+            },
+            LotteryVisitorControler::class => function(ContainerInterface $c) {
+                return (new LotteryVisitorControler($c->get(StatusSecurityRepo::class), $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class), $c->get(LotteryService::class), new QrImageGenerator(),
+                        $c->get(AuthLookup::class), $c->get(LotteryMailer::class), $c->get(LotteryPaperService::class)))->injectContainer($c);
+            },
+            LotteryStaffControler::class => function(ContainerInterface $c) {
+                return (new LotteryStaffControler($c->get(StatusSecurityRepo::class), $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class), $c->get(LotteryService::class), $c->get(LotteryScanService::class),
+                        $c->get(LotteryDrawService::class), $c->get(AuthLookup::class)))->injectContainer($c);
+            },
+            LotteryPaperControler::class => function(ContainerInterface $c) {
+                return (new LotteryPaperControler($c->get(StatusSecurityRepo::class), $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class), $c->get(LotteryService::class), $c->get(LotteryPaperService::class)))->injectContainer($c);
+            },
+            LotteryAdminControler::class => function(ContainerInterface $c) {
+                return (new LotteryAdminControler($c->get(StatusSecurityRepo::class), $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class), $c->get(LotteryService::class), $c->get(LotteryDrawService::class),
+                        $c->get(AuthLookup::class)))->injectContainer($c);
+            },
             ComponentStaticControler::class => function(ContainerInterface $c) {
                 return (new ComponentStaticControler(
                         $c->get(StatusSecurityRepo::class),
@@ -713,8 +758,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                        )->injectContainer($c);
             },
                     
-            EventControler_2::class => function(ContainerInterface $c) {
-                return (new EventControler_2(
+            EventControler::class => function(ContainerInterface $c) {
+                return (new EventControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
@@ -724,7 +769,9 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(EventContentTypeRepo::class),
                         
                         $c->get(EventLinkPhaseRepo::class),
-                        $c->get(EventLinkRepo::class)  
+                        $c->get(EventLinkRepo::class),
+                        $c->get(EventRepo::class),
+                        $c->get(EnrollRepo::class)
                         )
                        )->injectContainer($c);
             },

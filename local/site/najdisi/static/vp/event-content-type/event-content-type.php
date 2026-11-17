@@ -1,51 +1,26 @@
 <?php
+/** G0 (#116): jeden typ obsahu eventu (úprava, smazání) nebo formulář nového typu (bez $id). */
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Pes\Core\Text\Text;
-use Pes\Core\Text\Html;
-
 
 /** @var PhpTemplateRendererInterface $this */
- 
-
-    //    $readonly = 'readonly="1"';
-    //    $disabled = 'disabled="1"';
-        $readonly = '';
-        $disabled = ''; 
-
+$h = fn($v) => htmlspecialchars((string) $v);
+$isNew = !isset($id);
+$action = $isNew ? 'events/v1/eventcontenttype' : 'events/v1/eventcontenttype/' . (int) $id;
 ?>
-    <br>
-    <form class="ui huge form" action="" method="POST" >                       
-      
-            <div class="fields">  
-            <?php  if (isset ($type) ) {  ?>   
-                    <p>Typ obsahu:</p>
-                    <div class="field">
-                    <input <?= $readonly ?> type="text" name="type"  required  maxlength="45"  value="<?= $type ?>" >
-                    </div>
-                    Name:   
-                    <div class="field">
-                    <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="45" value="<?= isset($name) ? $name : '' ?>">
-                    </div>
-            <?php  } else {         /*novy*/ ?>    
-                    <p>Typ:</p>
-                    <div class="field">
-                    <input <?= $readonly ?>  type="text" name="type"   required  maxlength="45"  value="" >
-                    </div>
-                    Name:  
-                    <div class="field">  
-                    <input <?= $readonly ?> type="text" name="name" placeholder="" maxlength="45"  value= ""  >
-                    </div>
-            <?php  } ?>    
-            </div>
-    
-        <div>                                                                                                                                
-            <?=
-            isset($type) ?
-                "<button class='ui secondary button' type='submit' formaction='events/v1/eventcontenttype/" . $id . "'> Uložit </button>" .
-                "<button class='ui primary button' type='submit' formaction='events/v1/eventcontenttype/" . $id . "/remove'> Odstranit  </button>" :
-                
-                "<button class='ui secondary button' type='submit' formaction='events/v1/eventcontenttype' > Uložit </button>" ;                
-            ?>                                                                                                         
+<form class="ui form segment" method="POST" action="<?= $action ?>">
+    <div class="two fields">
+        <div class="field">
+            <label>Kód typu</label>
+            <input type="text" name="type" required maxlength="45" value="<?= $h($type ?? '') ?>">
         </div>
-
-    </form >
+        <div class="field">
+            <label>Název</label>
+            <input type="text" name="name" maxlength="45" value="<?= $h($name ?? '') ?>">
+        </div>
+    </div>
+    <button class="ui primary button" type="submit"><?= $isNew ? 'Přidat' : 'Uložit' ?></button>
+    <?php if (!$isNew): ?>
+        <button class="ui button" type="submit" formaction="<?= $action ?>/remove"
+                onclick="return confirm('Smazat typ obsahu? Nejde smazat typ, který používají obsahy.')">Smazat</button>
+    <?php endif; ?>
+</form>

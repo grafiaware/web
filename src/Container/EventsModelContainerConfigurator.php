@@ -15,6 +15,25 @@ use Pes\Model\Builder\Sql;
 // repo
 use Events\Model\Context\ContextProvider;
 
+// D1 losování
+use Events\Model\Dao\Lottery\LotteryDao;
+use Events\Model\Dao\Lottery\LotteryRoundDao;
+use Events\Model\Dao\Lottery\LotteryPrizeDao;
+use Events\Model\Dao\Lottery\LotteryQuestionDao;
+use Events\Model\Dao\Lottery\LotteryAnswerDao;
+use Events\Model\Dao\Lottery\LotteryTicketDao;
+use Events\Model\Dao\Lottery\VisitorCodeDao;
+use Events\Model\Dao\Lottery\LotteryPresenceDao;
+use Events\Model\Dao\Lottery\LotteryPresenceEventDao;
+use Events\Model\Dao\Lottery\LotteryWinnerDao;
+use Events\Model\Dao\Lottery\LotteryPaperTicketDao;
+use Events\Service\Lottery\LotteryConfig;
+use Events\Service\Lottery\LotteryService;
+use Events\Service\Lottery\LotteryDrawService;
+use Events\Service\Lottery\LotteryScanService;
+use Events\Service\Lottery\LotteryPaperService;
+use Events\Service\Lottery\CryptoRandomSource;
+
 use Events\Model\Dao\LoginDao;
 use Events\Model\Hydrator\LoginHydrator;
 use Events\Model\Repository\LoginRepo;
@@ -124,6 +143,7 @@ use Component\ViewModel\StatusViewModel;  // jen jméno pro službu delegáta - 
 use Events\Middleware\Events\ViewModel\JobViewModel;
 use Events\Middleware\Events\ViewModel\RepresentativeViewModel;
 use Events\Middleware\Events\ViewModel\EventContentTypeViewModel;
+use Events\Middleware\Events\ViewModel\ProgramViewModel;
 // database
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\AccountInterface;
@@ -462,6 +482,56 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new VisitorJobRequestRepo($c->get(VisitorJobRequestDao::class), $c->get(VisitorJobRequestHydrator::class));
             },
 
+            // D1 losování (docs/vp/zadani/D1.md)
+            LotteryService::class => function(ContainerInterface $c) {
+                return new LotteryService(
+                    $c->get(LotteryDao::class), $c->get(LotteryRoundDao::class), $c->get(LotteryPrizeDao::class),
+                    $c->get(LotteryQuestionDao::class), $c->get(LotteryAnswerDao::class), $c->get(LotteryTicketDao::class),
+                    $c->get(VisitorCodeDao::class), $c->get(LotteryPresenceDao::class), $c->get(LotteryPresenceEventDao::class),
+                    $c->get(LotteryWinnerDao::class), LotteryConfig::fromConfiguration(), new CryptoRandomSource());
+            },
+            LotteryDrawService::class => function(ContainerInterface $c) {
+                return new LotteryDrawService($c->get(LotteryService::class), $c->get(LotteryWinnerDao::class), new CryptoRandomSource());
+            },
+            LotteryScanService::class => function(ContainerInterface $c) {
+                return new LotteryScanService($c->get(LotteryService::class), $c->get(LotteryPaperService::class));
+            },
+            LotteryPaperService::class => function(ContainerInterface $c) {
+                return new LotteryPaperService($c->get(LotteryService::class), $c->get(LotteryPaperTicketDao::class), new CryptoRandomSource());
+            },
+            LotteryPaperTicketDao::class => function(ContainerInterface $c) {
+                return new LotteryPaperTicketDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            LotteryDao::class => function(ContainerInterface $c) {
+                return new LotteryDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            LotteryRoundDao::class => function(ContainerInterface $c) {
+                return new LotteryRoundDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            LotteryPrizeDao::class => function(ContainerInterface $c) {
+                return new LotteryPrizeDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            LotteryQuestionDao::class => function(ContainerInterface $c) {
+                return new LotteryQuestionDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            LotteryAnswerDao::class => function(ContainerInterface $c) {
+                return new LotteryAnswerDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            LotteryTicketDao::class => function(ContainerInterface $c) {
+                return new LotteryTicketDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            VisitorCodeDao::class => function(ContainerInterface $c) {
+                return new VisitorCodeDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            LotteryPresenceDao::class => function(ContainerInterface $c) {
+                return new LotteryPresenceDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            LotteryPresenceEventDao::class => function(ContainerInterface $c) {
+                return new LotteryPresenceEventDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            LotteryWinnerDao::class => function(ContainerInterface $c) {
+                return new LotteryWinnerDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
             VisitorProfileDao::class => function(ContainerInterface $c) {
                 return new VisitorProfileDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
@@ -504,7 +574,19 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusViewModel::class),
                         $c->get(EventContentTypeRepo::class)
                         );
-            }
+            },
+            ProgramViewModel::class => function(ContainerInterface $c) {
+                return new ProgramViewModel(
+                        $c->get(EventRepo::class),
+                        $c->get(EventContentRepo::class),
+                        $c->get(EventContentTypeRepo::class),
+                        $c->get(InstitutionRepo::class),
+                        $c->get(InstitutionTypeRepo::class),
+                        $c->get(EventLinkRepo::class),
+                        $c->get(EventLinkPhaseRepo::class),
+                        $c->get(EnrollRepo::class)
+                        );
+            },
         ];
     }
 

@@ -292,7 +292,14 @@ class ConfigurationWeb extends ConfigurationConstants {
 //                    'kos' => ['service'=>'menuTrash', 'targetId'=>'menutarget_content'],
                 ],
             'contextBlocksMap' => [
-                ],            
+                'aktuality'=>'a1',
+                'paticka'=>'a2',
+                'organizatorVeletrhu'=>'a3',
+                'razitko'=>'a4',
+                'socialniSite'=>'a5',
+                'banner'=>'a6',
+                'logo'=>'a7',
+                ],          
             ];
     }
     public static function menu() {

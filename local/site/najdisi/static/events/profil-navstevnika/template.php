@@ -24,6 +24,10 @@ $isVisitor = (isset($role) AND $role==RoleEnum::VISITOR);
 
 
 if ($isVisitor) {
+    // D1 (#46): blok Losování (zapojení s anketou, QR kód, stav losu) – stejný jako ve vp/vp-profil-navstevnika
+    if (\Application\Feature\FeatureFlags::fromConfiguration()->isEnabled('vp.losovani')) {
+        include __DIR__ . '/../../vp/vp-profil-navstevnika/content/losovani.php';
+    }
 echo Html::tag('div', 
         [
             'class'=>'cascade',
