@@ -1,46 +1,30 @@
 <?php
+/**
+ * G0 (#116): Můj harmonogram – eventy, na které je přihlášený uživatel přihlášen (z DB přes ProgramViewModel).
+ * Zobrazí se jen se zapnutým vp.program. Vstup: $loginName, $container (z profilu návštěvníka).
+ */
 use Site\ConfigurationCache;
-use Events\Middleware\Events\ViewModel\EventViewModel;
-
+use Application\Feature\FeatureFlags;
+use Events\Middleware\Events\ViewModel\ProgramViewModel;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
+
 /** @var PhpTemplateRendererInterface $this */
 
-use Red\Model\Entity\EnrollInterface;  // pro vdoc
-
-//include 'data.php';
-
-$headline = 'Můžete se těšit na tyto přednášky';
-$perex =
-    '
-Další přednášky průběžně doplňujeme, koukněte sem za pár dnů!
-
-Přednášky můžete i opakovaně zhlédnout na našem youtube kanálu. Odkaz na youtube kanál zde najdete po 28. 3. 2021';
-$footer = 'Další přednášky budou postupně přibývat, sledujte tuto stránku!';
-
-
-$eventTypeName = "";  // viz Events\Middleware\Events\ViewModel\EventType
-$institutionName = "";
-
-$event = [];
-$eventList = new EventViewModel($statusSecurity);
-
-$eventIds = [];
-foreach ($enrolls as $enroll) {
-    $eventIds[] = $enroll->getEventid();
-}
-
-$event = $eventList->getEventList(null, $institutionName, $eventIds, false);   // enrolling = false
-
-
-//include Configuration::componentControler()['templates']."timecolumn/template.php";
-//include Configuration::componentControler()['templates']."timeline-boxes/template.php";
-
-
+if (FeatureFlags::fromConfiguration()->isEnabled('vp.program') && isset($loginName)) {
+    /** @var ProgramViewModel $programViewModel */
+    $programViewModel = $container->get(ProgramViewModel::class);
+    $event = $programViewModel->getTimeline(null, $loginName, true, true);   // jen moje, s odhlášením
 ?>
 <div class="title">
     <i class="dropdown icon"></i>
     Můj harmonogram
 </div>
 <div class="content">
-    <?php include ConfigurationCache::eventTemplates()['templates']."timeline-leafs/content/timeline.php"; ?>
+    <?php if ($event) { ?>
+        <?php include ConfigurationCache::eventTemplates()['templates'] . "timeline-leafs/content/timeline.php"; ?>
+    <?php } else { ?>
+        <p>Zatím nejste přihlášeni na žádnou akci. Přihlásit se můžete v programu veletrhu.</p>
+    <?php } ?>
 </div>
+<?php
+}

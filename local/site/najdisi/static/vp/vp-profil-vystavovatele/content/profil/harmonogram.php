@@ -1,36 +1,26 @@
 <?php
+/**
+ * G0 (#116): harmonogram vystavovatele – eventy jeho instituce (instituce se jmenuje stejně jako firma) s počtem
+ * přihlášených, z DB přes ProgramViewModel. Jen se zapnutým vp.program. Vstup: $representativeContext, $container.
+ */
 use Site\ConfigurationCache;
-use Events\Middleware\Events\ViewModel\EventViewModel;
-
+use Application\Feature\FeatureFlags;
+use Events\Middleware\Events\ViewModel\ProgramViewModel;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
+
 /** @var PhpTemplateRendererInterface $this */
 
-use Red\Model\Entity\EnrollInterface;  // pro vdoc
-
-//include 'data.php';
-
-$headline = 'Můžete se těšit na tyto přednášky';
-$perex =
-    '
-Další přednášky průběžně doplňujeme, koukněte sem za pár dnů!
-
-Přednášky můžete i opakovaně zhlédnout na našem youtube kanálu. Odkaz na youtube kanál zde najdete po 28. 3. 2021';
-$footer = 'Další přednášky budou postupně přibývat, sledujte tuto stránku!';
-
-$eventTypeName = "";  // viz Events\Middleware\Events\ViewModel\EventType
-
-$eventList = new EventViewModel($statusSecurity);
-$eventInstitutionName = $representativeContext["nameCompany"];
-$event = $eventList->getEventList(null, $eventInstitutionName, [], false);   // enrolling = false
+if (FeatureFlags::fromConfiguration()->isEnabled('vp.program') && !empty($representativeContext['nameCompany'])) {
+    /** @var ProgramViewModel $programViewModel */
+    $programViewModel = $container->get(ProgramViewModel::class);
+    $event = $programViewModel->getTimeline(null, null, false, false, $representativeContext['nameCompany'], true);
+    $showEnrolledCount = true;
 ?>
-
-<div class="title">
-    <i class="dropdown icon"></i>
-    Harmonogram
-</div>
-<div class="content">
-    <?php include ConfigurationCache::eventTemplates()['templates']."timeline-leafs/content/timeline.php";
-//include Configuration::componentControler()['templates']."timecolumn/template.php";
-//include Configuration::componentControler()['templates']."timeline-boxes/template.php";
-    ?>
-</div>
+<p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Náš program</p>
+<?php if ($event) { ?>
+    <?php include ConfigurationCache::eventTemplates()['templates'] . "timeline-leafs/content/timeline.php"; ?>
+<?php } else { ?>
+    <p>V programu zatím nemáte žádnou akci.</p>
+<?php } ?>
+<?php
+}

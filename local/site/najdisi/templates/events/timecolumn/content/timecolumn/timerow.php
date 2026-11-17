@@ -10,7 +10,7 @@ use Pes\Core\Text\Html;
 ?>
 
                 <div class="prednasejici">
-                    <p class="text velky primarni-barva nastred"><?= $timelinePoint ?></p>
+                    <p class="text velky primarni-barva nastred"><?= htmlspecialchars((string) $timelinePoint) ?></p>
                     <div class="ui two column internally celled grid centered">
                         <div class="stretched row">
                             <div class="eight wide column"><p><b>Název poradny</b></p><p>Čas</p></div>

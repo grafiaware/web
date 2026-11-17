@@ -11,7 +11,6 @@ use Status\Model\Entity\Security;
 use Status\Model\Repository\StatusSecurityRepo;
 use Events\Model\Entity\RepresentativeInterface;
 
-use Events\Model\Repository\EnrollRepo;
 use Events\Model\Repository\CompanyRepo;
 use Events\Model\Repository\CompanyContactRepo;
 use Events\Model\Repository\CompanyAddressRepo;
@@ -147,19 +146,6 @@ use Auth\Model\Entity\LoginAggregateFullInterface;
 
 
 
-//------------------------------------------------------
-/** @var EnrollRepo $enrollRepo */
-$enrollRepo = $container->get(EnrollRepo::class);
-$enrolls = $enrollRepo->findAll();
-$eventCountById = [];
-foreach ($enrolls as $enroll) {
-    if (array_key_exists($enroll->getEventid(), $eventCountById)) {
-        $eventCountById[$enroll->getEventid()]++;
-    } else {
-        $eventCountById[$enroll->getEventid()] = 1;
-    }
-}
-//--------------------------------------------------------
 
 
 
