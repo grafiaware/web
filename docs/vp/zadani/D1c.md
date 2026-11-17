@@ -113,8 +113,8 @@ ALTER TABLE lottery_winner
   skládá PDF v prohlížeči z JSON (`LotteryPaperService::pdfData()` + adresy z kontroléru). QR vektorově
   (qrcode-generator, oprava M), písmo TTF přímo (Liberation Sans, SIL OFL), plné UTF-8. Když se anketa nevejde,
   písmo ankety se zmenší nejvýš na 80 %, jinak hláška (zvolit 2 na A4 nebo zkrátit otázky).
-  **Nové knihovny (uvedeno předem):** jsPDF 4.2.1 a qrcode-generator 2.0.4 (obě MIT) v `public/site/common/js/lib/`,
-  písmo v `public/site/common/fonts/liberation-sans/`. Není to nový vzor modelu ani view (nástroj pro výstup PDF);
+  **Nové knihovny (uvedeno předem):** jsPDF 4.2.1 a qrcode-generator 2.0.4 (obě MIT) v `public/assets/lib/`,
+  písmo v `public/assets/fonts/liberation-sans/` (externí zdroje patří do `public/assets`, AGENTS.md). Není to nový vzor modelu ani view (nástroj pro výstup PDF);
   stránka zůstává v `Pages/` podle ADR 002.
 - Šablony: přehled lístků s formulářem PDF; zobrazení „Lístek č.“ ve skeneru, losování a exportu.
 
@@ -141,6 +141,11 @@ Stejný jako D1: `vp.losovani`.
 - Ruční: tisk 2 stran na tiskárně, sken výtisku telefonem (Android, iPhone), losování s 2 registrovanými a 3 lístky.
 
 ## Stav a další krok
+
+17. 11. 2026 odpoledne: Petr ověřil PDF (600 lístků za 3–4 s, QR čitelné; fotoaparát Androidu hlásí „nepodporovaný kód“
+jen kvůli adrese `http://` z lokálního prostředí, jiné čtečky fungují). Na pokyn Petra přesunuty externí knihovny a písmo
+z `public/site/common` do `public/assets/lib` a `public/assets/fonts` (i jsQR ze skeneru D1); AGENTS.md: `public/assets`
+v nasazení a pravidlo umístění externích zdrojů. Další krok: tisk a sken výtisku, pak test na hostingu (HTTPS) a PR.
 
 17. 11. 2026 (PDF lístků, větev `vp/d1-losovani`): tisková HTML stránka nahrazena PDF z prohlížeče (jsPDF).
 - Důvod: generování QR v PHP bylo u Petra velmi pomalé (40 lístků > 30 s), PDF chce kvůli tisku z jiné aplikace
