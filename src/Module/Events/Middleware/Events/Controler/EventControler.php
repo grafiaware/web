@@ -432,10 +432,15 @@ class EventControler extends FrontControlerAbstract {
             $this->addFlashMessage("Zadejte datum a čas začátku i konce (konec po začátku), např. 10:30.");
             return false;
         }
+        $contentId = $this->selectParam($request, 'selectEventContentId');
+        if ($contentId === null || $this->eventContentRepo->get($contentId) === null) {
+            $this->addFlashMessage("Vyberte obsah eventu.");
+            return false;
+        }
         $event->setStart($start);
         $event->setEnd($end);
         $event->setPublished($this->param($request, 'published') ? 1 : 0);
-        $event->setEventContentIdFk($this->selectParam($request, 'selectEventContentId'));
+        $event->setEventContentIdFk($contentId);
         $event->setEnrollLinkIdFk($this->selectParam($request, 'selectEnrollLinkId'));
         $event->setEnterLinkIdFk($this->selectParam($request, 'selectEnterLinkId'));
         return true;

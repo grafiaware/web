@@ -1,44 +1,20 @@
 <?php
+/** G0 (#116): jedna fáze odkazu (úprava, smazání) nebo formulář nové fáze (bez $id). */
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Site\ConfigurationCache;
-
-use Pes\Core\Text\Text;
-use Pes\Core\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
-
-    //    $readonly = 'readonly="1"';
-    //    $disabled = 'disabled="1"';
-        $readonly = '';
-        $disabled = ''; 
+$h = fn($v) => htmlspecialchars((string) $v);
+$isNew = !isset($id);
+$action = $isNew ? 'events/v1/eventlinkphase' : 'events/v1/eventlinkphase/' . (int) $id;
 ?>
-
-        <form class="ui huge form" action="" method="POST" >                                                                         
-                <div class="field">                   
-                    <label>Fáze odkazu</label>
-                    <input <?= $readonly ?> type="text" name="eventLinkPhaseText" placeholder="" maxlength="100" required
-                                            value="<?= isset($eventLinkPhaseText)?  $eventLinkPhaseText : '' ?>">                   
-                </div>           
-            
-     
-            <?php
-            if($readonly === '') {
-            ?>
-            <div>
-                <?=
-                 isset($eventLinkPhaseId) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/eventlinkphase/".$eventLinkPhaseId. "' > Uložit </button>" :
-                "<button class='ui primary button' type='submit' formaction='events/v1/eventlinkphase' > Uložit </button>" ;                                   
-                 ?>   
-
-                <?=
-                isset($eventLinkPhaseId) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/eventlinkphase/".$eventLinkPhaseId."/remove' > Odstranit fázi </button>" :
-                "" ;
-                ?>                                                                                                         
-            </div>
-            <?php
-            }
-            ?>
-
-        </form>           
+<form class="ui form segment" method="POST" action="<?= $action ?>">
+    <div class="field">
+        <label>Text tlačítka</label>
+        <input type="text" name="eventLinkPhaseText" required maxlength="100" value="<?= $h($text ?? '') ?>">
+    </div>
+    <button class="ui primary button" type="submit"><?= $isNew ? 'Přidat' : 'Uložit' ?></button>
+    <?php if (!$isNew): ?>
+        <button class="ui button" type="submit" formaction="<?= $action ?>/remove"
+                onclick="return confirm('Smazat fázi odkazu? Nejde smazat fázi, kterou používají odkazy.')">Smazat</button>
+    <?php endif; ?>
+</form>

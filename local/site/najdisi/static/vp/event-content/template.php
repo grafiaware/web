@@ -1,129 +1,57 @@
 <?php
+/**
+ * G0 (#116): správa obsahů eventů (název, popis, vystupující, instituce, typ) – jen events_administrator.
+ * Obsah se přiřadí eventu (čas) ve správě eventů. Akce: EventControler (events/v1/eventcontent).
+ */
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Site\ConfigurationCache;
-
-use Pes\Core\Text\Text;
 use Pes\Core\Text\Html;
-
-use Events\Model\Repository\EventContentTypeRepoInterface;
-use Events\Model\Repository\EventContentTypeRepo;
-use Events\Model\Entity\EventContentTypeInterface;
-
-use Events\Model\Repository\EventContentRepoInterface;
+use Component\ViewModel\StatusViewModel;
+use Access\Enum\RoleEnum;
 use Events\Model\Repository\EventContentRepo;
-use Events\Model\Entity\EventContentInterface;
-
-use Events\Model\Repository\InstitutionRepoInterface;
+use Events\Model\Repository\EventContentRepoInterface;
+use Events\Model\Repository\EventContentTypeRepo;
+use Events\Model\Repository\EventContentTypeRepoInterface;
 use Events\Model\Repository\InstitutionRepo;
-use Events\Model\Entity\InstitutionInterface;
-
-use Events\Middleware\Events\Controler\EventControler;
+use Events\Model\Repository\InstitutionRepoInterface;
 
 /** @var PhpTemplateRendererInterface $this */
 
-    /** @var EventContentTypeRepoInterface $eventContentTypeRepo */ 
-    $eventContentTypeRepo = $container->get(EventContentTypeRepo::class );
-    /** @var EventContentRepoInterface $eventContentRepo */
-    $eventContentRepo = $container->get(EventContentRepo::class );
-    /** @var InstitutionRepoInterface $institutionRepo */
-    $institutionRepo = $container->get(InstitutionRepo::class );
-    
-    
-    //------------------------------------------------------------------            
-    $idInstitution = 23;   //nepouzite
-    //------------------------------------------------------------------
- 
-    $institutionIdFk  = $idInstitution;
-    
-    $selectContentTypes = [];
-    $selectContentTypes [''] =  "vyber - povinné pole" ;
-    $allContentType = $eventContentTypeRepo->findAll();
-    $eventContentTypesArray=[];
-    /** @var  EventContentInterface $type */
-    foreach ($allContentType as $type) {    
-        $contype ['type'] = $type->getType();
-        $contype ['name'] = $type->getName();               
-        $eventContentTypesArray[] = $contype;    
-        
-        $selectContentTypes [$type->getId()] =  $type->getName()  ;
-    }
-  
-    
-    $selectInstitutions = [];
-    $selectInstitutions [EventControler::NULL_VALUE_nahradni] =  "" ;
-    $institutionEntities = $institutionRepo->findAll();
-        /** @var InstitutionInterface $inst */ 
-    foreach ( $institutionEntities as $inst ) {
-        $selectInstitutions [$inst->getId()] =  $inst->getName() ;
-    }
-    
-    
-    $selecty = [];
-    $selecty['selectInstitutions'] = $selectInstitutions;
-    $selecty['selectContentTypes'] = $selectContentTypes;
-           
-    
-    //---------------------------------------------------------
-    // Contenty pro  $idInstitution
-    //$eventContentEntities = $eventContentRepo->find( " institution_id_fk = :institutionIdFk ",  ['institutionIdFk'=> $institutionIdFk /*'23'*/] );
-    
-    // Contenty všechny
-    $eventContentEntities = $eventContentRepo->findAll();
+/** @var StatusViewModel $statusViewModel */
+$statusViewModel = $container->get(StatusViewModel::class);
+if ($statusViewModel->getUserRole() != RoleEnum::EVENTS_ADMINISTRATOR) {
+    echo Html::p("Stránka je určena pouze pro administraci programu.", ["class" => "ui orange segment"]);
+    return;
+}
 
-    if ($eventContentEntities) {   
-            /** @var EventContentInterface $entity */
-            foreach ($eventContentEntities as $entity) {
-                      $nu1 = $entity->getInstitutionIdFk();
-                      $nu2 = $entity->getEventContentTypeIdFk();
-                
-                $institutionE = $institutionRepo->get(  ($entity->getInstitutionIdFk()) ?? ''    ) ;               
-                $eventContents[] = [
-                    'institutionIdFk' => ($entity->getInstitutionIdFk()) ?? EventControler::NULL_VALUE_nahradni , 
-                    'selectInstitutions' => $selectInstitutions, 
-                    'institutionName' => ( isset($institutionE) ? $institutionE->getName() : '' ),
-                    
-                    'eventContentTypeIdFk' => ($entity->getEventContentTypeIdFk()), /*?? EventControler::NULL_VALUE_nahradni,*/
-                    'selectContentTypes' => $selectContentTypes, 
-                    
-                    'title' =>  $entity->getTitle(),
-                    'perex' =>  $entity->getPerex(),
-                    'party' =>  $entity->getParty(),
-                    'idContent' =>  $entity->getId()
-                    ];
-            }   
-    }
-//    else {
-//        $eventContents[] = [
-//             'selectInstitutions' => $selectInstitutions, 
-//             'selectContentTypes' => $selectContentTypes, 
-//        ];
-//    }
-                                              
-  ?>
-    
-    <div class="ui styled fluid accordion">           
-        <div>                
-           <b>Obsahy událostí (event content) </b>
-        </div>                          
-        ------------------------------------------------------                      
-        <div>      
-            <?php  if (isset ($eventContents) ) {   ?> 
-                <?= $this->repeat(__DIR__.'/event-content.php',  $eventContents )  ?> 
-            <?php  }   ?>
-            
-            <br>
-            <div>                   
-               !+++! Přidej další obsah události (event content)
-            </div>  
-            <div>     
-                <?= $this->insert( __DIR__.'/event-content.php', [ "selectInstitutions" => $selectInstitutions,
-                                                                   "institutionIdFk" =>  EventControler::NULL_VALUE_nahradni,                                                                  
-                    
-                                                                   "selectContentTypes" => $selectContentTypes,
-                                                                   "eventContentTypeIdFk" =>  ''//not null
-                                                                 ] ) ?>                                                                                 
-            </div>                  
-        </div>           
-                                      
-    </div>
-
+/** @var EventContentTypeRepoInterface $eventContentTypeRepo */
+$eventContentTypeRepo = $container->get(EventContentTypeRepo::class);
+$types = [];
+foreach ($eventContentTypeRepo->findAll() as $contentType) {
+    $types[$contentType->getId()] = $contentType->getName() ?: $contentType->getType();
+}
+/** @var InstitutionRepoInterface $institutionRepo */
+$institutionRepo = $container->get(InstitutionRepo::class);
+$institutions = [];
+foreach ($institutionRepo->findAll() as $institution) {
+    $institutions[$institution->getId()] = $institution->getName();
+}
+asort($institutions, SORT_LOCALE_STRING);
+/** @var EventContentRepoInterface $eventContentRepo */
+$eventContentRepo = $container->get(EventContentRepo::class);
+$rows = [];
+foreach ($eventContentRepo->findAll() as $content) {
+    $rows[] = ['id' => $content->getId(), 'title' => $content->getTitle(), 'perex' => $content->getPerex(),
+        'party' => $content->getParty(), 'selectedInstitutionId' => $content->getInstitutionIdFk(),
+        'contentTypeId' => $content->getEventContentTypeIdFk(), 'types' => $types, 'institutions' => $institutions];
+}
+?>
+<div class="ui segment">
+    <h3>Obsahy eventů</h3>
+    <p>Co se na eventu děje (přednáška, poradna…). Čas a zveřejnění se nastavují ve správě eventů.</p>
+    <?php if (!$types): ?>
+        <p class="ui orange message">Nejdřív založte typy obsahu.</p>
+    <?php endif; ?>
+    <?= $this->repeat(__DIR__ . '/event-content.php', $rows) ?>
+    <h4>Nový obsah</h4>
+    <?= $this->insert(__DIR__ . '/event-content.php', ['types' => $types, 'institutions' => $institutions]) ?>
+</div>

@@ -1,69 +1,34 @@
 <?php
+/**
+ * G0 (#116): správa typů institucí (firma, úřad práce, škola…) – jen events_administrator.
+ * Akce: EventControler (events/v1/institutiontype).
+ */
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Site\ConfigurationCache;
-
-use Pes\Core\Text\Text;
 use Pes\Core\Text\Html;
-use Status\Model\Repository\StatusSecurityRepo;
-use Auth\Model\Entity\LoginAggregateFullInterface;
-
-
+use Component\ViewModel\StatusViewModel;
+use Access\Enum\RoleEnum;
 use Events\Model\Repository\InstitutionTypeRepo;
-
-
-use Events\Model\Entity\InstitutionTypeInterface;
-use Events\Model\Entity\InstitutionType;
+use Events\Model\Repository\InstitutionTypeRepoInterface;
 
 /** @var PhpTemplateRendererInterface $this */
 
+/** @var StatusViewModel $statusViewModel */
+$statusViewModel = $container->get(StatusViewModel::class);
+if ($statusViewModel->getUserRole() != RoleEnum::EVENTS_ADMINISTRATOR) {
+    echo Html::p("Stránka je určena pouze pro administraci programu.", ["class" => "ui orange segment"]);
+    return;
+}
 
-$statusSecurityRepo = $container->get(StatusSecurityRepo::class);
-/** @var StatusSecurityRepo $statusSecurityRepo */
-$statusSecurity = $statusSecurityRepo->getClone();
-/** @var LoginAggregateFullInterface $loginAggregate */
-$loginAggregate = $statusSecurity->getLoginAggregate();
-
-//if (isset($loginAggregate)) {  
- 
-     /** @var InstitutionTypeRepo $institutionTypeRepo */
-    $institutionTypeRepo = $container->get(InstitutionTypeRepo::class );
-            
-    //------------------------------------------------------------------    
-              
-        $institutionType=[];
-        $institutionTypeEntities = $institutionTypeRepo->findAll();
-        
-        if ($institutionTypeEntities) {       
-             /** @var InstitutionTypeInterface $institutionTypeE */ 
-            foreach ($institutionTypeEntities as $institutionTypeE) {               
-                $institutionType[] = [                                        
-                    'institutionTypeId' => $institutionTypeE->getId(),                    
-                    'institutionType' => $institutionTypeE->getInstitutionType()
-                    ];
-            }   
-        }        
-        
-  ?>
-
-
-    <div>
-    <div class="ui styled fluid accordion">   
-
-            Typ instituce <hr/>                      
-            <div class="active content">      
-                <?= $this->repeat(__DIR__.'/institution-type.php',  $institutionType)  ?>
-
-                <div class="active title">
-                    <i class="dropdown icon"></i>
-                    Přidej další typ instituce
-                </div>  
-                <div class="active content">     
-                    <?= $this->insert( __DIR__.'/institution-type.php' ) ?>     
-                </div>                  
-            </div>            
-    </div>
-    </div>
-
-
-    
-   ?>
+/** @var InstitutionTypeRepoInterface $institutionTypeRepo */
+$institutionTypeRepo = $container->get(InstitutionTypeRepo::class);
+$rows = [];
+foreach ($institutionTypeRepo->findAll() as $institutionType) {
+    $rows[] = ['id' => $institutionType->getId(), 'institutionType' => $institutionType->getInstitutionType()];
+}
+?>
+<div class="ui segment">
+    <h3>Typy institucí</h3>
+    <?= $this->repeat(__DIR__ . '/institution-type.php', $rows) ?>
+    <h4>Nový typ</h4>
+    <?= $this->insert(__DIR__ . '/institution-type.php', []) ?>
+</div>
