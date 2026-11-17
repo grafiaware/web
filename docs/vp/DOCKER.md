@@ -2,7 +2,7 @@
 
 Cíl: celý stack v **Docker Desktop**, zdrojáky dál na disku v git repu (IDE beze změny), web z prohlížeče na hostu i z **LAN / mobilu přes HTTP i HTTPS** (QR, WebView).
 
-**Windows (PowerShell) — podrobný návod bez mezer:** [DOCKER-WINDOWS.md](DOCKER-WINDOWS.md)  
+**Windows (PowerShell / NetBeans, cesta `C:\Apacheroot\web`) — podrobný návod:** [DOCKER-WINDOWS.md](DOCKER-WINDOWS.md)  
 Související: [SETUP.md](SETUP.md) (Composer, site, dumpy), [migrace-db-docker.md](../migrace-db-docker.md) (jen DB).
 
 ## Co běží

@@ -4,7 +4,7 @@
 
 Celý stack (Apache + PHP 8.4 + MariaDB + smtp4dev), HTTPS z LAN/mobilu, Playwright:
 
-- **Windows (PowerShell), podrobný návod:** [DOCKER-WINDOWS.md](DOCKER-WINDOWS.md)
+- **Windows (NetBeans + PowerShell, `C:\Apacheroot\web`):** [DOCKER-WINDOWS.md](DOCKER-WINDOWS.md)
 - Technický přehled: [DOCKER.md](DOCKER.md) (`docker compose up -d --build`)
 
 Níže zůstává klasická instalace (PHP na hostu + Docker jen pro DB/mail), kterou plný compose nahrazuje.

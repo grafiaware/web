@@ -4,14 +4,14 @@ Soubory `cert.pem`, `key.pem` a případně `ca.pem` se **necommitují**.
 
 ## Windows (PowerShell) — doporučeno
 
-Z kořene repo:
+Tým (NetBeans): nejdřív `cd C:\Apacheroot\web`, pak:
 
 ```powershell
 $env:WEB_LAN_IP = "192.168.1.42"   # vaše LAN IP
 .\docker\certs\generate-certs.ps1
 ```
 
-Podrobný návod včetně mobilu: [docs/vp/DOCKER-WINDOWS.md](../../docs/vp/DOCKER-WINDOWS.md).
+Podrobný návod včetně NetBeans a mobilu: [docs/vp/DOCKER-WINDOWS.md](../../docs/vp/DOCKER-WINDOWS.md).
 
 ## macOS / Linux (bash)
 
