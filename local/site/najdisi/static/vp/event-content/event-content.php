@@ -47,6 +47,6 @@ $selected = fn($a, $b) => (string) $a === (string) $b ? 'selected' : '';
     <button class="ui primary button" type="submit"><?= $isNew ? 'Přidat' : 'Uložit' ?></button>
     <?php if (!$isNew): ?>
         <button class="ui button" type="submit" formaction="<?= $action ?>/remove"
-                onclick="return confirm('Smazat obsah? Nejde smazat obsah přiřazený k eventu.')">Smazat</button>
+                onclick="return confirm('Smazat obsah? Eventy s tímto obsahem zůstanou bez obsahu a zmizí z programu.')">Smazat</button>
     <?php endif; ?>
 </form>

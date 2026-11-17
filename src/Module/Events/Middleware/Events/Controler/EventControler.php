@@ -144,7 +144,9 @@ class EventControler extends FrontControlerAbstract {
     public function removeInstitutionType(ServerRequestInterface $request, $institutionTypeId) {
         if ($this->hasAdminPermissions($this->getStatusLoginAggregate())) {
             $institutionType = $this->institutionTypeRepo->get($institutionTypeId);
-            if (isset($institutionType)) {
+            if (isset($institutionType) && $this->institutionRepo->find("institution_type_id = :id", ['id' => $institutionTypeId])) {
+                $this->addFlashMessage("Typ instituce mají přiřazený instituce, nejde ho smazat.");
+            } elseif (isset($institutionType)) {
                 $this->institutionTypeRepo->remove($institutionType);
             } else {
                 $this->addFlashMessage(self::MESSAGE_NOT_FOUND);
@@ -230,7 +232,9 @@ class EventControler extends FrontControlerAbstract {
     public function removeContentType(ServerRequestInterface $request, $id) {
         if ($this->hasAdminPermissions($this->getStatusLoginAggregate())) {
             $eventContentType = $this->eventContentTypeRepo->get($id);
-            if (isset($eventContentType)) {
+            if (isset($eventContentType) && $this->eventContentRepo->find("event_content_type_id_fk = :id", ['id' => $id])) {
+                $this->addFlashMessage("Typ obsahu používají obsahy eventů, nejde ho smazat.");
+            } elseif (isset($eventContentType)) {
                 $this->eventContentTypeRepo->remove($eventContentType);
             } else {
                 $this->addFlashMessage(self::MESSAGE_NOT_FOUND);
@@ -320,7 +324,9 @@ class EventControler extends FrontControlerAbstract {
     public function removeEventLinkPhase(ServerRequestInterface $request, $eventLinkPhaseId) {
         if ($this->hasAdminPermissions($this->getStatusLoginAggregate())) {
             $eventLinkPhase = $this->eventLinkPhaseRepo->get($eventLinkPhaseId);
-            if (isset($eventLinkPhase)) {
+            if (isset($eventLinkPhase) && $this->eventLinkRepo->find("link_phase_id_fk = :id", ['id' => $eventLinkPhaseId])) {
+                $this->addFlashMessage("Fázi používají odkazy, nejde ji smazat.");
+            } elseif (isset($eventLinkPhase)) {
                 $this->eventLinkPhaseRepo->remove($eventLinkPhase);
             } else {
                 $this->addFlashMessage(self::MESSAGE_NOT_FOUND);
