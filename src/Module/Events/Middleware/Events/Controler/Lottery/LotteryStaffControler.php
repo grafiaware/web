@@ -49,7 +49,7 @@ class LotteryStaffControler extends LotteryControlerAbstract {
             'lottery' => $lottery,
             'stations' => array_map(fn($s) => $s + ['label' => '', 'issue' => false], $stations),
             'station' => $station,
-            'jsQrUrl' => 'public/site/common/js/lib/jsQR-1.4.0.min.js',
+            'jsQrUrl' => 'public/assets/lib/jsQR-1.4.0.min.js',
         ]);
     }
 

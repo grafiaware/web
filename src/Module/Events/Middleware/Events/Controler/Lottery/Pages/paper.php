@@ -61,8 +61,8 @@ $tm = fn($v) => $v ? (new DateTimeImmutable($v))->format('G:i') : '–';
         V jednom PDF nejvýš <?= $maxPdf ?> lístků.</p>
     <form id="lottery-paper-pdf" class="row" onsubmit="return false"
           data-url="events/v1/lottery/<?= $id ?>/paper/data"
-          data-font-regular="public/site/common/fonts/liberation-sans/LiberationSans-Regular.ttf"
-          data-font-bold="public/site/common/fonts/liberation-sans/LiberationSans-Bold.ttf">
+          data-font-regular="public/assets/fonts/liberation-sans/LiberationSans-Regular.ttf"
+          data-font-bold="public/assets/fonts/liberation-sans/LiberationSans-Bold.ttf">
         <div><label>Od čísla</label><input type="number" name="from" min="1" value="1"></div>
         <div><label>Do čísla</label><input type="number" name="to" min="1" value="<?= (int) $stats['last'] ?>"></div>
         <div><label>Na stránku A4</label><select name="per">
@@ -74,8 +74,8 @@ $tm = fn($v) => $v ? (new DateTimeImmutable($v))->format('G:i') : '–';
     </form>
     <p><a class="btn secondary" href="events/v1/lottery/<?= $id ?>/paper/csv">Export CSV (číslo, kód, adresa QR)</a></p>
 </div>
-<script src="public/site/common/js/lib/jspdf-4.2.1.umd.min.js"></script>
-<script src="public/site/common/js/lib/qrcode-generator-2.0.4.js"></script>
+<script src="public/assets/lib/jspdf-4.2.1.umd.min.js"></script>
+<script src="public/assets/lib/qrcode-generator-2.0.4.js"></script>
 <script src="public/site/common/js/lottery-paper-pdf.js"></script>
 <?php endif; ?>
 <?php endif; ?>

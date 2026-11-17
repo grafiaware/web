@@ -6,7 +6,7 @@
  * Lístek: anketní díl (název, jméno, příjmení, e-mail, otázky ankety, souhlas s pravidly, malé číslo a kód)
  * + ústřižek za čárkovanou čarou (QR adresy skenu L<kód> vektorově, velké číslo, pokyny).
  * Písmo: TTF načtené přímo (Liberation Sans), plné UTF-8.
- * Knihovny: public/site/common/js/lib/jspdf-4.2.1.umd.min.js, qrcode-generator-2.0.4.js.
+ * Knihovny: public/assets/lib/jspdf-4.2.1.umd.min.js, qrcode-generator-2.0.4.js; písmo public/assets/fonts/liberation-sans.
  */
 (function () {
     'use strict';
