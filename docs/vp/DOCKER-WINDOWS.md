@@ -3,8 +3,10 @@
 Pro kolegu, který má **Docker Desktop** a potřebuje spustit web (Apache + PHP + MariaDB + fake SMTP) včetně **HTTPS z mobilu** (QR).  
 Technický přehled: [DOCKER.md](DOCKER.md).
 
-Příkazy níže pište **přesně** do **Windows PowerShell** (ne do CMD), pokud není řečeno jinak.  
-Cestu ke klonu upravte podle svého PC — v příkladech je `C:\Users\JMENO\git\web`.
+**Týmový standard (NetBeans):** projekt leží v **`C:\Apacheroot\web`**. V této složce už je `.git` (NetBeans s gitem pracuje přímo v projektu).  
+Příkazy níže pište do **Windows PowerShell** (ne do CMD), pokud není řečeno jinak.
+
+> **Cursor / VS Code (jen Petr):** jiné lokální repo, typicky `…\git_repo_for_vscode\web`. Stejné příkazy, jen místo `C:\Apacheroot\web` použijte svou cestu.
 
 ---
 
@@ -13,10 +15,11 @@ Cestu ke klonu upravte podle svého PC — v příkladech je `C:\Users\JMENO\git
 | Software | Povinné? | Poznámka |
 |----------|----------|----------|
 | [Docker Desktop pro Windows](https://www.docker.com/products/docker-desktop/) | **ano** | Po instalaci **spusťte** Docker Desktop a počkejte, až ikona ve Windows ukáže „Engine running“. |
-| [Git for Windows](https://git-scm.com/download/win) | **ano** | Na klonování repozitáře. |
+| NetBeans + projekt v `C:\Apacheroot\web` | **ano** (tým) | Git v projektu řeší NetBeans — **Git for Windows není nutný**, pokud nechcete `git` spouštět z PowerShellu. |
 | [mkcert](https://github.com/FiloSottile/mkcert#windows) | **silně doporučeno** | Bez něj HTTPS na mobilu u QR často nefunguje spolehlivě. Instalace např. přes [Chocolatey](https://chocolatey.org/): `choco install mkcert`, nebo stáhnout release z GitHubu. |
 | Node.js LTS | ne (volitelné) | Jen pokud chcete kompilovat LESS na Windows. Jinak LESS přes Docker (krok 8). |
-| PHP / Composer / XAMPP na Windows | **ne** | V tomto návodu běží PHP uvnitř Dockeru. |
+| PHP / Composer na Windows | **ne** | V tomto návodu běží PHP uvnitř Dockeru. |
+| [Git for Windows](https://git-scm.com/download/win) | **ne** | Potřeba jen když chcete klonovat / `git pull` z příkazové řádky. S NetBeans stačí Team → Git. |
 
 Ověření Dockeru (v PowerShellu):
 
@@ -27,44 +30,62 @@ docker compose version
 
 Oba příkazy musí vypsat verze **bez chyby**. Pokud „docker is not recognized“, Docker Desktop neběží nebo není v PATH — restartujte Desktop / PC.
 
+**Konflikt s lokálním Apache / MySQL** — před `docker compose up` zastavte:
+
+- **Apache** (obvykle ve **WAMP**, případně XAMPP / vlastní na `C:\Apacheroot`) na portech 80/443 — ve WAMP Stop, nebo v `.env` změňte porty (krok 9).
+- **MySQL** na portu 3306 — v týmu je MySQL **lokálně instalovaná mimo WAMP/XAMPP**. Zastavte ji přes ikonu **MySQL Notifier** v systémové liště Windows (tray): pravý klik → Stop Instance / Stop MySQL. Dokud Notifier ukazuje běžící instanci, Docker DB na 3306 nenasadí (nebo bude konflikt).
+
 ---
 
-## 1. Otevřete PowerShell a přepněte se do složky s projektem
+## 1. NetBeans: máte už projekt s gitem (běžný případ)
 
-1. Stiskněte klávesu **Windows**, napište `PowerShell`, otevřete **Windows PowerShell**.
-2. Pokud ještě nemáte klon:
+Většina týmu už v NetBeans otevírá projekt **`C:\Apacheroot\web`** a git je ve složce projektu (`.git`).
 
-```powershell
-cd $HOME\git
-```
+### 1.1 Aktualizujte větev v NetBeans
 
-Pokud složka `git` neexistuje:
+1. Otevřete projekt `web` v NetBeans.
+2. **Team → Git → Branch / Switch to Branch** (nebo Git panel) → přepněte na **`master-vp`** (nebo větev, na které máte pracovat).
+3. **Team → Git → Pull** (stáhněte aktuální změny včetně Docker souborů a tohoto návodu).
 
-```powershell
-New-Item -ItemType Directory -Path $HOME\git -Force
-cd $HOME\git
-```
+Když NetBeans hlásí konflikt nebo neznámou větev, nechte si pomoct kolegou — dál v návodu pokračujte až když máte aktuální `master-vp` (nebo domluvenou větev) a v kořeni projektu existuje soubor `docker-compose.yml`.
 
-```powershell
-git clone https://github.com/grafiaware/web.git
-cd web
-git checkout master-vp
-git pull origin master-vp
-```
+### 1.2 Otevřete PowerShell v kořeni projektu
 
-3. Pokud už klon máte jinde (např. Cursor / VS Code workspace), přepněte se tam:
+1. Klávesa **Windows** → napište `PowerShell` → **Windows PowerShell**.
+2. Přepněte se do složky projektu:
 
 ```powershell
-cd C:\Users\JMENO\git\web
+cd C:\Apacheroot\web
 ```
 
-(`JMENO` nahraďte svým uživatelským jménem Windows, nebo použijte cestu, kterou vidíte v průzkumníku.)
-
-Ověření, že jste v kořeni repo (musí existovat `docker-compose.yml`):
+Ověření (musí vypsat soubor):
 
 ```powershell
 Get-ChildItem docker-compose.yml
 ```
+
+Pokud PowerShell napíše, že cesta neexistuje, zkontrolujte v NetBeans **pravý klik na projekt → Properties** (nebo průzkumník), kde projekt skutečně leží — u týmu má být `C:\Apacheroot\web`.
+
+Dál pokračujte krokem **2**.
+
+---
+
+## 1b. Ještě nemáte klon (výjimečně)
+
+Pokud skládáte PC z nuly a NetBeans projekt ještě není:
+
+1. Vytvořte složku `C:\Apacheroot` (pokud není).
+2. Klon přes NetBeans (**Team → Git → Clone**) do `C:\Apacheroot\web`, větev `master-vp`,  
+   **nebo** (jen s Git for Windows) v PowerShellu:
+
+```powershell
+cd C:\Apacheroot
+git clone https://github.com/grafiaware/web.git web
+cd web
+git checkout master-vp
+```
+
+Pak otevřete složku jako projekt v NetBeans a pokračujte krokem **2**.
 
 ---
 
@@ -91,7 +112,7 @@ Toto **není** `0.0.0.0` ani `127.0.0.1` — ty do mobilu nezadávejte.
 
 ## 3. Soubor `.env` (jednou)
 
-V kořeni repo (stále ve složce `web`):
+V PowerShellu stále v `C:\Apacheroot\web`:
 
 ```powershell
 Copy-Item .env.docker.example .env
@@ -109,13 +130,13 @@ Najděte řádek `WEB_LAN_IP=` a doplňte, např.:
 WEB_LAN_IP=192.168.1.42
 ```
 
-Uložte a zavřete Notepad. Soubor `.env` **necommitujte** do gitu.
+Uložte a zavřete Notepad. Soubor `.env` **necommitujte** do gitu (NetBeans: nepřidávejte ho do commitů).
 
 ---
 
 ## 4. TLS certifikáty (HTTPS)
 
-V PowerShellu **v kořeni repo**:
+V PowerShellu **v `C:\Apacheroot\web`**:
 
 ```powershell
 # Pokud Windows hlásí, že skripty jsou zakázané (jednou za uživatele):
@@ -140,11 +161,13 @@ Musíte vidět aspoň `cert.pem`, `key.pem`, `ca.pem`.
 - S **mkcert**: na notebooku se CA nainstaluje sama; na telefon přenesete `docker\certs\ca.pem` (krok 11).
 - Bez mkcert: self-signed — desktop často jen varování „pokračovat“, mobil u QR/HTTPS často **selže**, dokud nenainstalujete mkcert a skript nespustíte znovu.
 
+Soubory `*.pem` do gitu nepatří (jsou v gitignore).
+
 ---
 
 ## 5. Spusťte Docker stack
 
-Docker Desktop musí běžet. V kořeni repo:
+Docker Desktop musí běžet. V `C:\Apacheroot\web`:
 
 ```powershell
 docker compose up -d --build
@@ -160,6 +183,8 @@ docker compose ps
 ```
 
 Očekávejte služby `web`, `db`, `mail` ve stavu running / healthy (u `db`).
+
+NetBeans dál editujete soubory v `C:\Apacheroot\web` — Docker je jen **připojuje** (bind-mount). Uložená změna v NetBeans je hned na disku a web v Dockeru ji vidí (u PHP obvykle po obnovení stránky).
 
 ---
 
@@ -177,15 +202,15 @@ Pokud Composer hlásí chybu sítě / Packagist, zkontrolujte internet a firewal
 
 ## 7. Aktivní site NajdiSi (lokálně, necommittovat)
 
-V editoru (Cursor / VS Code / Notepad) otevřete:
+V **NetBeans** otevřete:
 
-- `app\Site\active-site.php` → musí být:
+- `app/Site/active-site.php` → musí být:
 
 ```php
 return 'NajdiSi';
 ```
 
-- `local\site\site-name.less` → odkomentujte / nastavte sitename pro NajdiSi podle zvyku týmu (typicky `@sitename: "najdisi";` — podívejte se na zakomentované řádky v souboru).
+- `local/site/site-name.less` → odkomentujte / nastavte sitename pro NajdiSi podle zvyku týmu (typicky `@sitename: "najdisi";` — podívejte se na zakomentované řádky v souboru).
 
 Tyto dva soubory **necommitujte**.
 
@@ -206,6 +231,8 @@ npm run less:build
 docker run --rm -v "${PWD}:/work" -w /work node:20-bookworm bash -lc "npm install && npm run less:build"
 ```
 
+(`${PWD}` v PowerShellu v `C:\Apacheroot\web` ukáže aktuální složku — jste-li jinde, nejdřív `cd C:\Apacheroot\web`.)
+
 ---
 
 ## 9. Ověření v prohlížeči na notebooku
@@ -214,7 +241,7 @@ docker run --rm -v "${PWD}:/work" -w /work node:20-bookworm bash -lc "npm instal
 2. https://localhost/ — po přijetí certifikátu (nebo s mkcert bez varování) totéž.
 3. http://localhost:5000/ — smtp4dev (fake maily; nic se nedoručuje ven).
 
-Pokud localhost:80 nefunguje: jiná aplikace drží port 80 (IIS, jiný Apache). V `.env` změňte např. `WEB_HTTP_PORT=8080` a `WEB_HTTPS_PORT=8443`, pak:
+Pokud localhost:80 nefunguje: často běží **Apache ve WAMP** (nebo IIS). Zastavte ho ve WAMP, nebo v `.env` změňte např. `WEB_HTTP_PORT=8080` a `WEB_HTTPS_PORT=8443`, pak:
 
 ```powershell
 docker compose up -d
@@ -257,11 +284,11 @@ Do QR kódů dávejte **stejnou HTTPS URL**.
 
 ### 11.2 Co je `ca.pem`
 
-Soubor `docker\certs\ca.pem` je **kořenová certifikační autorita** pro váš lokální vývoj.  
+Soubor `C:\Apacheroot\web\docker\certs\ca.pem` je **kořenová certifikační autorita** pro váš lokální vývoj.  
 Nestačí ho „někam zkopírovat“ — musíte ho na telefonu **nainstalovat jako důvěryhodnou CA**. Bez toho mobilní prohlížeč / WebView často HTTPS z QR odmítne.
 
-Přenos do telefonu: e-mail sobě, OneDrive/Google Drive, USB, AirDrop (iPhone), QR na soubor atd.  
-Na PC soubor najdete průzkumníkem ve složce projektu: `docker\certs\ca.pem`.
+Přenos do telefonu: e-mail sobě, OneDrive/Google Drive, USB, AirDrop (iPhone) atd.  
+Na PC: Průzkumník → `C:\Apacheroot\web\docker\certs\ca.pem`.
 
 ### 11.3 Android (orientační postup; cesty se liší podle výrobce)
 
@@ -296,7 +323,7 @@ Veřejný internet stack **nevystavujte**.
 **Start (Docker Desktop už běží):**
 
 ```powershell
-cd C:\Users\JMENO\git\web
+cd C:\Apacheroot\web
 docker compose up -d
 ```
 
@@ -319,6 +346,8 @@ docker compose down -v
 docker compose up -d
 ```
 
+**Git dál v NetBeans:** commit / push / pull jako obvykle (Team → Git). Docker příkazy jsou jen v PowerShellu; do gitu nepatří `.env` ani `docker\certs\*.pem`.
+
 ---
 
 ## 13. Časté chyby
@@ -326,7 +355,8 @@ docker compose up -d
 | Problém | Co zkontrolovat |
 |---------|-----------------|
 | `docker: command not found` / není rozpoznán | Spusťte Docker Desktop, počkejte na „running“, nový PowerShell. |
-| Port is already allocated (80/443/3306) | Jiný web/MySQL na PC; změňte porty v `.env` nebo ukončete konfliktní službu. Nesmí běžet současně `docker-compose.migrations.yml` (také 3306). |
+| Port is already allocated (80/443) | Běží Apache ve WAMP? Stop ve WAMP, nebo změňte porty v `.env`. |
+| Port is already allocated (3306) | Lokální MySQL (mimo WAMP) — zastavte přes **MySQL Notifier** v liště. Nesmí běžet současně `docker-compose.migrations.yml`. || `cd C:\Apacheroot\web` — cesta neexistuje | Ověřte umístění projektu v NetBeans; týmová cesta je `C:\Apacheroot\web`. |
 | Web na notebooku OK, mobil timeout | Stejná Wi‑Fi? Správná LAN IP? Firewall Windows? |
 | Mobil HTTPS „nedůvěryhodný“ / QR neotevře | Nainstalovaná CA (`ca.pem`)? U iOS zapnutá **Důvěra certifikátů**? Cert vydán i pro vaši LAN IP (`WEB_LAN_IP` + znovu `generate-certs.ps1` + `docker compose up -d`)? |
 | Bílá stránka / chybějící vendor | `docker compose exec web composer install` |
