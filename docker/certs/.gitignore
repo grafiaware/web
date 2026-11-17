@@ -1,0 +1,5 @@
+*
+!.gitignore
+!generate-certs.sh
+!generate-certs.ps1
+!README.md
