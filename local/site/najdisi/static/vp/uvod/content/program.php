@@ -15,6 +15,13 @@ use Pes\Core\Text\Text;
             Využijte svou šanci, získejte informace a kontakty!</p>
             <p class="text okraje-vertical"></p>
             ')?>
+            <?php if (\Application\Feature\FeatureFlags::fromConfiguration()->isEnabled('vp.losovani')): /* D1: losování v profilu */ ?>
+            <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Losování o ceny</p>
+            <?= Text::mono('
+            <p class="text">Zaregistrujte se a zapojte se do losování ve svém profilu. Na veletrhu ukažte u vchodu svůj QR kód z profilu – bez chytrého telefonu dostanete u vchodu anketní lístek.</p>
+            <p class="text okraje-vertical"></p>
+            ')?>
+            <?php else: ?>
             <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Anketa a slosování</p>
             <?=
                 //<p class="text">Vyplňte <a href="https://forms.gle/w5NTnXbxEg6GGRLp7" target="_blank">ANKETU NÁVŠTĚVNÍKA</a> a zařaďte se do slosování o ceny, které proběhne 28. dubna!</p>
@@ -22,6 +29,7 @@ use Pes\Core\Text\Text;
             <p class="text">Vyplňte <a href="web/v1/page/item/607400995acdd" target="_blank">ANKETU NÁVŠTĚVNÍKA</a> a zařaďte se do slosování o ceny, které proběhne 28. dubna!</p>
             <p class="text okraje-vertical"></p>
             ')?>
+            <?php endif; ?>
             <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Program</p>
             <img src="@siteimages/klic_foto.jpg" width="1280" height="420" alt="Obrázek k programu"/>
         </div>

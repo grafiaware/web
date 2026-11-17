@@ -125,6 +125,25 @@ class ConfigurationCache {
         return self::$cache['features'] = $features;
     }
 
+    /**
+     * D1: nastavení losování – volitelná metoda Site\{Site}\ConfigurationEvents::lottery().
+     * Site bez ní vrací prázdné pole (platí výchozí hodnoty v Events\Service\Lottery\LotteryConfig).
+     */
+    public static function lottery(): array {
+        if (isset(self::$cache['lottery'])) {
+            return self::$cache['lottery'];
+        }
+        $fqcn = SiteModules::siteNamespace(ActiveSite::name()) . '\\ConfigurationEvents';
+        $result = [];
+        if (class_exists($fqcn) && method_exists($fqcn, 'lottery')) {
+            $result = $fqcn::lottery();
+            if (!is_array($result)) {
+                throw new LogicException("$fqcn::lottery() must return array");
+            }
+        }
+        return self::$cache['lottery'] = $result;
+    }
+
     public static function api() {
         return self::resolve('api');
     }
