@@ -50,6 +50,7 @@ class InstitutionDaoTest extends AppRunner {
 
     public static function tearDownAfterClass(): void {
 
+        \Test\Integration\Event\Fixture\TestContentType::remove();
     }
 
     public function testSetUp() {
@@ -72,7 +73,7 @@ class InstitutionDaoTest extends AppRunner {
         $eventContentDao = $this->container->get(EventContentDao::class);
         $evenContentData = new RowData();
         $evenContentData->import( ['title' => 'pro InstitutionDao test',
-                                   'event_content_type_id_fk' => 3,     //3 je Pohovor
+                                   'event_content_type_id_fk' => \Test\Integration\Event\Fixture\TestContentType::id(),
                                    'institution_id_fk' => self::$institutionPrimaryKey['id']
                                   ] );
         $eventContentDao->insert($evenContentData);

@@ -143,6 +143,7 @@ use Component\ViewModel\StatusViewModel;  // jen jméno pro službu delegáta - 
 use Events\Middleware\Events\ViewModel\JobViewModel;
 use Events\Middleware\Events\ViewModel\RepresentativeViewModel;
 use Events\Middleware\Events\ViewModel\EventContentTypeViewModel;
+use Events\Middleware\Events\ViewModel\ProgramViewModel;
 // database
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\AccountInterface;
@@ -573,7 +574,19 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusViewModel::class),
                         $c->get(EventContentTypeRepo::class)
                         );
-            }
+            },
+            ProgramViewModel::class => function(ContainerInterface $c) {
+                return new ProgramViewModel(
+                        $c->get(EventRepo::class),
+                        $c->get(EventContentRepo::class),
+                        $c->get(EventContentTypeRepo::class),
+                        $c->get(InstitutionRepo::class),
+                        $c->get(InstitutionTypeRepo::class),
+                        $c->get(EventLinkRepo::class),
+                        $c->get(EventLinkPhaseRepo::class),
+                        $c->get(EnrollRepo::class)
+                        );
+            },
         ];
     }
 

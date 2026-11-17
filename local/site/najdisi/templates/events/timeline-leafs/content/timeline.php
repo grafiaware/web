@@ -9,8 +9,10 @@ use Pes\Core\Text\Html;
 /** @var PaperAggregatePaperSectionInterface $paperAggregate */
 ?>
 
+<form name="event-enroll" action="" method="POST">
                 <div class="timeline-1">
                     <div class="ui grid">
                         <?= $this->repeat(__DIR__.'/timeline/timeline-point.php', $event) ?>
                     </div>
                 </div>
+</form>

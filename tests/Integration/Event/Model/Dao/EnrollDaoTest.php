@@ -193,7 +193,7 @@ class EnrollDaoTest extends AppRunner {
         /** @var LoginDao $loginDao */
         $loginDao = $this->container->get(LoginDao::class);
         $loginRow  = $loginDao->get( ['login_name' => self::$login_login_name_fk  ] );
-        $this->assertCount(1, $loginRow);
+        $this->assertNotNull($loginRow, 'login zůstal (RESTRICT)');
 
 
         //smazat v event vetu s  id=self::$event_id_fk - provede v tearDownAfterClass

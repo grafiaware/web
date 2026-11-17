@@ -6,7 +6,6 @@ use Site\ConfigurationCache;
 use Access\Enum\RoleEnum;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
-use Events\Model\Repository\EnrollRepo;
 use Status\Model\Repository\StatusSecurityRepo;
 use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Repository\VisitorProfileRepoInterface;
@@ -53,10 +52,6 @@ if ($isVisitor) {
     }
     
     
-                    //--------------------------------------------------?????????
-                    $enrollRepo = $container->get(EnrollRepo::class);
-                    $enrolls = $enrollRepo->findByLoginName($loginName);
-                    //--------------------------------------------------?????????
     
     
 

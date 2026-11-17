@@ -67,7 +67,7 @@ class EventContentRepositoryTest extends AppRunner {
         $rowData->offsetSet('party', "Kluk, Ťuk, Muk, Kuk, Buk, Guk");
         $rowData->offsetSet('perex', "sůheůrjheů");       
         $rowData->offsetSet('title', self::$eventContentTitle . "titlePrednasky");
-        $rowData->offsetSet('event_content_type_id_fk', 3 ); //tj. Prednaska
+        $rowData->offsetSet('event_content_type_id_fk', \Test\Integration\Event\Fixture\TestContentType::id() );
         $eventContentDao->insert($rowData);
         self::$eventContentId = $eventContentDao->getLastInsertedPrimaryKey()[$eventContentDao->getAutoincrementFieldName()];
 
@@ -140,6 +140,7 @@ class EventContentRepositoryTest extends AppRunner {
                     (new Container( )  ) )
             );
         self::deleteRecords($container);
+        \Test\Integration\Event\Fixture\TestContentType::remove();
     }
 
     public function testSetUp() {
@@ -164,7 +165,7 @@ class EventContentRepositoryTest extends AppRunner {
         $eventContent->setParty("testEventContentKluk, Ťuk, Muk, Kuk, Buk, Guk");
         $eventContent->setPerex("testEventContent Perexůrjheů");
         $eventContent->setTitle("testEventContent TitlePřednáška");
-        $eventContent->setEventContentTypeIdFk( 3 );  //Přednáška
+        $eventContent->setEventContentTypeIdFk( \Test\Integration\Event\Fixture\TestContentType::id() );
 
         $this->eventContentRepo->add($eventContent); //zapise hned
 
@@ -232,7 +233,7 @@ class EventContentRepositoryTest extends AppRunner {
         $eventContent->setParty("testEventContent Fšicí");
         $eventContent->setPerex("testEventContent Vážení přátelé ANO!");
         $eventContent->setTitle("testEventContent Přednáška pro fšecky.");
-        $eventContent->setEventContentTypeIdFk( 3 );   //"Přednáška"
+        $eventContent->setEventContentTypeIdFk( \Test\Integration\Event\Fixture\TestContentType::id() );
         
         $this->eventContentRepo->add($eventContent);  //zapise hned, auto gener.klic
         //$this->eventContentRepo->flush();

@@ -1,60 +1,39 @@
 <?php
+/** G0 (#116): jeden odkaz eventu (úprava, smazání) nebo formulář nového odkazu (bez $id). */
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Site\ConfigurationCache;
-
-use Pes\Core\Text\Text;
-use Pes\Core\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
-
-    //    $readonly = 'readonly="1"';
-    //    $disabled = 'disabled="1"';
-        $readonly = '';
-        $disabled = ''; 
+/** @var array $phases id => text tlačítka */
+$h = fn($v) => htmlspecialchars((string) $v);
+$isNew = !isset($id);
+$action = $isNew ? 'events/v1/eventlink' : 'events/v1/eventlink/' . (int) $id;
+$selectedPhase = $linkPhaseId ?? null;
 ?>
-
-        <form class="ui huge form" action="" method="POST" >          
-            <div class="field"> 
-                    <label>políčko Show - Zobraz:</label>  
-                    <?= Html::checkbox( ["Zobraz" => ['show'=> 1 ] ] , 
-                                        ['show'=> $show  ] ) ?>
-            </div>   
-            
-            <div class="two fields">                                        
-                <div class="field">                   
-                    <label>Href - Odkaz:</label>
-                    <input <?= $readonly ?> type="text" name="href" placeholder="" maxlength="255" required value="<?=  $href  ?>">                   
-                </div>
-                
-                <div class="field">                                                    
-                    <?= Html::select( "eventLinkPhaseId", "Fáze události:", 
-                                      ["eventLinkPhaseId" => $eventLinkPhaseIdFk ?? '' ], 
-                                      $selectEventLinkPhasies ?? [] ,                            
-                                      ['required' => true ]) 
-                                      ?>                   
-                </div>               
-                               
+<form class="ui form segment" method="POST" action="<?= $action ?>">
+    <div class="fields">
+        <div class="ten wide field">
+            <label>Adresa (URL)</label>
+            <input type="url" name="href" required maxlength="255" placeholder="https://…" value="<?= $h($href ?? '') ?>">
+        </div>
+        <div class="four wide field">
+            <label>Fáze (text tlačítka)</label>
+            <select name="eventLinkPhaseId" required>
+                <option value="">– vyberte –</option>
+                <?php foreach ($phases as $phaseId => $phaseText): ?>
+                    <option value="<?= (int) $phaseId ?>" <?= (string) $phaseId === (string) $selectedPhase ? 'selected' : '' ?>><?= $h($phaseText) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="two wide field">
+            <label>Zobrazit</label>
+            <div class="ui checkbox">
+                <input type="checkbox" name="show" value="1" <?= ($show ?? 1) ? 'checked' : '' ?>><label>ano</label>
             </div>
-            
-     
-            <?php
-            if($readonly === '') {
-            ?>
-            <div>
-                <?=
-                isset($eventLinkId) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/eventlink/".$eventLinkId. "' > Uložit </button>" :
-                "<button class='ui primary button' type='submit' formaction='events/v1/eventlink' > Uložit </button>" ;                                   
-                 ?>   
-
-                <?=
-                isset($eventLinkId) ?
-                "<button class='ui primary button' type='submit' formaction='events/v1/eventlink/".$eventLinkId."/remove' > Odstranit odkaz </button>" :
-                "" ;
-                ?>                                                                                                         
-            </div>
-            <?php
-            }
-            ?>
-
-        </form>           
+        </div>
+    </div>
+    <button class="ui primary button" type="submit"><?= $isNew ? 'Přidat' : 'Uložit' ?></button>
+    <?php if (!$isNew): ?>
+        <button class="ui button" type="submit" formaction="<?= $action ?>/remove"
+                onclick="return confirm('Smazat odkaz? Nejde smazat odkaz přiřazený k eventu.')">Smazat</button>
+    <?php endif; ?>
+</form>
