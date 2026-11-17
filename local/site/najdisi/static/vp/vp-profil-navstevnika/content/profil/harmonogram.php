@@ -1,6 +1,6 @@
 <?php
 /**
- * G0 (#116): Můj harmonogram – eventy, na které je přihlášený uživatel přihlášen (z DB přes ProgramViewModel).
+ * G0 (#116): Můj harmonogram – eventy, na které je přihlášený uživatel přihlášen, i proběhlé (z DB přes ProgramViewModel).
  * Zobrazí se jen se zapnutým vp.program. Vstup: $loginName, $container (z profilu návštěvníka).
  */
 use Site\ConfigurationCache;
@@ -13,7 +13,8 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 if (FeatureFlags::fromConfiguration()->isEnabled('vp.program') && isset($loginName)) {
     /** @var ProgramViewModel $programViewModel */
     $programViewModel = $container->get(ProgramViewModel::class);
-    $event = $programViewModel->getTimeline(null, $loginName, true, true);   // jen moje, s odhlášením
+    // jen moje, s odhlášením; i proběhlé akce, které si naplánoval (rozhodl Petr 17. 11. 2026), u nich bez tlačítek
+    $event = $programViewModel->getTimeline(null, $loginName, true, true, null, true);
 ?>
 <div class="title">
     <i class="dropdown icon"></i>
