@@ -2,6 +2,7 @@
 
 Cíl: celý stack v **Docker Desktop**, zdrojáky dál na disku v git repu (IDE beze změny), web z prohlížeče na hostu i z **LAN / mobilu přes HTTP i HTTPS** (QR, WebView).
 
+**Windows (PowerShell) — podrobný návod bez mezer:** [DOCKER-WINDOWS.md](DOCKER-WINDOWS.md)  
 Související: [SETUP.md](SETUP.md) (Composer, site, dumpy), [migrace-db-docker.md](../migrace-db-docker.md) (jen DB).
 
 ## Co běží
@@ -17,18 +18,21 @@ Konfigurace sites dál míří na `127.0.0.1:3306` a SMTP `localhost:25`. V kont
 
 ## Rychlý start (Docker Desktop)
 
+Na **Windows** raději celý postup podle [DOCKER-WINDOWS.md](DOCKER-WINDOWS.md) (PowerShell, certifikáty `.ps1`, mobil).
+
 ```bash
 # 1) Env (volitelné)
 cp .env.docker.example .env
 
 # 2) TLS certifikáty (HTTPS pro mobil)
+# Windows PowerShell:  .\docker\certs\generate-certs.ps1
 ./docker/certs/generate-certs.sh
 # ideálně s mkcert: https://github.com/FiloSottile/mkcert
 
 # 3) Stack
 docker compose up -d --build
 
-# 4) Composer / LESS na hostu (soubory jsou sdílené)
+# 4) Composer / LESS (na hostu, nebo: docker compose exec web composer install)
 composer install
 npm install && npm run less:build
 
@@ -53,13 +57,13 @@ Import dumpů a `/build`: stejně jako v [SETUP.md](SETUP.md) / [migrace-db-dock
 
 ## HTTPS a mobil / QR
 
-1. `./docker/certs/generate-certs.sh` — preferujte **mkcert** (důvěryhodný lokální CA).
-2. Na telefon nainstalujte `docker/certs/ca.pem` (nebo root z `mkcert -CAROOT`) jako certifikační autoritu.
-3. Do QR dávejte URL s HTTPS a LAN IP nebo hostname z `WEB_CERT_HOSTS` / `WEB_LAN_IP` v `.env`.
+1. Certifikáty: `generate-certs.ps1` (Windows) nebo `generate-certs.sh` (macOS/Linux) — preferujte **mkcert**.
+2. Na telefon **nainstalujte** `docker/certs/ca.pem` jako důvěryhodnou CA (nestačí soubor jen zkopírovat) — detaily v [DOCKER-WINDOWS.md](DOCKER-WINDOWS.md) §11.
+3. Notebook: `https://localhost/` · Mobil: `https://<LAN-IP>/` · Do QR stejná HTTPS URL s LAN IP.
 
 Bez důvěryhodné CA mobilní prohlížeče a WebView často HTTPS odkazy z QR odmítnou. Self-signed z openssl je nouzovka pro desktop.
 
-Porty 80/443 jsou mapované na `0.0.0.0` — firewall Windows/macOS musí LAN povolit. Na veřejný internet stack nevystavujte.
+Porty 80/443 jsou mapované na všechna rozhraní PC (`0.0.0.0` = bind, ne URL) — firewall Windows/macOS musí LAN povolit. Na veřejný internet stack nevystavujte.
 
 ## Varianty PHP a DB
 
@@ -129,5 +133,6 @@ docker compose down -v       # smaže volume DB (init SQL znovu)
 | `.env.docker.example` | Vzor pro `.env` |
 | `docker/php/` | Dockerfile, entrypoint (socat), php.ini |
 | `docker/apache/` | vhost HTTP/HTTPS, htaccess.dev |
-| `docker/certs/` | generování TLS (necommitovat PEM) |
+| `docker/certs/` | generování TLS (`generate-certs.ps1` / `.sh`; necommitovat PEM) |
+| `docs/vp/DOCKER-WINDOWS.md` | Podrobný Windows / PowerShell / mobil návod |
 | `tests/e2e/` | Playwright |

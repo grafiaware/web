@@ -8,6 +8,7 @@ Produkčně běží jako site **NajdiSi**.
 | [ROADMAP.md](ROADMAP.md) | Větve roadmapy, pracovní balíky, závislosti, vlny |
 | [SETUP.md](SETUP.md) | Lokální prostředí pro vývoj |
 | [DOCKER.md](DOCKER.md) | Docker Desktop: Apache + PHP + MariaDB + HTTPS/LAN + Playwright |
+| [DOCKER-WINDOWS.md](DOCKER-WINDOWS.md) | Windows PowerShell: krok za krokem včetně mobilu / CA |
 | [MIGRACE.md](MIGRACE.md) | Pravidla pro migrace DB v balících VP |
 | [zadani/](zadani/) | Zadání jednotlivých balíků (`<kód>.md`), šablona `_SABLONA.md` |
 | [../../AGENTS.md](../../AGENTS.md) | Pravidla pro lidi i agenty |
