@@ -2,14 +2,26 @@
 
 Soubory `cert.pem`, `key.pem` a případně `ca.pem` se **necommitují**.
 
-```bash
-# z kořene repo (doporučeno mkcert: https://github.com/FiloSottile/mkcert)
-./docker/certs/generate-certs.sh
+## Windows (PowerShell) — doporučeno
 
-# volitelně pevná LAN IP a další jména
-WEB_LAN_IP=192.168.1.20 WEB_CERT_HOSTS=localhost,web.local,muj-notebook ./docker/certs/generate-certs.sh
+Z kořene repo:
+
+```powershell
+$env:WEB_LAN_IP = "192.168.1.42"   # vaše LAN IP
+.\docker\certs\generate-certs.ps1
 ```
 
-Pak `docker compose up -d` (nebo restart služby `web`). HTTPS: `https://localhost/` nebo `https://<LAN-IP>/`.
+Podrobný návod včetně mobilu: [docs/vp/DOCKER-WINDOWS.md](../../docs/vp/DOCKER-WINDOWS.md).
 
-Na telefonu nainstalujte `ca.pem` (u mkcert je to root CA) jako důvěryhodnou autoritu — jinak mobilní WebView / QR odkazy na HTTPS často selžou.
+## macOS / Linux (bash)
+
+```bash
+WEB_LAN_IP=192.168.1.42 ./docker/certs/generate-certs.sh
+```
+
+Ideálně s [mkcert](https://github.com/FiloSottile/mkcert).
+
+Pak `docker compose up -d` (nebo restart služby `web`).  
+HTTPS: `https://localhost/` nebo `https://<LAN-IP>/`.
+
+Na telefonu nainstalujte `ca.pem` jako důvěryhodnou certifikační autoritu (ne jen zkopírovat soubor).
