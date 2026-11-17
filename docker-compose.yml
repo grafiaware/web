@@ -1,0 +1,109 @@
+# Plný lokální stack: Apache + PHP + MariaDB/MySQL + fake SMTP (smtp4dev).
+# Soubory projektu zůstávají na disku (bind-mount) — IDE / git beze změny.
+#
+# Start:  cp .env.docker.example .env   # volitelné
+#         ./docker/certs/generate-certs.sh
+#         docker compose up -d --build
+# Stop:   docker compose down
+# Reset DB: docker compose down -v
+#
+# Návod: docs/vp/DOCKER.md
+# Jen DB (starý režim): docker-compose.migrations.yml
+# Jen mail: docker-compose.mail-test.yml (nebo služba mail zde)
+
+name: grafia-web
+
+services:
+  web:
+    build:
+      context: ./docker/php
+      args:
+        PHP_VERSION: ${PHP_VERSION:-8.4}
+    image: grafia-web-php:${PHP_VERSION:-8.4}
+    container_name: grafia-web-apache
+    restart: unless-stopped
+    ports:
+      # 0.0.0.0 = dostupný z LAN (telefon, jiný PC)
+      - "${WEB_HTTP_PORT:-80}:80"
+      - "${WEB_HTTPS_PORT:-443}:443"
+    environment:
+      WEB_SERVER_NAME: ${WEB_SERVER_NAME:-web.local}
+      WEB_DB_UPSTREAM_HOST: db
+      WEB_DB_UPSTREAM_PORT: "3306"
+      WEB_MAIL_UPSTREAM_HOST: mail
+      WEB_MAIL_UPSTREAM_PORT: "25"
+      # index.php — absolutní cesta projektu v kontejneru (Linux PROJECT_PATH)
+      WEB_PROJECT_PATH: /var/www/html/
+    volumes:
+      - ./:/var/www/html
+      # XAMPP na hostu dál používá RewriteBase /web/; v kontejneru kořen webu
+      - ./docker/apache/htaccess.dev:/var/www/html/.htaccess:ro
+      - ./docker/apache/vhost.conf:/etc/apache2/sites-available/000-default.conf:ro
+      - ./docker/apache/vhost-ssl.conf:/etc/apache2/sites-available/grafia-web-ssl.conf:ro
+      - ./docker/certs:/etc/apache2/ssl:ro
+    depends_on:
+      db:
+        condition: service_healthy
+      mail:
+        condition: service_started
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  db:
+    image: ${DB_IMAGE:-mariadb:11.4}
+    container_name: grafia-web-db
+    restart: unless-stopped
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MARIADB_ROOT_PASSWORD: root
+      TZ: Europe/Prague
+    command:
+      # utf8mb4 — stejně jako docker-compose.migrations.yml
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --character-set-client-handshake=FALSE
+      # Bez ONLY_FULL_GROUP_BY — legacy Hierarchy SQL
+      - --sql-mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+    volumes:
+      - grafia_web_db_data:/var/lib/mysql
+      - ./docker/migrations/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  mail:
+    image: rnwood/smtp4dev:v3
+    container_name: grafia-web-mail
+    restart: unless-stopped
+    ports:
+      - "${MAIL_SMTP_PORT:-25}:25"
+      - "${MAIL_UI_PORT:-5000}:80"
+    environment:
+      ServerOptions__HostName: mail
+
+  # Volitelně: docker compose --profile e2e run --rm playwright
+  playwright:
+    profiles: ["e2e"]
+    image: mcr.microsoft.com/playwright:v1.65.1-jammy
+    container_name: grafia-web-playwright
+    working_dir: /work
+    environment:
+      PLAYWRIGHT_BASE_URL: ${PLAYWRIGHT_BASE_URL:-https://web}
+      SMTP4DEV_API_URL: ${SMTP4DEV_API_URL:-http://mail}
+    volumes:
+      - ./tests/e2e:/work
+    depends_on:
+      - web
+      - mail
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # self-signed / mkcert — v CI/dev často ignoreHTTPSErrors v configu
+    command: ["bash", "-lc", "npm ci && npx playwright test"]
+
+volumes:
+  grafia_web_db_data:

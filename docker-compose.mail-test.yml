@@ -1,3 +1,9 @@
+# Jen fake SMTP (když neběží plný stack z docker-compose.yml).
+# Preferovaný vývoj: docker compose up -d  (služba mail) — viz docs/vp/DOCKER.md
+#
+# Start: docker compose -f docker-compose.mail-test.yml up -d
+# UI:    http://localhost:5000
+
 services:
   smtp4dev:
     image: rnwood/smtp4dev:v3

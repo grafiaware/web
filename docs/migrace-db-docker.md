@@ -24,7 +24,9 @@ Související soubory v repo:
 
 **Není:** PHP, Apache/nginx ani celý web. Stávající lokální aplikace (PES, `index.php`, vhost) zůstává jak ji máte — jen se připojí na Docker MySQL místo (nebo vedle) jiné lokální instance.
 
-Proč takhle: v repo už je lokální PHP stack a site konfigurace míří na `127.0.0.1:3306`. Přidání PHP do Compose by hrozilo duplikací a rozbitím cest (`local/`, `vendor/`, PES path repo). MySQL kontejner je izolovaná, resetovatelná DB pro migrace.
+Pro celý stack včetně Apache/PHP/HTTPS viz **`docs/vp/DOCKER.md`** (`docker-compose.yml`). Tento soubor zůstává pro režim „jen DB + PHP na hostu“. Nespojujte oba compose najednou (stejný port 3306).
+
+Proč takhle (historicky): site konfigurace míří na `127.0.0.1:3306`; MySQL kontejner je izolovaná, resetovatelná DB pro migrace. Plný compose řeší DB host uvnitř `web` přes socat na localhost.
 
 **`sql_mode`:** compose vypíná `ONLY_FULL_GROUP_BY` (blíž MariaDB / legacy Hierarchy SQL). Po změně compose:
 

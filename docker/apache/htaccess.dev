@@ -1,0 +1,15 @@
+# Overlay jen uvnitř Docker web kontejneru (hostí .htaccess s RewriteBase /web/ zůstává).
+# Prevent directory listings
+Options All -Indexes
+Options +FollowSymLinks
+
+RewriteEngine On
+
+RewriteBase "/"
+
+RewriteRule ^public/ - [L]
+RewriteRule ^_files/ - [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
