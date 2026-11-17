@@ -13,7 +13,7 @@ use Events\Model\Repository\EnrollRepoInterface;
 
 /**
  * G0 (#116): data programu z DB pro šablony časové osy (timeline-boxes, timeline-leafs, timecolumn).
- * Náhrada array modelu EventViewModel (online veletrh 2021) – stejný tvar dat, čte jen přes repozitáře.
+ * Nahradil array model online veletrhu 2021 (EventViewModel, odstraněn) – stejný tvar dat, čte jen přes repozitáře.
  *
  * Výstup getTimeline(): list<['timelinePoint' => 'středa 27. 1. 2027', 'box' => list<box>]>, dny a eventy podle začátku.
  * Box: eventId, published, eventType{type, name, icon}, title, perex, party, institution{name, type}, startTime, endTime,
