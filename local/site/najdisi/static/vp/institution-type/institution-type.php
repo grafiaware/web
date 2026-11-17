@@ -15,6 +15,6 @@ $action = $isNew ? 'events/v1/institutiontype' : 'events/v1/institutiontype/' . 
     <button class="ui primary button" type="submit"><?= $isNew ? 'Přidat' : 'Uložit' ?></button>
     <?php if (!$isNew): ?>
         <button class="ui button" type="submit" formaction="<?= $action ?>/remove"
-                onclick="return confirm('Smazat typ instituce?')">Smazat</button>
+                onclick="return confirm('Smazat typ instituce? Nejde smazat typ, který mají instituce.')">Smazat</button>
     <?php endif; ?>
 </form>
