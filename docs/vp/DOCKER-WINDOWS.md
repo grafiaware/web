@@ -30,7 +30,10 @@ docker compose version
 
 Oba příkazy musí vypsat verze **bez chyby**. Pokud „docker is not recognized“, Docker Desktop neběží nebo není v PATH — restartujte Desktop / PC.
 
-**Konflikt s lokálním Apache:** pokud na `C:\Apacheroot` běží Apache (XAMPP / vlastní) na portech 80/443, před Docker stackem ho **zastavte**, nebo v `.env` změňte porty (krok 9). Stejně tak lokální MySQL na 3306 nesmí běžet současně s Docker DB.
+**Konflikt s lokálním Apache / MySQL** — před `docker compose up` zastavte:
+
+- **Apache** (obvykle ve **WAMP**, případně XAMPP / vlastní na `C:\Apacheroot`) na portech 80/443 — ve WAMP Stop, nebo v `.env` změňte porty (krok 9).
+- **MySQL** na portu 3306 — v týmu je MySQL **lokálně instalovaná mimo WAMP/XAMPP**. Zastavte ji přes ikonu **MySQL Notifier** v systémové liště Windows (tray): pravý klik → Stop Instance / Stop MySQL. Dokud Notifier ukazuje běžící instanci, Docker DB na 3306 nenasadí (nebo bude konflikt).
 
 ---
 
@@ -238,7 +241,7 @@ docker run --rm -v "${PWD}:/work" -w /work node:20-bookworm bash -lc "npm instal
 2. https://localhost/ — po přijetí certifikátu (nebo s mkcert bez varování) totéž.
 3. http://localhost:5000/ — smtp4dev (fake maily; nic se nedoručuje ven).
 
-Pokud localhost:80 nefunguje: často běží **starý Apache z Apacheroot** nebo IIS. Zastavte ho, nebo v `.env` změňte např. `WEB_HTTP_PORT=8080` a `WEB_HTTPS_PORT=8443`, pak:
+Pokud localhost:80 nefunguje: často běží **Apache ve WAMP** (nebo IIS). Zastavte ho ve WAMP, nebo v `.env` změňte např. `WEB_HTTP_PORT=8080` a `WEB_HTTPS_PORT=8443`, pak:
 
 ```powershell
 docker compose up -d
@@ -352,8 +355,8 @@ docker compose up -d
 | Problém | Co zkontrolovat |
 |---------|-----------------|
 | `docker: command not found` / není rozpoznán | Spusťte Docker Desktop, počkejte na „running“, nový PowerShell. |
-| Port is already allocated (80/443/3306) | Běží Apache z Apacheroot / lokální MySQL? Zastavte je, nebo změňte porty v `.env`. Nesmí běžet současně `docker-compose.migrations.yml` (také 3306). |
-| `cd C:\Apacheroot\web` — cesta neexistuje | Ověřte umístění projektu v NetBeans; týmová cesta je `C:\Apacheroot\web`. |
+| Port is already allocated (80/443) | Běží Apache ve WAMP? Stop ve WAMP, nebo změňte porty v `.env`. |
+| Port is already allocated (3306) | Lokální MySQL (mimo WAMP) — zastavte přes **MySQL Notifier** v liště. Nesmí běžet současně `docker-compose.migrations.yml`. || `cd C:\Apacheroot\web` — cesta neexistuje | Ověřte umístění projektu v NetBeans; týmová cesta je `C:\Apacheroot\web`. |
 | Web na notebooku OK, mobil timeout | Stejná Wi‑Fi? Správná LAN IP? Firewall Windows? |
 | Mobil HTTPS „nedůvěryhodný“ / QR neotevře | Nainstalovaná CA (`ca.pem`)? U iOS zapnutá **Důvěra certifikátů**? Cert vydán i pro vaši LAN IP (`WEB_LAN_IP` + znovu `generate-certs.ps1` + `docker compose up -d`)? |
 | Bílá stránka / chybějící vendor | `docker compose exec web composer install` |
