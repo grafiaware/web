@@ -1,6 +1,16 @@
                             <div class="blok-menu-paticka">
                                 <p class="text velky tucne primarni-barva">Organizátor veletrhu</p>
                                 <a href="https://www.grafia.cz/" class="" target="_blank"><img class="" src="layout-images/Grafia_logo.jpg" width="" height="" alt="Logo Grafia, organizátor"/></a>
+                                <?=
+                                    $organizatorVeletrhu
+//            .
+//            $socialniSite
+//            .
+//            $aktuality
+//            .
+//            $nejblizsiAkce
+                                ?>
+                                
                             </div>
                             <div class="blok-menu-paticka">
                                 <p class="text velky tucne primarni-barva">Podporovatel veletrhu</p>
