@@ -93,9 +93,8 @@ class HookedMenuItemActor extends HookedActorAbstract {
     /**
      * Generuje řetězec pro vložení do sloupce pretty_uri.
      * 
-     * @param type $langCodeFk
-     * @param type $uidFk
-     * @param type $text
+     * @param string $text
+     * @param string $prefix
      * @return string
      */
     public function genaratePrettyUri($text, $prefix=''): string {
