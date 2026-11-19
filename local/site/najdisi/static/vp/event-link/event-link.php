@@ -34,6 +34,6 @@ $selectedPhase = $linkPhaseId ?? null;
     <button class="ui primary button" type="submit"><?= $isNew ? 'Přidat' : 'Uložit' ?></button>
     <?php if (!$isNew): ?>
         <button class="ui button" type="submit" formaction="<?= $action ?>/remove"
-                onclick="return confirm('Smazat odkaz? Nejde smazat odkaz přiřazený k eventu.')">Smazat</button>
+                onclick="return confirm('Smazat odkaz? Eventy s tímto odkazem zůstanou bez odkazu.')">Smazat</button>
     <?php endif; ?>
 </form>

@@ -29,6 +29,6 @@ $selectedType = $institutionTypeId ?? null;
     <button class="ui primary button" type="submit"><?= $isNew ? 'Přidat' : 'Uložit' ?></button>
     <?php if (!$isNew): ?>
         <button class="ui button" type="submit" formaction="<?= $action ?>/remove"
-                onclick="return confirm('Smazat instituci? Nejde smazat instituci, kterou používají obsahy.')">Smazat</button>
+                onclick="return confirm('Smazat instituci? Obsahy s touto institucí zůstanou bez instituce.')">Smazat</button>
     <?php endif; ?>
 </form>
