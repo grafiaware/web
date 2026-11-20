@@ -16,10 +16,47 @@ Příkazy níže pište do **Windows PowerShell** (ne do CMD), pokud není řeč
 |----------|----------|----------|
 | [Docker Desktop pro Windows](https://www.docker.com/products/docker-desktop/) | **ano** | Po instalaci **spusťte** Docker Desktop a počkejte, až ikona ve Windows ukáže „Engine running“. |
 | NetBeans + projekt v `C:\Apacheroot\web` | **ano** (tým) | Git v projektu řeší NetBeans — **Git for Windows není nutný**, pokud nechcete `git` spouštět z PowerShellu. |
-| [mkcert](https://github.com/FiloSottile/mkcert#windows) | **silně doporučeno** | Bez něj HTTPS na mobilu u QR často nefunguje spolehlivě. Instalace např. přes [Chocolatey](https://chocolatey.org/): `choco install mkcert`, nebo stáhnout release z GitHubu. |
+| [mkcert](https://github.com/FiloSottile/mkcert#windows) | **silně doporučeno** | Bez něj HTTPS na mobilu u QR často nefunguje spolehlivě. Nejpohodlněji přes Chocolatey (níže): `choco install mkcert`. Alternativa: stáhnout release z GitHubu. |
+| [Chocolatey](https://chocolatey.org/install) (Community) | ne (volitelné) | Správce balíčků pro Windows — usnadní instalaci mkcert. Postup instalace v §0.1. |
 | Node.js LTS | ne (volitelné) | Jen pokud chcete kompilovat LESS na Windows. Jinak LESS přes Docker (krok 8). |
 | PHP / Composer na Windows | **ne** | V tomto návodu běží PHP uvnitř Dockeru. |
 | [Git for Windows](https://git-scm.com/download/win) | **ne** | Potřeba jen když chcete klonovat / `git pull` z příkazové řádky. S NetBeans stačí Team → Git. |
+
+### 0.1 Chocolatey Community (pokud ještě nemáte)
+
+Oficiální instalace **Chocolatey Community** (open-source, zdarma): https://chocolatey.org/install  
+
+1. Klávesa **Windows**, napište `PowerShell`.
+2. U položky **Windows PowerShell** zvolte **Spustit jako správce** (Run as administrator).
+3. Ověřte, že Chocolatey ještě nemáte:
+
+```powershell
+choco -v
+```
+
+Pokud vypíše verzi, máte ho — přejděte k instalaci mkcert níže. Pokud hlásí, že příkaz neexistuje, pokračujte.
+
+4. V administrátorském PowerShellu spusťte oficiální instalační příkaz (Community):
+
+```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+```
+
+5. Zavřete administrátorský PowerShell. Otevřete **nové** (klidně neadmin) PowerShell okno a ověřte:
+
+```powershell
+choco -v
+```
+
+6. Instalace mkcert:
+
+```powershell
+choco install mkcert -y
+```
+
+Pak v **novém** PowerShellu ověřte `mkcert -help`. (Bez nového okna někdy Windows ještě nevidí PATH.)
 
 Ověření Dockeru (v PowerShellu):
 
