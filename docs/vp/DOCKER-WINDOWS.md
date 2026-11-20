@@ -185,11 +185,14 @@ $env:WEB_LAN_IP = "192.168.1.42"
 .\docker\certs\generate-certs.ps1
 ```
 
+Skript **nemění** aktuální složku PowerShellu — zůstáváte v `C:\Apacheroot\web`.
+
 Očekávaný výsledek: ve složce `docker\certs\` vzniknou soubory `cert.pem`, `key.pem`, `ca.pem`.
 
-Kontrola:
+Kontrola (stále z `C:\Apacheroot\web`):
 
 ```powershell
+cd C:\Apacheroot\web
 Get-ChildItem docker\certs\*.pem
 ```
 
@@ -393,13 +396,16 @@ docker compose up -d
 |---------|-----------------|
 | `docker: command not found` / není rozpoznán | Spusťte Docker Desktop, počkejte na „running“, nový PowerShell. |
 | Port is already allocated (80/443) | Běží Apache ve WAMP? Stop ve WAMP, nebo změňte porty v `.env`. |
-| Port is already allocated (3306) | Lokální MySQL (mimo WAMP) — zastavte přes **MySQL Notifier** v liště. Nesmí běžet současně `docker-compose.migrations.yml`. || `cd C:\Apacheroot\web` — cesta neexistuje | Ověřte umístění projektu v NetBeans; týmová cesta je `C:\Apacheroot\web`. |
+| Port is already allocated (3306) | Lokální MySQL (mimo WAMP) — zastavte přes **MySQL Notifier** v liště. Nesmí běžet současně `docker-compose.migrations.yml`. |
+| `cd C:\Apacheroot\web` — cesta neexistuje | Ověřte umístění projektu v NetBeans; týmová cesta je `C:\Apacheroot\web`. |
+| `Get-ChildItem` hledá `…\docker\certs\docker\certs` | Jste uvnitř `docker\certs` (starší skript měnil složku). `cd C:\Apacheroot\web` a znovu `Get-ChildItem docker\certs\*.pem`. Aktualizovaný skript složku nemění. |
 | Web na notebooku OK, mobil timeout | Stejná Wi‑Fi? Správná LAN IP? Firewall Windows? |
 | Mobil HTTPS „nedůvěryhodný“ / QR neotevře | Nainstalovaná CA (`ca.pem`)? U iOS zapnutá **Důvěra certifikátů**? Cert vydán i pro vaši LAN IP (`WEB_LAN_IP` + znovu `generate-certs.ps1` + `docker compose up -d`)? |
 | Bílá stránka / chybějící vendor | `docker compose exec web composer install` |
 | Šablony / cesty rozbité | Stack musí nastavit `WEB_PROJECT_PATH` (compose to dělá); nepřepisujte DocumentRoot ručně. |
 | Skript `.ps1` zakázán | `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` |
 | `mkcert.exe : Created a new local CA` + `NativeCommandError` (červeně) | Není chyba mkcert — PowerShell hlášku na stderr bral jako fatální. Aktualizujte skript (`git pull` / Pull v NetBeans) a spusťte `.\docker\certs\generate-certs.ps1` znovu. CA už může být vytvořená; skript ji jen znovu použije. |
+
 ---
 
 ## 14. Kam dál
