@@ -406,6 +406,7 @@ docker compose up -d
 | Skript `.ps1` zakázán | `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` |
 | `mkcert.exe : Created a new local CA` + `NativeCommandError` (červeně) | Není chyba mkcert — PowerShell hlášku na stderr bral jako fatální. Aktualizujte skript (`git pull` / Pull v NetBeans) a spusťte `.\docker\certs\generate-certs.ps1` znovu. CA už může být vytvořená; skript ji jen znovu použije. |
 | `grafia-web-apache` restartuje: `exec …/grafia-web-entrypoint.sh: no such file or directory` | Na Windows měl `entrypoint.sh` často konce řádků CRLF. Pull oprav + `docker compose build --no-cache web` a `docker compose up -d`. |
+| `Cannot define multiple Listeners on the same IP:port` (ports.conf / 443) | Duplicitní `Listen 443`. Pull oprav Dockerfile + `docker compose build --no-cache web` a `docker compose up -d`. |
 
 ---
 
