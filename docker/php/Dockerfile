@@ -35,7 +35,9 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 COPY php.ini /usr/local/etc/php/conf.d/99-grafia-web.ini
 COPY entrypoint.sh /usr/local/bin/grafia-web-entrypoint.sh
-RUN chmod +x /usr/local/bin/grafia-web-entrypoint.sh
+# Windows checkout (autocrlf) → CRLF by rozbil shebang („no such file or directory“).
+RUN sed -i 's/\r$//' /usr/local/bin/grafia-web-entrypoint.sh \
+    && chmod +x /usr/local/bin/grafia-web-entrypoint.sh
 
 WORKDIR /var/www/html
 
