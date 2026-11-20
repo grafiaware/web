@@ -399,7 +399,7 @@ docker compose up -d
 | Bílá stránka / chybějící vendor | `docker compose exec web composer install` |
 | Šablony / cesty rozbité | Stack musí nastavit `WEB_PROJECT_PATH` (compose to dělá); nepřepisujte DocumentRoot ručně. |
 | Skript `.ps1` zakázán | `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` |
-
+| `mkcert.exe : Created a new local CA` + `NativeCommandError` (červeně) | Není chyba mkcert — PowerShell hlášku na stderr bral jako fatální. Aktualizujte skript (`git pull` / Pull v NetBeans) a spusťte `.\docker\certs\generate-certs.ps1` znovu. CA už může být vytvořená; skript ji jen znovu použije. |
 ---
 
 ## 14. Kam dál

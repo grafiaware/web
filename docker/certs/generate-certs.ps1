@@ -13,6 +13,28 @@ $ErrorActionPreference = "Stop"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 Set-Location $ScriptDir
 
+# mkcert píše běžné hlášky na stderr („Created a new local CA“). S ErrorActionPreference=Stop
+# to PowerShell vyhodí jako NativeCommandError — proto voláme přes tuto funkci a hlídáme jen exit code.
+function Invoke-Mkcert {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string[]] $MkcertArgs
+    )
+    $prevEap = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    $lines = & mkcert @MkcertArgs 2>&1
+    $exitCode = $LASTEXITCODE
+    $ErrorActionPreference = $prevEap
+    foreach ($line in $lines) {
+        if ($null -eq $line) { continue }
+        Write-Host ($line.ToString())
+    }
+    if ($exitCode -ne 0) {
+        throw "mkcert selhal (exit $exitCode): $($MkcertArgs -join ' ')"
+    }
+    return $lines
+}
+
 $HostNames = if ($env:WEB_CERT_HOSTS) { $env:WEB_CERT_HOSTS } else { "localhost,web.local,grafia.local" }
 $ExtraIp = if ($env:WEB_LAN_IP) { $env:WEB_LAN_IP.Trim() } else { "" }
 
@@ -35,7 +57,7 @@ Write-Host "LAN IP: $(if ($ExtraIp) { $ExtraIp } else { '(není — doplňte $en
 $mkcert = Get-Command mkcert -ErrorAction SilentlyContinue
 if ($mkcert) {
     Write-Host "Používám mkcert…"
-    & mkcert -install 2>$null | Out-Null
+    Invoke-Mkcert -MkcertArgs @("-install") | Out-Null
     $argsList = @("-cert-file", "cert.pem", "-key-file", "key.pem")
     foreach ($n in ($HostNames -split ",")) {
         $n = $n.Trim()
@@ -43,8 +65,12 @@ if ($mkcert) {
     }
     $argsList += @("127.0.0.1", "::1")
     if ($ExtraIp) { $argsList += $ExtraIp }
-    & mkcert @argsList
-    $caroot = (& mkcert -CAROOT).Trim()
+    Invoke-Mkcert -MkcertArgs $argsList | Out-Null
+    $carootLines = Invoke-Mkcert -MkcertArgs @("-CAROOT")
+    $caroot = ($carootLines | ForEach-Object { $_.ToString() } | Where-Object { $_.Trim() -ne "" } | Select-Object -Last 1).Trim()
+    if (-not $caroot -or -not (Test-Path (Join-Path $caroot "rootCA.pem"))) {
+        throw "mkcert -CAROOT nevrátil platnou cestu (dostali jsme: '$caroot')."
+    }
     Copy-Item -Force (Join-Path $caroot "rootCA.pem") (Join-Path $ScriptDir "ca.pem")
     Write-Host "Hotovo (mkcert). Root CA zkopírován do docker\certs\ca.pem"
     Write-Host "Na telefonu nainstalujte ca.pem jako důvěryhodnou CA, pak https://<LAN-IP>/ bude bez varování."
