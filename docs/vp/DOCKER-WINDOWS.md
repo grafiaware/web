@@ -16,10 +16,47 @@ Příkazy níže pište do **Windows PowerShell** (ne do CMD), pokud není řeč
 |----------|----------|----------|
 | [Docker Desktop pro Windows](https://www.docker.com/products/docker-desktop/) | **ano** | Po instalaci **spusťte** Docker Desktop a počkejte, až ikona ve Windows ukáže „Engine running“. |
 | NetBeans + projekt v `C:\Apacheroot\web` | **ano** (tým) | Git v projektu řeší NetBeans — **Git for Windows není nutný**, pokud nechcete `git` spouštět z PowerShellu. |
-| [mkcert](https://github.com/FiloSottile/mkcert#windows) | **silně doporučeno** | Bez něj HTTPS na mobilu u QR často nefunguje spolehlivě. Instalace např. přes [Chocolatey](https://chocolatey.org/): `choco install mkcert`, nebo stáhnout release z GitHubu. |
+| [mkcert](https://github.com/FiloSottile/mkcert#windows) | **silně doporučeno** | Bez něj HTTPS na mobilu u QR často nefunguje spolehlivě. Nejpohodlněji přes Chocolatey (níže): `choco install mkcert`. Alternativa: stáhnout release z GitHubu. |
+| [Chocolatey](https://chocolatey.org/install) (Community) | ne (volitelné) | Správce balíčků pro Windows — usnadní instalaci mkcert. Postup instalace v §0.1. |
 | Node.js LTS | ne (volitelné) | Jen pokud chcete kompilovat LESS na Windows. Jinak LESS přes Docker (krok 8). |
 | PHP / Composer na Windows | **ne** | V tomto návodu běží PHP uvnitř Dockeru. |
 | [Git for Windows](https://git-scm.com/download/win) | **ne** | Potřeba jen když chcete klonovat / `git pull` z příkazové řádky. S NetBeans stačí Team → Git. |
+
+### 0.1 Chocolatey Community (pokud ještě nemáte)
+
+Oficiální instalace **Chocolatey Community** (open-source, zdarma): https://chocolatey.org/install  
+
+1. Klávesa **Windows**, napište `PowerShell`.
+2. U položky **Windows PowerShell** zvolte **Spustit jako správce** (Run as administrator).
+3. Ověřte, že Chocolatey ještě nemáte:
+
+```powershell
+choco -v
+```
+
+Pokud vypíše verzi, máte ho — přejděte k instalaci mkcert níže. Pokud hlásí, že příkaz neexistuje, pokračujte.
+
+4. V administrátorském PowerShellu spusťte oficiální instalační příkaz (Community):
+
+```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+```
+
+5. Zavřete administrátorský PowerShell. Otevřete **nové** (klidně neadmin) PowerShell okno a ověřte:
+
+```powershell
+choco -v
+```
+
+6. Instalace mkcert:
+
+```powershell
+choco install mkcert -y
+```
+
+Pak v **novém** PowerShellu ověřte `mkcert -help`. (Bez nového okna někdy Windows ještě nevidí PATH.)
 
 Ověření Dockeru (v PowerShellu):
 
@@ -148,11 +185,14 @@ $env:WEB_LAN_IP = "192.168.1.42"
 .\docker\certs\generate-certs.ps1
 ```
 
+Skript **nemění** aktuální složku PowerShellu — zůstáváte v `C:\Apacheroot\web`.
+
 Očekávaný výsledek: ve složce `docker\certs\` vzniknou soubory `cert.pem`, `key.pem`, `ca.pem`.
 
-Kontrola:
+Kontrola (stále z `C:\Apacheroot\web`):
 
 ```powershell
+cd C:\Apacheroot\web
 Get-ChildItem docker\certs\*.pem
 ```
 
@@ -356,12 +396,15 @@ docker compose up -d
 |---------|-----------------|
 | `docker: command not found` / není rozpoznán | Spusťte Docker Desktop, počkejte na „running“, nový PowerShell. |
 | Port is already allocated (80/443) | Běží Apache ve WAMP? Stop ve WAMP, nebo změňte porty v `.env`. |
-| Port is already allocated (3306) | Lokální MySQL (mimo WAMP) — zastavte přes **MySQL Notifier** v liště. Nesmí běžet současně `docker-compose.migrations.yml`. || `cd C:\Apacheroot\web` — cesta neexistuje | Ověřte umístění projektu v NetBeans; týmová cesta je `C:\Apacheroot\web`. |
+| Port is already allocated (3306) | Lokální MySQL (mimo WAMP) — zastavte přes **MySQL Notifier** v liště. Nesmí běžet současně `docker-compose.migrations.yml`. |
+| `cd C:\Apacheroot\web` — cesta neexistuje | Ověřte umístění projektu v NetBeans; týmová cesta je `C:\Apacheroot\web`. |
+| `Get-ChildItem` hledá `…\docker\certs\docker\certs` | Jste uvnitř `docker\certs` (starší skript měnil složku). `cd C:\Apacheroot\web` a znovu `Get-ChildItem docker\certs\*.pem`. Aktualizovaný skript složku nemění. |
 | Web na notebooku OK, mobil timeout | Stejná Wi‑Fi? Správná LAN IP? Firewall Windows? |
 | Mobil HTTPS „nedůvěryhodný“ / QR neotevře | Nainstalovaná CA (`ca.pem`)? U iOS zapnutá **Důvěra certifikátů**? Cert vydán i pro vaši LAN IP (`WEB_LAN_IP` + znovu `generate-certs.ps1` + `docker compose up -d`)? |
 | Bílá stránka / chybějící vendor | `docker compose exec web composer install` |
 | Šablony / cesty rozbité | Stack musí nastavit `WEB_PROJECT_PATH` (compose to dělá); nepřepisujte DocumentRoot ručně. |
 | Skript `.ps1` zakázán | `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` |
+| `mkcert.exe : Created a new local CA` + `NativeCommandError` (červeně) | Není chyba mkcert — PowerShell hlášku na stderr bral jako fatální. Aktualizujte skript (`git pull` / Pull v NetBeans) a spusťte `.\docker\certs\generate-certs.ps1` znovu. CA už může být vytvořená; skript ji jen znovu použije. |
 
 ---
 
