@@ -7,11 +7,15 @@
 #
 # Execution policy (jednou, pokud Windows skript blokuje):
 #   Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+#
+# Skript nemění aktuální adresář PowerShellu (zůstáváte v C:\Apacheroot\web).
 
 $ErrorActionPreference = "Stop"
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-Set-Location $ScriptDir
+$CertPem = Join-Path $ScriptDir "cert.pem"
+$KeyPem = Join-Path $ScriptDir "key.pem"
+$CaPem = Join-Path $ScriptDir "ca.pem"
 
 # mkcert píše běžné hlášky na stderr („Created a new local CA“). S ErrorActionPreference=Stop
 # to PowerShell vyhodí jako NativeCommandError — proto voláme přes tuto funkci a hlídáme jen exit code.
@@ -58,7 +62,7 @@ $mkcert = Get-Command mkcert -ErrorAction SilentlyContinue
 if ($mkcert) {
     Write-Host "Používám mkcert…"
     Invoke-Mkcert -MkcertArgs @("-install") | Out-Null
-    $argsList = @("-cert-file", "cert.pem", "-key-file", "key.pem")
+    $argsList = @("-cert-file", $CertPem, "-key-file", $KeyPem)
     foreach ($n in ($HostNames -split ",")) {
         $n = $n.Trim()
         if ($n) { $argsList += $n }
@@ -71,7 +75,7 @@ if ($mkcert) {
     if (-not $caroot -or -not (Test-Path (Join-Path $caroot "rootCA.pem"))) {
         throw "mkcert -CAROOT nevrátil platnou cestu (dostali jsme: '$caroot')."
     }
-    Copy-Item -Force (Join-Path $caroot "rootCA.pem") (Join-Path $ScriptDir "ca.pem")
+    Copy-Item -Force (Join-Path $caroot "rootCA.pem") $CaPem
     Write-Host "Hotovo (mkcert). Root CA zkopírován do docker\certs\ca.pem"
     Write-Host "Na telefonu nainstalujte ca.pem jako důvěryhodnou CA, pak https://<LAN-IP>/ bude bez varování."
     exit 0
@@ -108,6 +112,6 @@ if ($LASTEXITCODE -ne 0) {
     throw "docker run alpine/openssl selhal (exit $LASTEXITCODE)."
 }
 
-Copy-Item -Force (Join-Path $ScriptDir "cert.pem") (Join-Path $ScriptDir "ca.pem")
+Copy-Item -Force $CertPem $CaPem
 Write-Host "Hotovo (self-signed). Pro mobilní HTTPS bez varování nainstalujte mkcert a spusťte skript znovu."
 Write-Host "  mkcert: https://github.com/FiloSottile/mkcert#windows"
