@@ -16,6 +16,10 @@ final class PublicBaseUrlTest extends TestCase
         putenv('WEB_PUBLIC_SCHEME');
         putenv('WEB_DEV_HOSTS');
         unset($_SERVER['WEB_PUBLIC_HOST'], $_SERVER['WEB_PUBLIC_SCHEME'], $_SERVER['WEB_DEV_HOSTS']);
+        $ref = new \ReflectionClass(PublicBaseUrl::class);
+        $prop = $ref->getProperty('fileEnv');
+        $prop->setAccessible(true);
+        $prop->setValue(null, null);
         parent::tearDown();
     }
 
