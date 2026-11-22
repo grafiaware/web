@@ -10,6 +10,7 @@ Produkčně běží jako site **NajdiSi**.
 | [DOCKER.md](DOCKER.md) | Docker Desktop: Apache + PHP + MariaDB + HTTPS/LAN + Playwright |
 | [DOCKER-WINDOWS.md](DOCKER-WINDOWS.md) | Windows PowerShell: krok za krokem včetně mobilu / CA |
 | [MIGRACE.md](MIGRACE.md) | Pravidla pro migrace DB v balících VP |
+| [testy/](testy/) | Ruční testovací scénáře; [plán E2E](testy/E2E-PLAN.md) (Playwright) |
 | [zadani/](zadani/) | Zadání jednotlivých balíků (`<kód>.md`), šablona `_SABLONA.md` |
 | [../../AGENTS.md](../../AGENTS.md) | Pravidla pro lidi i agenty |
 
