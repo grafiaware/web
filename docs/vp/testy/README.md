@@ -62,6 +62,9 @@ i v etapách 3–6. Testovací návštěvníky pro losování (D1) založte regi
 a `--testsuite integration` proti testovací DB. Pravidla platnosti losů a losování (hranice minut, váhy losů)
 pokrývají unit testy, ručně se ověřuje jen chování v aplikaci.
 
+**E2E / Playwright:** kostra v `tests/e2e/` (Docker), plán postupné automatizace ručních scénářů —
+[E2E-PLAN.md](E2E-PLAN.md).
+
 ## Jak hlásit výsledky (návrh, čeká na schválení)
 
 1. Tester si scénář zkopíruje a vyplní sloupce **Výsledek** a **Poznámka** (lze i v prohlížeči na GitHubu
