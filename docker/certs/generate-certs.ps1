@@ -13,9 +13,26 @@
 $ErrorActionPreference = "Stop"
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$RepoRoot = Resolve-Path (Join-Path $ScriptDir "..\..")
 $CertPem = Join-Path $ScriptDir "cert.pem"
 $KeyPem = Join-Path $ScriptDir "key.pem"
 $CaPem = Join-Path $ScriptDir "ca.pem"
+
+# Načti .env z kořene repo (WEB_PUBLIC_HOST, WEB_DEV_HOSTS, WEB_CERT_HOSTS, WEB_LAN_IP),
+# pokud proměnná v prostředí ještě není nastavená.
+$EnvFile = Join-Path $RepoRoot ".env"
+if (Test-Path $EnvFile) {
+    Get-Content $EnvFile | ForEach-Object {
+        $line = $_.Trim()
+        if ($line -eq "" -or $line.StartsWith("#") -or -not $line.Contains("=")) { return }
+        $name, $value = $line.Split("=", 2)
+        $name = $name.Trim()
+        $value = $value.Trim().Trim('"').Trim("'")
+        if ($name -and -not [Environment]::GetEnvironmentVariable($name)) {
+            Set-Item -Path "Env:$name" -Value $value
+        }
+    }
+}
 
 # mkcert píše běžné hlášky na stderr („Created a new local CA“). S ErrorActionPreference=Stop
 # to PowerShell vyhodí jako NativeCommandError — proto voláme přes tuto funkci a hlídáme jen exit code.
@@ -39,8 +56,20 @@ function Invoke-Mkcert {
     return $lines
 }
 
-$HostNames = if ($env:WEB_CERT_HOSTS) { $env:WEB_CERT_HOSTS } else { "localhost,web.local,grafia.local" }
+if ($env:WEB_CERT_HOSTS) {
+    $HostNames = $env:WEB_CERT_HOSTS
+} else {
+    $devHosts = if ($env:WEB_DEV_HOSTS) { $env:WEB_DEV_HOSTS } else { "ps.dev.local,vs.dev.local,ks.dev.local" }
+    $HostNames = "localhost,$devHosts"
+    if ($env:WEB_PUBLIC_HOST) {
+        $ph = ($env:WEB_PUBLIC_HOST -split ":")[0].Trim()
+        if ($ph -and ($HostNames -notlike "*$ph*")) {
+            $HostNames = "$HostNames,$ph"
+        }
+    }
+}
 $ExtraIp = if ($env:WEB_LAN_IP) { $env:WEB_LAN_IP.Trim() } else { "" }
+Write-Host "WEB_PUBLIC_HOST: $(if ($env:WEB_PUBLIC_HOST) { $env:WEB_PUBLIC_HOST } else { '(není — QR budou z HTTP_HOST requestu)' })"
 
 if (-not $ExtraIp) {
     try {

@@ -113,8 +113,7 @@ class RegistrationControler extends LoginControlerAbstract
                     $loginAggregateRegistrationEntity1 = $this->loginAggregateRegistrationRepo->get($registerJmeno);
                     $uid = $loginAggregateRegistrationEntity1->getRegistration()->getUid();    //do mailu potrebuji vygenerovane uid z tabulky registration
 
-                    $confirmDomainName = $request->getServerParams()['HTTP_HOST'].$this->getBasePath($request);  // getBasePath - končí /
-                    $confirmationUrl = "https://{$confirmDomainName}auth/v1/confirm/$uid";
+                    $confirmationUrl = $this->absoluteUrl($request, "auth/v1/confirm/$uid");
 
                     #########################--------- poslat mail uzivateli---------------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                     /** @var MailInterface $mail */

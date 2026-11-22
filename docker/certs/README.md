@@ -1,27 +1,27 @@
 # Lokální TLS certifikáty (Docker web)
 
-Soubory `cert.pem`, `key.pem` a případně `ca.pem` se **necommitují**.
+Soubory `cert.pem`, `key.pem` a `ca.pem` se **necommitují**.
 
 ## Windows (PowerShell) — doporučeno
 
-Tým (NetBeans): nejdřív `cd C:\Apacheroot\web`, pak:
+1. V `.env` (viz `.env.docker.example`) nastavte své `WEB_PUBLIC_HOST` a případně `WEB_LAN_IP`.
+2. Z kořene repo (`C:\Apacheroot\web`):
 
 ```powershell
-$env:WEB_LAN_IP = "192.168.1.42"   # vaše LAN IP
 .\docker\certs\generate-certs.ps1
 ```
 
-Podrobný návod včetně NetBeans a mobilu: [docs/vp/DOCKER-WINDOWS.md](../../docs/vp/DOCKER-WINDOWS.md).
+Skript načte `.env` a do certifikátu dá `localhost` + `WEB_DEV_HOSTS` (výchozí `ps.dev.local`, `vs.dev.local`, `ks.dev.local`).
+
+Podrobný návod: [docs/vp/DOCKER-WINDOWS.md](../../docs/vp/DOCKER-WINDOWS.md) (krok 4 a §11).
 
 ## macOS / Linux (bash)
 
 ```bash
-WEB_LAN_IP=192.168.1.42 ./docker/certs/generate-certs.sh
+./docker/certs/generate-certs.sh
 ```
 
 Ideálně s [mkcert](https://github.com/FiloSottile/mkcert).
 
 Pak `docker compose up -d` (nebo restart služby `web`).  
-HTTPS: `https://localhost/` nebo `https://<LAN-IP>/`.
-
-Na telefonu nainstalujte `ca.pem` jako důvěryhodnou certifikační autoritu (ne jen zkopírovat soubor).
+Na telefonu nainstalujte `ca.pem` jako důvěryhodnou certifikační autoritu.
