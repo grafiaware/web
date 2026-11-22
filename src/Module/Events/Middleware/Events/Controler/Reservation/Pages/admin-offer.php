@@ -33,6 +33,10 @@ $totalReserved = array_sum(array_map(fn($l) => (int) $l['occupied'], $lectures))
     <h1><?= $h($offer['name']) ?></h1>
     <p>Den akce <b><?= $h($fmt($offer['event_date'], 'j. n. Y')) ?></b> · stav <b><?= $h(SchoolReservationService::OFFER_STATUSES[$offer['status']] ?? $offer['status']) ?></b> ·
         <?= $state['open'] ? '<span class="ok">formulář na webu přijímá rezervace</span>' : '<span class="bad">' . $h($state['message']) . '</span>' ?></p>
+    <?php if ($config->hasPlaceholderTexts()): ?>
+        <p class="msg warning"><b>Nutno nahradit:</b> texty souhlasů nebo odkaz na zásady v konfiguraci (<code>ConfigurationEvents::reservation()</code>)
+            jsou zatím jen náznak. Před zveřejněním formuláře je nahraďte (issue #140).</p>
+    <?php endif; ?>
     <p class="muted">Formulář pro pedagogy je statická stránka webu se šablonou <code>vp/rezervace-skol</code> (kód nabídky
         <code><?= $h($offer['code']) ?></code> – bez nastavení nabízí nejnovější otevřenou nabídku).</p>
 </div>

@@ -10,9 +10,12 @@ use Site\ConfigurationCache;
  */
 final class ReservationConfig {
 
-    public const DEFAULT_CONSENT_TEXT = 'Souhlasím se zpracováním uvedených údajů za účelem rezervace a organizace přednášky '
+    /** Značka náhradního textu – texty souhlasů a odkaz na zásady doplní organizátor po právní konzultaci (#140). */
+    public const PLACEHOLDER_MARK = 'Nutno nahradit';
+
+    public const DEFAULT_CONSENT_TEXT = '[Nutno nahradit] Souhlasím se zpracováním uvedených údajů za účelem rezervace a organizace přednášky '
         . 'na Veletrhu práce a vzdělávání.';
-    public const DEFAULT_PHONE_CONSENT_TEXT = 'Souhlasím, aby mi organizátor v den akce krátce před začátkem přednášky zavolal '
+    public const DEFAULT_PHONE_CONSENT_TEXT = '[Nutno nahradit] Souhlasím, aby mi organizátor v den akce krátce před začátkem přednášky zavolal '
         . 'a ověřil příchod skupiny. Telefon se použije jen k tomu a po skončení dne akce se smaže.';
 
     public function __construct(
@@ -45,6 +48,15 @@ final class ReservationConfig {
             (string) ($c['mail']['notifyGroup'] ?? $d->notifyGroup),
             (string) ($c['timezone'] ?? $d->timezone),
         );
+    }
+
+    /**
+     * Texty souhlasů nebo odkaz na zásady ještě nejsou nahrazené (obsahují „Nutno nahradit“, odkaz chybí).
+     * Formulář pak zobrazí upozornění; na produkci se vp.rezervace nezapíná.
+     */
+    public function hasPlaceholderTexts(): bool {
+        return str_contains($this->consentText, self::PLACEHOLDER_MARK) || str_contains($this->phoneConsentText, self::PLACEHOLDER_MARK)
+            || trim($this->policyUrl) === '';
     }
 
     public static function fromConfiguration(): self {

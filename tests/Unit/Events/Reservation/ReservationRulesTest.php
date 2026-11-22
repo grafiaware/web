@@ -156,6 +156,9 @@ final class ReservationRulesTest extends TestCase {
         $this->assertSame(3, $c->maxPerEmail);
         $this->assertSame('noreply', $c->mailSender);
         $this->assertSame('https://example.test/z', $c->policyUrl);
+        $this->assertTrue($d->hasPlaceholderTexts(), 'výchozí texty jsou náznak „Nutno nahradit“ (#140)');
+        $this->assertFalse(ReservationConfig::fromArray(['consentText' => 'Souhlasím.', 'phoneConsentText' => 'Souhlasím s telefonem.',
+            'policyUrl' => 'https://example.test/zasady'])->hasPlaceholderTexts());
     }
 
     public function testMailTemplatesWithoutPhone(): void {

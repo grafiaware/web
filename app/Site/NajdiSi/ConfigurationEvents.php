@@ -62,11 +62,17 @@ class ConfigurationEvents extends ConfigurationConstants {
             'maxPupils' => 200,            // nejvýš žáků v jedné rezervaci
             'maxTeachers' => 20,
             'changeDaysBefore' => 2,       // výchozí uzávěrka změn při založení nabídky: 2 dny před akcí
-            // texty souhlasů ve formuláři a odkaz na zásady (doplní A4)
-            // 'consentText' => '…', 'phoneConsentText' => '…',
-            'policyUrl' => '',
-            'organizerContact' => 'info@najdisi.cz',
-            'mail' => ['sender' => 'info', 'notifyGroup' => 'reservation.notify'],
+            // NUTNO NAHRADIT po právní konzultaci (issue #140): texty souhlasů ve formuláři a odkaz na zásady (A4).
+            // Dokud text obsahuje „Nutno nahradit“, formulář ho zobrazí s upozorněním; vp.rezervace na produkci nezapínat.
+            'consentText' => '[Nutno nahradit] Souhlasím se zpracováním uvedených údajů za účelem rezervace a organizace '
+                . 'přednášky na Veletrhu práce a vzdělávání.',
+            'phoneConsentText' => '[Nutno nahradit] Souhlasím, aby mi organizátor v den akce krátce před začátkem přednášky '
+                . 'zavolal a ověřil příchod skupiny. Telefon se použije jen k tomu a po skončení dne akce se smaže.',
+            'policyUrl' => '',             // [Nutno nahradit] odkaz na zásady zpracování osobních údajů
+            // kontakt na organizátora (po uzávěrce změn) – adresu doplní Petr
+            'organizerContact' => PES_RUNNING_ON_PRODUCTION_HOST ? 'rezervace.skoly@mail' : 'rezervace@najdisi.test',
+            // odesílatel 'rezervace' a příjemci 'reservation.notify' jsou v ConfigurationWeb::mail()
+            'mail' => ['sender' => 'rezervace', 'notifyGroup' => 'reservation.notify'],
         ];
     }
 

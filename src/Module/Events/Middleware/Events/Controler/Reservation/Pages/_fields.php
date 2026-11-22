@@ -110,6 +110,9 @@ $time = fn($l) => SchoolReservationService::fmt($l['start'], 'G:i') . '–' . Sc
     <label for="<?= $p ?>-note">Poznámka</label>
     <textarea id="<?= $p ?>-note" name="note" rows="2" maxlength="2000"><?= $val('note') ?></textarea>
 </div>
+<?php if ($mode !== 'admin' && $config->hasPlaceholderTexts()): ?>
+<p style="color:#b00020; font-weight:bold">Nutno nahradit: texty souhlasů a odkaz na zásady jsou zatím jen náznak – čekají na právní konzultaci.</p>
+<?php endif; ?>
 <?php if ($mode === 'public'): ?>
 <div class="hp" aria-hidden="true" style="position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden">
     <label for="<?= $p ?>-hp">Nevyplňujte</label>
@@ -121,6 +124,8 @@ $time = fn($l) => SchoolReservationService::fmt($l['start'], 'G:i') . '–' . Sc
         <label for="<?= $p ?>-consent"><?= $h($config->consentText) ?>
             <?php if ($config->policyUrl !== ''): ?>
                 <a href="<?= $h($config->policyUrl) ?>" target="_blank" rel="noopener">Zásady zpracování osobních údajů</a>
+            <?php else: ?>
+                <span style="color:#b00020">[Nutno nahradit] Zásady zpracování osobních údajů – odkaz bude doplněn.</span>
             <?php endif; ?>
             <span class="req">*</span></label>
     </div>

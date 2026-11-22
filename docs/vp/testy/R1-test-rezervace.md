@@ -22,7 +22,7 @@ Výsledek u každého bodu: **OK** / **CHYBA** / **NEPROVEDENO** / **NEJASNÉ**.
 | #  | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 | -- | --------- | ------------------ | -------- | -------- |
 | P1 | Lokálně (bez commitu) v `ConfigurationFeatures.php` zapnout `'vp.rezervace' => true` (ostatní přepínače z předchozích etap zůstávají zapnuté) | – | | |
-| P2 | V redakčním systému založit položky menu typu statická stránka: `vp/rezervace-skol` (veřejné menu – formulář pro pedagogy) a `events/admin/reservation` (menu administrace). Když statické stránky přes menu ještě nefungují, veřejný formulář označte NEPROVEDENO a administraci otevírejte přímo adresou `events/v1/reservation` | Stránky se otevřou | | |
+| P2 | V redakčním systému založit položky menu typu statická stránka: **„rezervace škol“** se šablonou `vp/rezervace-skol` (veřejné menu – formulář pro pedagogy) a **„rezervace“** se šablonou `events/admin/reservation` (menu administrace). Když statické stránky přes menu ještě nefungují, veřejný formulář označte NEPROVEDENO a administraci otevírejte přímo adresou `events/v1/reservation` | Stránky se otevřou | | |
 | P3 | Jako `t_events_administrator` ve správě eventů (`vp/event`) mít na den akce aspoň 3 zveřejněné eventy s obsahem typu Přednáška (např. 9:30, 10:30, 13:00) | Formulář eventu má pole **Kapacita** | | |
 | P4 | Nastavit kapacitu: první přednáška 40, druhá 30, třetí nechat prázdnou | Uloží se; v přehledu eventu „kapacita: 40“; neplatná kapacita (např. `abc`) → hláška „Kapacita musí být celé kladné číslo…“ | | |
 
@@ -43,11 +43,11 @@ Odhlásit se (nebo anonymní okno). Testujte aspoň jednou z telefonu.
 
 | #   | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 | --- | --------- | ------------------ | -------- | -------- |
-| 2.1 | Otevřít formulář | Výběr přednášky s časem a „volno N míst“; třetí přednáška „nelze rezervovat“ (nejde vybrat); cílové obory podle zadání; počet pedagogů předvyplněný 1 | | |
+| 2.1 | Otevřít formulář | Texty souhlasů a odkaz na zásady s upozorněním „Nutno nahradit“ (do vyřešení #140); výběr přednášky s časem a „volno N míst“; třetí přednáška „nelze rezervovat“ (nejde vybrat); cílové obory podle zadání; počet pedagogů předvyplněný 1 | | |
 | 2.2 | Odeslat bez povinných údajů | Prohlížeč nepustí (povinná pole) | | |
 | 2.3 | Vyplnit vše (přednáška 1, 30 žáků, 2 pedagogové, smyšlený e-mail `…@example.test`), telefon **bez** souhlasu s telefonem | Hláška, že telefon se uloží jen se souhlasem; vyplněné údaje zůstanou ve formuláři | | |
 | 2.4 | Zaškrtnout souhlas s telefonem a odeslat | Stránka „Rezervace přednášky“ se souhrnem a hláškou „Rezervace je uložená…“; telefon je v souhrnu; výzva k registraci | | |
-| 2.5 | smtp4dev | E-mail pedagogovi: souhrn, odkaz „Správa rezervace“, uzávěrka, pozvánka k registraci, **bez telefonu**. Upozornění organizátorovi (při vývoji na `rezervace@najdisi.test`): souhrn **bez telefonu a bez odkazu** | | |
+| 2.5 | smtp4dev | Odesílatel `rezervace@najdisi.test` (vývoj). E-mail pedagogovi: souhrn, odkaz „Správa rezervace“, uzávěrka, pozvánka k registraci, **bez telefonu**. Upozornění organizátorovi (při vývoji na `rezervace@najdisi.test`): souhrn **bez telefonu a bez odkazu** | | |
 | 2.6 | Formulář znovu: přednáška 1, 9 žáků + 1 pedagog (zbývá 8 míst) | Rezervace se neuloží: „Na přednášce zbývá jen 8 míst, vaše skupina má 10 osob… vyberte prosím jinou.“ Údaje zůstanou vyplněné | | |
 | 2.7 | Vybrat přednášku 2 a odeslat | Uloží se; ve formuláři u přednášky 2 ubyla volná místa | | |
 | 2.8 | Z téhož e-mailu vytvořit další rezervace, až jich je 6 | Šestá se neuloží: „Z jednoho e-mailu lze mít nejvýš 5 rezervací…“ | | |
