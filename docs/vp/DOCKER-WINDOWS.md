@@ -195,6 +195,20 @@ WEB_CERT_HOSTS=localhost,ps.dev.local,vs.dev.local,ks.dev.local
 `WEB_PUBLIC_HOST` změňte na své jméno (`vs.dev.local` / `ks.dev.local`).  
 V DNS/DHCP (kde to jde) přidejte A záznam: `ps.dev.local` → LAN IP tohoto notebooku. Na telefonu bez DNS použijte aplikaci pro lokální překlad jména → IP.
 
+Po změně `.env` vždy znovu spusťte stack (jinak kontejner staré hodnoty nevidí):
+
+```powershell
+docker compose up -d --force-recreate web
+```
+
+Ověření, že PHP vidí host (v prohlížeči by QR/PDF měly dávat `https://ps.dev.local/…`, ne `http://localhost:8080`):
+
+```powershell
+docker compose exec web printenv WEB_PUBLIC_HOST
+```
+
+(Musí vypsat `ps.dev.local`. Aplikace navíc čte `.env` z disku jako zálohu.)
+
 ### 4.1 TLS certifikáty (HTTPS) pro všechna vývojová jména
 
 V PowerShellu **v `C:\Apacheroot\web`**:

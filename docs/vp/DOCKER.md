@@ -66,9 +66,10 @@ WEB_DEV_HOSTS=ps.dev.local,vs.dev.local,ks.dev.local
 WEB_CERT_HOSTS=localhost,ps.dev.local,vs.dev.local,ks.dev.local
 ```
 
-- `WEB_PUBLIC_HOST` — jde do QR, PDF a absolutních odkazů v e-mailech (`Web\Service\PublicBaseUrl`), i když prohlížíte přes `localhost`.
+- `WEB_PUBLIC_HOST` — jde do QR, PDF a absolutních odkazů v e-mailech (`Web\Service\PublicBaseUrl`), i když prohlížíte přes `localhost`. PHP bere hodnotu z env kontejneru a jako zálohu ze souboru `.env` v kořeni repo.
 - `WEB_DEV_HOSTS` — všechna jména týmu v Apache `ServerAlias` a (pokud není `WEB_CERT_HOSTS`) v TLS SAN.
 - Mapování jména → LAN IP: DNS/DHCP, nebo aplikace na telefonu.
+- Po změně `.env`: `docker compose up -d --force-recreate web` a ověření `docker compose exec web printenv WEB_PUBLIC_HOST`.
 
 1. Certifikáty: `generate-certs.ps1` / `.sh` (načte `.env`, preferujte **mkcert**).
 2. Na telefon **nainstalujte** `docker/certs/ca.pem` jako důvěryhodnou CA — [DOCKER-WINDOWS.md](DOCKER-WINDOWS.md) §11.
