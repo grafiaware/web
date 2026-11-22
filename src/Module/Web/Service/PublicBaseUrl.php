@@ -15,10 +15,18 @@ use Psr\Http\Message\ServerRequestInterface;
  * Env (prostředí procesu, Apache PassEnv, nebo soubor `.env` v kořeni projektu):
  * - WEB_PUBLIC_HOST — host[:port] tohoto stroje (prázdné = z requestu)
  * - WEB_PUBLIC_SCHEME — https|http (výchozí https, když je WEB_PUBLIC_HOST nastavené)
+ *
+ * TODO(#92): po centrálním načtení `.env` / tajemství při bootstrapu smazat
+ * {@see loadDotEnv()} a {@see $fileEnv} — nechat jen getenv / $_SERVER / $_ENV.
+ * Jinak se `.env` (včetně budoucích hesel k DB) zbytečně parsuje dvakrát.
  */
 final class PublicBaseUrl
 {
-    /** @var array<string, string>|null */
+    /**
+     * Záložní hodnoty z ručního parsování `.env` (do #92).
+     *
+     * @var array<string, string>|null
+     */
     private static ?array $fileEnv = null;
 
     public static function absolute(ServerRequestInterface $request, string $basePath, string $restUri): string
