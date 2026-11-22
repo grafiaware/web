@@ -439,11 +439,13 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'exhibitorRegistration.to' => [['slukova@grafia.cz', 'Registace zástupce vystavovatele']],
                 'exhibitorRegistration.cc' => [['slehoferova@grafia.cz', 'Registace zástupce vystavovatele']],
                 'testmail.to' => [['selnerova@grafia.cz', 'selnerovaV'], ['svoboda@grafia.cz', 'testMail']],
+                'reservation.notify' => [['info@najdisi.cz', 'Rezervace škol']],   // R1: upozornění na rezervace škol (adresy doplní Petr)
             ] : [
                 'registration.bcc' => [['webmaster@najdisi.test', 'vývoj – kopie registrace']],
                 'exhibitorRegistration.to' => [['vystavovatel-to@najdisi.test', 'vývoj – registrace zástupce vystavovatele']],
                 'exhibitorRegistration.cc' => [['vystavovatel-cc@najdisi.test', 'vývoj – registrace zástupce vystavovatele']],
                 'testmail.to' => [['testmail@najdisi.test', 'vývoj – testMail']],
+                'reservation.notify' => [['rezervace@najdisi.test', 'vývoj – rezervace škol']],
             ],
 
         ];

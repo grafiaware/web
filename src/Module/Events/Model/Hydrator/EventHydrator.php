@@ -19,6 +19,7 @@ class EventHydrator extends TypeHydratorAbstract implements HydratorInterface {
     //  `event`.`enroll_link_id_fk`
     //  `event`.`enter_link_id_fk`
     //  `event`.`event_content_id_fk`
+    //  `event`.`capacity`  (R1)
 
     /**
      *
@@ -35,7 +36,8 @@ class EventHydrator extends TypeHydratorAbstract implements HydratorInterface {
             ->setEnd( $this->getPhpDatetime   ($rowData, 'end'))
             ->setEnrollLinkIdFk( $this->getPhpValue  ($rowData,'enroll_link_id_fk'))
             ->setEnterLinkIdFk( $this->getPhpValue   ($rowData,'enter_link_id_fk'))
-            ->setEventContentIdFk( $this->getPhpValue($rowData,'event_content_id_fk'));                                
+            ->setEventContentIdFk( $this->getPhpValue($rowData,'event_content_id_fk'))
+            ->setCapacity( $rowData->offsetExists('capacity') ? $this->getPhpValue($rowData,'capacity') : null);   // R1                                
     }
 
     
@@ -52,7 +54,8 @@ class EventHydrator extends TypeHydratorAbstract implements HydratorInterface {
         $this->setSqlDatetime( $rowData, 'end',  $event->getEnd()) ;        
         $this->setSqlValue( $rowData, 'enroll_link_id_fk', $event->getEnrollLinkIdFk());
         $this->setSqlValue( $rowData, 'enter_link_id_fk', $event->getEnterLinkIdFk());
-        $this->setSqlValue( $rowData, 'event_content_id_fk', $event->getEventContentIdFk());               
+        $this->setSqlValue( $rowData, 'event_content_id_fk', $event->getEventContentIdFk());
+        $this->setSqlValue( $rowData, 'capacity', $event->getCapacity());   // R1               
         
     }
 

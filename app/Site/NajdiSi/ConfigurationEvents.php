@@ -50,6 +50,26 @@ class ConfigurationEvents extends ConfigurationConstants {
         ];
     }
 
+    /**
+     * R1 (#48): rezervace míst na přednáškách pro školy. Popis: docs/vp/zadani/R1.md (Konfigurace).
+     * Funkci zapíná přepínač vp.rezervace (ConfigurationFeatures). Upozornění organizátorovi jdou na skupinu
+     * příjemců 'reservation.notify' v ConfigurationWeb::mail() (mail.recipients).
+     */
+    public static function reservation() {
+        return [
+            'timezone' => 'Europe/Prague',
+            'maxPerEmail' => 5,            // aktivních rezervací z jednoho e-mailu v nabídce
+            'maxPupils' => 200,            // nejvýš žáků v jedné rezervaci
+            'maxTeachers' => 20,
+            'changeDaysBefore' => 2,       // výchozí uzávěrka změn při založení nabídky: 2 dny před akcí
+            // texty souhlasů ve formuláři a odkaz na zásady (doplní A4)
+            // 'consentText' => '…', 'phoneConsentText' => '…',
+            'policyUrl' => '',
+            'organizerContact' => 'info@najdisi.cz',
+            'mail' => ['sender' => 'info', 'notifyGroup' => 'reservation.notify'],
+        ];
+    }
+
     public static function dbEvents() {
 
         return [

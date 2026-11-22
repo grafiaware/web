@@ -31,7 +31,8 @@ class EventDao extends DaoEditAbstract implements EventDaoInterface {
             'end',
             'enroll_link_id_fk',
             'enter_link_id_fk',
-            'event_content_id_fk'
+            'event_content_id_fk',
+            'capacity',     // R1 (#48), migrace events 20261122000001_r1_school_reservation
         ];
     }
 
