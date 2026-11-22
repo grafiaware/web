@@ -55,15 +55,28 @@ docker compose exec db mariadb -uroot -proot -e "SHOW DATABASES;"
 
 Import dumpů a `/build`: stejně jako v [SETUP.md](SETUP.md) / [migrace-db-docker.md](../migrace-db-docker.md), jen kontejner DB se jmenuje `grafia-web-db` (compose project `grafia-web`).
 
-## HTTPS a mobil / QR
+## HTTPS, vývojová jména a QR
 
-1. Certifikáty: `generate-certs.ps1` (Windows) nebo `generate-certs.sh` (macOS/Linux) — preferujte **mkcert**.
-2. Na telefon **nainstalujte** `docker/certs/ca.pem` jako důvěryhodnou CA (nestačí soubor jen zkopírovat) — detaily v [DOCKER-WINDOWS.md](DOCKER-WINDOWS.md) §11.
-3. Notebook: `https://localhost/` · Mobil: `https://<LAN-IP>/` · Do QR stejná HTTPS URL s LAN IP.
+V `.env` nastavte **jméno tohoto stroje** (výchozí sada: `ps.dev.local`, `vs.dev.local`, `ks.dev.local`):
 
-Bez důvěryhodné CA mobilní prohlížeče a WebView často HTTPS odkazy z QR odmítnou. Self-signed z openssl je nouzovka pro desktop.
+```env
+WEB_PUBLIC_HOST=ps.dev.local
+WEB_PUBLIC_SCHEME=https
+WEB_DEV_HOSTS=ps.dev.local,vs.dev.local,ks.dev.local
+WEB_CERT_HOSTS=localhost,ps.dev.local,vs.dev.local,ks.dev.local
+```
 
-Porty 80/443 jsou mapované na všechna rozhraní PC (`0.0.0.0` = bind, ne URL) — firewall Windows/macOS musí LAN povolit. Na veřejný internet stack nevystavujte.
+- `WEB_PUBLIC_HOST` — jde do QR, PDF a absolutních odkazů v e-mailech (`Web\Service\PublicBaseUrl`), i když prohlížíte přes `localhost`.
+- `WEB_DEV_HOSTS` — všechna jména týmu v Apache `ServerAlias` a (pokud není `WEB_CERT_HOSTS`) v TLS SAN.
+- Mapování jména → LAN IP: DNS/DHCP, nebo aplikace na telefonu.
+
+1. Certifikáty: `generate-certs.ps1` / `.sh` (načte `.env`, preferujte **mkcert**).
+2. Na telefon **nainstalujte** `docker/certs/ca.pem` jako důvěryhodnou CA — [DOCKER-WINDOWS.md](DOCKER-WINDOWS.md) §11.
+3. Notebook: `https://ps.dev.local/` · Mobil totéž (po DNS) · nouzově `https://<LAN-IP>/`.
+
+Bez důvěryhodné CA mobilní prohlížeče a WebView často HTTPS odkazy z QR odmítnou.
+
+Porty 80/443 jsou mapované na všechna rozhraní PC (`0.0.0.0` = bind, ne URL) — firewall musí LAN povolit. Na veřejný internet stack nevystavujte.
 
 ## Varianty PHP a DB
 

@@ -22,10 +22,23 @@ else
   echo "WARN: chybí docker/certs/cert.pem nebo key.pem — HTTPS vypnuto. Spusťte docker/certs/generate-certs.sh" >&2
 fi
 
-# ServerName z env (LAN hostname / IP)
-if [[ -n "${WEB_SERVER_NAME:-}" ]]; then
-  echo "ServerName ${WEB_SERVER_NAME}" > /etc/apache2/conf-available/servername.conf
-  a2enconf servername >/dev/null 2>&1 || true
-fi
+# ServerName = veřejné jméno tohoto stroje; ServerAlias = všechna vývojová jména týmu + localhost
+SERVER_NAME="${WEB_PUBLIC_HOST:-${WEB_SERVER_NAME:-web.local}}"
+# host bez portu pro Apache ServerName
+SERVER_NAME="${SERVER_NAME%%:*}"
+{
+  echo "ServerName ${SERVER_NAME}"
+  echo "ServerAlias localhost"
+  DEV_HOSTS="${WEB_DEV_HOSTS:-ps.dev.local,vs.dev.local,ks.dev.local}"
+  IFS=',' read -ra NAMES <<< "$DEV_HOSTS"
+  for n in "${NAMES[@]}"; do
+    n="$(echo "$n" | xargs)"
+    n="${n%%:*}"
+    if [[ -n "$n" && "$n" != "localhost" && "$n" != "$SERVER_NAME" ]]; then
+      echo "ServerAlias ${n}"
+    fi
+  done
+} > /etc/apache2/conf-available/servername.conf
+a2enconf servername >/dev/null 2>&1 || true
 
 exec "$@"
