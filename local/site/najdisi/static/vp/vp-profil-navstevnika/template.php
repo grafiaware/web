@@ -98,6 +98,11 @@ if ($isVisitor) {
                 <?php include "content/losovani.php" ?>
             </content>
             <?php endif; ?>
+            <?php if (\Application\Feature\FeatureFlags::fromConfiguration()->isEnabled('vp.rezervace')): ?>
+            <content>
+                <?php include "content/rezervace.php" ?>   <!-- R1: rezervace školy pedagoga -->
+            </content>
+            <?php endif; ?>
             <content>
                 <?php include "content/profil.php" ?>       <!-- Tiny pro .edit-userinput -->
             </content>
