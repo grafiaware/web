@@ -19,20 +19,51 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$RepoRoot = Resolve-Path (Join-Path $ScriptDir "..")
-$CertPem = Join-Path $ScriptDir "certs\cert.pem"
-$KeyPem = Join-Path $ScriptDir "certs\key.pem"
-$GenerateCerts = Join-Path $ScriptDir "certs\generate-certs.ps1"
+# $MyInvocation.MyCommand.Path je někdy prázdné → Join-Path ".." od CWD dá C:\Apacheroot
+# místo C:\Apacheroot\web. Preferujte $PSScriptRoot a hledejte docker-compose.yml nahoru.
+$StartDir = $PSScriptRoot
+if (-not $StartDir) {
+    if ($MyInvocation.MyCommand.Path) {
+        $StartDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+    } else {
+        $StartDir = (Get-Location).Path
+    }
+}
+
+$RepoRoot = $null
+$candidate = $StartDir
+while ($candidate) {
+    if (Test-Path -LiteralPath (Join-Path $candidate "docker-compose.yml")) {
+        $RepoRoot = (Resolve-Path -LiteralPath $candidate).Path
+        break
+    }
+    $parent = Split-Path -Parent $candidate
+    if (-not $parent -or $parent -eq $candidate) {
+        break
+    }
+    $candidate = $parent
+}
+
+if (-not $RepoRoot) {
+    throw @"
+Nenašel jsem docker-compose.yml nad složkou skriptu.
+  PSScriptRoot / StartDir: $StartDir
+  CWD: $((Get-Location).Path)
+Spusťte: cd C:\Apacheroot\web ; .\docker\recreate-web.ps1
+"@
+}
+
+$DockerDir = Join-Path $RepoRoot "docker"
+$CertPem = Join-Path $DockerDir "certs\cert.pem"
+$KeyPem = Join-Path $DockerDir "certs\key.pem"
+$GenerateCerts = Join-Path $DockerDir "certs\generate-certs.ps1"
 
 Push-Location $RepoRoot
 try {
-    if (-not (Test-Path (Join-Path $RepoRoot "docker-compose.yml"))) {
-        throw "V $RepoRoot chybí docker-compose.yml — spusťte skript z klonu grafiaware/web."
-    }
+    Write-Host "Repo: $RepoRoot"
 
     if (-not $SkipCerts) {
-        if (-not (Test-Path $CertPem) -or -not (Test-Path $KeyPem)) {
+        if (-not (Test-Path -LiteralPath $CertPem) -or -not (Test-Path -LiteralPath $KeyPem)) {
             Write-Host "Chybí docker/certs/cert.pem nebo key.pem — generuji…"
             & $GenerateCerts
             if ($LASTEXITCODE -ne 0) {
