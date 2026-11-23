@@ -146,6 +146,13 @@ docker compose down          # data DB zůstanou
 docker compose down -v       # smaže volume DB (init SQL znovu)
 ```
 
+## Build panel (`/build`) a cesta `/web/`
+
+Formuláře migrací používají relativní `action` a tag `<base href="…">`. V Dockeru musí být base `/`
+(stejně jako `RewriteBase /` v `htaccess.dev`), ne natvrdo `/web/` — jinak POST jde na
+`/web/build/migrations/…` a skončí 404. Routy migrací jsou **jen POST**; ruční GET v adresním řádku
+(i po smazání `/web`) je 404.
+
 ## Apache se restartuje
 
 - `WARN: chybí docker/certs/cert.pem…` — jen vypne HTTPS; samotné to Apache nespadí. Spusťte `generate-certs` a `docker compose up -d`.
