@@ -460,6 +460,7 @@ docker compose up -d
 | `Cannot define multiple Listeners on the same IP:port` (ports.conf / 443) | Duplicitní `Listen 443`. Pull oprav Dockerfile + `docker compose build --no-cache web` a `docker compose up -d`. |
 | `WARN: chybí docker/certs/…` a HTTPS vypnuto | Normální bez certů — běží jen HTTP. Spusťte `.\docker\certs\generate-certs.ps1` a `docker compose up -d`. |
 | Apache restartuje: `ServerAlias only used in <VirtualHost>` | Chyba v starším entrypointu (`ServerAlias` v globálním conf). Pull oprav, pak `.\docker\recreate-web.ps1` (build + recreate; entrypoint je v image). Samotné certy tuhle chybu nevyřeší. Skript berte vždy přes git pull — nekopírujte z chatu (CRLF). |
+| `recreate-web.ps1`: chybí `docker-compose.yml` v `$RepoRoot` | Starší skript špatně určil kořen (často `C:\Apacheroot` místo `…\web`). Pull oprav + znovu `.\docker\recreate-web.ps1` z `C:\Apacheroot\web`. |
 
 ---
 
