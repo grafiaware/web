@@ -146,6 +146,11 @@ docker compose down          # data DB zůstanou
 docker compose down -v       # smaže volume DB (init SQL znovu)
 ```
 
+## Apache se restartuje
+
+- `WARN: chybí docker/certs/cert.pem…` — jen vypne HTTPS; samotné to Apache nespadí. Spusťte `generate-certs` a `docker compose up -d`.
+- `ServerAlias only used in <VirtualHost>` — fatální: `ServerAlias` nesmí být v globálním conf. Oprava je v entrypointu + `IncludeOptional` ve vhostech; po pulli: `docker compose build web && docker compose up -d --force-recreate web`.
+
 ## Soubory
 
 | Cesta | Účel |

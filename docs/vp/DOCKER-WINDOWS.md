@@ -445,6 +445,8 @@ docker compose up -d
 | `mkcert.exe : Created a new local CA` + `NativeCommandError` (červeně) | Není chyba mkcert — PowerShell hlášku na stderr bral jako fatální. Aktualizujte skript (`git pull` / Pull v NetBeans) a spusťte `.\docker\certs\generate-certs.ps1` znovu. CA už může být vytvořená; skript ji jen znovu použije. |
 | `grafia-web-apache` restartuje: `exec …/grafia-web-entrypoint.sh: no such file or directory` | Na Windows měl `entrypoint.sh` často konce řádků CRLF. Pull oprav + `docker compose build --no-cache web` a `docker compose up -d`. |
 | `Cannot define multiple Listeners on the same IP:port` (ports.conf / 443) | Duplicitní `Listen 443`. Pull oprav Dockerfile + `docker compose build --no-cache web` a `docker compose up -d`. |
+| `WARN: chybí docker/certs/…` a HTTPS vypnuto | Normální bez certů — běží jen HTTP. Spusťte `.\docker\certs\generate-certs.ps1` a `docker compose up -d`. |
+| Apache restartuje: `ServerAlias only used in <VirtualHost>` | Chyba v starším entrypointu (`ServerAlias` v globálním conf). Pull oprav + `docker compose build web` (entrypoint je v image) a `docker compose up -d --force-recreate web`. Samotné certy tuhle chybu nevyřeší. |
 
 ---
 
