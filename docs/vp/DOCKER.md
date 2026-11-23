@@ -149,7 +149,8 @@ docker compose down -v       # smaže volume DB (init SQL znovu)
 ## Apache se restartuje
 
 - `WARN: chybí docker/certs/cert.pem…` — jen vypne HTTPS; samotné to Apache nespadí. Spusťte `generate-certs` a `docker compose up -d`.
-- `ServerAlias only used in <VirtualHost>` — fatální: `ServerAlias` nesmí být v globálním conf. Oprava je v entrypointu + `IncludeOptional` ve vhostech; po pulli: `docker compose build web && docker compose up -d --force-recreate web`.
+- `ServerAlias only used in <VirtualHost>` — fatální: `ServerAlias` nesmí být v globálním conf. Oprava je v entrypointu + `IncludeOptional` ve vhostech.
+- Po pulli na Windows (druhý stroj): **ne kopírovat příkazy z chatu** (CRLF), ale `.\docker\recreate-web.ps1` z gitu — doplní certy pokud chybí, `build web`, `--force-recreate web`.
 
 ## Soubory
 
@@ -162,5 +163,6 @@ docker compose down -v       # smaže volume DB (init SQL znovu)
 | `docker/php/` | Dockerfile, entrypoint (socat), php.ini |
 | `docker/apache/` | vhost HTTP/HTTPS, htaccess.dev |
 | `docker/certs/` | generování TLS (`generate-certs.ps1` / `.sh`; necommitovat PEM) |
+| `docker/recreate-web.ps1` | Windows: po pullu build + recreate web (+ certy pokud chybí) |
 | `docs/vp/DOCKER-WINDOWS.md` | Podrobný Windows / PowerShell / mobil návod |
 | `tests/e2e/` | Playwright |
