@@ -24,6 +24,8 @@ class RoleEnum  extends Enum {
     const REPRESENTATIVE = 'representative';
     const EVENTS_ADMINISTRATOR = 'events_administrator';
     const RED_ADMINISTRATOR = 'red_administrator';
+    /** F1–F3 (docs/vp/zadani/F1.md): odkazy s měřením, přehled zdrojů, ověření QR. */
+    const MEDIA_MANAGER = 'media_manager';
     // A9 (docs/vp/zadani/A9.md): přidělování rolí
     /** Účet z konfigurace na serveru (ConfigurationRoot.local.php) – pseudorole, není v tabulce role, nejde přidělit. */
     const GLOBAL_ROLE_GRANTOR = 'global_role_grantor';

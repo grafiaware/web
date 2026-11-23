@@ -33,6 +33,10 @@ use Events\Service\Lottery\LotteryDrawService;
 use Events\Service\Lottery\LotteryScanService;
 use Events\Service\Lottery\LotteryPaperService;
 use Events\Service\Lottery\CryptoRandomSource;
+use Events\Model\Dao\Promo\PromoLinkDao;
+use Events\Model\Dao\Promo\PromoLinkVisitDao;
+use Events\Service\Promo\PromoConfig;
+use Events\Service\Promo\PromoLinkService;
 
 use Events\Model\Dao\LoginDao;
 use Events\Model\Hydrator\LoginHydrator;
@@ -501,6 +505,16 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             LotteryPaperTicketDao::class => function(ContainerInterface $c) {
                 return new LotteryPaperTicketDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            // F2 (#47): trvalé odkazy s měřením
+            PromoLinkService::class => function(ContainerInterface $c) {
+                return new PromoLinkService($c->get(PromoLinkDao::class), $c->get(PromoLinkVisitDao::class), PromoConfig::fromConfiguration());
+            },
+            PromoLinkDao::class => function(ContainerInterface $c) {
+                return new PromoLinkDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            PromoLinkVisitDao::class => function(ContainerInterface $c) {
+                return new PromoLinkVisitDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
             LotteryDao::class => function(ContainerInterface $c) {
                 return new LotteryDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);

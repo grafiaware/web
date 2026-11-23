@@ -50,6 +50,41 @@ class ConfigurationEvents extends ConfigurationConstants {
         ];
     }
 
+    /**
+     * F1 + F2 (#47): trvalé odkazy /events/v1/r/<kód>[/<kanál>] s měřením. Popis: docs/vp/zadani/F1.md.
+     * Funkci zapíná přepínač vp.odkazy (ConfigurationFeatures). Kanály sociálních sítí a webu jsou v tabulce
+     * events.network (sloupec channel) – tady jen kanály bez vazby na síť.
+     * V textech ke kopírování: {url} adresa odkazu s kanálem, {name} název vlastníka odkazu (firma, škola…).
+     */
+    public static function promo() {
+        return [
+            'timezone' => 'Europe/Prague',
+            'sourceCookieDays' => 30,          // trvalá cookie vp_zdroj – jen se souhlasem „analytika“ v cookie liště
+            'companyLinkTarget' => 'home-register',   // výchozí cíl odkazu firmy (promo kit)
+            'targets' => [                     // klíč => [popis, cesta v rámci webu, query]; 'page' = adresa zadaná u odkazu
+                'home-register' => ['label' => 'Úvod s oknem registrace', 'path' => '', 'query' => 'modal=register0AXR2026'],   // parametr, který okno registrace otevře (initElements.js)
+                'home' => ['label' => 'Úvod', 'path' => '', 'query' => ''],
+                'page' => ['label' => 'Jiná stránka webu (vložte adresu)'],
+            ],
+            'channels' => [                    // kanály bez vazby na sociální síť: kód => [název, skupina]
+                'plakat' => ['label' => 'Plakát', 'group' => 'print'],
+                'letak' => ['label' => 'Leták', 'group' => 'print'],
+                'billboard' => ['label' => 'Billboard', 'group' => 'print'],
+                'tisk' => ['label' => 'Jiný tisk', 'group' => 'print'],
+                'mail' => ['label' => 'E-mail', 'group' => 'mail'],
+                'soc' => ['label' => 'Jiná sociální síť', 'group' => 'social'],
+                'qr' => ['label' => 'QR kód na webu', 'group' => 'qr'],
+            ],
+            'texts' => [                       // výchozí texty ke kopírování (u odkazu jdou upravit)
+                'social' => "Přijďte na Veletrh práce a vzdělávání 27. 1. 2027 – volná místa, firmy z regionu, poradenství. "
+                    . "Registrujte se předem: {url}",
+                'mail' => "Dobrý den,\n\nzveme Vás na Veletrh práce a vzdělávání 27. 1. 2027. Potkáte firmy z regionu "
+                    . "včetně {name}, najdete volná místa a poradenství.\n\nRegistrace předem: {url}\n\nS pozdravem",
+                'web' => 'Veletrh práce a vzdělávání 27. 1. 2027 – registrace',
+            ],
+        ];
+    }
+
     public static function dbEvents() {
 
         return [

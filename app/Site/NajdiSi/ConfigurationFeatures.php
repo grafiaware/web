@@ -23,6 +23,7 @@ class ConfigurationFeatures {
             'vp.osobni-jmeno' => false,         // A8 – osobní jméno uživatele (zadání při registraci, změna v okně odhlášení)
             'vp.sprava-roli' => false,          // A9 – správa účtů a rolí (role *_role_grantor, global_role_grantor, logy, zpomalené přihlašování)
             'vp.program' => false,              // G0 – program z DB (stránka programu, přihlášení na event, Můj harmonogram)
+            'vp.odkazy' => false,               // F1 + F2 – trvalé odkazy /events/v1/r/<kód>, zdroj registrace, přehled, promo kit
             'vp.losovani' => false,             // D1, D1c – losování: zapojení s anketou, QR v profilu, skener, losování kol, papírové lístky
         ];
     }

@@ -144,6 +144,25 @@ class ConfigurationCache {
         return self::$cache['lottery'] = $result;
     }
 
+    /**
+     * F1–F3: odkazy s měřením – volitelná metoda Site\{Site}\ConfigurationEvents::promo().
+     * Site bez ní vrací prázdné pole (platí výchozí hodnoty v Events\Service\Promo\PromoConfig).
+     */
+    public static function promo(): array {
+        if (isset(self::$cache['promo'])) {
+            return self::$cache['promo'];
+        }
+        $fqcn = SiteModules::siteNamespace(ActiveSite::name()) . '\\ConfigurationEvents';
+        $result = [];
+        if (class_exists($fqcn) && method_exists($fqcn, 'promo')) {
+            $result = $fqcn::promo();
+            if (!is_array($result)) {
+                throw new LogicException("$fqcn::promo() must return array");
+            }
+        }
+        return self::$cache['promo'] = $result;
+    }
+
     public static function api() {
         return self::resolve('api');
     }
