@@ -1,10 +1,12 @@
 {
   "name": "grafia-web-e2e",
   "private": true,
+  "type": "module",
   "version": "1.0.0",
   "description": "Playwright klikací testy proti lokálnímu Docker stacku",
   "scripts": {
     "test": "playwright test",
+    "test:wave1": "bash fixture/run-wave1.sh",
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
     "report": "playwright show-report"

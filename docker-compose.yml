@@ -99,6 +99,8 @@ services:
     environment:
       PLAYWRIGHT_BASE_URL: ${PLAYWRIGHT_BASE_URL:-https://web}
       SMTP4DEV_API_URL: ${SMTP4DEV_API_URL:-http://mail}
+      # prázdné = vrstva B s vypnutými přepínači (C1, C4); on = A1–A9
+      E2E_AUTH_FLAGS: ${E2E_AUTH_FLAGS:-}
     volumes:
       - ./tests/e2e:/work
     depends_on:

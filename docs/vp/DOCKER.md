@@ -120,7 +120,15 @@ docker compose --profile e2e run --rm playwright
 
 (`PLAYWRIGHT_BASE_URL` výchozí v compose míří na službu `web`; upravte v `.env` podle potřeby.)
 
-Scénáře „klikáním“ přidávejte do `tests/e2e/specs/`. Pro kontrolu odeslaných mailů volejte smtp4dev API (`/api/Messages`) — viz `mail-capture.example.spec.ts`.
+Scénáře „klikáním“ jsou v `tests/e2e/specs/`. Mail se kontroluje přes smtp4dev API (`/api/Messages`), ne přes UI. První vlna Z14 (fixture odděleně od klikání, kouř a registrace A1–A3, A5–A9, C1, C4):
+
+```bash
+bash tests/e2e/fixture/prepare.sh
+cd tests/e2e && npm install && npx playwright install chromium
+bash fixture/run-wave1.sh
+```
+
+`prepare.sh` samo Playwright nespouští. `--reset` smaže volume DB. Přepínače `vp.registrace-emailem` a `vp.prihlaseni-odkazem` skript na čas běhu zapne a na konci vrátí; v gitu zůstávají `false`.
 
 ## PROJECT_PATH v Dockeru
 
