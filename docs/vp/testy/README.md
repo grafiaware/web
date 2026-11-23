@@ -9,6 +9,7 @@ název `<kódy balíků>-test-<co se testuje>.md`.
 | [A3-A6-A8-A9-test-sprava-uctu.md](A3-A6-A8-A9-test-sprava-uctu.md) | A3, A6, A8, A9 – správa účtů a rolí | `vp.uklid-registraci`, `vp.zakladani-uctu`, `vp.osobni-jmeno`, `vp.sprava-roli` |
 | [G0-test-program.md](G0-test-program.md) | G0 – program z databáze, přihlášení na akci, administrace programu | `vp.program` |
 | [D1-D1c-test-losovani.md](D1-D1c-test-losovani.md) | D1, D1c – losování, skener, papírové lístky | `vp.losovani` |
+| [F1-F2-test-odkazy.md](F1-F2-test-odkazy.md) | F1, F2 – trvalé odkazy s měřením, zdroj registrace, promo kit | `vp.odkazy` |
 
 ## Celý test nad `master-vp` s postupným zapínáním přepínačů
 
@@ -40,7 +41,8 @@ zapnuté, takže se ověří i spolupráce balíků. Na konci se vše vypne a ov
 | **3** | + `vp.sprava-roli` (= K2) | [A3-A9](A3-A6-A8-A9-test-sprava-uctu.md) části 2–5 |
 | **4** | + `vp.program` | [G0](G0-test-program.md) body 0.2–0.4 a části 1–7 |
 | **5** | + `vp.losovani` | [D1-D1c](D1-D1c-test-losovani.md) části 1–9 |
-| **6** | vše zpět na `false` | [A3-A9 část 6](A3-A6-A8-A9-test-sprava-uctu.md#6-k0-vše-vypnuto--produkce-etapa-6), [G0 část 8](G0-test-program.md#8-vypnutý-přepínač-etapa-6), [D1-D1c část 10](D1-D1c-test-losovani.md#10-vypnutý-přepínač-etapa-6) |
+| **5c** | + `vp.odkazy` | [F1-F2](F1-F2-test-odkazy.md) části 1–6 |
+| **6** | vše zpět na `false` | [A3-A9 část 6](A3-A6-A8-A9-test-sprava-uctu.md#6-k0-vše-vypnuto--produkce-etapa-6), [G0 část 8](G0-test-program.md#8-vypnutý-přepínač-etapa-6), [D1-D1c část 10](D1-D1c-test-losovani.md#10-vypnutý-přepínač-etapa-6), [F1-F2 část 7](F1-F2-test-odkazy.md#7-vypnutý-přepínač-etapa-6) |
 
 Úplný seznam přepínačů v etapě 5 (vše zapnuto, jak má být na veletrhu):
 
@@ -53,6 +55,7 @@ zapnuté, takže se ověří i spolupráce balíků. Na konci se vše vypne a ov
 'vp.sprava-roli' => true,
 'vp.program' => true,
 'vp.losovani' => true,
+'vp.odkazy' => true,
 ```
 
 **Testovací účty** vzniknou v etapě 2 (`t_events_administrator`, `t_visitor`, `t_representative` …) a používají se
@@ -69,7 +72,7 @@ pokrývají unit testy, ručně se ověřuje jen chování v aplikaci.
 
 1. Tester si scénář zkopíruje a vyplní sloupce **Výsledek** a **Poznámka** (lze i v prohlížeči na GitHubu
    přes tlačítko „Edit“ → zkopírovat obsah). Vyplněný scénář se do repa necommituje – v repu zůstává prázdný předpis.
-2. Vyplněný protokol vloží jako **komentář do issue balíku** (A1 #44, A3 #45, A6 #72, A9 #93, D1 #46, D1c #108,
+2. Vyplněný protokol vloží jako **komentář do issue balíku** (A1 #44, A3 #45, A6 #72, A9 #93, D1 #46, D1c #108, F1–F3 #47,
    G0 #116). Tabulky v Markdownu GitHub zobrazí.
 3. Každá **CHYBA** se navíc založí jako samostatné issue s názvem `<kód balíku> test: <krátký popis>`,
    s číslem bodu scénáře, postupem, očekávaným a skutečným výsledkem a snímkem obrazovky.
