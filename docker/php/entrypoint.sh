@@ -22,10 +22,14 @@ else
   echo "WARN: chybí docker/certs/cert.pem nebo key.pem — HTTPS vypnuto. Spusťte docker/certs/generate-certs.sh" >&2
 fi
 
-# ServerName = veřejné jméno tohoto stroje; ServerAlias = všechna vývojová jména týmu + localhost
+# ServerName globálně (platí mimo VirtualHost). ServerAlias smí být JEN uvnitř
+# <VirtualHost> — jinak AH00526 a Apache padá (viz conf-enabled/servername.conf).
 SERVER_NAME="${WEB_PUBLIC_HOST:-${WEB_SERVER_NAME:-web.local}}"
-# host bez portu pro Apache ServerName
 SERVER_NAME="${SERVER_NAME%%:*}"
+echo "ServerName ${SERVER_NAME}" > /etc/apache2/conf-available/servername.conf
+a2enconf servername >/dev/null 2>&1 || true
+
+# Jména pro HTTP i HTTPS vhost (Include v docker/apache/vhost*.conf)
 {
   echo "ServerName ${SERVER_NAME}"
   echo "ServerAlias localhost"
@@ -38,7 +42,6 @@ SERVER_NAME="${SERVER_NAME%%:*}"
       echo "ServerAlias ${n}"
     fi
   done
-} > /etc/apache2/conf-available/servername.conf
-a2enconf servername >/dev/null 2>&1 || true
+} > /etc/apache2/grafia-server-names.inc
 
 exec "$@"

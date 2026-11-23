@@ -5,3 +5,7 @@ public/site/common/js/lib/** -text
 docker/**/*.sh text eol=lf
 docker/**/Dockerfile text eol=lf
 *.sh text eol=lf
+
+# PowerShell skripty — CRLF na Windows checkoutu (spolehlivé v PowerShell 5+)
+docker/**/*.ps1 text eol=crlf
+*.ps1 text eol=crlf

@@ -263,6 +263,19 @@ Očekávejte služby `web`, `db`, `mail` ve stavu running / healthy (u `db`).
 
 NetBeans dál editujete soubory v `C:\Apacheroot\web` — Docker je jen **připojuje** (bind-mount). Uložená změna v NetBeans je hned na disku a web v Dockeru ji vidí (u PHP obvykle po obnovení stránky).
 
+### 5.1 Po pullu / merge na druhém stroji (build image web)
+
+Když se mění `docker/php/entrypoint.sh` nebo Dockerfile, nestačí restart — image se musí znovu sestavit.  
+**Nekopírujte** bloky příkazů z chatu do PowerShellu (často vadné CR/LF). Po Pull v NetBeans spusťte skript z gitu:
+
+```powershell
+cd C:\Apacheroot\web
+.\docker\recreate-web.ps1
+```
+
+Skript (nemění aktuální složku terminálu navenek): doplní chybějící `docker\certs\*.pem`, provede `docker compose build web` a `up -d --force-recreate web`, vypíše `docker compose ps`.  
+Volitelně: `.\docker\recreate-web.ps1 -NoCache` · `.\docker\recreate-web.ps1 -SkipCerts`.
+
 ---
 
 ## 6. Composer (závislosti PHP) — uvnitř Dockeru
@@ -445,6 +458,8 @@ docker compose up -d
 | `mkcert.exe : Created a new local CA` + `NativeCommandError` (červeně) | Není chyba mkcert — PowerShell hlášku na stderr bral jako fatální. Aktualizujte skript (`git pull` / Pull v NetBeans) a spusťte `.\docker\certs\generate-certs.ps1` znovu. CA už může být vytvořená; skript ji jen znovu použije. |
 | `grafia-web-apache` restartuje: `exec …/grafia-web-entrypoint.sh: no such file or directory` | Na Windows měl `entrypoint.sh` často konce řádků CRLF. Pull oprav + `docker compose build --no-cache web` a `docker compose up -d`. |
 | `Cannot define multiple Listeners on the same IP:port` (ports.conf / 443) | Duplicitní `Listen 443`. Pull oprav Dockerfile + `docker compose build --no-cache web` a `docker compose up -d`. |
+| `WARN: chybí docker/certs/…` a HTTPS vypnuto | Normální bez certů — běží jen HTTP. Spusťte `.\docker\certs\generate-certs.ps1` a `docker compose up -d`. |
+| Apache restartuje: `ServerAlias only used in <VirtualHost>` | Chyba v starším entrypointu (`ServerAlias` v globálním conf). Pull oprav, pak `.\docker\recreate-web.ps1` (build + recreate; entrypoint je v image). Samotné certy tuhle chybu nevyřeší. Skript berte vždy přes git pull — nekopírujte z chatu (CRLF). |
 
 ---
 
