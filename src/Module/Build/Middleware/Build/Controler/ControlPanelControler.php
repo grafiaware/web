@@ -56,13 +56,14 @@ class ControlPanelControler  extends BuildControlerAbstract {
             );
         }
         $html[] = "</div>";
-        return $this->createStringOKResponse($this->page($html));
+        return $this->createStringOKResponse($this->page($request, $html));
     }
     
-    private function page($formsHtmlArray) {
+    private function page(ServerRequestInterface $request, $formsHtmlArray) {
+        // XAMPP: /web/; Docker DocumentRoot = kořen repo: / (ne natvrdo /web/)
         return 
         Html::tag('head',[],
-            Html::tag('base', ['href'=>'/web/'])
+            Html::tag('base', ['href' => $this->getBasePath($request)])
         )
         .
         Html::tag('body', [],
