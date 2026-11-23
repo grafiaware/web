@@ -7,3 +7,6 @@
 <script type="text/javascript" src="<?= $linksCommon.'js/head.js'?>" ></script>
 <script type="text/javascript" src="<?= $linksSite.'semantic-ui/semantic.min.js'?>" ></script>
 <script type="module" src="<?= $linksCommon.'js/cookieconsent/consent.js'?>" ></script>
+<?php if (\Application\Feature\FeatureFlags::fromConfiguration()->isEnabled('vp.odkazy')): ?>
+<script type="text/javascript" src="<?= $linksCommon.'js/vp-zdroj.js'?>" defer></script>   <!-- F1: zdroj návštěvy (UTM, souhlas s analytikou) -->
+<?php endif; ?>

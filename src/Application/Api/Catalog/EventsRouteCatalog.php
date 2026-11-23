@@ -19,6 +19,8 @@ use Events\Middleware\Events\Controler\Lottery\LotteryAdminControler;
 use Events\Middleware\Events\Controler\Lottery\LotteryPaperControler;
 use Events\Middleware\Events\Controler\Lottery\LotteryStaffControler;
 use Events\Middleware\Events\Controler\Lottery\LotteryVisitorControler;
+use Events\Middleware\Events\Controler\Promo\PromoAdminControler;
+use Events\Middleware\Events\Controler\Promo\PromoVisitControler;
 use FrontControler\Response\MutationResponseMode;
 use StaticRegistry\Middleware\Controler\StaticRegistryControler;
 
@@ -135,6 +137,15 @@ final class EventsRouteCatalog implements ModuleRouteCatalogInterface {
             new RouteDefinition('POST', '/events/v1/lottery/round/:roundId/draw', LotteryStaffControler::class, 'draw', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
             new RouteDefinition('POST', '/events/v1/lottery/winner/:winnerId/claimed', LotteryStaffControler::class, 'claimed', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
             new RouteDefinition('POST', '/events/v1/lottery/winner/:winnerId/substitute', LotteryStaffControler::class, 'substitute', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
+            // F1 + F2 (#47): trvalé odkazy s měřením a zdroj registrace (docs/vp/zadani/F1.md)
+            new RouteDefinition('GET', '/events/v1/r/:code', PromoVisitControler::class, 'visit', null, 'vp.odkazy'),
+            new RouteDefinition('GET', '/events/v1/r/:code/:channel', PromoVisitControler::class, 'visit', null, 'vp.odkazy'),
+            new RouteDefinition('GET', '/events/v1/source', PromoVisitControler::class, 'source', null, 'vp.odkazy'),
+            new RouteDefinition('GET', '/events/v1/promo', PromoAdminControler::class, 'index', null, 'vp.odkazy'),
+            new RouteDefinition('POST', '/events/v1/promo', PromoAdminControler::class, 'save', MutationResponseMode::BROWSER_FORM, 'vp.odkazy'),
+            new RouteDefinition('GET', '/events/v1/promo-csv', PromoAdminControler::class, 'csv', null, 'vp.odkazy'),
+            new RouteDefinition('GET', '/events/v1/promo/:id', PromoAdminControler::class, 'detail', null, 'vp.odkazy'),
+            new RouteDefinition('POST', '/events/v1/promo/:id', PromoAdminControler::class, 'save', MutationResponseMode::BROWSER_FORM, 'vp.odkazy'),
         ];
     }
 }
