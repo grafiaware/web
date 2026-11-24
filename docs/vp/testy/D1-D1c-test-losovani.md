@@ -7,8 +7,8 @@
 - **Etapy** ([README.md](README.md#etapy)): části 1–9 v etapě 5, část 10 v etapě 6
 - **Migrace (`/build`, etapa 0):** events `20261116000001_d1_create_lottery`, `20261116000002_d1c_lottery_paper` (jen přidávají)
 - **Zařízení:** počítač (správce), 1–2 telefony obsluhy (Android, iPhone) a telefon návštěvníka; tiskárna A4
-- **Účty:** `t_events_administrator` = správce i obsluha (užší role obsluhy je #90); návštěvníci `test.d1.a@example.test`,
-  `test.d1.b@example.test`, `test.d1.c@example.test` (registrace podle A1, role `visitor`); `t_representative`
+- **Účty** (role, viz [README](README.md#etapy)): `events_administrator` = správce i obsluha (užší role obsluhy je #90); návštěvníci `test.d1.a@example.test`,
+  `test.d1.b@example.test`, `test.d1.c@example.test` (registrace podle A1, role `visitor`); `representative`
 - **Automaticky pokryto unit testy:** hranice platnosti losu (30 min, 2 kola, prodloužení jen dopředu), váhy losů,
   náhoda losování, rozpoznání kódu a čísla lístku – ručně se ověřuje chování v aplikaci
 
@@ -33,7 +33,7 @@ Výsledek u každého bodu: **OK** / **CHYBA** / **NEPROVEDENO** / **NEJASNÉ**.
 | P2 | Zvolte **T** = nejbližší celých 10 minut od začátku testu (např. 14:20) a zapište do Záznamu. Kola budou v T+40, T+70 a T+100 min | | | |
 | P3 | Zaregistrovat návštěvníky A, B, C (`test.d1.*@example.test`), dokončit registraci z e-mailu | Účty s rolí `visitor` | | |
 | P4 | Vstup do administrace: statická stránka `events/admin/lottery` (položka menu, je-li) nebo přímo adresa `events/v1/lottery` | Přehled losování | | |
-| P5 | Telefon obsluhy: otevřít `https://<LAN-IP>/`, přihlásit `t_events_administrator` | Stránka bez varování o certifikátu | | |
+| P5 | Telefon obsluhy: otevřít `https://<LAN-IP>/`, přihlásit účet s rolí `events_administrator` | Stránka bez varování o certifikátu | | |
 
 ## 1. Administrace losování (správce, počítač)
 
@@ -46,7 +46,7 @@ Výsledek u každého bodu: **OK** / **CHYBA** / **NEPROVEDENO** / **NEJASNÉ**.
 | 1.5 | Ceny: „Batoh“ 2 ks bez kola, „Hrnek“ 1 ks pro kolo T+70 | „Cena uložena.“ | | |
 | 1.6 | Anketa: otázka jedna volba (povinná, 3 možnosti po řádcích), více voleb (nepovinná), textová | „Otázka uložena.“ | | |
 | 1.7 | Duplikovat kolo T+70 s časem T+130 | Nové kolo má náhradníka i cenu Hrnek (ceny kola se kopírují); pak ho smažte | | |
-| 1.8 | Jako `t_visitor` otevřít `events/v1/lottery` | „Tato stránka je jen pro obsluhu losování. Přihlaste se účtem obsluhy.“, žádná data | | |
+| 1.8 | S rolí `visitor` otevřít `events/v1/lottery` | „Tato stránka je jen pro obsluhu losování. Přihlaste se účtem obsluhy.“, žádná data | | |
 
 ## 2. Profil návštěvníka a zapojení (návštěvníci A, B, C)
 
@@ -58,7 +58,7 @@ Výsledek u každého bodu: **OK** / **CHYBA** / **NEPROVEDENO** / **NEJASNÉ**.
 | 2.4 | smtp4dev | E-mail po zapojení s QR kódem a radou uložit si kód | | |
 | 2.5 | A: obnovit profil | Tlačítko zapojení už není; kód je stejný jako v e-mailu | | |
 | 2.6 | Zapojit B; C se nezapojí | B zapojen | | |
-| 2.7 | `t_representative`: profil | Blok losování se zapojením není; v konzoli `fetch('events/v1/lottery/<id>/join', {method: 'POST'})` → po obnovení „Do losování se mohou zapojit jen přihlášení návštěvníci.“ | | |
+| 2.7 | S rolí `representative`: profil | Blok losování se zapojením není; v konzoli `fetch('events/v1/lottery/<id>/join', {method: 'POST'})` → po obnovení „Do losování se mohou zapojit jen přihlášení návštěvníci.“ | | |
 | 2.8 | Správce změní „zapojit se do“ na včerejšek; C zkusí zapojit | Zapojení nejde (mimo období). Pak vrátit na zítřek a C se zapojí | | |
 
 ## 3. Můj kód offline (telefon návštěvníka A)
@@ -78,7 +78,7 @@ V detailu losování odkaz na skener; stanoviště zvolte na stránce skeneru. Z
 | 4.1 | Vchod: naskenovat QR návštěvníka A (v čase ≈ T) | Jméno A, „Los vydán – hraje v kolech T+40, T+70.“ (kolo T+100 ne: nejvýš 2 kola), zvuk/vibrace úspěchu | | |
 | 4.2 | Vchod: znovu A | „Přítomnost potvrzena, los platí do <čas skenu + 60 min> – hraje v kolech …“ | | |
 | 4.3 | Infostánek: B (zapojen, los nevydán) | „Los zatím nebyl vydán – pošlete návštěvníka ke vchodu.“, zvuk chyby | | |
-| 4.4 | `t_visitor` (nezapojen) otevře adresu `events/v1/mycode/page` (kód vznikne i bez zapojení); vchod: naskenovat jeho QR | „Není zapojen do losování – ať se zapojí v profilu a přijde znovu.“ | | |
+| 4.4 | Návštěvník s rolí `visitor` (nezapojen) otevře adresu `events/v1/mycode/page` (kód vznikne i bez zapojení); vchod: naskenovat jeho QR | „Není zapojen do losování – ať se zapojí v profilu a přijde znovu.“ | | |
 | 4.4b | Ručně zadat neexistující kód `ABCDEFGHJK23` | „Neznámý kód.“ | | |
 | 4.5 | Naskenovat QR s jiným textem (např. adresa webu) | „Neplatný kód.“ | | |
 | 4.6 | Vchod: B | Los vydán | | |
