@@ -36,11 +36,13 @@ $dm = fn($dt) => (new DateTimeImmutable($dt))->format('j. n. G:i');
                         <label><?= htmlspecialchars($q['text']) ?><?= (int) $q['required'] ? ' <span style="color:#db2828">*</span>' : '' ?></label>
                         <?php if ($q['type'] === SurveyValidator::TYPE_TEXT): ?>
                             <textarea name="q[<?= $qid ?>]" rows="2" <?= (int) $q['required'] ? 'required' : '' ?>></textarea>
-                        <?php else: foreach ($opts as $o): ?>
+                        <?php else: foreach ($opts as $oi => $o): $oid = 'vp-los-' . (int) $l['id'] . '-q' . $qid . '-' . $oi; ?>
+                            <?php /* Fomantic UI: input před label (input:checked ~ label kreslí zaškrtnutí), label s for (#152) */ ?>
                             <div class="ui <?= $q['type'] === SurveyValidator::TYPE_MULTI ? 'checkbox' : 'radio checkbox' ?>" style="display:block; margin:4px 0">
-                                <label><input type="<?= $q['type'] === SurveyValidator::TYPE_MULTI ? 'checkbox' : 'radio' ?>"
+                                <input type="<?= $q['type'] === SurveyValidator::TYPE_MULTI ? 'checkbox' : 'radio' ?>" id="<?= $oid ?>"
                                     name="q[<?= $qid ?>]<?= $q['type'] === SurveyValidator::TYPE_MULTI ? '[]' : '' ?>" value="<?= htmlspecialchars($o) ?>"
-                                    <?= ($q['type'] === SurveyValidator::TYPE_SINGLE && (int) $q['required']) ? 'required' : '' ?>> <?= htmlspecialchars($o) ?></label>
+                                    <?= ($q['type'] === SurveyValidator::TYPE_SINGLE && (int) $q['required']) ? 'required' : '' ?>>
+                                <label for="<?= $oid ?>"><?= htmlspecialchars($o) ?></label>
                             </div>
                         <?php endforeach; endif; ?>
                     </div>
