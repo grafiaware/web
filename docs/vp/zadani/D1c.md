@@ -142,6 +142,8 @@ Stejný jako D1: `vp.losovani`.
 
 ## Stav a další krok
 
+24. 11. 2026: ruční test D1c (vlse2610, 19. 11.) v PR #150. Nálezy: #153 PDF se při tisku 100 % nevejde na A4, vodítka střihu nejsou vidět (k rozhodnutí: způsob tisku), #155 otázka > 500 znaků, #156 vysvětlivky na lístku. Další krok: rozhodnutí k #153, oprava, test tisku.
+
 17. 11. 2026 odpoledne: Petr ověřil PDF (600 lístků za 3–4 s, QR čitelné; fotoaparát Androidu hlásí „nepodporovaný kód“
 jen kvůli adrese `http://` z lokálního prostředí, jiné čtečky fungují). Na pokyn Petra přesunuty externí knihovny a písmo
 z `public/site/common` do `public/assets/lib` a `public/assets/fonts` (i jsQR ze skeneru D1); AGENTS.md: `public/assets`

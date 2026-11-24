@@ -8,6 +8,6 @@ Název souboru: `YYYY-MM-DD-<balíky>-test-<co>.md`, datum = den dokončení tes
 
 | Protokol | Balíky | Tester | Testovaný kód | Nálezy (issues) |
 |---|---|---|---|---|
-| [2026-11-13-A6-test-zakladani-uctu.md](2026-11-13-A6-test-zakladani-uctu.md) | A6 (před sloučením A9) | vlse2610 | `b430f8bc` | ISSUES_A6 |
-| [2026-11-19-D1-D1c-test-losovani.md](2026-11-19-D1-D1c-test-losovani.md) | D1, D1c | vlse2610 | `818a6b68` | ISSUES_D1 |
-| [2026-11-20-G0-test-program.md](2026-11-20-G0-test-program.md) | G0 | vlse2610 | `a4b44f7f` | ISSUES_G0 |
+| [2026-11-13-A6-test-zakladani-uctu.md](2026-11-13-A6-test-zakladani-uctu.md) | A6 (před sloučením A9) | vlse2610 | `b430f8bc` | #154 |
+| [2026-11-19-D1-D1c-test-losovani.md](2026-11-19-D1-D1c-test-losovani.md) | D1, D1c | vlse2610 | `818a6b68` | #152, #153, #155, #156, #157, #158 (scénář #159) |
+| [2026-11-20-G0-test-program.md](2026-11-20-G0-test-program.md) | G0 | vlse2610 | `a4b44f7f` | #151 (scénář #159) |
