@@ -5,11 +5,6 @@
 - **Etapa:** 5b – viz [README.md](README.md#etapy); část 7 v etapě 6 (vše vypnuto)
 - **Migrace:** events `20261122000001_r1_school_reservation` (spouští se v etapě 0 s ostatními přes `/build`)
 - **Navazuje na:** G0 (rozpis programu, správa eventů `vp/event`), A1 (registrace e-mailem) – testovací účty z etapy 2
-- **Účty:** testovací účty z [A3–A9](A3-A6-A8-A9-test-sprava-uctu.md) bod 1.2. Jméno účtu je `t_` + název role, který účet má:
-  účet `t_events_administrator` má roli `events_administrator`, účet `t_visitor` roli `visitor`. Role samy prefix `t_` nemají.
-  Kdo účty nemá, použije libovolný účet s danou rolí.
-- **Kdo co dělá:** přípravu a části 1 a 4 (správa rezervací) dělá účet s rolí **events_administrator** – jen ta roli správy rezervací má;
-  pedagog v části 2 je nepřihlášený
 
 ## Záznam testu
 
@@ -28,12 +23,10 @@ Výsledek u každého bodu: **OK** / **CHYBA** / **NEPROVEDENO** / **NEJASNÉ**.
 | -- | --------- | ------------------ | -------- | -------- |
 | P1 | Lokálně (bez commitu) v `ConfigurationFeatures.php` zapnout `'vp.rezervace' => true` (ostatní přepínače z předchozích etap zůstávají zapnuté) | – | | |
 | P2 | V redakčním systému založit položky menu typu statická stránka: **„rezervace škol“** se šablonou `vp/rezervace-skol` (veřejné menu – formulář pro pedagogy) a **„rezervace“** se šablonou `events/admin/reservation` (menu administrace). Když statické stránky přes menu ještě nefungují, veřejný formulář označte NEPROVEDENO a administraci otevírejte přímo adresou `events/v1/reservation` | Stránky se otevřou | | |
-| P3 | Přihlásit se účtem s rolí `events_administrator` (`t_events_administrator`). Otevřít v menu administrace položku se šablonou `vp/event-content-type` (založená v [G0](G0-test-program.md) P2) | V seznamu typů obsahu je typ **Přednáška** (kód `prednaska`); když chybí, přidat ho (G0 bod 1.1) | | |
-| P3a | Položka menu `vp/event-content`: založit 3 obsahy typu Přednáška (např. „Jak napsat životopis“, „Pohovor nanečisto“, „Práce v zahraničí“). Když z testu G0 už jsou, použít je | Obsahy jsou v seznamu | | |
-| P3b | Položka menu `vp/event`: pro každý obsah z P3a „Nový event“ – Datum = den akce (stejný den, který zadáte v 1.1 jako den nabídky), Od/Do např. 9:30–10:15, 10:30–11:15, 13:00–13:45, Obsah = přednáška, zaškrtnout **Zveřejnit na webu**, Kapacitu zatím nevyplňovat | Tři eventy v seznamu; formulář eventu má pole **Kapacita** | | |
-| P4 | V `vp/event` u eventů z P3b nastavit kapacitu: první přednáška 40, druhá 30, třetí nechat prázdnou | Uloží se; v přehledu eventu „kapacita: 40“; neplatná kapacita (např. `abc`) → hláška „Kapacita musí být celé kladné číslo…“ | | |
+| P3 | Jako `t_events_administrator` ve správě eventů (`vp/event`) mít na den akce aspoň 3 zveřejněné eventy s obsahem typu Přednáška (např. 9:30, 10:30, 13:00) | Formulář eventu má pole **Kapacita** | | |
+| P4 | Nastavit kapacitu: první přednáška 40, druhá 30, třetí nechat prázdnou | Uloží se; v přehledu eventu „kapacita: 40“; neplatná kapacita (např. `abc`) → hláška „Kapacita musí být celé kladné číslo…“ | | |
 
-## 1. Nabídka a výběr přednášek (účet s rolí `events_administrator`)
+## 1. Nabídka a výběr přednášek (správce)
 
 | #   | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 | --- | --------- | ------------------ | -------- | -------- |
@@ -42,7 +35,7 @@ Výsledek u každého bodu: **OK** / **CHYBA** / **NEPROVEDENO** / **NEJASNÉ**.
 | 1.3 | Otevřít veřejný formulář, dokud je nabídka „připravuje se“ | „Rezervace pro školy zatím nejsou otevřené.“ | | |
 | 1.4 | Nastavit stav „otevřená“ a uložit | V záhlaví nabídky „formulář na webu přijímá rezervace“ | | |
 | 1.5 | Nastavit „Rezervace od“ na zítřek, uložit, otevřít formulář; pak pole vymazat a uložit | Formulář: „Rezervace začnou …“; po vymazání zase přijímá | | |
-| 1.6 | Přihlásit se účtem s rolí `visitor` (`t_visitor`), otevřít `events/v1/reservation` | „Tato stránka je jen pro správce rezervací…“ | | |
+| 1.6 | Jako `t_visitor` otevřít `events/v1/reservation` | „Tato stránka je jen pro správce rezervací…“ | | |
 
 ## 2. Rezervace pedagogem bez přihlášení (telefon i počítač)
 
@@ -72,7 +65,7 @@ Odhlásit se (nebo anonymní okno). Testujte aspoň jednou z telefonu.
 | 3.6 | Zrušit rezervaci (potvrdit dialog) | „Rezervace je zrušená“; e-maily o zrušení; místa se ve formuláři uvolnila | | |
 | 3.7 | Ve správě nabídky nastavit uzávěrku změn na včerejšek, otevřít odkaz jiné rezervace | Jen souhrn a „Uzávěrka změn uplynula… kontaktujte organizátora“; formuláře nejsou. Uzávěrku vrátit | | |
 
-## 4. Administrace (účet s rolí `events_administrator`, také na telefonu)
+## 4. Administrace (správce, také na telefonu)
 
 | #   | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 | --- | --------- | ------------------ | -------- | -------- |
