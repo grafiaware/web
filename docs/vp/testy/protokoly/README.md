@@ -2,7 +2,7 @@
 
 Vyplněné scénáře z testovacích větví, uložené tak, jak je odevzdal tester (jen s hlavičkou: tester, datum, testovaný kód).
 Scénáře o úroveň výš (`docs/vp/testy/*.md`) zůstávají prázdné předpisy pro další kolo testů.
-Archivované soubory se už neupravují. Nálezy se řeší v issues; opakovaný test se zapisuje do nového protokolu.
+Archivované soubory se už neupravují. Postup hlášení: [README scénářů](../README.md#jak-hlásit-výsledky). Nálezy se řeší v issues; opakovaný test se zapisuje do nového protokolu.
 
 Název souboru: `YYYY-MM-DD-<balíky>-test-<co>.md`, datum = den dokončení testu.
 
