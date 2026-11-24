@@ -7,8 +7,8 @@
 - **Etapy** ([README.md](README.md#etapy)): části 1–6 v etapě 5c (`vp.odkazy`), část 7 v etapě 6
 - **Migrace (`/build`, etapa 0):** auth `20261124000001_f1_media_manager`, `20261124000002_f1_registration_source`;
   events `20261124000001_f1_network_channel`, `20261124000002_f1_promo_link` (jen přidávají; do `network` přibudou X a TikTok)
-- **Účty:** `t_media_manager` (role `media_manager` – přidělí `t_supervisor` nebo `t_auth_role_grantor` ve správě účtů);
-  `t_representative` (zástupce firmy); nové registrace se smyšlenými adresami `test.f1.*@example.test`
+- **Účty** (role, viz [README](README.md#etapy)): `media_manager` – nová role; testovací účet `t_media_manager` založí a roli mu přidělí
+  účet s rolí `supervisor` nebo `auth_role_grantor` ve správě účtů; `representative` (zástupce firmy); nové registrace se smyšlenými adresami `test.f1.*@example.test`
 - **Automaticky pokryto testy:** kód odkazu a kód z názvu firmy, kanály, roboti, cíl jen na tento web, zdroj v cookie,
   souhlas z cookie lišty, souhrn přehledu (unit); počítadlo, historie cíle, odkaz firmy, zdroj registrace (integrační)
 
@@ -28,15 +28,15 @@ Výsledek u každého bodu: **OK** / **CHYBA** / **NEPROVEDENO** / **NEJASNÉ**.
 | # | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 |---|---|---|---|---|
 | P1 | Etapa 5c: `'vp.odkazy' => true` (přepínače z etap 1–5 zůstávají zapnuté, hlavně `vp.registrace-emailem`) | | | |
-| P2 | Ve správě účtů přidělit účtu `t_media_manager` roli **media_manager** | Role je v seznamu rolí a jde přidělit | | |
+| P2 | Účtem s rolí `supervisor` ve správě účtů založit účet `t_media_manager` (jako A3 bod 1.2) a přidělit mu roli **media_manager** | Role je v seznamu rolí a jde přidělit | | |
 | P3 | V redakčním systému založit položku menu administrace typu statická stránka **„odkazy“** se šablonou `events/admin/promo`. Když položku nejde založit, otevírejte přímo adresu `events/v1/promo` | Stránka se otevře | | |
 
 ## 1. Správa odkazů (media manager, počítač)
 
 | # | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 |---|---|---|---|---|
-| 1.1 | Otevřít `events/v1/promo` přihlášený jako `t_events_administrator`, pak nepřihlášený | „Přístup odepřen“ (jen media manager) | | |
-| 1.2 | Přihlásit `t_media_manager`, otevřít `events/v1/promo` | Seznam odkazů (prázdný), filtr, formulář Nový odkaz | | |
+| 1.1 | Otevřít `events/v1/promo` přihlášený účtem s rolí `events_administrator`, pak nepřihlášený | „Přístup odepřen“ (jen media manager) | | |
+| 1.2 | Přihlásit účet s rolí `media_manager`, otevřít `events/v1/promo` | Seznam odkazů (prázdný), filtr, formulář Nový odkaz | | |
 | 1.3 | Nový odkaz: kód `Test Kod` | Odmítnuto – kód jen malá písmena bez diakritiky, číslice, pomlčka | | |
 | 1.4 | Nový odkaz: kód `test-vp`, název „Test VP billboard“, od koho Organizátor, cíl „Úvod s oknem registrace“ | Odkaz založen, otevře se jeho stránka; historie cíle má 1 řádek | | |
 | 1.5 | Založit druhý odkaz se stejným kódem `test-vp` | Odmítnuto – kód už má jiný odkaz | | |
@@ -85,7 +85,7 @@ Výsledek u každého bodu: **OK** / **CHYBA** / **NEPROVEDENO** / **NEJASNÉ**.
 
 | # | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 |---|---|---|---|---|
-| 5.1 | Přihlásit `t_representative`, vybrat firmu, otevřít Profil vystavovatele | Blok „Pozvěte lidi na veletrh“ s odkazem firmy (kód z názvu firmy, bez „s.r.o.“) | | |
+| 5.1 | Přihlásit účet s rolí `representative`, vybrat firmu, otevřít Profil vystavovatele | Blok „Pozvěte lidi na veletrh“ s odkazem firmy (kód z názvu firmy, bez „s.r.o.“) | | |
 | 5.2 | U media managera v seznamu odkazů | Odkaz firmy: od koho Vystavovatel, firma vyplněná, cíl „Úvod s oknem registrace“ | | |
 | 5.3 | Zástupce: zkopírovat adresu kanálu `fb`, otevřít v anonymním okně | Úvod s oknem registrace; v promo kitu návštěv 1 | | |
 | 5.4 | Znovu otevřít profil vystavovatele | Stejný odkaz (nevznikne nový) | | |
