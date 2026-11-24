@@ -5,6 +5,22 @@
 - **Etapa:** 5b – viz [README.md](README.md#etapy); část 7 v etapě 6 (vše vypnuto)
 - **Migrace:** events `20261122000001_r1_school_reservation` (spouští se v etapě 0 s ostatními přes `/build`)
 - **Navazuje na:** G0 (rozpis programu, správa eventů `vp/event`), A1 (registrace e-mailem) – testovací účty z etapy 2
+- **Účty** (role, viz [README](README.md#etapy)): přípravu a části 1 a 4 dělá účet s rolí **`events_administrator`** – jen tato role
+  spravuje program i rezervace. Pedagog v části 2 je nepřihlášený, v části 6 přihlášený účtem s rolí `visitor`.
+
+## Než začnete: co musí být hotové z testu programu G0
+
+Rezervace se dělají na přednášky z programu, takže R1 potřebuje stránky správy programu a typ obsahu Přednáška z [G0](G0-test-program.md).
+
+- **Test G0 už proběhl** (etapa 4): položky menu správy programu existují, typ Přednáška také. Pokračujte bodem P1 níže.
+- **Test G0 neproběhl:** udělejte nejdřív z G0 tyto body a pak se vraťte sem k P1:
+  1. [G0 P2](G0-test-program.md#příprava) – v redakčním systému založit položky menu se šablonami správy programu
+     (stačí `vp/event-content-type`, `vp/event-content` a `vp/event` v menu administrace);
+  2. [G0 P3](G0-test-program.md#příprava) – zapnout `'vp.program' => true`;
+  3. [G0 bod 1.1](G0-test-program.md#1-číselníky-etapa-4-správce) – v `vp/event-content-type` přidat typ `prednaska` / **Přednáška**.
+
+  Když položky menu (statické stránky) v redakčním systému nejdou založit, test R1 zatím označte NEPROVEDENO a dejte vědět
+  v issue #48 – správa eventů jiný vstup než přes položku menu nemá.
 
 ## Záznam testu
 
@@ -23,10 +39,11 @@ Výsledek u každého bodu: **OK** / **CHYBA** / **NEPROVEDENO** / **NEJASNÉ**.
 | -- | --------- | ------------------ | -------- | -------- |
 | P1 | Lokálně (bez commitu) v `ConfigurationFeatures.php` zapnout `'vp.rezervace' => true` (ostatní přepínače z předchozích etap zůstávají zapnuté) | – | | |
 | P2 | V redakčním systému založit položky menu typu statická stránka: **„rezervace škol“** se šablonou `vp/rezervace-skol` (veřejné menu – formulář pro pedagogy) a **„rezervace“** se šablonou `events/admin/reservation` (menu administrace). Když statické stránky přes menu ještě nefungují, veřejný formulář označte NEPROVEDENO a administraci otevírejte přímo adresou `events/v1/reservation` | Stránky se otevřou | | |
-| P3 | Jako `t_events_administrator` ve správě eventů (`vp/event`) mít na den akce aspoň 3 zveřejněné eventy s obsahem typu Přednáška (např. 9:30, 10:30, 13:00) | Formulář eventu má pole **Kapacita** | | |
-| P4 | Nastavit kapacitu: první přednáška 40, druhá 30, třetí nechat prázdnou | Uloží se; v přehledu eventu „kapacita: 40“; neplatná kapacita (např. `abc`) → hláška „Kapacita musí být celé kladné číslo…“ | | |
+| P3 | Přihlásit se účtem s rolí `events_administrator`. V menu administrace otevřít položku se šablonou `vp/event-content` a ve formuláři **Nový obsah** založit 3 obsahy typu **Přednáška** (např. „Jak napsat životopis“, „Pohovor nanečisto“, „Práce v zahraničí“). Když z testu G0 už nějaké přednášky jsou, stačí doplnit do tří | Obsahy jsou v seznamu | | |
+| P3a | V položce se šablonou `vp/event` pro každý obsah z P3 vyplnit formulář **Nový event** (pod seznamem): **Datum** = den akce (stejný den pak zadáte v 1.1 jako den nabídky), **Od / Do** např. 9:30–10:15, 10:30–11:15, 13:00–13:45, **Obsah** = přednáška, zaškrtnout **Zveřejnit na webu**, Kapacitu zatím nechat prázdnou | Tři eventy v seznamu, seřazené podle času; formulář eventu má pole **Kapacita** | | |
+| P4 | V `vp/event` u eventů z P3a nastavit kapacitu: první přednáška 40, druhá 30, třetí nechat prázdnou | Uloží se; v přehledu eventu „kapacita: 40“; neplatná kapacita (např. `abc`) → hláška „Kapacita musí být celé kladné číslo…“ | | |
 
-## 1. Nabídka a výběr přednášek (správce)
+## 1. Nabídka a výběr přednášek (role `events_administrator`)
 
 | #   | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 | --- | --------- | ------------------ | -------- | -------- |
@@ -35,7 +52,7 @@ Výsledek u každého bodu: **OK** / **CHYBA** / **NEPROVEDENO** / **NEJASNÉ**.
 | 1.3 | Otevřít veřejný formulář, dokud je nabídka „připravuje se“ | „Rezervace pro školy zatím nejsou otevřené.“ | | |
 | 1.4 | Nastavit stav „otevřená“ a uložit | V záhlaví nabídky „formulář na webu přijímá rezervace“ | | |
 | 1.5 | Nastavit „Rezervace od“ na zítřek, uložit, otevřít formulář; pak pole vymazat a uložit | Formulář: „Rezervace začnou …“; po vymazání zase přijímá | | |
-| 1.6 | Jako `t_visitor` otevřít `events/v1/reservation` | „Tato stránka je jen pro správce rezervací…“ | | |
+| 1.6 | Odhlásit se, přihlásit účtem s rolí `visitor` a otevřít `events/v1/reservation` | „Tato stránka je jen pro správce rezervací…“ | | |
 
 ## 2. Rezervace pedagogem bez přihlášení (telefon i počítač)
 
@@ -65,7 +82,7 @@ Odhlásit se (nebo anonymní okno). Testujte aspoň jednou z telefonu.
 | 3.6 | Zrušit rezervaci (potvrdit dialog) | „Rezervace je zrušená“; e-maily o zrušení; místa se ve formuláři uvolnila | | |
 | 3.7 | Ve správě nabídky nastavit uzávěrku změn na včerejšek, otevřít odkaz jiné rezervace | Jen souhrn a „Uzávěrka změn uplynula… kontaktujte organizátora“; formuláře nejsou. Uzávěrku vrátit | | |
 
-## 4. Administrace (správce, také na telefonu)
+## 4. Administrace (role `events_administrator`, také na telefonu)
 
 | #   | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 | --- | --------- | ------------------ | -------- | -------- |

@@ -83,17 +83,17 @@ Nastavte K1, menu ve variantě (a).
 | # | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 |---|---|---|---|---|
 | 1.1 | Jako supervisor ADMIN CREDENTIALS přímou adresou | Bloky „Nepotvrzené registrace“ (s tlačítkem „Smazat…“), „Nový účet“ (heslo nebo „Heslo mailem“) a tabulka se sloupcem Typ; v nabídce rolí všechny role kromě `global_role_grantor` | | |
-| 1.2 | Blokem „Nový účet“ s volbou „Heslo mailem“ založit pro každou roli testovací účet `t_<role>` s vlastním e-mailem `t.<role>@example.test`: `auth_role_grantor`, `red_role_grantor`, `events_role_grantor`, `supervisor`, `events_administrator`, `red_administrator`, `editor`, `visitor`, `representative` a jeden „bez role“ (`t_bezrole`) | Pro každý „Účet … je založený.“ a v smtp4dev e-mail „Nastavení hesla“ | | |
+| 1.2 | Blokem „Nový účet“ s volbou „Heslo mailem“ založit pro každou roli testovací účet s přihlašovacím jménem `t_<role>` (např. `t_visitor` pro roli `visitor`) a vlastním e-mailem `t.<role>@example.test`: `auth_role_grantor`, `red_role_grantor`, `events_role_grantor`, `supervisor`, `events_administrator`, `red_administrator`, `editor`, `visitor`, `representative` a jeden účet bez role (`t_bezrole`). Dál scénáře uvádějí jen roli – přihlašujte se účtem, který ji má | Pro každý „Účet … je založený.“ a v smtp4dev e-mail „Nastavení hesla“ | | |
 | 1.3 | Odkazy z e-mailů nastavit hesla | Každý účet se přihlásí | | |
 
 ### 1B. Viditelnost podle rolí
 
 | # | Role | Menu events admin | ADMIN CREDENTIALS (adresou) | ADMIN ROLE (adresou) | Výsledek | Poznámka |
 |---|---|---|---|---|---|---|
-| 1.4 | t_supervisor | ne; v editačním režimu strom se všemi položkami | jako 1.1 | upozornění | | |
-| 1.5 | t_events_administrator | ano: CREDENTIALS, ROLE | Nepotvrzené registrace bez tlačítka, Nový účet, tabulka; role `representative`, `visitor` | tabulka rolí | | |
+| 1.4 | supervisor | ne; v editačním režimu strom se všemi položkami | jako 1.1 | upozornění | | |
+| 1.5 | events_administrator | ano: CREDENTIALS, ROLE | Nepotvrzené registrace bez tlačítka, Nový účet, tabulka; role `representative`, `visitor` | tabulka rolí | | |
 | 1.6 | grantor role (auth, red, events) | ne | upozornění (bez A9 nic nesmí) | upozornění | | |
-| 1.7 | t_editor, t_red_administrator, t_visitor, t_representative, t_bezrole | ne (red_administrator má menu red admin) | upozornění | upozornění | | |
+| 1.7 | editor, red_administrator, visitor, representative, účet bez role | ne (red_administrator má menu red admin) | upozornění | upozornění | | |
 | 1.8 | Kdokoli | Žádný červený pruh, i když existuje `ConfigurationRoot.local.php` s `enabled => true` | | | | |
 
 ### 1C. Funkce bez A9
@@ -131,7 +131,7 @@ Zapněte `vp.sprava-roli` (= K2), menu zůstává ve variantě (a).
 | 2.3 | Přihlásit `global_role_grantor` se správným heslem | „Jste přihlášeni jako správce přidělování rolí z konfigurace serveru.“ | | |
 | 2.4 | Prohlédnout menu | Menu role grantor **není** (varianta a); menu events admin také ne | | |
 | 2.5 | Otevřít ADMIN CREDENTIALS přímou adresou | Nepotvrzené registrace (s „Smazat…“), Nový účet (bez pole pro heslo – jen e-mail s odkazem), tabulka se sloupcem Typ; role všechny kromě `global_role_grantor` | | |
-| 2.6 | Jako `t_events_administrator` otevřít menu events admin a v něm ADMIN CREDENTIALS | Položky v menu jsou, ale stránka ukáže upozornění (s A9 účty nespravuje) | | |
+| 2.6 | S rolí `events_administrator` otevřít menu events admin a v něm ADMIN CREDENTIALS | Položky v menu jsou, ale stránka ukáže upozornění (s A9 účty nespravuje) | | |
 
 ## 3. K2, varianta (b): viditelnost podle rolí
 
@@ -140,14 +140,14 @@ Spusťte skript pro variantu (b). Každou roli přihlaste zvlášť (bez editač
 | # | Role | Menu role grantor | Menu events admin | ADMIN CREDENTIALS (adresou) | ADMIN ROLE (adresou) | Výsledek | Poznámka |
 |---|---|---|---|---|---|---|---|
 | 3.1 | global_role_grantor | ano: CREDENTIALS, ROLE | ne | vše: Nepotvrzené registrace + „Smazat…“, Nový účet, tabulka; role: všechny | tabulka rolí | | |
-| 3.2 | t_auth_role_grantor | ano | ne | jako 3.1 | tabulka rolí | | |
-| 3.3 | t_red_role_grantor | ano | ne | Nový účet a tabulka, **bez** Nepotvrzených registrací; role jen `editor` | upozornění | | |
-| 3.4 | t_events_role_grantor | ano | ne | Nepotvrzené registrace **bez** tlačítka („Úklid spouští správce účtů.“), Nový účet, tabulka; role `representative`, `visitor` | upozornění | | |
-| 3.5 | t_supervisor | ne | ne | upozornění | upozornění | | |
-| 3.6 | t_supervisor v editačním režimu | (strom: všechny položky) | (strom) | upozornění | upozornění | | |
-| 3.7 | t_events_administrator | ne | ano, ale bez CREDENTIALS a ROLE (jsou v menu role grantor) | upozornění | upozornění | | |
-| 3.8 | t_red_administrator | ne | ne (má menu red admin) | upozornění | upozornění | | |
-| 3.9 | t_editor (i v editačním režimu), t_visitor, t_representative, t_bezrole, nepřihlášený | ne | ne | upozornění | upozornění | | |
+| 3.2 | auth_role_grantor | ano | ne | jako 3.1 | tabulka rolí | | |
+| 3.3 | red_role_grantor | ano | ne | Nový účet a tabulka, **bez** Nepotvrzených registrací; role jen `editor` | upozornění | | |
+| 3.4 | events_role_grantor | ano | ne | Nepotvrzené registrace **bez** tlačítka („Úklid spouští správce účtů.“), Nový účet, tabulka; role `representative`, `visitor` | upozornění | | |
+| 3.5 | supervisor | ne | ne | upozornění | upozornění | | |
+| 3.6 | supervisor v editačním režimu | (strom: všechny položky) | (strom) | upozornění | upozornění | | |
+| 3.7 | events_administrator | ne | ano, ale bez CREDENTIALS a ROLE (jsou v menu role grantor) | upozornění | upozornění | | |
+| 3.8 | red_administrator | ne | ne (má menu red admin) | upozornění | upozornění | | |
+| 3.9 | editor (i v editačním režimu), visitor, representative, účet bez role, nepřihlášený | ne | ne | upozornění | upozornění | | |
 
 ## 4. K2, varianta (b): funkce
 
@@ -155,13 +155,13 @@ Spusťte skript pro variantu (b). Každou roli přihlaste zvlášť (bez editač
 
 | # | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 |---|---|---|---|---|
-| 4.1 | Jako `t_auth_role_grantor` nastavit účtu `t_bezrole` roli `auth_role_grantor` | Uloženo; v `RoleChanges.log` „t_auth_role_grantor → účet …: bez role → auth_role_grantor“ | | |
-| 4.2 | Jako `t_auth_role_grantor` vlastní řádek | Role u vlastního účtu není editovatelná | | |
-| 4.3 | Přihlásit účet z 4.1 a odebrat roli `t_auth_role_grantor` | Uloženo (grantor smí odebrat roli jinému grantorovi) | | |
-| 4.4 | Jako `t_events_role_grantor`: řádky editora a supervisora | Role needitovatelná; u visitor, representative a účtů bez role editovatelná | | |
-| 4.5 | Jako `t_events_role_grantor` poslat upraveným formulářem roli `editor` (úprava `<option>` v nástrojích prohlížeče) | „Roli editor nemůžete přidělit.“, nic se nezmění | | |
-| 4.6 | Jako `t_red_role_grantor` nastavit účtu roli `editor` | Uloženo; jiné role v nabídce nejsou | | |
-| 4.7 | Vrátit roli `t_auth_role_grantor` (z 4.3) a `t_bezrole` (z 4.1) | Účty mají zase původní role – potřeba v etapách 4 a 5 | | |
+| 4.1 | S rolí `auth_role_grantor` nastavit účtu bez role (`t_bezrole`) roli `auth_role_grantor` | Uloženo; v `RoleChanges.log` „<váš účet> → účet t_bezrole: bez role → auth_role_grantor“ | | |
+| 4.2 | S rolí `auth_role_grantor` vlastní řádek | Role u vlastního účtu není editovatelná | | |
+| 4.3 | Přihlásit účet z 4.1 a odebrat roli `auth_role_grantor` účtu, kterým jste ji v 4.1 nastavovali | Uloženo (grantor smí odebrat roli jinému grantorovi) | | |
+| 4.4 | S rolí `events_role_grantor`: řádky editora a supervisora | Role needitovatelná; u visitor, representative a účtů bez role editovatelná | | |
+| 4.5 | S rolí `events_role_grantor` poslat upraveným formulářem roli `editor` (úprava `<option>` v nástrojích prohlížeče) | „Roli editor nemůžete přidělit.“, nic se nezmění | | |
+| 4.6 | S rolí `red_role_grantor` nastavit účtu roli `editor` | Uloženo; jiné role v nabídce nejsou | | |
+| 4.7 | Vrátit roli `auth_role_grantor` účtu z 4.3 a účet `t_bezrole` z 4.1 zase bez role | Účty mají zase původní role – potřeba v etapách 4 a 5 | | |
 
 ### 4B. Úpravy účtů a nový účet
 
@@ -170,18 +170,18 @@ Spusťte skript pro variantu (b). Každou roli přihlaste zvlášť (bez editač
 | 4.8 | Nový účet bez přihlašovacího jména (obejít povinnost pole) | „Zadejte přihlašovací jméno.“ | | |
 | 4.9 | Nový účet se jménem, které už existuje v jiné velikosti písmen | „Přihlašovací jméno … už existuje.“ | | |
 | 4.10 | Tabulka, sloupce Typ a heslo | Typ „registrace“ / „administrace“ / „starší účet“; heslo jen „nastaveno“ / „není“, hash se nezobrazuje | | |
-| 4.11 | Jako `t_auth_role_grantor`: účet typu „registrace“ | E-mail jen ke čtení; osobní jméno a role editovatelné | | |
+| 4.11 | S rolí `auth_role_grantor`: účet typu „registrace“ | E-mail jen ke čtení; osobní jméno a role editovatelné | | |
 | 4.12 | Účet typu „administrace“: změnit e-mail | Uloženo; na **původní** adresu e-mail „Změna e-mailu účtu.“ bez nové adresy; v `AccountChanges.log` žádné adresy | | |
 | 4.13 | Starší účet bez e-mailu: doplnit e-mail a poslat „Odkaz na heslo“ | E-mail uložen, odkaz přišel a funguje | | |
-| 4.14 | Jako `t_events_role_grantor` | E-mail nejde měnit u žádného účtu | | |
+| 4.14 | S rolí `events_role_grantor` | E-mail nejde měnit u žádného účtu | | |
 
 ### 4C. Úklid nepotvrzených registrací (A3)
 
 | # | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 |---|---|---|---|---|
 | 4.15 | Nová registrace e-mailem, nepotvrdit | Ve výpisu (zástupce firmy, je-li zaškrtnutý) „Smaže se za 14 dní“ | | |
-| 4.16 | Jako `t_auth_role_grantor` „Smazat starší než 14 dní“ → OK | Smaže jako 1.17; registrace z 4.15 zůstala | | |
-| 4.17 | Jako `t_events_role_grantor` poslat `POST /auth/v1/admin/unconfirmed/clean` (formulář z 4.16 zkopírovaný v nástrojích prohlížeče) | „Nemáte oprávnění spustit úklid registrací.“, nic se nesmaže | | |
+| 4.16 | S rolí `auth_role_grantor` „Smazat starší než 14 dní“ → OK | Smaže jako 1.17; registrace z 4.15 zůstala | | |
+| 4.17 | S rolí `events_role_grantor` poslat `POST /auth/v1/admin/unconfirmed/clean` (formulář z 4.16 zkopírovaný v nástrojích prohlížeče) | „Nemáte oprávnění spustit úklid registrací.“, nic se nesmaže | | |
 | 4.18 | Potvrdit registraci z 4.15 | `registration.confirmed` vyplněné; z výpisu zmizí | | |
 
 ### 4D. Přihlašování a logy
@@ -216,9 +216,9 @@ Na konci celého testu vypněte všechny přepínače (i `vp.program`, `vp.losov
 
 | # | Role / co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 |---|---|---|---|---|
-| 6.1 | t_events_administrator: menu events admin, ADMIN CREDENTIALS | Menu s CREDENTIALS a ROLE; stránka jako dřív: jen tabulka CREDENTIALS (bez Nového účtu, e-mailů, Nepotvrzených registrací) | | |
-| 6.2 | t_events_administrator: ADMIN ROLE | Tabulka rolí | | |
-| 6.3 | t_supervisor (i v editačním režimu přes strom) | Obě stránky: upozornění | | |
+| 6.1 | events_administrator: menu events admin, ADMIN CREDENTIALS | Menu s CREDENTIALS a ROLE; stránka jako dřív: jen tabulka CREDENTIALS (bez Nového účtu, e-mailů, Nepotvrzených registrací) | | |
+| 6.2 | events_administrator: ADMIN ROLE | Tabulka rolí | | |
+| 6.3 | supervisor (i v editačním režimu přes strom) | Obě stránky: upozornění | | |
 | 6.4 | Ostatní role | Obě stránky: upozornění | | |
 | 6.5 | `POST /auth/v1/account`, `/auth/v1/account/x/update`, `/auth/v1/admin/unconfirmed/clean` | 404 | | |
 | 6.6 | Registrace | Bez pole „Vaše jméno“, bez věty o smazání po 14 dnech | | |
