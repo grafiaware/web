@@ -37,7 +37,7 @@ $lastDate = $rounds ? (new DateTimeImmutable(end($rounds)['draw_at']))->format('
     </p>
 </div>
 
-<div class="card">
+<div class="card" id="kola">
     <h2>Rozpis kol</h2>
     <p class="muted">Datum vyberte v kalendáři, čas napište (např. 10:30).</p>
     <?php foreach ($rounds as $r): ?>
@@ -74,7 +74,7 @@ $lastDate = $rounds ? (new DateTimeImmutable(end($rounds)['draw_at']))->format('
     <?php endif; ?>
 </div>
 
-<div class="card">
+<div class="card" id="ceny">
     <h2>Ceny</h2>
     <p class="muted">Cena s kolem se losuje v tom kole, cena bez kola v kterémkoli kole podle pořadí (menší číslo dřív).</p>
     <?php foreach (array_merge($prizes, $isAdmin ? [null] : []) as $p): ?>
@@ -97,7 +97,7 @@ $lastDate = $rounds ? (new DateTimeImmutable(end($rounds)['draw_at']))->format('
     <?php endforeach; ?>
 </div>
 
-<div class="card">
+<div class="card" id="anketa">
     <h2>Anketa</h2>
     <p class="muted">Návštěvník odpoví při zapojení v profilu; povinné otázky jsou podmínkou zapojení. Po prvních odpovědích lze otázku jen přejmenovat.
         Možnosti pište každou na nový řádek.</p>
@@ -123,7 +123,7 @@ $lastDate = $rounds ? (new DateTimeImmutable(end($rounds)['draw_at']))->format('
     <?php endforeach; ?>
 </div>
 
-<div class="card">
+<div class="card" id="udaje">
     <h2>Údaje losování</h2>
     <form method="POST" action="events/v1/lottery/<?= $id ?>">
         <label>Název</label><input type="text" name="name" value="<?= $h($lottery['name']) ?>" maxlength="<?= TextLimits::LOTTERY['name'] ?>" required <?= $dis ?>>
