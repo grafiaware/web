@@ -11,6 +11,8 @@ název `<kódy balíků>-test-<co se testuje>.md`.
 | [D1-D1c-test-losovani.md](D1-D1c-test-losovani.md) | D1, D1c – losování, skener, papírové lístky | `vp.losovani` |
 | [R1-test-rezervace.md](R1-test-rezervace.md) | R1 – rezervace míst na přednáškách pro školy | `vp.rezervace` |
 
+Vyplněné protokoly z proběhlých testů: [protokoly/](protokoly/README.md).
+
 ## Celý test nad `master-vp` s postupným zapínáním přepínačů
 
 Scénáře jsou seřazené tak, aby šel celý `master-vp` otestovat znovu od začátku: začne se se vším vypnutým
