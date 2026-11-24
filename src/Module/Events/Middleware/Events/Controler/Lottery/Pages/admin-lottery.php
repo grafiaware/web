@@ -8,6 +8,7 @@
 /** @var bool $isAdmin */
 use Events\Service\Lottery\LotteryService;
 use Events\Service\Lottery\SurveyValidator;
+use Events\Service\Lottery\TextLimits;
 $id = (int) $lottery['id'];
 $h = fn($v) => htmlspecialchars((string) $v);
 $t = fn($v) => (new DateTimeImmutable($v))->format('j. n. Y G:i');
@@ -79,7 +80,7 @@ $lastDate = $rounds ? (new DateTimeImmutable(end($rounds)['draw_at']))->format('
     <?php foreach (array_merge($prizes, $isAdmin ? [null] : []) as $p): ?>
     <div class="card<?= $p ? '' : ' new' ?>">
     <form method="POST" action="events/v1/lottery/<?= $id ?>/prize<?= $p ? '/' . (int) $p['id'] : '' ?>" class="row">
-        <div><label><?= $p ? 'Cena' : 'Nová cena' ?></label><input type="text" name="name" value="<?= $h($p['name'] ?? '') ?>" required <?= $dis ?>></div>
+        <div><label><?= $p ? 'Cena' : 'Nová cena' ?></label><input type="text" name="name" value="<?= $h($p['name'] ?? '') ?>" maxlength="<?= TextLimits::PRIZE['name'] ?>" required <?= $dis ?>></div>
         <div style="flex:0 1 90px"><label>Kusů</label><input type="number" name="quantity" min="1" value="<?= (int) ($p['quantity'] ?? 1) ?>" <?= $dis ?>></div>
         <div style="flex:0 1 90px"><label>Pořadí</label><input type="number" name="priority" value="<?= (int) ($p['priority'] ?? 0) ?>" <?= $dis ?>></div>
         <div><label>Kolo</label><select name="round_id_fk" <?= $dis ?>><option value="0">kterékoli</option>
@@ -105,11 +106,11 @@ $lastDate = $rounds ? (new DateTimeImmutable(end($rounds)['draw_at']))->format('
     <form method="POST" action="events/v1/lottery/<?= $id ?>/question<?= $q ? '/' . (int) $q['id'] : '' ?>">
         <div class="row">
             <div style="flex:0 1 80px"><label>Pořadí</label><input type="number" name="position" value="<?= (int) ($q['position'] ?? count($questions) + 1) ?>" <?= $dis ?>></div>
-            <div style="flex:3 1 240px"><label><?= $q ? 'Otázka' : 'Nová otázka' ?></label><input type="text" name="text" value="<?= $h($q['text'] ?? '') ?>" required <?= $dis ?>></div>
+            <div style="flex:3 1 240px"><label><?= $q ? 'Otázka' : 'Nová otázka' ?></label><input type="text" name="text" value="<?= $h($q['text'] ?? '') ?>" maxlength="<?= TextLimits::QUESTION['text'] ?>" required <?= $dis ?>></div>
             <div><label>Typ</label><select name="type" <?= $locked ? 'disabled' : $dis ?>>
                 <?php foreach (SurveyValidator::TYPES as $k => $label): ?><option value="<?= $k ?>" <?= ($q['type'] ?? 'single') === $k ? 'selected' : '' ?>><?= $label ?></option><?php endforeach; ?></select></div>
         </div>
-        <label>Možnosti</label><textarea name="options" rows="3" <?= $locked ? 'disabled' : $dis ?>><?= $h($q['options'] ?? '') ?></textarea>
+        <label>Možnosti</label><textarea name="options" rows="3" maxlength="<?= TextLimits::QUESTION['options'] ?>" <?= $locked ? 'disabled' : $dis ?>><?= $h($q['options'] ?? '') ?></textarea>
         <label class="inline"><input type="checkbox" name="required" value="1" <?= ($q === null || (int) $q['required']) ? 'checked' : '' ?> <?= $locked ? 'disabled' : $dis ?>>povinná</label>
         <?php if ($isAdmin): ?><button type="submit" class="small"><?= $q ? 'Uložit' : 'Přidat' ?></button><?php endif; ?>
         <?php if ($q): ?><span class="muted">odpovědí <?= (int) $q['answered'] ?></span><?php endif; ?>
@@ -125,9 +126,9 @@ $lastDate = $rounds ? (new DateTimeImmutable(end($rounds)['draw_at']))->format('
 <div class="card">
     <h2>Údaje losování</h2>
     <form method="POST" action="events/v1/lottery/<?= $id ?>">
-        <label>Název</label><input type="text" name="name" value="<?= $h($lottery['name']) ?>" required <?= $dis ?>>
-        <label>Popis (zobrazí se v profilu)</label><textarea name="description" rows="3" <?= $dis ?>><?= $h($lottery['description']) ?></textarea>
-        <label>Odkaz na pravidla</label><input type="url" name="rules_url" value="<?= $h($lottery['rules_url']) ?>" placeholder="https://…" <?= $dis ?>>
+        <label>Název</label><input type="text" name="name" value="<?= $h($lottery['name']) ?>" maxlength="<?= TextLimits::LOTTERY['name'] ?>" required <?= $dis ?>>
+        <label>Popis (zobrazí se v profilu)</label><textarea name="description" rows="3" maxlength="<?= TextLimits::LOTTERY['description'] ?>" <?= $dis ?>><?= $h($lottery['description']) ?></textarea>
+        <label>Odkaz na pravidla</label><input type="url" name="rules_url" value="<?= $h($lottery['rules_url']) ?>" maxlength="<?= TextLimits::LOTTERY['rules_url'] ?>" placeholder="https://…" <?= $dis ?>>
         <p class="muted">Adresa stránky s pravidly losování. V profilu je odkazem u souhlasu s pravidly, na papírovém lístku se vytiskne u souhlasu.</p>
         <div class="row">
             <div><label>Zapojit se lze od</label><?= $dt('join_from', $lottery['join_from']) ?></div>

@@ -6,6 +6,7 @@ use Events\Service\Lottery\AuthLookup;
 use Events\Service\Lottery\LotteryDrawService;
 use Events\Service\Lottery\LotteryPaperService;
 use Events\Service\Lottery\LotteryService;
+use Events\Service\Lottery\TextLimits;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Status\Model\Enum\FlashSeverityEnum;
@@ -62,6 +63,9 @@ class LotteryAdminControler extends LotteryControlerAbstract {
         $data = $this->fields($request, ['name', 'description', 'status', 'join_from', 'join_until', 'rules_url']);
         $data['join_from'] = $this->dateTimeParam($request, 'join_from', '00:00');
         $data['join_until'] = $this->dateTimeParam($request, 'join_until', '23:59');
+        if (($tooLong = TextLimits::check(TextLimits::LOTTERY, $data)) !== null) {
+            return $this->tooLong($request, $tooLong, $id === null ? 'events/v1/lottery' : "events/v1/lottery/{$id}");
+        }
         $lid = $this->lotteries->saveLottery($id === null ? null : (int) $id, $data);
         $this->addFlashMessage('Losování uloženo.', FlashSeverityEnum::SUCCESS);
         return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$lid}");
@@ -100,7 +104,11 @@ class LotteryAdminControler extends LotteryControlerAbstract {
         if (!$this->isAdmin()) {
             return $this->denied($request);
         }
-        $this->lotteries->savePrize((int) $id, $prizeId === null ? null : (int) $prizeId, $this->fields($request, ['name', 'quantity', 'priority', 'round_id_fk']));
+        $data = $this->fields($request, ['name', 'quantity', 'priority', 'round_id_fk']);
+        if (($tooLong = TextLimits::check(TextLimits::PRIZE, $data)) !== null) {
+            return $this->tooLong($request, $tooLong, "events/v1/lottery/{$id}");
+        }
+        $this->lotteries->savePrize((int) $id, $prizeId === null ? null : (int) $prizeId, $data);
         $this->addFlashMessage('Cena uložena.', FlashSeverityEnum::SUCCESS);
         return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$id}");
     }
@@ -118,8 +126,11 @@ class LotteryAdminControler extends LotteryControlerAbstract {
         if (!$this->isAdmin()) {
             return $this->denied($request);
         }
-        $this->lotteries->saveQuestion((int) $id, $questionId === null ? null : (int) $questionId,
-            $this->fields($request, ['text', 'type', 'options', 'required', 'position']));
+        $data = $this->fields($request, ['text', 'type', 'options', 'required', 'position']);
+        if (($tooLong = TextLimits::check(TextLimits::QUESTION, $data)) !== null) {
+            return $this->tooLong($request, $tooLong, "events/v1/lottery/{$id}");
+        }
+        $this->lotteries->saveQuestion((int) $id, $questionId === null ? null : (int) $questionId, $data);
         $this->addFlashMessage('Otázka uložena.', FlashSeverityEnum::SUCCESS);
         return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$id}");
     }
@@ -174,6 +185,12 @@ class LotteryAdminControler extends LotteryControlerAbstract {
             ->withHeader('Content-Type', 'text/csv; charset=utf-8')
             ->withHeader('Content-Disposition', 'attachment; filename="losovani-' . (int) $id . '-nevyzvednute.csv"')
             ->withHeader('Cache-Control', 'no-store');
+    }
+
+    /** #155: příliš dlouhý text – nic se neuloží, hláška a návrat na stránku. */
+    private function tooLong(ServerRequestInterface $request, string $message, string $back): ResponseInterface {
+        $this->addFlashMessage($message, FlashSeverityEnum::WARNING);
+        return $this->createResponseRedirectSeeOther($request, $back);
     }
 
     private function denied(ServerRequestInterface $request): ResponseInterface {
