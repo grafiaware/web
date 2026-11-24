@@ -432,6 +432,8 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'info' => ['info@najdisi.cz', 'web praci.najdisi.cz'],
                 'noreply' => ['noreply@najdisi.cz', 'web praci.najdisi.cz'],
                 'testmail' => ['info@najdisi.cz', 'web najdisi'],
+                // R1: odesílatel e-mailů rezervací škol – produkční adresu doplní Petr
+                'rezervace' => PES_RUNNING_ON_PRODUCTION_HOST ? ['rezervace.skoly@mail', 'Rezervace škol – Veletrh práce'] : ['rezervace@najdisi.test', 'vývoj – rezervace škol'],
             ],
             // mimo produkční hosting jdou pevní příjemci na smyšlené adresy (.test) — při vývoji se nesmí poslat nic skutečným lidem
             'mail.recipients' => PES_RUNNING_ON_PRODUCTION_HOST ? [
@@ -439,11 +441,13 @@ class ConfigurationWeb extends ConfigurationConstants {
                 'exhibitorRegistration.to' => [['slukova@grafia.cz', 'Registace zástupce vystavovatele']],
                 'exhibitorRegistration.cc' => [['slehoferova@grafia.cz', 'Registace zástupce vystavovatele']],
                 'testmail.to' => [['selnerova@grafia.cz', 'selnerovaV'], ['svoboda@grafia.cz', 'testMail']],
+                'reservation.notify' => [['rezervace.skoly@mail', 'Rezervace škol']],   // R1: upozornění na rezervace škol – adresy doplní Petr
             ] : [
                 'registration.bcc' => [['webmaster@najdisi.test', 'vývoj – kopie registrace']],
                 'exhibitorRegistration.to' => [['vystavovatel-to@najdisi.test', 'vývoj – registrace zástupce vystavovatele']],
                 'exhibitorRegistration.cc' => [['vystavovatel-cc@najdisi.test', 'vývoj – registrace zástupce vystavovatele']],
                 'testmail.to' => [['testmail@najdisi.test', 'vývoj – testMail']],
+                'reservation.notify' => [['rezervace@najdisi.test', 'vývoj – rezervace škol']],
             ],
 
         ];

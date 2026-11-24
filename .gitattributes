@@ -1,2 +1,11 @@
 # Knihovny třetích stran beze změny konců řádků (core.autocrlf na Windows)
 public/site/common/js/lib/** -text
+
+# Shell / Docker skripty vždy LF — na Windows by CRLF rozbil entrypoint kontejneru
+docker/**/*.sh text eol=lf
+docker/**/Dockerfile text eol=lf
+*.sh text eol=lf
+
+# PowerShell skripty — CRLF na Windows checkoutu (spolehlivé v PowerShell 5+)
+docker/**/*.ps1 text eol=crlf
+*.ps1 text eol=crlf

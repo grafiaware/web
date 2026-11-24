@@ -7,6 +7,7 @@ use Events\Middleware\Events\Controler\EventControler;
 /** @var array $contents id => „typ: název“ obsahu */
 /** @var array $links id => „fáze – adresa“ odkazu */
 $h = fn($v) => htmlspecialchars((string) $v);
+$rezervaceZapnuto = \Application\Feature\FeatureFlags::fromConfiguration()->isEnabled('vp.rezervace');   // R1: kapacita
 $isNew = !isset($id);
 $action = $isNew ? 'events/v1/event' : 'events/v1/event/' . (int) $id;
 $selected = fn($a, $b) => (string) $a === (string) $b ? 'selected' : '';
@@ -25,7 +26,7 @@ $linkSelect = function (string $name, $current) use ($links, $h, $selected, $non
 <form class="ui form segment" method="POST" action="<?= $action ?>">
     <?php if (!$isNew): ?>
         <p><b><?= $h($start ? $start->format('j. n. Y G:i') : '') ?>–<?= $h($end ? $end->format('G:i') : '') ?></b>
-            <?= $h($contents[$contentId] ?? '(bez obsahu)') ?> · přihlášeno: <?= (int) $enrolled ?></p>
+            <?= $h($contents[$contentId] ?? '(bez obsahu)') ?> · přihlášeno: <?= (int) $enrolled ?><?= $rezervaceZapnuto && isset($capacity) ? ' · kapacita: ' . (int) $capacity : '' ?><?= !empty($reserved) ? ' · rezervováno školami: ' . (int) $reserved : '' ?></p>
     <?php endif; ?>
     <div class="fields">
         <div class="four wide field">
@@ -53,15 +54,22 @@ $linkSelect = function (string $name, $current) use ($links, $h, $selected, $non
         </div>
     </div>
     <div class="fields">
-        <div class="six wide field">
+        <div class="five wide field">
             <label>Odkaz pro přihlášku (externí)</label>
             <?= $linkSelect('selectEnrollLinkId', $enrollLinkId ?? null) ?>
         </div>
-        <div class="six wide field">
+        <div class="five wide field">
             <label>Odkaz pro vstup (online)</label>
             <?= $linkSelect('selectEnterLinkId', $enterLinkId ?? null) ?>
         </div>
-        <div class="four wide field">
+        <?php if ($rezervaceZapnuto): ?>
+        <div class="two wide field">
+            <label>Kapacita</label>
+            <input type="number" name="capacity" min="1" step="1" placeholder="míst" value="<?= $h($capacity ?? '') ?>"
+                   title="Počet míst (žáci i pedagogové) – povinné u přednášek pro rezervace škol">
+        </div>
+        <?php endif; ?>
+        <div class="two wide field">
             <label>Zveřejnit</label>
             <div class="ui checkbox">
                 <input type="checkbox" name="published" value="1" <?= !empty($published) ? 'checked' : '' ?>><label>na webu</label>

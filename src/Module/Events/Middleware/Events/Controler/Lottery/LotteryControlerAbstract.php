@@ -55,12 +55,6 @@ abstract class LotteryControlerAbstract extends FrontControlerAbstract {
         return $this->role() === RoleEnum::VISITOR;
     }
 
-    protected function absoluteUrl(ServerRequestInterface $request, string $restUri): string {
-        $scheme = $request->getUri()->getScheme() ?: 'https';
-        $host = $request->getServerParams()['HTTP_HOST'] ?? $request->getUri()->getHost();
-        return $scheme . '://' . $host . $this->getBasePath($request) . $restUri;
-    }
-
     /**
      * Samostatná stránka (bez layoutu webu, pro telefon). $template je soubor v Pages/.
      */

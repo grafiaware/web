@@ -55,15 +55,6 @@ class LoginControlerAbstract extends FrontControlerAbstract {
     }
 
     /**
-     * Absolutní adresa v rámci aplikace (odkazy v e-mailech), $restUri bez úvodního lomítka.
-     */
-    protected function absoluteUrl(ServerRequestInterface $request, string $restUri): string {
-        $scheme = $request->getUri()->getScheme() ?: 'https';
-        $host = $request->getServerParams()['HTTP_HOST'] ?? $request->getUri()->getHost();
-        return $scheme . '://' . $host . $this->getBasePath($request) . $restUri;  // getBasePath končí /
-    }
-
-    /**
      * Přihlásí uživatele (nový bezpečnostní kontext v session) a načte jeho osobní jméno (A8) pro zobrazení.
      * Všechna přihlášení v Auth jdou přes tuto metodu.
      */

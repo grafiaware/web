@@ -6,10 +6,36 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 cd "$SCRIPT_DIR"
 
-HOST_NAMES="${WEB_CERT_HOSTS:-localhost,web.local,grafia.local}"
+# Načti .env z kořene repo, pokud proměnná ještě není v prostředí
+if [[ -f "$REPO_ROOT/.env" ]]; then
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    line="${line#"${line%%[![:space:]]*}"}"
+    [[ -z "$line" || "$line" == \#* || "$line" != *=* ]] && continue
+    name="${line%%=*}"
+    value="${line#*=}"
+    name="$(echo "$name" | xargs)"
+    value="$(echo "$value" | sed -e 's/^["'\'']//' -e 's/["'\'']$//' | xargs)"
+    if [[ -n "$name" && -z "${!name:-}" ]]; then
+      export "$name=$value"
+    fi
+  done < "$REPO_ROOT/.env"
+fi
+
+if [[ -n "${WEB_CERT_HOSTS:-}" ]]; then
+  HOST_NAMES="$WEB_CERT_HOSTS"
+else
+  DEV_HOSTS="${WEB_DEV_HOSTS:-ps.dev.local,vs.dev.local,ks.dev.local}"
+  HOST_NAMES="localhost,${DEV_HOSTS}"
+  if [[ -n "${WEB_PUBLIC_HOST:-}" ]]; then
+    PH="${WEB_PUBLIC_HOST%%:*}"
+    [[ ",$HOST_NAMES," != *",$PH,"* ]] && HOST_NAMES="${HOST_NAMES},${PH}"
+  fi
+fi
 EXTRA_IP="${WEB_LAN_IP:-}"
+echo "WEB_PUBLIC_HOST: ${WEB_PUBLIC_HOST:-'(není — QR budou z HTTP_HOST requestu)'}"
 
 # Detekce LAN IP (volitelně), pokud není v env
 if [[ -z "$EXTRA_IP" ]]; then

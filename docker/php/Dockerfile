@@ -35,13 +35,16 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 COPY php.ini /usr/local/etc/php/conf.d/99-grafia-web.ini
 COPY entrypoint.sh /usr/local/bin/grafia-web-entrypoint.sh
-RUN chmod +x /usr/local/bin/grafia-web-entrypoint.sh
+# Windows checkout (autocrlf) → CRLF by rozbil shebang („no such file or directory“).
+RUN sed -i 's/\r$//' /usr/local/bin/grafia-web-entrypoint.sh \
+    && chmod +x /usr/local/bin/grafia-web-entrypoint.sh
 
 WORKDIR /var/www/html
 
 # DocumentRoot = /var/www/html (bind-mount kořene repo). Vhosty se mountují z docker/apache/.
-# Listen 443 pro HTTPS vhost.
-RUN printf '\nListen 443\n' >> /etc/apache2/ports.conf
+# Listen 443: image po a2enmod ssl už obvykle má; druhý Listen 443 = AH00526.
+RUN grep -qE '^\s*Listen\s+443\b' /etc/apache2/ports.conf \
+    || printf '\nListen 443\n' >> /etc/apache2/ports.conf
 
 EXPOSE 80 443
 

@@ -22,10 +22,26 @@ else
   echo "WARN: chybí docker/certs/cert.pem nebo key.pem — HTTPS vypnuto. Spusťte docker/certs/generate-certs.sh" >&2
 fi
 
-# ServerName z env (LAN hostname / IP)
-if [[ -n "${WEB_SERVER_NAME:-}" ]]; then
-  echo "ServerName ${WEB_SERVER_NAME}" > /etc/apache2/conf-available/servername.conf
-  a2enconf servername >/dev/null 2>&1 || true
-fi
+# ServerName globálně (platí mimo VirtualHost). ServerAlias smí být JEN uvnitř
+# <VirtualHost> — jinak AH00526 a Apache padá (viz conf-enabled/servername.conf).
+SERVER_NAME="${WEB_PUBLIC_HOST:-${WEB_SERVER_NAME:-web.local}}"
+SERVER_NAME="${SERVER_NAME%%:*}"
+echo "ServerName ${SERVER_NAME}" > /etc/apache2/conf-available/servername.conf
+a2enconf servername >/dev/null 2>&1 || true
+
+# Jména pro HTTP i HTTPS vhost (Include v docker/apache/vhost*.conf)
+{
+  echo "ServerName ${SERVER_NAME}"
+  echo "ServerAlias localhost"
+  DEV_HOSTS="${WEB_DEV_HOSTS:-ps.dev.local,vs.dev.local,ks.dev.local}"
+  IFS=',' read -ra NAMES <<< "$DEV_HOSTS"
+  for n in "${NAMES[@]}"; do
+    n="$(echo "$n" | xargs)"
+    n="${n%%:*}"
+    if [[ -n "$n" && "$n" != "localhost" && "$n" != "$SERVER_NAME" ]]; then
+      echo "ServerAlias ${n}"
+    fi
+  done
+} > /etc/apache2/grafia-server-names.inc
 
 exec "$@"

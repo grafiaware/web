@@ -35,6 +35,8 @@ use Pes\View\ViewInterface;
 use Pes\View\Renderer\ImplodeRenderer;
 use Pes\Core\Text\Html;
 
+use Web\Service\PublicBaseUrl;
+
 use LogicException;
 
 /**
@@ -240,6 +242,14 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     protected function getBasePath(ServerRequestInterface $request) {
         $basePath = $this->getUriInfo($request)->getSubdomainPath();
         return $basePath;
+    }
+
+    /**
+     * Absolutní adresa v rámci aplikace (QR, PDF, e-maily). $restUri bez úvodního lomítka.
+     * Host lze přepsat env WEB_PUBLIC_HOST (Docker / lokální DNS jména).
+     */
+    protected function absoluteUrl(ServerRequestInterface $request, string $restUri): string {
+        return PublicBaseUrl::absolute($request, $this->getBasePath($request), $restUri);
     }
 
     /**

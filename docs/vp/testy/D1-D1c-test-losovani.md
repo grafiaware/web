@@ -7,8 +7,8 @@
 - **Etapy** ([README.md](README.md#etapy)): části 1–9 v etapě 5, část 10 v etapě 6
 - **Migrace (`/build`, etapa 0):** events `20261116000001_d1_create_lottery`, `20261116000002_d1c_lottery_paper` (jen přidávají)
 - **Zařízení:** počítač (správce), 1–2 telefony obsluhy (Android, iPhone) a telefon návštěvníka; tiskárna A4
-- **Účty:** `t_events_administrator` = správce i obsluha (užší role obsluhy je #90); návštěvníci `test.d1.a@example.test`,
-  `test.d1.b@example.test`, `test.d1.c@example.test` (registrace podle A1, role `visitor`); `t_representative`
+- **Účty** (role, viz [README](README.md#etapy)): `events_administrator` = správce i obsluha (užší role obsluhy je #90); návštěvníci `test.d1.a@example.test`,
+  `test.d1.b@example.test`, `test.d1.c@example.test` (registrace podle A1, role `visitor`); `representative`
 - **Automaticky pokryto unit testy:** hranice platnosti losu (30 min, 2 kola, prodloužení jen dopředu), váhy losů,
   náhoda losování, rozpoznání kódu a čísla lístku – ručně se ověřuje chování v aplikaci
 

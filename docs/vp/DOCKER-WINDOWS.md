@@ -142,8 +142,8 @@ Toto **není** `0.0.0.0` ani `127.0.0.1` — ty do mobilu nezadávejte.
 
 | Kde prohlížíte | Adresa do prohlížeče |
 |----------------|----------------------|
-| Stejný notebook (Docker) | `http://localhost/` nebo `https://localhost/` |
-| Telefon ve stejné Wi‑Fi | `https://192.168.1.42/` (vaše LAN IP) |
+| Stejný notebook (Docker) | `https://localhost/` nebo `https://ps.dev.local/` (vaše `WEB_PUBLIC_HOST`) |
+| Telefon ve stejné Wi‑Fi | `https://ps.dev.local/` (po DNS/DHCP nebo překladu jména) · nouzově `https://192.168.1.42/` |
 
 ---
 
@@ -171,7 +171,45 @@ Uložte a zavřete Notepad. Soubor `.env` **necommitujte** do gitu (NetBeans: ne
 
 ---
 
-## 4. TLS certifikáty (HTTPS)
+## 4. Jméno vývojového stroje (QR / PDF) a TLS
+
+Aplikace do QR kódů a PDF dává absolutní URL. Aby v nich nebyl `localhost` ani holá LAN IP, nastavte v `.env` **jméno tohoto PC** a v síti ho namapujte na jeho LAN IP (DNS/DHCP, nebo aplikace na telefonu).
+
+Výchozí jména týmu: `ps.dev.local`, `vs.dev.local`, `ks.dev.local` (každý vývojář má svoje).
+
+V `.env` (Notepad):
+
+```env
+# JEDNO jméno tohoto stroje — použije se v QR, PDF a odkazech v e-mailech
+WEB_PUBLIC_HOST=ps.dev.local
+WEB_PUBLIC_SCHEME=https
+
+# Všechna jména týmu (certifikát + Apache)
+WEB_DEV_HOSTS=ps.dev.local,vs.dev.local,ks.dev.local
+
+WEB_SERVER_NAME=ps.dev.local
+WEB_LAN_IP=192.168.1.42
+WEB_CERT_HOSTS=localhost,ps.dev.local,vs.dev.local,ks.dev.local
+```
+
+`WEB_PUBLIC_HOST` změňte na své jméno (`vs.dev.local` / `ks.dev.local`).  
+V DNS/DHCP (kde to jde) přidejte A záznam: `ps.dev.local` → LAN IP tohoto notebooku. Na telefonu bez DNS použijte aplikaci pro lokální překlad jména → IP.
+
+Po změně `.env` vždy znovu spusťte stack (jinak kontejner staré hodnoty nevidí):
+
+```powershell
+docker compose up -d --force-recreate web
+```
+
+Ověření, že PHP vidí host (v prohlížeči by QR/PDF měly dávat `https://ps.dev.local/…`, ne `http://localhost:8080`):
+
+```powershell
+docker compose exec web printenv WEB_PUBLIC_HOST
+```
+
+(Musí vypsat `ps.dev.local`. Aplikace navíc čte `.env` z disku jako zálohu.)
+
+### 4.1 TLS certifikáty (HTTPS) pro všechna vývojová jména
 
 V PowerShellu **v `C:\Apacheroot\web`**:
 
@@ -179,13 +217,12 @@ V PowerShellu **v `C:\Apacheroot\web`**:
 # Pokud Windows hlásí, že skripty jsou zakázané (jednou za uživatele):
 Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 
-# LAN IP pro certifikát (stejná jako v kroku 2; pokud už je v .env, skript ji často detekuje sám)
-$env:WEB_LAN_IP = "192.168.1.42"
-
+# Skript načte .env (WEB_DEV_HOSTS / WEB_CERT_HOSTS / WEB_LAN_IP) sám
 .\docker\certs\generate-certs.ps1
 ```
 
-Skript **nemění** aktuální složku PowerShellu — zůstáváte v `C:\Apacheroot\web`.
+Skript **nemění** aktuální složku PowerShellu — zůstáváte v `C:\Apacheroot\web`.  
+Do certifikátu zahrne `localhost` + všechna jména z `WEB_DEV_HOSTS` (jeden cert pro celý tým).
 
 Očekávaný výsledek: ve složce `docker\certs\` vzniknou soubory `cert.pem`, `key.pem`, `ca.pem`.
 
@@ -225,6 +262,19 @@ docker compose ps
 Očekávejte služby `web`, `db`, `mail` ve stavu running / healthy (u `db`).
 
 NetBeans dál editujete soubory v `C:\Apacheroot\web` — Docker je jen **připojuje** (bind-mount). Uložená změna v NetBeans je hned na disku a web v Dockeru ji vidí (u PHP obvykle po obnovení stránky).
+
+### 5.1 Po pullu / merge na druhém stroji (build image web)
+
+Když se mění `docker/php/entrypoint.sh` nebo Dockerfile, nestačí restart — image se musí znovu sestavit.  
+**Nekopírujte** bloky příkazů z chatu do PowerShellu (často vadné CR/LF). Po Pull v NetBeans spusťte skript z gitu:
+
+```powershell
+cd C:\Apacheroot\web
+.\docker\recreate-web.ps1
+```
+
+Skript (nemění aktuální složku terminálu navenek): doplní chybějící `docker\certs\*.pem`, provede `docker compose build web` a `up -d --force-recreate web`, vypíše `docker compose ps`.  
+Volitelně: `.\docker\recreate-web.ps1 -NoCache` · `.\docker\recreate-web.ps1 -SkipCerts`.
 
 ---
 
@@ -310,15 +360,16 @@ Musíte vidět mimo jiné `najdisi`, `single_login`, `events`.
 
 ### 11.1 Adresa v mobilním prohlížeči
 
-Stejná Wi‑Fi jako notebook. Do adresního řádku:
+Stejná Wi‑Fi jako notebook. Preferujte jméno z `.env`:
 
 ```text
-https://192.168.1.42/
+https://ps.dev.local/
 ```
 
-(nahraďte svou LAN IP z kroku 2; pokud jste v `.env` změnili HTTPS port na 8443, pak `https://192.168.1.42:8443/`).
+(nahraďte svým `WEB_PUBLIC_HOST`; DNS/DHCP nebo překlad na telefonu musí mířit na LAN IP notebooku).  
+Nouzově bez DNS: `https://192.168.1.42/` (LAN IP z kroku 2).
 
-Do QR kódů dávejte **stejnou HTTPS URL**.
+QR kódy generované aplikací používají `WEB_PUBLIC_HOST` (ne `localhost`) — viz krok 4.
 
 `http://` na mobilu pro vývoj QR často nestačí (aplikace vyžadují HTTPS).
 
@@ -405,6 +456,12 @@ docker compose up -d
 | Šablony / cesty rozbité | Stack musí nastavit `WEB_PROJECT_PATH` (compose to dělá); nepřepisujte DocumentRoot ručně. |
 | Skript `.ps1` zakázán | `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` |
 | `mkcert.exe : Created a new local CA` + `NativeCommandError` (červeně) | Není chyba mkcert — PowerShell hlášku na stderr bral jako fatální. Aktualizujte skript (`git pull` / Pull v NetBeans) a spusťte `.\docker\certs\generate-certs.ps1` znovu. CA už může být vytvořená; skript ji jen znovu použije. |
+| `grafia-web-apache` restartuje: `exec …/grafia-web-entrypoint.sh: no such file or directory` | Na Windows měl `entrypoint.sh` často konce řádků CRLF. Pull oprav + `docker compose build --no-cache web` a `docker compose up -d`. |
+| `Cannot define multiple Listeners on the same IP:port` (ports.conf / 443) | Duplicitní `Listen 443`. Pull oprav Dockerfile + `docker compose build --no-cache web` a `docker compose up -d`. |
+| `WARN: chybí docker/certs/…` a HTTPS vypnuto | Normální bez certů — běží jen HTTP. Spusťte `.\docker\certs\generate-certs.ps1` a `docker compose up -d`. |
+| Apache restartuje: `ServerAlias only used in <VirtualHost>` | Chyba v starším entrypointu (`ServerAlias` v globálním conf). Pull oprav, pak `.\docker\recreate-web.ps1` (build + recreate; entrypoint je v image). Samotné certy tuhle chybu nevyřeší. Skript berte vždy přes git pull — nekopírujte z chatu (CRLF). |
+| `recreate-web.ps1`: chybí `docker-compose.yml` v `$RepoRoot` | Starší skript špatně určil kořen (často `C:\Apacheroot` místo `…\web`). Pull oprav + znovu `.\docker\recreate-web.ps1` z `C:\Apacheroot\web`. |
+| `/build` tlačítka jdou na `/web/build/…` (404) | Starší panel měl `<base href="/web/">`. Pull oprav; formuláře musí POST na `/build/migrations/…`. Ruční GET v adresním řádku je 404 (routy jsou jen POST). |
 
 ---
 

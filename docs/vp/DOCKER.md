@@ -55,15 +55,30 @@ docker compose exec db mariadb -uroot -proot -e "SHOW DATABASES;"
 
 Import dumpů a `/build`: stejně jako v [SETUP.md](SETUP.md) / [migrace-db-docker.md](../migrace-db-docker.md), jen kontejner DB se jmenuje `grafia-web-db` (compose project `grafia-web`).
 
-## HTTPS a mobil / QR
+## HTTPS, vývojová jména a QR
 
-1. Certifikáty: `generate-certs.ps1` (Windows) nebo `generate-certs.sh` (macOS/Linux) — preferujte **mkcert**.
-2. Na telefon **nainstalujte** `docker/certs/ca.pem` jako důvěryhodnou CA (nestačí soubor jen zkopírovat) — detaily v [DOCKER-WINDOWS.md](DOCKER-WINDOWS.md) §11.
-3. Notebook: `https://localhost/` · Mobil: `https://<LAN-IP>/` · Do QR stejná HTTPS URL s LAN IP.
+V `.env` nastavte **jméno tohoto stroje** (výchozí sada: `ps.dev.local`, `vs.dev.local`, `ks.dev.local`):
 
-Bez důvěryhodné CA mobilní prohlížeče a WebView často HTTPS odkazy z QR odmítnou. Self-signed z openssl je nouzovka pro desktop.
+```env
+WEB_PUBLIC_HOST=ps.dev.local
+WEB_PUBLIC_SCHEME=https
+WEB_DEV_HOSTS=ps.dev.local,vs.dev.local,ks.dev.local
+WEB_CERT_HOSTS=localhost,ps.dev.local,vs.dev.local,ks.dev.local
+```
 
-Porty 80/443 jsou mapované na všechna rozhraní PC (`0.0.0.0` = bind, ne URL) — firewall Windows/macOS musí LAN povolit. Na veřejný internet stack nevystavujte.
+- `WEB_PUBLIC_HOST` — jde do QR, PDF a absolutních odkazů v e-mailech (`Web\Service\PublicBaseUrl`), i když prohlížíte přes `localhost`. PHP bere hodnotu z env kontejneru a jako zálohu ze souboru `.env` v kořeni repo.
+  (Záložní parser `.env` v `PublicBaseUrl` **smazat po #92**, až bude centrální bootstrap env / tajemství.)
+- `WEB_DEV_HOSTS` — všechna jména týmu v Apache `ServerAlias` a (pokud není `WEB_CERT_HOSTS`) v TLS SAN.
+- Mapování jména → LAN IP: DNS/DHCP, nebo aplikace na telefonu.
+- Po změně `.env`: `docker compose up -d --force-recreate web` a ověření `docker compose exec web printenv WEB_PUBLIC_HOST`.
+
+1. Certifikáty: `generate-certs.ps1` / `.sh` (načte `.env`, preferujte **mkcert**).
+2. Na telefon **nainstalujte** `docker/certs/ca.pem` jako důvěryhodnou CA — [DOCKER-WINDOWS.md](DOCKER-WINDOWS.md) §11.
+3. Notebook: `https://ps.dev.local/` · Mobil totéž (po DNS) · nouzově `https://<LAN-IP>/`.
+
+Bez důvěryhodné CA mobilní prohlížeče a WebView často HTTPS odkazy z QR odmítnou.
+
+Porty 80/443 jsou mapované na všechna rozhraní PC (`0.0.0.0` = bind, ne URL) — firewall musí LAN povolit. Na veřejný internet stack nevystavujte.
 
 ## Varianty PHP a DB
 
@@ -105,7 +120,15 @@ docker compose --profile e2e run --rm playwright
 
 (`PLAYWRIGHT_BASE_URL` výchozí v compose míří na službu `web`; upravte v `.env` podle potřeby.)
 
-Scénáře „klikáním“ přidávejte do `tests/e2e/specs/`. Pro kontrolu odeslaných mailů volejte smtp4dev API (`/api/Messages`) — viz `mail-capture.example.spec.ts`.
+Scénáře „klikáním“ jsou v `tests/e2e/specs/`. Mail se kontroluje přes smtp4dev API (`/api/Messages`), ne přes UI. První vlna Z14 (fixture odděleně od klikání, kouř a registrace A1–A3, A5–A9, C1, C4):
+
+```bash
+bash tests/e2e/fixture/prepare.sh
+cd tests/e2e && npm install && npx playwright install chromium
+bash fixture/run-wave1.sh
+```
+
+`prepare.sh` samo Playwright nespouští. `--reset` smaže volume DB. Přepínače `vp.registrace-emailem` a `vp.prihlaseni-odkazem` skript na čas běhu zapne a na konci vrátí; v gitu zůstávají `false`.
 
 ## PROJECT_PATH v Dockeru
 
@@ -123,6 +146,19 @@ docker compose down          # data DB zůstanou
 docker compose down -v       # smaže volume DB (init SQL znovu)
 ```
 
+## Build panel (`/build`) a cesta `/web/`
+
+Formuláře migrací používají relativní `action` a tag `<base href="…">`. V Dockeru musí být base `/`
+(stejně jako `RewriteBase /` v `htaccess.dev`), ne natvrdo `/web/` — jinak POST jde na
+`/web/build/migrations/…` a skončí 404. Routy migrací jsou **jen POST**; ruční GET v adresním řádku
+(i po smazání `/web`) je 404.
+
+## Apache se restartuje
+
+- `WARN: chybí docker/certs/cert.pem…` — jen vypne HTTPS; samotné to Apache nespadí. Spusťte `generate-certs` a `docker compose up -d`.
+- `ServerAlias only used in <VirtualHost>` — fatální: `ServerAlias` nesmí být v globálním conf. Oprava je v entrypointu + `IncludeOptional` ve vhostech.
+- Po pulli na Windows (druhý stroj): **ne kopírovat příkazy z chatu** (CRLF), ale `.\docker\recreate-web.ps1` z gitu — doplní certy pokud chybí, `build web`, `--force-recreate web`.
+
 ## Soubory
 
 | Cesta | Účel |
@@ -134,5 +170,6 @@ docker compose down -v       # smaže volume DB (init SQL znovu)
 | `docker/php/` | Dockerfile, entrypoint (socat), php.ini |
 | `docker/apache/` | vhost HTTP/HTTPS, htaccess.dev |
 | `docker/certs/` | generování TLS (`generate-certs.ps1` / `.sh`; necommitovat PEM) |
+| `docker/recreate-web.ps1` | Windows: po pullu build + recreate web (+ certy pokud chybí) |
 | `docs/vp/DOCKER-WINDOWS.md` | Podrobný Windows / PowerShell / mobil návod |
 | `tests/e2e/` | Playwright |

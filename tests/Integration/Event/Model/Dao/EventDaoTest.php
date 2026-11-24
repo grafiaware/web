@@ -150,9 +150,9 @@ class EventDaoTest extends AppRunner {
         $this->assertInstanceOf(RowDataInterface::class, $eventRow);
     }
 
-    public function test7Columns() {
+    public function test8Columns() {
         $eventRow = $this->dao->get(self::$eventPrimaryKey);
-        $this->assertCount(7, $eventRow);
+        $this->assertCount(8, $eventRow);   // R1: + capacity
     }
 
 

@@ -24,6 +24,11 @@ interface EventInterface extends PersistableEntityInterface {
 
     public function getEventContentIdFk();
 
+    /** R1: kapacita (počet míst pro rezervace škol), null = bez limitu. */
+    public function getCapacity(): ?int;
+
+    public function setCapacity($capacity): EventInterface;
+
     public function setId($id): EventInterface;
 
     public function setPublished($published): EventInterface;
