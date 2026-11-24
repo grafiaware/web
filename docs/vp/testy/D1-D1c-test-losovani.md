@@ -120,7 +120,7 @@ V detailu losování odkaz na skener; stanoviště zvolte na stránce skeneru. Z
 | 7.3 | „Stáhnout PDF“, 4 lístky na A4, rozsah 1–8 | Průběh, pak soubor `losovani-<id>-listky-0001-0008.pdf`; 2 strany; hláška „Hotovo: 8 lístků, 2 strany A4 …“ | | |
 | 7.4 | PDF zkontrolovat | Na lístku název losování, Jméno/Příjmení/E-mail, otázky ankety (kroužky u jedné volby, čtverečky u více voleb, čára u textu), souhlas s pravidly s adresou, malé číslo a kód; za čárkovanou čarou ústřižek s QR, velkým číslem a pokyny | | |
 | 7.5 | Totéž 2 lístky na A4 | 4 strany, ústřižek vpravo | | |
-| 7.6 | Vytisknout 1 stranu v měřítku 100 % | Lístky A6 (4 na A4) odpovídají střihovým čarám | | |
+| 7.6 | Vytisknout 1 stranu s volbou „Přizpůsobit“ (ne 100 %); rozřezat podle značek | Celý obsah je vytištěný; na okrajích listu čárky v ose řezů, uprostřed křížek; po rozřezání (okraje listu se neřežou) má každý lístek obsah přibližně stejně daleko od všech svých okrajů | | |
 | 7.7 | Přidat do ankety 8 dalších dlouhých otázek a stáhnout PDF 4 na A4 | Buď „…písmo ankety zmenšeno na … %“, nebo „Anketa se na lístek (4 na A4) nevejde. Zvolte 2 lístky na A4…“; pak otázky smazat | | |
 | 7.8 | Export CSV lístků | Číslo, kód, adresa QR (`…/events/v1/scan/L…`) | | |
 | 7.9 | Vyhledání lístku podle čísla `5` | Lístek č. 0005, los zatím nevydán | | |
