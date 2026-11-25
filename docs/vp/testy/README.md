@@ -11,6 +11,8 @@ název `<kódy balíků>-test-<co se testuje>.md`.
 | [D1-D1c-test-losovani.md](D1-D1c-test-losovani.md) | D1, D1c – losování, skener, papírové lístky | `vp.losovani` |
 | [R1-test-rezervace.md](R1-test-rezervace.md) | R1 – rezervace míst na přednáškách pro školy | `vp.rezervace` |
 
+Vyplněné protokoly z proběhlých testů: [protokoly/](protokoly/README.md).
+
 ## Celý test nad `master-vp` s postupným zapínáním přepínačů
 
 Scénáře jsou seřazené tak, aby šel celý `master-vp` otestovat znovu od začátku: začne se se vším vypnutým
@@ -72,13 +74,20 @@ pokrývají unit testy, ručně se ověřuje jen chování v aplikaci.
 **E2E / Playwright:** kostra v `tests/e2e/` (Docker), plán postupné automatizace ručních scénářů —
 [E2E-PLAN.md](E2E-PLAN.md).
 
-## Jak hlásit výsledky (návrh, čeká na schválení)
+## Jak hlásit výsledky
 
-1. Tester si scénář zkopíruje a vyplní sloupce **Výsledek** a **Poznámka** (lze i v prohlížeči na GitHubu
-   přes tlačítko „Edit“ → zkopírovat obsah). Vyplněný scénář se do repa necommituje – v repu zůstává prázdný předpis.
-2. Vyplněný protokol vloží jako **komentář do issue balíku** (A1 #44, A3 #45, A6 #72, A9 #93, D1 #46, D1c #108,
-   G0 #116, R1 #48). Tabulky v Markdownu GitHub zobrazí.
-3. Každá **CHYBA** se navíc založí jako samostatné issue s názvem `<kód balíku> test: <krátký popis>`,
-   s číslem bodu scénáře, postupem, očekávaným a skutečným výsledkem a snímkem obrazovky.
-4. Vývojář chybu opraví v pull requestu, který issue uzavře; tester bod zopakuje a výsledek doplní do komentáře.
-5. Když očekávaný výsledek ve scénáři není jasný, zapište to do poznámky jako **NEJASNÉ** – vývojář scénář upřesní.
+Testeři pracují jen v gitu, GitHub (issues, pull requesty) nepoužívají.
+
+1. **Větev testu:** tester si z aktuálního `master-vp` založí vlastní větev (např. `master-vp_D1-test`) a lokálně
+   zapíná přepínače podle etap. Do `master-vp` se z ní nic neslučuje.
+2. **Protokol:** tester vyplní ve scénáři sloupce **Výsledek** (OK / CHYBA / NEPROVEDENO / NEJASNÉ) a **Poznámka**,
+   tabulku Záznam testu (tester, datum, commit) a commituje do své větve – průběžně, aby nic nezůstalo jen lokálně.
+   Když očekávaný výsledek není jasný, zapíše **NEJASNÉ** a vlastními slovy, co viděl.
+3. **Převzetí:** vývojář (agent) protokol převezme z větve testera do archivu [`protokoly/`](protokoly/README.md)
+   jako `YYYY-MM-DD-<balíky>-test-<co>.md` s hlavičkou (tester, datum, testovaný commit, zdrojová větev),
+   bez lokálních přepínačů a dalších změn prostředí (`composer.lock`, konfigurace). Scénáře v této složce zůstávají
+   prázdné předpisy.
+4. **Issues:** z každé CHYBY a NEJASNÉ položky založí vývojář issue s názvem `<kód balíku> test: <krátký popis>`
+   a odkazem na řádek archivovaného protokolu; v issue balíku a v zadání (Stav a další krok) odkáže na nálezy.
+5. **Oprava a opakování:** chyba se opraví v pull requestu, který issue uzavře. Tester bod zopakuje v nové větvi
+   testu; nový protokol jde do archivu jako další soubor (archivované protokoly se nemění).
