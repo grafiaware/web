@@ -31,16 +31,22 @@ $dm = fn($dt) => (new DateTimeImmutable($dt))->format('j. n. G:i');
 
         <?php if (!$item['joined']): ?>
             <form class="ui form" method="POST" action="events/v1/lottery/<?= (int) $l['id'] ?>/join">
+                <?php if (array_filter($item['questions'], fn($q) => (int) $q['required'])): ?>
+                    <p style="font-size:.9em"><span style="color:#db2828">*</span> povinná odpověď</p><?php /* #156 */ ?>
+                <?php endif; ?>
                 <?php foreach ($item['questions'] as $q): $qid = (int) $q['id']; $opts = SurveyValidator::options($q['options']); ?>
                     <div class="field">
-                        <label><?= htmlspecialchars($q['text']) ?><?= (int) $q['required'] ? ' <span style="color:#db2828">*</span>' : '' ?></label>
+                        <label><?= htmlspecialchars($q['text']) ?><?= (int) $q['required'] ? ' <span style="color:#db2828">*</span>' : '' ?>
+                            <?php if ($q['type'] !== SurveyValidator::TYPE_TEXT): ?><span style="font-weight:normal"> (<?= $q['type'] === SurveyValidator::TYPE_MULTI ? 'lze více možností' : 'vyberte jednu možnost' ?>)</span><?php endif; ?></label>
                         <?php if ($q['type'] === SurveyValidator::TYPE_TEXT): ?>
                             <textarea name="q[<?= $qid ?>]" rows="2" <?= (int) $q['required'] ? 'required' : '' ?>></textarea>
-                        <?php else: foreach ($opts as $o): ?>
+                        <?php else: foreach ($opts as $oi => $o): $oid = 'vp-los-' . (int) $l['id'] . '-q' . $qid . '-' . $oi; ?>
+                            <?php /* Fomantic UI: input před label (input:checked ~ label kreslí zaškrtnutí), label s for (#152) */ ?>
                             <div class="ui <?= $q['type'] === SurveyValidator::TYPE_MULTI ? 'checkbox' : 'radio checkbox' ?>" style="display:block; margin:4px 0">
-                                <label><input type="<?= $q['type'] === SurveyValidator::TYPE_MULTI ? 'checkbox' : 'radio' ?>"
+                                <input type="<?= $q['type'] === SurveyValidator::TYPE_MULTI ? 'checkbox' : 'radio' ?>" id="<?= $oid ?>"
                                     name="q[<?= $qid ?>]<?= $q['type'] === SurveyValidator::TYPE_MULTI ? '[]' : '' ?>" value="<?= htmlspecialchars($o) ?>"
-                                    <?= ($q['type'] === SurveyValidator::TYPE_SINGLE && (int) $q['required']) ? 'required' : '' ?>> <?= htmlspecialchars($o) ?></label>
+                                    <?= ($q['type'] === SurveyValidator::TYPE_SINGLE && (int) $q['required']) ? 'required' : '' ?>>
+                                <label for="<?= $oid ?>"><?= htmlspecialchars($o) ?></label>
                             </div>
                         <?php endforeach; endif; ?>
                     </div>

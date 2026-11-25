@@ -40,6 +40,9 @@
         input[type=checkbox] { transform: scale(1.3); margin-right: 8px; }
         table { border-collapse: collapse; width: 100%; } td, th { border-bottom: 1px solid #ddd; padding: 6px 4px; text-align: left; vertical-align: top; }
         .msg { padding: 10px 12px; border-radius: 4px; margin: 10px 0; background: #e7f1ff; }
+        .msgs { position: sticky; top: 0; z-index: 10; }
+        .msgs .msg { box-shadow: 0 2px 6px rgba(0,0,0,.15); }
+        .card[id] { scroll-margin-top: 70px; }
         .msg.success { background: #e3f6e5; } .msg.warning { background: #fff4d6; } .msg.error, .msg.danger { background: #fde2e2; }
         .muted { color: #666; font-size: 14px; } .ok { color: #1b7a2b; } .bad { color: #b00020; }
         .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: end; } .row > * { flex: 1 1 140px; }
@@ -55,9 +58,13 @@
         <a href="">Web</a>
     </header>
     <main>
+        <?php if ($messages): /* #157: hlášky drží nahoře v okně i po návratu na oddíl (#kola, #ceny…) */ ?>
+        <div class="msgs" role="status">
         <?php foreach ($messages as $m): ?>
             <div class="msg <?= htmlspecialchars((string) ($m['severity'] ?? '')) ?>"><?= htmlspecialchars((string) ($m['message'] ?? '')) ?></div>
         <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
         <?= $body ?>
     </main>
 </body>

@@ -6,6 +6,9 @@
  * Lístek: anketní díl (název, jméno, příjmení, e-mail, otázky ankety, souhlas s pravidly, malé číslo a kód)
  * + ústřižek za čárkovanou čarou (QR adresy skenu L<kód> vektorově, velké číslo, pokyny).
  * Písmo: TTF načtené přímo (Liberation Sans), plné UTF-8.
+ * Tisk (#153): s volbou „Přizpůsobit“ (ne 100 %), list se řeže podle řezových značek (čárky na okrajích, křížek mezi lístky),
+ * okraje listu se neořezávají. Obsah je od řezu GAP mm; u okraje listu o STRIP mm blíž k okraji PDF, protože tiskárna
+ * nechá na okraji nepotištěný pruh (počítá se 5 mm) a ten patří k okraji lístku.
  * Knihovny: public/assets/lib/jspdf-4.2.1.umd.min.js, qrcode-generator-2.0.4.js; písmo public/assets/fonts/liberation-sans.
  */
 (function () {
@@ -15,19 +18,24 @@
     var LH = 1.2;               // výška řádku vůči velikosti písma
     var SCALES = [1, 0.93, 0.86, 0.8];   // nejmenší písmo ankety 80 % (4 na A4: 6,4 pt)
     var CHUNK = 25;             // lístků mezi aktualizacemi průběhu
+    var GAP = 6;                // obsah lístku ↔ řez (mm)
+    var STRIP = 5;              // nepotištěný pruh na okraji listu při tisku „Přizpůsobit“ (mm)
+    var EDGE = GAP - STRIP;     // obsah lístku ↔ okraj PDF stránky (mm)
+    var MARK = 6;               // délka řezové značky na okraji stránky (mm)
+    var CROSS = 3;              // rameno křížku mezi lístky (mm)
 
     var A4 = {w: 210, h: 297};
     var LAYOUTS = {
         4: {
             slipW: 105, slipH: 148.5, cols: 2, font: 8, title: 10.5, field: 6.5,
-            survey: {left: 5, right: 5, top: 5, bottom: 46 + 6.5},     // pod anketou: malé číslo a kód, pak ústřižek
-            small: {fromBottom: 46 + 3},                                 // účaří malého řádku nad čarou ústřižku
+            survey: {stubGap: 6.5},                 // pod anketou: malé číslo a kód, pak čára ústřižku
+            small: {aboveStub: 3},                  // účaří malého řádku nad čarou ústřižku
             stub: {side: 'bottom', size: 46, qr: 34, number: 34, text: 7.5}
         },
         2: {
             slipW: 210, slipH: 148.5, cols: 1, font: 9.5, title: 13, field: 8,
-            survey: {left: 7, right: 70 + 7, top: 7, bottom: 12},
-            small: {fromBottom: 6},
+            survey: {stubGap: 7, bottom: 6},        // vpravo od ankety čára ústřižku; dole malé číslo a kód
+            small: {fromBottom: 0},                 // účaří malého řádku na spodní hranici obsahu
             stub: {side: 'right', size: 70, qr: 40, number: 40, text: 8.5}
         }
     };
@@ -125,6 +133,24 @@
             y += line + 2 * s;
         });
 
+        // #156: jeden řádek vysvětlivek (hvězdička, kroužky); u otázek by zvětšil anketu o řádky
+        var legend = [];
+        if (data.questions.some(function (q) { return q.required; })) {
+            legend.push('* povinná odpověď');
+        }
+        if (data.questions.some(function (q) { return q.type === 'single' && q.options.length; })) {
+            legend.push('u kroužků vyberte jednu možnost');
+        }
+        if (legend.length) {
+            doc.setFont('LS', 'normal');
+            doc.setFontSize(fs * 0.85);
+            if (draw) {
+                doc.text(legend.join(' · '), x, y, {baseline: 'top'});
+            }
+            y += mm(fs * 0.85) * LH + 1 * s;
+            doc.setFontSize(fs);
+        }
+
         var consent = 'Souhlasím s pravidly losování' + (data.lottery.rulesText ? ' (' + data.lottery.rulesText + ')' : '') + '.';
         var box = 2.3 * s;
         var cl = doc.splitTextToSize(consent, w - box - 1);
@@ -136,9 +162,18 @@
         return y;
     }
 
-    /** Měřítko písma ankety, aby se vešla; null = nevejde se ani při nejmenším. */
+    /** Odsazení obsahu lístku na pozici k (0 = vlevo nahoře): GAP u řezu, EDGE u okraje stránky. */
+    function insets(L, k) {
+        var rows = Math.round(A4.h / L.slipH), col = k % L.cols, row = Math.floor(k / L.cols);
+        return {
+            l: col === 0 ? EDGE : GAP, r: col === L.cols - 1 ? EDGE : GAP,
+            t: row === 0 ? EDGE : GAP, b: row === rows - 1 ? EDGE : GAP
+        };
+    }
+
+    /** Měřítko písma ankety, aby se vešla; null = nevejde se ani při nejmenším. Měří se nejmenší plocha (řez ze všech stran). */
     function fitScale(doc, data, L) {
-        var area = surveyArea(L, 0, 0);
+        var area = surveyArea(L, 0, 0, {l: GAP, r: GAP, t: GAP, b: GAP});
         for (var i = 0; i < SCALES.length; i++) {
             if (survey(doc, data, area, L, SCALES[i], false) <= area.bottom) {
                 return SCALES[i];
@@ -147,11 +182,46 @@
         return null;
     }
 
-    function surveyArea(L, sx, sy) {
+    /**
+     * Čára ústřižku (y u 'bottom', x u 'right'). stub.size platí pro lístek s řezem na straně ústřižku;
+     * u okraje stránky se ústřižek i s čárou posune o STRIP k okraji, takže na papíře vyjde stejně.
+     */
+    function stubLine(L, sx, sy, ins) {
+        var inner = L.stub.size - GAP;
+        return L.stub.side === 'bottom' ? sy + L.slipH - ins.b - inner : sx + L.slipW - ins.r - inner;
+    }
+
+    function surveyArea(L, sx, sy, ins) {
+        var inner = L.stub.size - GAP;
+        var right = L.stub.side === 'right' ? ins.r + inner + L.survey.stubGap : ins.r;
+        var bottom = L.stub.side === 'bottom' ? ins.b + inner + L.survey.stubGap : ins.b + L.survey.bottom;
         return {
-            x: sx + L.survey.left, y: sy + L.survey.top, w: L.slipW - L.survey.left - L.survey.right,
-            bottom: sy + L.slipH - L.survey.bottom
+            x: sx + ins.l, y: sy + ins.t, w: L.slipW - ins.l - right,
+            bottom: sy + L.slipH - bottom
         };
+    }
+
+    /** Řezové značky stránky: čárky na okrajích v ose řezů, křížek v průsečíku řezů. */
+    function cutMarks(doc, L) {
+        var rows = Math.round(A4.h / L.slipH);
+        doc.setDrawColor(0);
+        doc.setLineWidth(0.25);
+        doc.setLineDashPattern([], 0);
+        for (var c = 1; c < L.cols; c++) {                  // svislé řezy: čárka nahoře a dole
+            var x = c * L.slipW;
+            doc.line(x, 0, x, MARK);
+            doc.line(x, A4.h - MARK, x, A4.h);
+        }
+        for (var r = 1; r < rows; r++) {                    // vodorovné řezy: čárka vlevo a vpravo
+            var y = r * L.slipH;
+            doc.line(0, y, MARK, y);
+            doc.line(A4.w - MARK, y, A4.w, y);
+            for (var c2 = 1; c2 < L.cols; c2++) {           // křížek mezi lístky
+                var cx = c2 * L.slipW;
+                doc.line(cx - CROSS, y, cx + CROSS, y);
+                doc.line(cx, y - CROSS, cx, y + CROSS);
+            }
+        }
     }
 
     function qr(doc, text, x, y, size) {
@@ -176,21 +246,15 @@
         }
     }
 
-    function slip(doc, data, ticket, L, scale, sx, sy) {
-        // vodítko střihu (okraj lístku)
-        doc.setDrawColor(160);
-        doc.setLineWidth(0.1);
-        doc.setLineDashPattern([0.5, 1], 0);
-        doc.rect(sx, sy, L.slipW, L.slipH);
-        doc.setLineDashPattern([], 0);
-
-        var area = surveyArea(L, sx, sy);
+    function slip(doc, data, ticket, L, scale, sx, sy, ins) {
+        var area = surveyArea(L, sx, sy, ins);
         survey(doc, data, area, L, scale, true);
 
         // malé číslo a kód (zůstane na anketním dílu)
         doc.setFont('LS', 'normal');
         doc.setFontSize(7);
-        var smallY = sy + L.slipH - L.small.fromBottom;
+        var smallY = L.stub.side === 'bottom' ? stubLine(L, sx, sy, ins) - L.small.aboveStub
+            : sy + L.slipH - ins.b - L.small.fromBottom;
         doc.text('Lístek č. ' + ticket.label, area.x, smallY);
         doc.text(ticket.code, area.x + area.w, smallY, {align: 'right'});
 
@@ -203,22 +267,22 @@
         var lines2 = 'Ústřižek si nechte – je dokladem výhry.';
         var lines3 = 'Registrujte se na ' + data.registerHost + ' – příště vám stačí QR kód v mobilu.';
         if (st.side === 'bottom') {
-            var top = sy + L.slipH - st.size;
+            var top = stubLine(L, sx, sy, ins);
             doc.line(sx, top, sx + L.slipW, top);
             doc.setLineDashPattern([], 0);
-            var qy = top + (st.size - st.qr) / 2;
-            qr(doc, url, sx + 5, qy, st.qr);
-            var tx = sx + 5 + st.qr + 5, tw = sx + L.slipW - 4 - tx;
+            var qy = sy + L.slipH - ins.b - st.qr;             // QR dole na hranici obsahu
+            qr(doc, url, sx + ins.l, qy, st.qr);
+            var tx = sx + ins.l + st.qr + 5, tw = sx + L.slipW - ins.r - tx;
             doc.setFont('LS', 'bold');
             doc.setFontSize(st.number);
             doc.text(ticket.label, tx, qy - 1, {baseline: 'top'});
             var y = qy + mm(st.number) * 0.95 + 2;
             y = stubText(doc, [[lines1, 'bold'], [lines2, 'normal'], [lines3, 'normal']], tx, y, tw, st.text, 'left');
         } else {
-            var left = sx + L.slipW - st.size, cx = left + st.size / 2;
+            var left = stubLine(L, sx, sy, ins), cx = (left + sx + L.slipW - ins.r) / 2;   // na střed mezi čárou a pravou hranicí obsahu
             doc.line(left, sy, left, sy + L.slipH);
             doc.setLineDashPattern([], 0);
-            var qy2 = sy + 14;
+            var qy2 = sy + ins.t + 8;
             qr(doc, url, cx - st.qr / 2, qy2, st.qr);
             doc.setFont('LS', 'bold');
             doc.setFontSize(st.number);
@@ -274,7 +338,10 @@
             if (i > 0 && k === 0) {
                 doc.addPage('a4', 'portrait');
             }
-            slip(doc, data, data.tickets[i], L, scale, (k % L.cols) * L.slipW, Math.floor(k / L.cols) * L.slipH);
+            if (k === 0) {
+                cutMarks(doc, L);
+            }
+            slip(doc, data, data.tickets[i], L, scale, (k % L.cols) * L.slipW, Math.floor(k / L.cols) * L.slipH, insets(L, k));
             if ((i + 1) % CHUNK === 0) {
                 onProgress(i + 1, n);
                 await pause();
@@ -338,7 +405,7 @@
                 say('Hotovo: ' + plural(data.tickets.length, 'lístek', 'lístky', 'lístků') + ', ' + plural(pages, 'strana', 'strany', 'stran') + ' A4 za '
                     + (Math.round((performance.now() - started) / 100) / 10).toLocaleString('cs-CZ') + ' s'
                     + (result.scale < 1 ? ' (písmo ankety zmenšeno na ' + Math.round(result.scale * 100) + ' %, aby se vešla)' : '')
-                    + '. Tiskněte ve skutečné velikosti (100 %).');
+                    + '. Tiskněte s volbou „Přizpůsobit“ (ne 100 %) a řežte podle značek na okrajích a křížků.');
             } catch (e) {
                 say(e.message || String(e), true);
             } finally {
@@ -349,7 +416,7 @@
         });
     }
 
-    window.LotteryPaperPdf = {build: build, loadFont: loadFont, fileName: fileName, layouts: LAYOUTS};
+    window.LotteryPaperPdf = {build: build, loadFont: loadFont, fileName: fileName, layouts: LAYOUTS, insets: insets};
 
     var form = document.getElementById('lottery-paper-pdf');
     if (form) {
