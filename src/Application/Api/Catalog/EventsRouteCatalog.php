@@ -19,6 +19,8 @@ use Events\Middleware\Events\Controler\Lottery\LotteryAdminControler;
 use Events\Middleware\Events\Controler\Lottery\LotteryPaperControler;
 use Events\Middleware\Events\Controler\Lottery\LotteryStaffControler;
 use Events\Middleware\Events\Controler\Lottery\LotteryVisitorControler;
+use Events\Middleware\Events\Controler\Reservation\ReservationAdminControler;
+use Events\Middleware\Events\Controler\Reservation\ReservationPublicControler;
 use Events\Middleware\Events\Controler\Promo\PromoAdminControler;
 use Events\Middleware\Events\Controler\Promo\PromoVisitControler;
 use FrontControler\Response\MutationResponseMode;
@@ -137,6 +139,21 @@ final class EventsRouteCatalog implements ModuleRouteCatalogInterface {
             new RouteDefinition('POST', '/events/v1/lottery/round/:roundId/draw', LotteryStaffControler::class, 'draw', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
             new RouteDefinition('POST', '/events/v1/lottery/winner/:winnerId/claimed', LotteryStaffControler::class, 'claimed', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
             new RouteDefinition('POST', '/events/v1/lottery/winner/:winnerId/substitute', LotteryStaffControler::class, 'substitute', MutationResponseMode::BROWSER_FORM, 'vp.losovani'),
+            // R1 (#48): rezervace míst na přednáškách pro školy (docs/vp/zadani/R1.md)
+            new RouteDefinition('POST', '/events/v1/reservation/book/:code', ReservationPublicControler::class, 'book', MutationResponseMode::BROWSER_FORM, 'vp.rezervace'),
+            new RouteDefinition('GET', '/events/v1/reservation/manage/:token', ReservationPublicControler::class, 'manage', null, 'vp.rezervace'),
+            new RouteDefinition('POST', '/events/v1/reservation/manage/:token', ReservationPublicControler::class, 'manageSave', MutationResponseMode::BROWSER_FORM, 'vp.rezervace'),
+            new RouteDefinition('POST', '/events/v1/reservation/manage/:token/cancel', ReservationPublicControler::class, 'manageCancel', MutationResponseMode::BROWSER_FORM, 'vp.rezervace'),
+            new RouteDefinition('GET', '/events/v1/reservation', ReservationAdminControler::class, 'index', null, 'vp.rezervace'),
+            new RouteDefinition('POST', '/events/v1/reservation/offer', ReservationAdminControler::class, 'saveOffer', MutationResponseMode::BROWSER_FORM, 'vp.rezervace'),
+            new RouteDefinition('GET', '/events/v1/reservation/offer/:id', ReservationAdminControler::class, 'detail', null, 'vp.rezervace'),
+            new RouteDefinition('POST', '/events/v1/reservation/offer/:id', ReservationAdminControler::class, 'saveOffer', MutationResponseMode::BROWSER_FORM, 'vp.rezervace'),
+            new RouteDefinition('POST', '/events/v1/reservation/offer/:id/events', ReservationAdminControler::class, 'saveOfferEvents', MutationResponseMode::BROWSER_FORM, 'vp.rezervace'),
+            new RouteDefinition('POST', '/events/v1/reservation/offer/:id/phones-delete', ReservationAdminControler::class, 'deletePhones', MutationResponseMode::BROWSER_FORM, 'vp.rezervace'),
+            new RouteDefinition('POST', '/events/v1/reservation/offer/:id/anonymize', ReservationAdminControler::class, 'anonymize', MutationResponseMode::BROWSER_FORM, 'vp.rezervace'),
+            new RouteDefinition('GET', '/events/v1/reservation/offer/:id/csv', ReservationAdminControler::class, 'csv', null, 'vp.rezervace'),
+            new RouteDefinition('POST', '/events/v1/reservation/item/:rid', ReservationAdminControler::class, 'saveReservation', MutationResponseMode::BROWSER_FORM, 'vp.rezervace'),
+            new RouteDefinition('POST', '/events/v1/reservation/item/:rid/cancel', ReservationAdminControler::class, 'cancelReservation', MutationResponseMode::BROWSER_FORM, 'vp.rezervace'),
             // F1 + F2 (#47): trvalé odkazy s měřením a zdroj registrace (docs/vp/zadani/F1.md)
             new RouteDefinition('GET', '/events/v1/r/:code', PromoVisitControler::class, 'visit', null, 'vp.odkazy'),
             new RouteDefinition('GET', '/events/v1/r/:code/:channel', PromoVisitControler::class, 'visit', null, 'vp.odkazy'),

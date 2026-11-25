@@ -57,7 +57,8 @@ $tm = fn($v) => $v ? (new DateTimeImmutable($v))->format('G:i') : '–';
 <?php if ($stats['printed']): ?>
 <div class="card">
     <h2>PDF lístků</h2>
-    <p class="muted">PDF se vytvoří v tomto prohlížeči a uloží do počítače. Tiskněte na A4 ve skutečné velikosti (100 %).
+    <p class="muted">PDF se vytvoří v tomto prohlížeči a uloží do počítače. Tiskněte na A4 s volbou <strong>Přizpůsobit</strong> (ne „Skutečná velikost / 100 %“) a řežte podle značek:
+        čárky na okrajích listu a křížek mezi lístky; okraje listu se neořezávají.
         V jednom PDF nejvýš <?= $maxPdf ?> lístků.</p>
     <form id="lottery-paper-pdf" class="row" onsubmit="return false"
           data-url="events/v1/lottery/<?= $id ?>/paper/data"

@@ -417,6 +417,8 @@ class EventControler extends FrontControlerAbstract {
                 $this->addFlashMessage(self::MESSAGE_NOT_FOUND);
             } elseif ($this->enrollRepo->findByEvent($eventId)) {
                 $this->addFlashMessage("Event má přihlášené návštěvníky, nelze ho smazat. Zrušte zveřejnění.");
+            } elseif ($this->schoolReservationCount((int) $eventId) > 0) {
+                $this->addFlashMessage("Event má rezervace škol, nelze ho smazat. Zrušte zveřejnění.");
             } else {
                 $this->eventRepo->remove($event);
             }
@@ -426,8 +428,18 @@ class EventControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request);
     }
 
+    /** R1: počet rezervací škol na event (FK RESTRICT). Bez tabulky rezervací (migrace neproběhla) 0. */
+    private function schoolReservationCount(int $eventId): int {
+        try {
+            return $this->container->get(\Events\Service\Reservation\SchoolReservationService::class)->reservationCount($eventId);
+        } catch (\Throwable $e) {
+            return 0;
+        }
+    }
+
     /**
-     * Údaje eventu z formuláře: datum (date) + čas od a do (time), obsah, zveřejnění, odkaz pro přihlášení a vstup.
+     * Údaje eventu z formuláře: datum (date) + čas od a do (time), obsah, zveřejnění, odkaz pro přihlášení a vstup,
+     * kapacita (R1, nepovinná).
      * Neplatné datum nebo čas → hláška a false (event se neuloží ani nezmění).
      */
     private function hydrateEvent(ServerRequestInterface $request, EventInterface $event): bool {
@@ -443,8 +455,17 @@ class EventControler extends FrontControlerAbstract {
             $this->addFlashMessage("Vyberte obsah eventu.");
             return false;
         }
+        $capacityParam = $this->param($request, 'capacity');   // R1: pole je ve formuláři jen se zapnutým vp.rezervace
+        $capacityText = trim((string) $capacityParam);
+        if ($capacityText !== '' && (!ctype_digit($capacityText) || (int) $capacityText < 1 || (int) $capacityText > 100000)) {
+            $this->addFlashMessage("Kapacita musí být celé kladné číslo (počet míst), nebo nevyplněná.");
+            return false;
+        }
         $event->setStart($start);
         $event->setEnd($end);
+        if ($capacityParam !== null) {
+            $event->setCapacity($capacityText === '' ? null : (int) $capacityText);   // R1: kapacita pro rezervace škol
+        }
         $event->setPublished($this->param($request, 'published') ? 1 : 0);
         $event->setEventContentIdFk($contentId);
         $event->setEnrollLinkIdFk($this->selectParam($request, 'selectEnrollLinkId'));

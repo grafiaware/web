@@ -145,6 +145,25 @@ class ConfigurationCache {
     }
 
     /**
+     * R1: rezervace pro školy – volitelná metoda Site\{Site}\ConfigurationEvents::reservation().
+     * Site bez ní vrací prázdné pole (platí výchozí hodnoty v Events\Service\Reservation\ReservationConfig).
+     */
+    public static function reservation(): array {
+        if (isset(self::$cache['reservation'])) {
+            return self::$cache['reservation'];
+        }
+        $fqcn = SiteModules::siteNamespace(ActiveSite::name()) . '\\ConfigurationEvents';
+        $result = [];
+        if (class_exists($fqcn) && method_exists($fqcn, 'reservation')) {
+            $result = $fqcn::reservation();
+            if (!is_array($result)) {
+                throw new LogicException("$fqcn::reservation() must return array");
+            }
+        }
+        return self::$cache['reservation'] = $result;
+    }
+
+    /**
      * F1–F3: odkazy s měřením – volitelná metoda Site\{Site}\ConfigurationEvents::promo().
      * Site bez ní vrací prázdné pole (platí výchozí hodnoty v Events\Service\Promo\PromoConfig).
      */

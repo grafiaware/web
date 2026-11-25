@@ -7,8 +7,8 @@
 - **Etapy** ([README.md](README.md#etapy)): části 1–9 v etapě 5, část 10 v etapě 6
 - **Migrace (`/build`, etapa 0):** events `20261116000001_d1_create_lottery`, `20261116000002_d1c_lottery_paper` (jen přidávají)
 - **Zařízení:** počítač (správce), 1–2 telefony obsluhy (Android, iPhone) a telefon návštěvníka; tiskárna A4
-- **Účty:** `t_events_administrator` = správce i obsluha (užší role obsluhy je #90); návštěvníci `test.d1.a@example.test`,
-  `test.d1.b@example.test`, `test.d1.c@example.test` (registrace podle A1, role `visitor`); `t_representative`
+- **Účty** (role, viz [README](README.md#etapy)): `events_administrator` = správce i obsluha (užší role obsluhy je #90); návštěvníci `test.d1.a@example.test`,
+  `test.d1.b@example.test`, `test.d1.c@example.test` (registrace podle A1, role `visitor`); `representative`
 - **Automaticky pokryto unit testy:** hranice platnosti losu (30 min, 2 kola, prodloužení jen dopředu), váhy losů,
   náhoda losování, rozpoznání kódu a čísla lístku – ručně se ověřuje chování v aplikaci
 
@@ -33,7 +33,7 @@ Výsledek u každého bodu: **OK** / **CHYBA** / **NEPROVEDENO** / **NEJASNÉ**.
 | P2 | Zvolte **T** = nejbližší celých 10 minut od začátku testu (např. 14:20) a zapište do Záznamu. Kola budou v T+40, T+70 a T+100 min | | | |
 | P3 | Zaregistrovat návštěvníky A, B, C (`test.d1.*@example.test`), dokončit registraci z e-mailu | Účty s rolí `visitor` | | |
 | P4 | Vstup do administrace: statická stránka `events/admin/lottery` (položka menu, je-li) nebo přímo adresa `events/v1/lottery` | Přehled losování | | |
-| P5 | Telefon obsluhy: otevřít `https://<LAN-IP>/`, přihlásit `t_events_administrator` | Stránka bez varování o certifikátu | | |
+| P5 | Telefon obsluhy: otevřít `https://<LAN-IP>/`, přihlásit účet s rolí `events_administrator` | Stránka bez varování o certifikátu | | |
 
 ## 1. Administrace losování (správce, počítač)
 
@@ -46,19 +46,19 @@ Výsledek u každého bodu: **OK** / **CHYBA** / **NEPROVEDENO** / **NEJASNÉ**.
 | 1.5 | Ceny: „Batoh“ 2 ks bez kola, „Hrnek“ 1 ks pro kolo T+70 | „Cena uložena.“ | | |
 | 1.6 | Anketa: otázka jedna volba (povinná, 3 možnosti po řádcích), více voleb (nepovinná), textová | „Otázka uložena.“ | | |
 | 1.7 | Duplikovat kolo T+70 s časem T+130 | Nové kolo má náhradníka i cenu Hrnek (ceny kola se kopírují); pak ho smažte | | |
-| 1.8 | Jako `t_visitor` otevřít `events/v1/lottery` | „Tato stránka je jen pro obsluhu losování. Přihlaste se účtem obsluhy.“, žádná data | | |
+| 1.8 | S rolí `visitor` otevřít `events/v1/lottery` | „Tato stránka je jen pro obsluhu losování. Přihlaste se účtem obsluhy.“, žádná data | | |
 
 ## 2. Profil návštěvníka a zapojení (návštěvníci A, B, C)
 
 | # | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 |---|---|---|---|---|
 | 2.1 | Nepřihlášen: úvodní stránka | Oddíl „Losování o ceny“: „Zaregistrujte se a zapojte se do losování ve svém profilu…“ (místo „Anketa a slosování“) | | |
-| 2.2 | A: profil → „Zapojit se do losování“ bez odpovědi na povinnou otázku | Nezapojí se; „Odpovězte prosím na otázku „…““ | | |
+| 2.2 | A: profil → „Zapojit se do losování“ bez odpovědi na povinnou otázku | Nad otázkami „* povinná odpověď“, u otázek „(vyberte jednu možnost)“ / „(lze více možností)“; zaškrtnutí voleb je vidět. Nezapojí se: prohlížeč nepustí odeslání bez povinné volby, u povinné textové otázky hláška „Odpovězte prosím na otázku „…““ | | |
 | 2.3 | A: zaškrtnout souhlas s pravidly, vyplnit anketu, odeslat | „Jste zapojeni do losování. Na veletrhu ukažte u vchodu svůj QR kód…“; v profilu QR kód, „Los zatím nebyl vydán.“, odkaz na pravidla funguje | | |
 | 2.4 | smtp4dev | E-mail po zapojení s QR kódem a radou uložit si kód | | |
 | 2.5 | A: obnovit profil | Tlačítko zapojení už není; kód je stejný jako v e-mailu | | |
 | 2.6 | Zapojit B; C se nezapojí | B zapojen | | |
-| 2.7 | `t_representative`: profil | Blok losování se zapojením není; v konzoli `fetch('events/v1/lottery/<id>/join', {method: 'POST'})` → po obnovení „Do losování se mohou zapojit jen přihlášení návštěvníci.“ | | |
+| 2.7 | S rolí `representative`: profil | Blok losování se zapojením není; v konzoli `fetch('events/v1/lottery/<id>/join', {method: 'POST'})` → po obnovení „Do losování se mohou zapojit jen přihlášení návštěvníci.“ | | |
 | 2.8 | Správce změní „zapojit se do“ na včerejšek; C zkusí zapojit | Zapojení nejde (mimo období). Pak vrátit na zítřek a C se zapojí | | |
 
 ## 3. Můj kód offline (telefon návštěvníka A)
@@ -78,7 +78,7 @@ V detailu losování odkaz na skener; stanoviště zvolte na stránce skeneru. Z
 | 4.1 | Vchod: naskenovat QR návštěvníka A (v čase ≈ T) | Jméno A, „Los vydán – hraje v kolech T+40, T+70.“ (kolo T+100 ne: nejvýš 2 kola), zvuk/vibrace úspěchu | | |
 | 4.2 | Vchod: znovu A | „Přítomnost potvrzena, los platí do <čas skenu + 60 min> – hraje v kolech …“ | | |
 | 4.3 | Infostánek: B (zapojen, los nevydán) | „Los zatím nebyl vydán – pošlete návštěvníka ke vchodu.“, zvuk chyby | | |
-| 4.4 | `t_visitor` (nezapojen) otevře adresu `events/v1/mycode/page` (kód vznikne i bez zapojení); vchod: naskenovat jeho QR | „Není zapojen do losování – ať se zapojí v profilu a přijde znovu.“ | | |
+| 4.4 | Návštěvník s rolí `visitor` (nezapojen) otevře adresu `events/v1/mycode/page` (kód vznikne i bez zapojení); vchod: naskenovat jeho QR | „Není zapojen do losování – ať se zapojí v profilu a přijde znovu.“ | | |
 | 4.4b | Ručně zadat neexistující kód `ABCDEFGHJK23` | „Neznámý kód.“ | | |
 | 4.5 | Naskenovat QR s jiným textem (např. adresa webu) | „Neplatný kód.“ | | |
 | 4.6 | Vchod: B | Los vydán | | |
@@ -118,10 +118,10 @@ V detailu losování odkaz na skener; stanoviště zvolte na stránce skeneru. Z
 | 7.1 | Detail losování → „Papírové lístky“ → „Nová sada lístků“ 6 ks | „Vytvořeny lístky …“; vytištěno 6, vydáno 0, čísla 0001–0006 | | |
 | 7.2 | Další sada 2 ks | Čísla navazují: 0007–0008 | | |
 | 7.3 | „Stáhnout PDF“, 4 lístky na A4, rozsah 1–8 | Průběh, pak soubor `losovani-<id>-listky-0001-0008.pdf`; 2 strany; hláška „Hotovo: 8 lístků, 2 strany A4 …“ | | |
-| 7.4 | PDF zkontrolovat | Na lístku název losování, Jméno/Příjmení/E-mail, otázky ankety (kroužky u jedné volby, čtverečky u více voleb, čára u textu), souhlas s pravidly s adresou, malé číslo a kód; za čárkovanou čarou ústřižek s QR, velkým číslem a pokyny | | |
+| 7.4 | PDF zkontrolovat | Na lístku název losování, Jméno/Příjmení/E-mail, otázky ankety (kroužky u jedné volby, čtverečky u více voleb s „(lze více možností)“, čára u textu), pod nimi „* povinná odpověď · u kroužků vyberte jednu možnost“, souhlas s pravidly s adresou, malé číslo a kód; za čárkovanou čarou ústřižek s QR, velkým číslem a pokyny | | |
 | 7.5 | Totéž 2 lístky na A4 | 4 strany, ústřižek vpravo | | |
-| 7.6 | Vytisknout 1 stranu v měřítku 100 % | Lístky A6 (4 na A4) odpovídají střihovým čarám | | |
-| 7.7 | Přidat do ankety 8 dalších dlouhých otázek a stáhnout PDF 4 na A4 | Buď „…písmo ankety zmenšeno na … %“, nebo „Anketa se na lístek (4 na A4) nevejde. Zvolte 2 lístky na A4…“; pak otázky smazat | | |
+| 7.6 | Vytisknout 1 stranu s volbou „Přizpůsobit“ (ne 100 %); rozřezat podle značek | Celý obsah je vytištěný; na okrajích listu čárky v ose řezů, uprostřed křížek; po rozřezání (okraje listu se neřežou) má každý lístek obsah přibližně stejně daleko od všech svých okrajů | | |
+| 7.7 | Přidat do ankety 8 dalších dlouhých otázek a stáhnout PDF 4 na A4 | Buď „…písmo ankety zmenšeno na … %“, nebo „Anketa se na lístek (4 na A4) nevejde. Zvolte 2 lístky na A4…“; pak otázky smazat. Do otázky nejde napsat víc než 500 znaků (Z15); po odebrání omezení ve vývojářských nástrojích uložit delší text → varování „Otázka může mít nejvýš 500 znaků (zadáno …)“, nic se neuloží, žádná chyba databáze (#155) | | |
 | 7.8 | Export CSV lístků | Číslo, kód, adresa QR (`…/events/v1/scan/L…`) | | |
 | 7.9 | Vyhledání lístku podle čísla `5` | Lístek č. 0005, los zatím nevydán | | |
 

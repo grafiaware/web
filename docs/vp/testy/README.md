@@ -9,7 +9,10 @@ název `<kódy balíků>-test-<co se testuje>.md`.
 | [A3-A6-A8-A9-test-sprava-uctu.md](A3-A6-A8-A9-test-sprava-uctu.md) | A3, A6, A8, A9 – správa účtů a rolí | `vp.uklid-registraci`, `vp.zakladani-uctu`, `vp.osobni-jmeno`, `vp.sprava-roli` |
 | [G0-test-program.md](G0-test-program.md) | G0 – program z databáze, přihlášení na akci, administrace programu | `vp.program` |
 | [D1-D1c-test-losovani.md](D1-D1c-test-losovani.md) | D1, D1c – losování, skener, papírové lístky | `vp.losovani` |
+| [R1-test-rezervace.md](R1-test-rezervace.md) | R1 – rezervace míst na přednáškách pro školy | `vp.rezervace` |
 | [F1-F2-test-odkazy.md](F1-F2-test-odkazy.md) | F1, F2 – trvalé odkazy s měřením, zdroj registrace, promo kit | `vp.odkazy` |
+
+Vyplněné protokoly z proběhlých testů: [protokoly/](protokoly/README.md).
 
 ## Celý test nad `master-vp` s postupným zapínáním přepínačů
 
@@ -37,14 +40,15 @@ zapnuté, takže se ověří i spolupráce balíků. Na konci se vše vypne a ov
 |---|---|---|
 | **0** | žádný | `/build`: spustit všechny migrace (auth i events); web vypadá jako produkce: [A1-A2 část C](A1-A2-test-registrace-a-prihlaseni.md#c-s-vypnutými-přepínači-etapa-0), [G0 bod 0.1](G0-test-program.md#0-oprávnění-ve-správě-programu-etapa-0--platí-vždy) (oprávnění platí vždy) |
 | **1** | `vp.registrace-emailem`, `vp.prihlaseni-odkazem` | [A1-A2](A1-A2-test-registrace-a-prihlaseni.md) části A, B, D |
-| **2** | + `vp.uklid-registraci`, `vp.zakladani-uctu`, `vp.osobni-jmeno` (= K1) | [A3-A9](A3-A6-A8-A9-test-sprava-uctu.md) část 1 (zde vzniknou testovací účty `t_<role>`) |
+| **2** | + `vp.uklid-registraci`, `vp.zakladani-uctu`, `vp.osobni-jmeno` (= K1) | [A3-A9](A3-A6-A8-A9-test-sprava-uctu.md) část 1 (zde vzniknou testovací účty, pro každou roli jeden) |
 | **3** | + `vp.sprava-roli` (= K2) | [A3-A9](A3-A6-A8-A9-test-sprava-uctu.md) části 2–5 |
 | **4** | + `vp.program` | [G0](G0-test-program.md) body 0.2–0.4 a části 1–7 |
 | **5** | + `vp.losovani` | [D1-D1c](D1-D1c-test-losovani.md) části 1–9 |
+| **5b** | + `vp.rezervace` | [R1](R1-test-rezervace.md) části 1–6 |
 | **5c** | + `vp.odkazy` | [F1-F2](F1-F2-test-odkazy.md) části 1–6 |
-| **6** | vše zpět na `false` | [A3-A9 část 6](A3-A6-A8-A9-test-sprava-uctu.md#6-k0-vše-vypnuto--produkce-etapa-6), [G0 část 8](G0-test-program.md#8-vypnutý-přepínač-etapa-6), [D1-D1c část 10](D1-D1c-test-losovani.md#10-vypnutý-přepínač-etapa-6), [F1-F2 část 7](F1-F2-test-odkazy.md#7-vypnutý-přepínač-etapa-6) |
+| **6** | vše zpět na `false` | [A3-A9 část 6](A3-A6-A8-A9-test-sprava-uctu.md#6-k0-vše-vypnuto--produkce-etapa-6), [G0 část 8](G0-test-program.md#8-vypnutý-přepínač-etapa-6), [D1-D1c část 10](D1-D1c-test-losovani.md#10-vypnutý-přepínač-etapa-6), [R1 část 7](R1-test-rezervace.md#7-vypnutý-přepínač-etapa-6), [F1-F2 část 7](F1-F2-test-odkazy.md#7-vypnutý-přepínač-etapa-6) |
 
-Úplný seznam přepínačů v etapě 5 (vše zapnuto, jak má být na veletrhu):
+Úplný seznam přepínačů v etapě 5b (vše zapnuto, jak má být na veletrhu):
 
 ```php
 'vp.registrace-emailem' => true,
@@ -55,11 +59,16 @@ zapnuté, takže se ověří i spolupráce balíků. Na konci se vše vypne a ov
 'vp.sprava-roli' => true,
 'vp.program' => true,
 'vp.losovani' => true,
+'vp.rezervace' => true,
 'vp.odkazy' => true,
 ```
 
-**Testovací účty** vzniknou v etapě 2 (`t_events_administrator`, `t_visitor`, `t_representative` …) a používají se
-i v etapách 3–6. Testovací návštěvníky pro losování (D1) založte registrací se smyšlenými adresami `…@example.test`.
+**Účty a role:** scénáře uvádějí **roli**, se kterou se má tester přihlásit (např. „přihlásit se účtem s rolí
+`events_administrator`“). Role se jmenují bez prefixu: `events_administrator`, `visitor`, `representative`, `supervisor` …
+Pro každou roli vznikne v etapě 2 ([A3-A9](A3-A6-A8-A9-test-sprava-uctu.md) bod 1.2) jeden testovací účet;
+jeho přihlašovací jméno je `t_` + název role (účet `t_events_administrator` má roli `events_administrator`).
+Prefix `t_` mají jen jména těchto účtů, ne role. Kdo testovací účty nemá, použije libovolný účet s danou rolí.
+Testovací účty se používají i v etapách 3–6. Testovací návštěvníky pro losování (D1) založte registrací se smyšlenými adresami `…@example.test`.
 
 **Automatické testy** (vývojář před předáním): `vendor/bin/phpunit -c tests/phpunit.xml --testsuite unit`
 a `--testsuite integration` proti testovací DB. Pravidla platnosti losů a losování (hranice minut, váhy losů)
@@ -68,13 +77,20 @@ pokrývají unit testy, ručně se ověřuje jen chování v aplikaci.
 **E2E / Playwright:** kostra v `tests/e2e/` (Docker), plán postupné automatizace ručních scénářů —
 [E2E-PLAN.md](E2E-PLAN.md).
 
-## Jak hlásit výsledky (návrh, čeká na schválení)
+## Jak hlásit výsledky
 
-1. Tester si scénář zkopíruje a vyplní sloupce **Výsledek** a **Poznámka** (lze i v prohlížeči na GitHubu
-   přes tlačítko „Edit“ → zkopírovat obsah). Vyplněný scénář se do repa necommituje – v repu zůstává prázdný předpis.
-2. Vyplněný protokol vloží jako **komentář do issue balíku** (A1 #44, A3 #45, A6 #72, A9 #93, D1 #46, D1c #108, F1–F3 #47,
-   G0 #116). Tabulky v Markdownu GitHub zobrazí.
-3. Každá **CHYBA** se navíc založí jako samostatné issue s názvem `<kód balíku> test: <krátký popis>`,
-   s číslem bodu scénáře, postupem, očekávaným a skutečným výsledkem a snímkem obrazovky.
-4. Vývojář chybu opraví v pull requestu, který issue uzavře; tester bod zopakuje a výsledek doplní do komentáře.
-5. Když očekávaný výsledek ve scénáři není jasný, zapište to do poznámky jako **NEJASNÉ** – vývojář scénář upřesní.
+Testeři pracují jen v gitu, GitHub (issues, pull requesty) nepoužívají.
+
+1. **Větev testu:** tester si z aktuálního `master-vp` založí vlastní větev (např. `master-vp_D1-test`) a lokálně
+   zapíná přepínače podle etap. Do `master-vp` se z ní nic neslučuje.
+2. **Protokol:** tester vyplní ve scénáři sloupce **Výsledek** (OK / CHYBA / NEPROVEDENO / NEJASNÉ) a **Poznámka**,
+   tabulku Záznam testu (tester, datum, commit) a commituje do své větve – průběžně, aby nic nezůstalo jen lokálně.
+   Když očekávaný výsledek není jasný, zapíše **NEJASNÉ** a vlastními slovy, co viděl.
+3. **Převzetí:** vývojář (agent) protokol převezme z větve testera do archivu [`protokoly/`](protokoly/README.md)
+   jako `YYYY-MM-DD-<balíky>-test-<co>.md` s hlavičkou (tester, datum, testovaný commit, zdrojová větev),
+   bez lokálních přepínačů a dalších změn prostředí (`composer.lock`, konfigurace). Scénáře v této složce zůstávají
+   prázdné předpisy.
+4. **Issues:** z každé CHYBY a NEJASNÉ položky založí vývojář issue s názvem `<kód balíku> test: <krátký popis>`
+   a odkazem na řádek archivovaného protokolu; v issue balíku a v zadání (Stav a další krok) odkáže na nálezy.
+5. **Oprava a opakování:** chyba se opraví v pull requestu, který issue uzavře. Tester bod zopakuje v nové větvi
+   testu; nový protokol jde do archivu jako další soubor (archivované protokoly se nemění).

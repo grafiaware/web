@@ -51,6 +51,32 @@ class ConfigurationEvents extends ConfigurationConstants {
     }
 
     /**
+     * R1 (#48): rezervace míst na přednáškách pro školy. Popis: docs/vp/zadani/R1.md (Konfigurace).
+     * Funkci zapíná přepínač vp.rezervace (ConfigurationFeatures). Upozornění organizátorovi jdou na skupinu
+     * příjemců 'reservation.notify' v ConfigurationWeb::mail() (mail.recipients).
+     */
+    public static function reservation() {
+        return [
+            'timezone' => 'Europe/Prague',
+            'maxPerEmail' => 5,            // aktivních rezervací z jednoho e-mailu v nabídce
+            'maxPupils' => 200,            // nejvýš žáků v jedné rezervaci
+            'maxTeachers' => 20,
+            'changeDaysBefore' => 2,       // výchozí uzávěrka změn při založení nabídky: 2 dny před akcí
+            // NUTNO NAHRADIT po právní konzultaci (issue #140): texty souhlasů ve formuláři a odkaz na zásady (A4).
+            // Dokud text obsahuje „Nutno nahradit“, formulář ho zobrazí s upozorněním; vp.rezervace na produkci nezapínat.
+            'consentText' => '[Nutno nahradit] Souhlasím se zpracováním uvedených údajů za účelem rezervace a organizace '
+                . 'přednášky na Veletrhu práce a vzdělávání.',
+            'phoneConsentText' => '[Nutno nahradit] Souhlasím, aby mi organizátor v den akce krátce před začátkem přednášky '
+                . 'zavolal a ověřil příchod skupiny. Telefon se použije jen k tomu a po skončení dne akce se smaže.',
+            'policyUrl' => '',             // [Nutno nahradit] odkaz na zásady zpracování osobních údajů
+            // kontakt na organizátora (po uzávěrce změn) – adresu doplní Petr
+            'organizerContact' => PES_RUNNING_ON_PRODUCTION_HOST ? 'rezervace.skoly@mail' : 'rezervace@najdisi.test',
+            // odesílatel 'rezervace' a příjemci 'reservation.notify' jsou v ConfigurationWeb::mail()
+            'mail' => ['sender' => 'rezervace', 'notifyGroup' => 'reservation.notify'],
+        ];
+    }
+
+    /**
      * F1 + F2 (#47): trvalé odkazy /events/v1/r/<kód>[/<kanál>] s měřením. Popis: docs/vp/zadani/F1.md.
      * Funkci zapíná přepínač vp.odkazy (ConfigurationFeatures). Kanály sociálních sítí a webu jsou v tabulce
      * events.network (sloupec channel) – tady jen kanály bez vazby na síť.

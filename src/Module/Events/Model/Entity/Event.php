@@ -20,6 +20,7 @@ class Event extends PersistableEntityAbstract implements EventInterface {
     private $enrollLinkIdFk;
     private $enterLinkIdFk;
     private $eventContentIdFk;
+    private $capacity;   // R1: počet míst (NULL = bez limitu)
 
     public function getId() {
         return $this->id;
@@ -50,6 +51,15 @@ class Event extends PersistableEntityAbstract implements EventInterface {
     }
 
 
+
+    public function getCapacity(): ?int {
+        return $this->capacity === null || $this->capacity === '' ? null : (int) $this->capacity;
+    }
+
+    public function setCapacity($capacity): EventInterface {
+        $this->capacity = $capacity;
+        return $this;
+    }
 
     public function setId($id): EventInterface {
         $this->id = $id;

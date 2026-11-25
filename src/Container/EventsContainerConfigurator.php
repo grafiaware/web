@@ -153,6 +153,11 @@ use Events\Service\Lottery\LotteryMailer;
 use Events\Service\Lottery\LotteryPaperService;
 use Events\Service\Lottery\LotteryScanService;
 use Events\Service\Lottery\LotteryService;
+use Events\Middleware\Events\Controler\Reservation\ReservationAdminControler;
+use Events\Middleware\Events\Controler\Reservation\ReservationPublicControler;
+use Events\Service\Reservation\ReservationConfig;
+use Events\Service\Reservation\ReservationMailer;
+use Events\Service\Reservation\SchoolReservationService;
 use Auth\Service\Qr\QrImageGenerator;
 use Auth\Service\Source\VisitSourceStore;
 use Events\Middleware\Events\Controler\Promo\PromoAdminControler;
@@ -629,6 +634,21 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             // D1 losování (docs/vp/zadani/D1.md)
             AuthLookup::class => function(ContainerInterface $c) {
                 return new AuthLookup();
+            },
+            // R1 (#48): rezervace pro školy
+            ReservationMailer::class => function(ContainerInterface $c) {
+                return new ReservationMailer($c->get(MailInterface::class), $c->get(HtmlMessage::class), MailSettings::fromConfiguration(),
+                    ReservationConfig::fromConfiguration());
+            },
+            ReservationPublicControler::class => function(ContainerInterface $c) {
+                return (new ReservationPublicControler($c->get(StatusSecurityRepo::class), $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class), $c->get(SchoolReservationService::class),
+                        $c->get(ReservationMailer::class)))->injectContainer($c);
+            },
+            ReservationAdminControler::class => function(ContainerInterface $c) {
+                return (new ReservationAdminControler($c->get(StatusSecurityRepo::class), $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class), $c->get(SchoolReservationService::class),
+                        $c->get(ReservationMailer::class)))->injectContainer($c);
             },
             // F1 + F2 (#47): odkazy s měřením
             PromoAuthLookup::class => function(ContainerInterface $c) {

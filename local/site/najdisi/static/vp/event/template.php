@@ -61,6 +61,9 @@ $enrolled = [];
 foreach ($enrollRepo->findAll() as $enroll) {
     $enrolled[$enroll->getEventIdFk()] = ($enrolled[$enroll->getEventIdFk()] ?? 0) + 1;
 }
+// R1: obsazená místa rezervacemi škol (jen se zapnutým přepínačem vp.rezervace)
+$reserved = \Application\Feature\FeatureFlags::fromConfiguration()->isEnabled('vp.rezervace')
+    ? $container->get(\Events\Service\Reservation\SchoolReservationService::class)->occupiedByEvent() : [];
 /** @var EventRepoInterface $eventRepo */
 $eventRepo = $container->get(EventRepo::class);
 $rows = [];
@@ -68,7 +71,8 @@ foreach ($eventRepo->findAll() as $event) {
     $rows[] = ['id' => $event->getId(), 'start' => $event->getStart(), 'end' => $event->getEnd(),
         'published' => $event->getPublished(), 'contentId' => $event->getEventContentIdFk(),
         'enrollLinkId' => $event->getEnrollLinkIdFk(), 'enterLinkId' => $event->getEnterLinkIdFk(),
-        'enrolled' => $enrolled[$event->getId()] ?? 0, 'contents' => $contents, 'links' => $links];
+        'enrolled' => $enrolled[$event->getId()] ?? 0, 'contents' => $contents, 'links' => $links,
+        'capacity' => $event->getCapacity(), 'reserved' => $reserved[$event->getId()] ?? 0];
 }
 usort($rows, fn($a, $b) => ($a['start'] ? $a['start']->getTimestamp() : 0) <=> ($b['start'] ? $b['start']->getTimestamp() : 0));
 $lastDate = $rows ? end($rows)['start']?->format('Y-m-d') : '';
@@ -76,7 +80,8 @@ $lastDate = $rows ? end($rows)['start']?->format('Y-m-d') : '';
 <div class="ui segment">
     <h3>Eventy (rozpis programu)</h3>
     <p>Datum vyberte v kalendáři, čas napište (např. 10:30). Na webu se zobrazí jen zveřejněné eventy.
-        Event s přihlášenými nejde smazat – zrušte zveřejnění.</p>
+        Event s přihlášenými nejde smazat – zrušte zveřejnění.
+        Kapacita (počet míst pro žáky i pedagogy) je povinná u přednášek nabízených k rezervaci školám.</p>
     <?php if (!$contents): ?>
         <p class="ui orange message">Nejdřív založte obsahy eventů.</p>
     <?php endif; ?>
