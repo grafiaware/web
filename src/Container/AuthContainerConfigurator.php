@@ -47,6 +47,9 @@ use Auth\Service\AccountService;
 use Auth\Service\EventsLoginWriter;
 use Auth\Service\UnconfirmedRegistrationCleaner;
 use Auth\Model\Dao\LoginProfileDao;
+use Auth\Model\Dao\RegistrationSourceDao;
+use Auth\Service\RegistrationSourceService;
+use Auth\Service\Source\VisitSourceStore;
 
 use Auth\Model\Hydrator\LoginChildRegistrationHydrator;
 use Auth\Model\Repository\LoginAggregateRegistrationRepo;
@@ -297,6 +300,20 @@ class AuthContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             DisplayNameService::class => function(ContainerInterface $c) {
                 return new DisplayNameService($c->get(LoginProfileDao::class));
+            },
+            // F1 (#47): zdroj registrace
+            RegistrationSourceDao::class => function(ContainerInterface $c) {
+                return new RegistrationSourceDao(
+                        $c->get(Handler::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
+            },
+            RegistrationSourceService::class => function(ContainerInterface $c) {
+                return new RegistrationSourceService($c->get(RegistrationSourceDao::class));
+            },
+            VisitSourceStore::class => function(ContainerInterface $c) {
+                return new VisitSourceStore($c->get(\Pes\Session\SessionStatusHandlerInterface::class),
+                    max(1, (int) (\Site\ConfigurationCache::promo()['sourceCookieDays'] ?? 30)));
             },
             AccountService::class => function(ContainerInterface $c) {
                 $auth = \Site\ConfigurationCache::auth();

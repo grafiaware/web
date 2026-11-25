@@ -159,6 +159,13 @@ use Events\Service\Reservation\ReservationConfig;
 use Events\Service\Reservation\ReservationMailer;
 use Events\Service\Reservation\SchoolReservationService;
 use Auth\Service\Qr\QrImageGenerator;
+use Auth\Service\Source\VisitSourceStore;
+use Events\Middleware\Events\Controler\Promo\PromoAdminControler;
+use Events\Middleware\Events\Controler\Promo\PromoVisitControler;
+use Events\Service\Promo\PromoAuthLookup;
+use Events\Service\Promo\PromoConfig;
+use Events\Service\Promo\PromoLinkService;
+use Pes\Session\SessionStatusHandlerInterface;
 use Mail\MailSettings;
 use Mail\MessageFactory\HtmlMessage;
 use Pes\Mail\MailInterface;
@@ -642,6 +649,23 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new ReservationAdminControler($c->get(StatusSecurityRepo::class), $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class), $c->get(SchoolReservationService::class),
                         $c->get(ReservationMailer::class)))->injectContainer($c);
+            },
+            // F1 + F2 (#47): odkazy s měřením
+            PromoAuthLookup::class => function(ContainerInterface $c) {
+                return new PromoAuthLookup();
+            },
+            VisitSourceStore::class => function(ContainerInterface $c) {
+                return new VisitSourceStore($c->get(SessionStatusHandlerInterface::class), PromoConfig::fromConfiguration()->sourceCookieDays);
+            },
+            PromoVisitControler::class => function(ContainerInterface $c) {
+                return (new PromoVisitControler($c->get(StatusSecurityRepo::class), $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class), $c->get(PromoLinkService::class),
+                        $c->get(VisitSourceStore::class)))->injectContainer($c);
+            },
+            PromoAdminControler::class => function(ContainerInterface $c) {
+                return (new PromoAdminControler($c->get(StatusSecurityRepo::class), $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class), $c->get(PromoLinkService::class),
+                        $c->get(PromoAuthLookup::class)))->injectContainer($c);
             },
             LotteryMailer::class => function(ContainerInterface $c) {
                 return new LotteryMailer($c->get(MailInterface::class), $c->get(HtmlMessage::class), MailSettings::fromConfiguration(),

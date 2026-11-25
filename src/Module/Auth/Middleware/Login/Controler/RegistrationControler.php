@@ -1,6 +1,9 @@
 <?php
 namespace Auth\Middleware\Login\Controler;
 
+use Auth\Service\RegistrationSourceService;
+use Auth\Service\Source\VisitSourceStore;
+
 use Site\ConfigurationCache;
 use Mail\MailSettings;
 
@@ -99,15 +102,21 @@ class RegistrationControler extends LoginControlerAbstract
                     $loginAggregateRegistrationEntity = new LoginAggregateRegistration();
                     $loginAggregateRegistrationEntity->setLoginName($registerJmeno);
                     $loginAggregateRegistrationEntity->setRegistration($registration); // <--
+                    $added = true;
                     try {
                         $this->loginAggregateRegistrationRepo->add($loginAggregateRegistrationEntity);
                     } catch (UnableAddEntityException $unableExc){
+                        $added = false;
                         //zadej nové jméno.
                         $this->addFlashMessage("Záznam se zadaným jménem již existuje. Zadejte jiné jméno!");
                     }
                     //---------------------------------------------
                     $this->loginAggregateRegistrationRepo->flush();
                     //---------------------------------------------
+
+                    if ($added) {
+                        $this->recordSource($request, $registerJmeno);   // F1 – zdroj registrace (odkaz, kanál, UTM)
+                    }
 
                     /** @var  LoginAggregateRegistration $loginAggregateRegistrationEntity1  */
                     $loginAggregateRegistrationEntity1 = $this->loginAggregateRegistrationRepo->get($registerJmeno);
@@ -280,12 +289,32 @@ class RegistrationControler extends LoginControlerAbstract
                     (string) $requestParams->getParsedBodyParam($request, 'displayName', ''));
             }
 
+            $this->recordSource($request, $loginName);   // F1 – zdroj registrace (odkaz, kanál, UTM)
+
             $saved = $this->loginAggregateRegistrationRepo->get($loginName)->getRegistration();
             $this->authMailer()->sendRegistration($email, $loginName, $this->absoluteUrl($request, "auth/v1/confirm/{$saved->getUid()}"), $this->cleanupDays());
             $saved->setEmailTime(new \DateTime());
         }
         $this->addFlashMessage("Děkujeme. Na adresu {$email} jsme poslali e-mail s dalším postupem.");
         return $this->redirectSeeLastGet($request);
+    }
+
+    /**
+     * F1 (#47, docs/vp/zadani/F1.md): uloží zdroj návštěvy (session, se souhlasem cookie vp_zdroj) k nové registraci.
+     * Jen se zapnutým přepínačem vp.odkazy; chyba zápisu registraci nezastaví.
+     */
+    private function recordSource(ServerRequestInterface $request, string $loginName): void {
+        if (!$this->featureFlags()->isEnabled('vp.odkazy')) {
+            return;
+        }
+        try {
+            $source = $this->container->get(VisitSourceStore::class)->current($request);
+            if ($source !== null) {
+                $this->container->get(RegistrationSourceService::class)->record($loginName, $source);
+            }
+        } catch (\Throwable $e) {
+            error_log('F1 registration source failed: ' . get_class($e) . ': ' . $e->getMessage());
+        }
     }
 
     /**

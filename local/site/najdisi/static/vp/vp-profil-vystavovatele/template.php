@@ -209,6 +209,9 @@ use Auth\Model\Entity\LoginAggregateFullInterface;
 
                 <?php include "content/profil.php" ?> <!-- Tiny pro .edit-userinput -->
             </section>
+            <?php if (\Application\Feature\FeatureFlags::fromConfiguration()->isEnabled('vp.odkazy')): ?>
+                <?php include "content/promo.php" ?>   <!-- F2: promo kit – odkaz firmy, podklady ke zkopírování -->
+            <?php endif; ?>
         </article>
      
     <?php
