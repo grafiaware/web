@@ -121,7 +121,7 @@ V detailu losování odkaz na skener; stanoviště zvolte na stránce skeneru. Z
 | 7.4 | PDF zkontrolovat | Na lístku název losování, Jméno/Příjmení/E-mail, otázky ankety (kroužky u jedné volby, čtverečky u více voleb, čára u textu), souhlas s pravidly s adresou, malé číslo a kód; za čárkovanou čarou ústřižek s QR, velkým číslem a pokyny | | |
 | 7.5 | Totéž 2 lístky na A4 | 4 strany, ústřižek vpravo | | |
 | 7.6 | Vytisknout 1 stranu s volbou „Přizpůsobit“ (ne 100 %); rozřezat podle značek | Celý obsah je vytištěný; na okrajích listu čárky v ose řezů, uprostřed křížek; po rozřezání (okraje listu se neřežou) má každý lístek obsah přibližně stejně daleko od všech svých okrajů | | |
-| 7.7 | Přidat do ankety 8 dalších dlouhých otázek a stáhnout PDF 4 na A4 | Buď „…písmo ankety zmenšeno na … %“, nebo „Anketa se na lístek (4 na A4) nevejde. Zvolte 2 lístky na A4…“; pak otázky smazat | | |
+| 7.7 | Přidat do ankety 8 dalších dlouhých otázek a stáhnout PDF 4 na A4 | Buď „…písmo ankety zmenšeno na … %“, nebo „Anketa se na lístek (4 na A4) nevejde. Zvolte 2 lístky na A4…“; pak otázky smazat. Uložit otázku delší než 500 znaků → varování „Otázka může mít nejvýš 500 znaků (zadáno …)“, nic se neuloží, žádná chyba databáze (#155) | | |
 | 7.8 | Export CSV lístků | Číslo, kód, adresa QR (`…/events/v1/scan/L…`) | | |
 | 7.9 | Vyhledání lístku podle čísla `5` | Lístek č. 0005, los zatím nevydán | | |
 
