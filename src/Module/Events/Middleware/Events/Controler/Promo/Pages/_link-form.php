@@ -74,7 +74,11 @@ $target = $link['target'] ?? 'home-register';
 <?php endif; ?>
 <details>
     <summary>Texty ke kopírování (výchozí z konfigurace; <code>{url}</code> = adresa odkazu s kanálem, <code>{name}</code> = název)</summary>
-    <?php foreach (['social' => 'Příspěvek na sociální síť', 'mail' => 'E-mail', 'web' => 'Text odkazu na webu'] as $k => $label): ?>
+    <?php $textLabels = ['social' => 'Příspěvek na sociální síť', 'mail' => 'E-mail', 'web' => 'Text odkazu na webu'];
+    if (\Application\Feature\FeatureFlags::fromConfiguration()->isEnabled('vp.qr-plakaty')) {
+        $textLabels['poster'] = 'Text plakátu (podklad PDF; {url} = krátká adresa bez https://)';   // F3
+    }
+    foreach ($textLabels as $k => $label): ?>
         <label for="<?= $p ?>-t-<?= $k ?>"><?= $h($label) ?></label>
         <textarea id="<?= $p ?>-t-<?= $k ?>" name="texts[<?= $k ?>]" rows="<?= $k === 'mail' ? 6 : 2 ?>" maxlength="2000"
                   placeholder="<?= $h($config->texts[$k] ?? '') ?>"><?= $h($own[$k] ?? '') ?></textarea>

@@ -59,7 +59,7 @@
 <body>
     <header>
         <span class="t">Odkazy a zdroje registrací</span>
-        <?php if ($isAdmin): ?><a href="events/v1/promo">Přehled</a><?php endif; ?>
+        <?php if ($isAdmin): ?><a href="events/v1/promo">Přehled</a> <a href="events/v1/qr-check">Ověření QR</a><?php endif; ?>
         <a href="">Web</a>
     </header>
     <main>

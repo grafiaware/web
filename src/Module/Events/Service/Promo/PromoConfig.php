@@ -32,6 +32,7 @@ final class PromoConfig {
         'social' => 'Přijďte na Veletrh práce a vzdělávání. Registrujte se předem: {url}',
         'mail' => "Dobrý den,\n\nzveme Vás na Veletrh práce a vzdělávání.\n\nRegistrace předem: {url}\n\nS pozdravem",
         'web' => 'Veletrh práce a vzdělávání – registrace',
+        'poster' => 'Přijďte na Veletrh práce a vzdělávání. Registrujte se předem na {url}',   // F3: text plakátu v podkladu PDF
     ];
 
     public function __construct(

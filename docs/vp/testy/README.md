@@ -11,6 +11,7 @@ název `<kódy balíků>-test-<co se testuje>.md`.
 | [D1-D1c-test-losovani.md](D1-D1c-test-losovani.md) | D1, D1c – losování, skener, papírové lístky | `vp.losovani` |
 | [R1-test-rezervace.md](R1-test-rezervace.md) | R1 – rezervace míst na přednáškách pro školy | `vp.rezervace` |
 | [F1-F2-test-odkazy.md](F1-F2-test-odkazy.md) | F1, F2 – trvalé odkazy s měřením, zdroj registrace, promo kit | `vp.odkazy` |
+| [F3-test-qr-plakaty.md](F3-test-qr-plakaty.md) | F3 – QR z QRdirectoru, QR webu, podklad plakátu PDF, ověření QR | `vp.qr-plakaty` |
 
 Vyplněné protokoly z proběhlých testů: [protokoly/](protokoly/README.md).
 
@@ -46,7 +47,8 @@ zapnuté, takže se ověří i spolupráce balíků. Na konci se vše vypne a ov
 | **5** | + `vp.losovani` | [D1-D1c](D1-D1c-test-losovani.md) části 1–9 |
 | **5b** | + `vp.rezervace` | [R1](R1-test-rezervace.md) části 1–6 |
 | **5c** | + `vp.odkazy` | [F1-F2](F1-F2-test-odkazy.md) části 1–6 |
-| **6** | vše zpět na `false` | [A3-A9 část 6](A3-A6-A8-A9-test-sprava-uctu.md#6-k0-vše-vypnuto--produkce-etapa-6), [G0 část 8](G0-test-program.md#8-vypnutý-přepínač-etapa-6), [D1-D1c část 10](D1-D1c-test-losovani.md#10-vypnutý-přepínač-etapa-6), [R1 část 7](R1-test-rezervace.md#7-vypnutý-přepínač-etapa-6), [F1-F2 část 7](F1-F2-test-odkazy.md#7-vypnutý-přepínač-etapa-6) |
+| **5d** | + `vp.qr-plakaty` | [F3](F3-test-qr-plakaty.md) části 1–5 |
+| **6** | vše zpět na `false` | [A3-A9 část 6](A3-A6-A8-A9-test-sprava-uctu.md#6-k0-vše-vypnuto--produkce-etapa-6), [G0 část 8](G0-test-program.md#8-vypnutý-přepínač-etapa-6), [D1-D1c část 10](D1-D1c-test-losovani.md#10-vypnutý-přepínač-etapa-6), [R1 část 7](R1-test-rezervace.md#7-vypnutý-přepínač-etapa-6), [F1-F2 část 7](F1-F2-test-odkazy.md#7-vypnutý-přepínač-etapa-6), [F3 část 6](F3-test-qr-plakaty.md#6-vypnutý-přepínač-etapa-6) |
 
 Úplný seznam přepínačů v etapě 5b (vše zapnuto, jak má být na veletrhu):
 
@@ -61,6 +63,7 @@ zapnuté, takže se ověří i spolupráce balíků. Na konci se vše vypne a ov
 'vp.losovani' => true,
 'vp.rezervace' => true,
 'vp.odkazy' => true,
+'vp.qr-plakaty' => true,
 ```
 
 **Účty a role:** scénáře uvádějí **roli**, se kterou se má tester přihlásit (např. „přihlásit se účtem s rolí

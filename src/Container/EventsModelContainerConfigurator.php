@@ -39,6 +39,8 @@ use Events\Service\Reservation\ReservationConfig;
 use Events\Service\Reservation\SchoolReservationService;
 use Events\Model\Dao\Promo\PromoLinkDao;
 use Events\Model\Dao\Promo\PromoLinkVisitDao;
+use Events\Model\Dao\Promo\PromoQrSvgDao;
+use Events\Service\Promo\PosterDataService;
 use Events\Service\Promo\PromoConfig;
 use Events\Service\Promo\PromoLinkService;
 
@@ -530,6 +532,13 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             PromoLinkVisitDao::class => function(ContainerInterface $c) {
                 return new PromoLinkVisitDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            // F3 (#47): QR z QRdirectoru (SVG) a podklad plakátu
+            PromoQrSvgDao::class => function(ContainerInterface $c) {
+                return new PromoQrSvgDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            PosterDataService::class => function(ContainerInterface $c) {
+                return new PosterDataService($c->get(PromoLinkDao::class), $c->get(PromoQrSvgDao::class), $c->get(PromoLinkService::class));
             },
             LotteryDao::class => function(ContainerInterface $c) {
                 return new LotteryDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
