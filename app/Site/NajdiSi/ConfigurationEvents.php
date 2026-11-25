@@ -107,6 +107,8 @@ class ConfigurationEvents extends ConfigurationConstants {
                 'mail' => "Dobrý den,\n\nzveme Vás na Veletrh práce a vzdělávání 27. 1. 2027. Potkáte firmy z regionu "
                     . "včetně {name}, najdete volná místa a poradenství.\n\nRegistrace předem: {url}\n\nS pozdravem",
                 'web' => 'Veletrh práce a vzdělávání 27. 1. 2027 – registrace',
+                // F3: text plakátu v podkladu PDF pro grafika; {url} = krátká adresa odkazu k opsání (bez https://)
+                'poster' => 'Veletrh práce a vzdělávání 27. 1. 2027 – volná místa, firmy z regionu, poradenství. Registrujte se předem: {url}',
             ],
         ];
     }

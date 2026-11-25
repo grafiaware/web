@@ -3,6 +3,7 @@
  * F2 (#47, docs/vp/zadani/F1.md): promo kit „Pozvěte lidi na veletrh“ v profilu vystavovatele – odkaz firmy, podklady
  * ke zkopírování po kanálech, počet návštěv a registrací z odkazu. Odkaz firmy se založí při prvním zobrazení
  * (kód z názvu firmy, výchozí cíl úvod s oknem registrace); cíl a kód mění media manager.
+ * F3: se zapnutým vp.qr-plakaty navíc QR kód odkazu (PNG) a podklad plakátu PDF se svými údaji (pro vlastního grafika).
  * Vkládá template.php při zapnutém přepínači vp.odkazy. Očekává $container, $companyE, $representativeFromStatus.
  * Adresy jsou v šabloně s {BASE}, skript je doplní o adresu webu (document.baseURI).
  */
@@ -42,6 +43,26 @@ if ($promoLink !== null):
             z toho <b><?= (int) $promoRow['confirmed'] ?></b> potvrzených.</p>
         <?php endif; ?>
         <div class="vp-promo-copy"><?= $promoCopy ?></div>
+        <?php if (\Application\Feature\FeatureFlags::fromConfiguration()->isEnabled('vp.qr-plakaty')): ?>
+        <div class="vp-promo-poster" data-font-regular="public/assets/fonts/liberation-sans/LiberationSans-Regular.ttf"
+             data-font-bold="public/assets/fonts/liberation-sans/LiberationSans-Bold.ttf">
+            <h4 class="ui header">QR kód a plakát</h4>
+            <p><a class="ui small button" href="events/v1/promo/<?= (int) $promoLink['id'] ?>/qr.png">QR kód (PNG)</a>
+                <span class="maly text">na web, do prezentace nebo na obrazovku</span></p>
+            <p><?php foreach (\Events\Service\Promo\PosterDataService::FORMATS as $fmt): ?>
+                <button type="button" class="ui small orange button" data-poster-url="events/v1/promo/<?= (int) $promoLink['id'] ?>/poster"
+                        data-poster-format="<?= htmlspecialchars($fmt) ?>">Podklad plakátu PDF <?= htmlspecialchars($fmt) ?></button>
+            <?php endforeach; ?></p>
+            <p class="maly text">Podklad pro vašeho grafika: QR kód a texty (název, adresa, web a sociální sítě, které máte v profilu
+                zveřejněné) jako samostatné objekty bez designu – grafik z nich plakát sestaví v Illustratoru, InDesignu apod.</p>
+            <p data-poster-status class="maly text"></p>
+        </div>
+        <script src="public/assets/lib/jspdf-4.2.1.umd.min.js"></script>
+        <script src="public/assets/lib/svg2pdf-2.9.0.umd.min.js"></script>
+        <script src="public/assets/lib/qrcode-generator-2.0.4.js"></script>
+        <script src="public/site/common/js/promo-poster-pdf.js"></script>
+        <script>document.querySelectorAll('.vp-promo-poster').forEach(PromoPosterPdf.bind);</script>
+        <?php endif; ?>
         <p class="maly text">Kam odkaz vede, nastavuje organizátor veletrhu. Změnu domluvte s ním.</p>
     </div>
     <style>

@@ -1,7 +1,7 @@
 # Test F1 + F2: trvalé odkazy s měřením, zdroj registrace, promo kit
 
 - **Balíky:** F1 zdroj registrace, F2 trvalé odkazy a promo kit (#47); zadání [`F1.md`](../zadani/F1.md).
-  F3 (QR kódy z QRdirectoru, podklad plakátu, ověření QR) má vlastní scénář v dalším PR.
+  F3 (QR kódy z QRdirectoru, podklad plakátu, ověření QR) má vlastní scénář [F3-test-qr-plakaty.md](F3-test-qr-plakaty.md).
 - **Prostředí:** Docker podle [README.md](README.md#prostředí) (MariaDB, smtp4dev), `master-vp`, site NajdiSi;
   pro část 4 (sociální sítě) veřejná adresa webu s HTTPS – jinak body 4.3–4.4 NEPROVEDENO
 - **Etapy** ([README.md](README.md#etapy)): části 1–6 v etapě 5c (`vp.odkazy`), část 7 v etapě 6

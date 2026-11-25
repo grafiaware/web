@@ -161,6 +161,8 @@ use Events\Service\Reservation\SchoolReservationService;
 use Auth\Service\Qr\QrImageGenerator;
 use Auth\Service\Source\VisitSourceStore;
 use Events\Middleware\Events\Controler\Promo\PromoAdminControler;
+use Events\Middleware\Events\Controler\Promo\PromoQrControler;
+use Events\Service\Promo\PosterDataService;
 use Events\Middleware\Events\Controler\Promo\PromoVisitControler;
 use Events\Service\Promo\PromoAuthLookup;
 use Events\Service\Promo\PromoConfig;
@@ -665,7 +667,13 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             PromoAdminControler::class => function(ContainerInterface $c) {
                 return (new PromoAdminControler($c->get(StatusSecurityRepo::class), $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class), $c->get(PromoLinkService::class),
-                        $c->get(PromoAuthLookup::class)))->injectContainer($c);
+                        $c->get(PromoAuthLookup::class), $c->get(PosterDataService::class)))->injectContainer($c);
+            },
+            // F3 (#47): QR z QRdirectoru, QR webu PNG, podklad plakátu, ověření QR
+            PromoQrControler::class => function(ContainerInterface $c) {
+                return (new PromoQrControler($c->get(StatusSecurityRepo::class), $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class), $c->get(PromoLinkService::class),
+                        $c->get(PosterDataService::class), new QrImageGenerator()))->injectContainer($c);
             },
             LotteryMailer::class => function(ContainerInterface $c) {
                 return new LotteryMailer($c->get(MailInterface::class), $c->get(HtmlMessage::class), MailSettings::fromConfiguration(),

@@ -15,6 +15,11 @@
  * @var \Events\Service\Promo\PromoLinkService $links
  * @var array $companies
  * @var \Events\Service\Promo\PromoConfig $config
+ * @var bool $qrEnabled F3 – přepínač vp.qr-plakaty
+ * @var array $svgs F3 – QR z QRdirectoru
+ * @var string $linkUrl F3 – veřejná adresa odkazu bez kanálu
+ * @var array $channels kanály
+ * @var string $publicBase veřejná adresa webu
  */
 use Events\Service\Promo\PromoLinkService;
 
@@ -76,6 +81,10 @@ foreach ($daily as $perChannel) {
         tiskového kanálu (např. <code>/plakat</code>); cíl pak měníte už jen tady.</p>
     <?= $view('_copy.php', ['rows' => $copyRows, 'idPrefix' => 'c']) ?>
 </div>
+
+<?php if ($qrEnabled): ?>
+<?= $view('_qr.php', ['link' => $link, 'svgs' => $svgs, 'linkUrl' => $linkUrl, 'channels' => $channels, 'publicBase' => $publicBase]) ?>
+<?php endif; ?>
 
 <div class="card">
     <h2>Upravit odkaz</h2>

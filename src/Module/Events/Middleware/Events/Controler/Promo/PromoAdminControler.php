@@ -2,6 +2,8 @@
 
 namespace Events\Middleware\Events\Controler\Promo;
 
+use Application\Feature\FeatureFlags;
+use Events\Service\Promo\PosterDataService;
 use Events\Service\Promo\PromoAuthLookup;
 use Events\Service\Promo\PromoConfig;
 use Events\Service\Promo\PromoLinkService;
@@ -23,7 +25,8 @@ class PromoAdminControler extends PromoControlerAbstract {
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
             PromoLinkService $links,
-            private PromoAuthLookup $auth) {
+            private PromoAuthLookup $auth,
+            private ?PosterDataService $posters = null) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo, $links);
     }
 
@@ -92,6 +95,7 @@ class PromoAdminControler extends PromoControlerAbstract {
         $f = $this->filter($request);
         $f['owner'] = '';
         $overview = $this->overview($f, (int) $id);
+        $qrEnabled = $this->posters !== null && FeatureFlags::fromConfiguration()->isEnabled('vp.qr-plakaty');
         return $this->page($request, $link['name'], 'admin-link.php', [
             'link' => $link,
             'filter' => $f,
@@ -105,6 +109,12 @@ class PromoAdminControler extends PromoControlerAbstract {
             'links' => $this->links,
             'companies' => $this->links->companies(),
             'config' => $this->links->config(),
+            // F3 (#47): QR z QRdirectoru, QR webu PNG, podklad plakátu
+            'qrEnabled' => $qrEnabled,
+            'svgs' => $qrEnabled ? $this->posters->svgs((int) $id) : [],
+            'linkUrl' => $this->absoluteUrl($request, PromoLinkService::ROUTE . $link['code']),
+            'channels' => $this->links->channels(),
+            'publicBase' => $this->absoluteUrl($request, ''),
         ]);
     }
 
@@ -129,6 +139,13 @@ class PromoAdminControler extends PromoControlerAbstract {
         }
         $texts = $this->param($request, 'texts', []);
         $data['texts'] = is_array($texts) ? $texts : [];
+        if ($id !== null && !array_key_exists('poster', $data['texts'])) {
+            // F3: text plakátu je ve formuláři jen se zapnutým vp.qr-plakaty – jinak zůstává uložený
+            $own = json_decode((string) ($this->links->link((int) $id)['texts'] ?? ''), true);
+            if (is_array($own) && isset($own['poster'])) {
+                $data['texts']['poster'] = $own['poster'];
+            }
+        }
         if (($data['target'] ?? '') === PromoConfig::TARGET_PAGE) {
             $data['target_path'] = PromoLinkService::normalizeTargetPath((string) $this->param($request, 'target_path', ''),
                 $this->allowedHosts($request), $this->rootPath($request));
