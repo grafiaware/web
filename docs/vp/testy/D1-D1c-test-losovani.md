@@ -21,7 +21,7 @@
 | Commit (`git log -1 --format=%h`) | |
 | Prohlížeč počítače | |
 | Telefony (model, systém, prohlížeč) | |
-| Čas T (viz Příprava) | |
+| **Čas T** (bod P2) | |
 
 Výsledek u každého bodu: **OK** / **CHYBA** / **NEPROVEDENO** / **NEJASNÉ**. Hlášení výsledků viz [README.md](README.md).
 
@@ -30,21 +30,21 @@ Výsledek u každého bodu: **OK** / **CHYBA** / **NEPROVEDENO** / **NEJASNÉ**.
 | # | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 |---|---|---|---|---|
 | P1 | Etapa 5: `'vp.losovani' => true` (přepínače z etap 1–4 zůstávají zapnuté) | | | |
-| P2 | Zvolte **T** = nejbližší celých 10 minut od začátku testu (např. 14:20) a zapište do Záznamu. Kola budou v T+40, T+70 a T+100 min | | | |
+| P2 | Zvolte **T** = nejbližší celých 10 minut od začátku testu (např. 14:20) a **zapište ho do tabulky Záznam testu nahoře (řádek „Čas T“)**. Kola budou v T+40, T+70 a T+100 min | Čas T je v Záznamu testu | | |
 | P3 | Zaregistrovat návštěvníky A, B, C (`test.d1.*@example.test`), dokončit registraci z e-mailu | Účty s rolí `visitor` | | |
-| P4 | Vstup do administrace: statická stránka `events/admin/lottery` (položka menu, je-li) nebo přímo adresa `events/v1/lottery` | Přehled losování | | |
-| P5 | Telefon obsluhy: otevřít `https://<LAN-IP>/`, přihlásit účet s rolí `events_administrator` | Stránka bez varování o certifikátu | | |
+| P4 | Vstup do administrace: zadat přímo adresu `events/v1/lottery` (položka menu zatím není – #151) | Přehled losování | | |
+| P5 | Telefon obsluhy: nainstalovat certifikát `docker/certs/ca.pem` podle [DOCKER-WINDOWS.md, kap. 11](../DOCKER-WINDOWS.md#11-telefon-https-a-instalace-capem) (Android 11.3, iPhone 11.4; když telefon stránku nevidí, 11.5 firewall). Pak otevřít `https://<LAN-IP>/` (LAN IP: kap. 2) a přihlásit účet s rolí `events_administrator` | Stránka bez varování o certifikátu (zámek v adresním řádku) | | |
 
 ## 1. Administrace losování (správce, počítač)
 
 | # | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 |---|---|---|---|---|
-| 1.1 | „Nové losování“: název „Losování test“, popis, odkaz na pravidla `https://example.test/pravidla`, zapojit se od (dnes, bez času) do (zítra), stav otevřeno | „Losování uloženo.“; u polí vysvětlivky k odkazu na pravidla a období zapojení | | |
+| 1.1 | Přehled losování: „Nové losování“ – jen název „Losování test“ → Založit. Otevře se detail: v oddílu „Údaje losování“ vyplnit popis, odkaz na pravidla `https://example.test/pravidla`, zapojit se od (dnes, bez času) do (zítra), stav „otevřeno“ → Uložit | „Losování uloženo.“; v oddílu Údaje losování jsou šedé vysvětlivky pod odkazem na pravidla („Adresa stránky s pravidly losování…“) a pod obdobím zapojení („Období, kdy se návštěvník může v profilu zapojit…“) | | |
 | 1.2 | Kalendář u data | Zavře se kliknutím na den; čas se píše do vedlejšího pole | | |
 | 1.3 | Rozpis kol: přidat kolo v čase T+40 (např. `15.00`), T+70 s volbou „losuje se náhradník“ | Kola v seznamu, každé ve vlastním bloku; nové kolo předvyplní datum posledního | | |
-| 1.4 | U kola T+40 „Duplikovat“ s časem T+100 | „Kolo zduplikováno i s cenami kola.“; tři kola | | |
-| 1.5 | Ceny: „Batoh“ 2 ks bez kola, „Hrnek“ 1 ks pro kolo T+70 | „Cena uložena.“ | | |
-| 1.6 | Anketa: otázka jedna volba (povinná, 3 možnosti po řádcích), více voleb (nepovinná), textová | „Otázka uložena.“ | | |
+| 1.4 | U kola T+40 „Duplikovat“ s časem T+100 (duplikát = stejné kolo i s cenami v jiném čase, např. opakované kolo odpoledne; kolo T+100 se použije v bodu 5.2) | „Kolo zduplikováno i s cenami kola.“; tři kola | | |
+| 1.5 | Ceny: „Batoh“ 2 ks bez kola, „Hrnek“ 1 ks pro kolo T+70 | Po každém uložení stránka zůstane u oddílu Ceny a nahoře v okně je hláška „Cena uložena.“ (bez posouvání) | | |
+| 1.6 | Anketa: otázka jedna volba (povinná, 3 možnosti po řádcích), více voleb (nepovinná), textová | Po každém uložení stránka zůstane u oddílu Anketa a nahoře v okně je hláška „Otázka uložena.“ | | |
 | 1.7 | Duplikovat kolo T+70 s časem T+130 | Nové kolo má náhradníka i cenu Hrnek (ceny kola se kopírují); pak ho smažte | | |
 | 1.8 | S rolí `visitor` otevřít `events/v1/lottery` | „Tato stránka je jen pro obsluhu losování. Přihlaste se účtem obsluhy.“, žádná data | | |
 
@@ -52,14 +52,14 @@ Výsledek u každého bodu: **OK** / **CHYBA** / **NEPROVEDENO** / **NEJASNÉ**.
 
 | # | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 |---|---|---|---|---|
-| 2.1 | Nepřihlášen: úvodní stránka | Oddíl „Losování o ceny“: „Zaregistrujte se a zapojte se do losování ve svém profilu…“ (místo „Anketa a slosování“) | | |
+| 2.1 | *(vyřazeno – úvodní stránka je šablona z webu VP online, #158 / #163)* | – | NEPROVEDENO | |
 | 2.2 | A: profil → „Zapojit se do losování“ bez odpovědi na povinnou otázku | Nad otázkami „* povinná odpověď“, u otázek „(vyberte jednu možnost)“ / „(lze více možností)“; zaškrtnutí voleb je vidět. Nezapojí se: prohlížeč nepustí odeslání bez povinné volby, u povinné textové otázky hláška „Odpovězte prosím na otázku „…““ | | |
 | 2.3 | A: zaškrtnout souhlas s pravidly, vyplnit anketu, odeslat | „Jste zapojeni do losování. Na veletrhu ukažte u vchodu svůj QR kód…“; v profilu QR kód, „Los zatím nebyl vydán.“, odkaz na pravidla funguje | | |
 | 2.4 | smtp4dev | E-mail po zapojení s QR kódem a radou uložit si kód | | |
 | 2.5 | A: obnovit profil | Tlačítko zapojení už není; kód je stejný jako v e-mailu | | |
 | 2.6 | Zapojit B; C se nezapojí | B zapojen | | |
-| 2.7 | S rolí `representative`: profil | Blok losování se zapojením není; v konzoli `fetch('events/v1/lottery/<id>/join', {method: 'POST'})` → po obnovení „Do losování se mohou zapojit jen přihlášení návštěvníci.“ | | |
-| 2.8 | Správce změní „zapojit se do“ na včerejšek; C zkusí zapojit | Zapojení nejde (mimo období). Pak vrátit na zítřek a C se zapojí | | |
+| 2.7 | S rolí `representative`: profil vystavovatele | Blok losování v profilu není (zapojit se mohou jen návštěvníci) | | |
+| 2.8 | Správce změní „zapojit se do“ na včerejšek; C otevře profil | V profilu C blok losování není (mimo období zapojení se nezobrazuje). Pak vrátit na zítřek: blok je zpět a C se zapojí | | |
 
 ## 3. Můj kód offline (telefon návštěvníka A)
 
@@ -140,6 +140,9 @@ V detailu losování odkaz na skener; stanoviště zvolte na stránce skeneru. Z
 
 ## 9. Kontrola v databázi (etapa 5)
 
+Provádí se **po částech 2–4 a 7–8** (dotazy kontrolují jejich výsledek); když nebyly provedeny, zapište NEPROVEDENO.
+Dotaz spusťte v PowerShellu v kořeni projektu: `docker compose exec db mariadb -uroot -proot events -e "<dotaz>"` (viz [DOCKER-WINDOWS.md, kap. 10](../DOCKER-WINDOWS.md#10-databáze-stručně)).
+
 | # | Dotaz (DB events) | Očekávaný výsledek | Výsledek | Poznámka |
 |---|---|---|---|---|
 | 9.1 | `SELECT login_login_name_fk, code FROM visitor_code;` | Jeden kód na zapojený účet, 12 znaků; kód není tajný (výjimka v AGENTS.md) | | |
@@ -152,7 +155,7 @@ V detailu losování odkaz na skener; stanoviště zvolte na stránce skeneru. Z
 
 | # | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 |---|---|---|---|---|
-| 10.1 | Úvodní stránka | Zase „Anketa a slosování“ jako na produkci | | |
+| 10.1 | *(vyřazeno – úvodní stránka, viz 2.1)* | – | NEPROVEDENO | |
 | 10.2 | Profil návštěvníka | Bez bloku losování | | |
 | 10.3 | `events/v1/lottery`, `events/v1/mycode/page`, `events/v1/scan/ABC` | 404 | | |
 

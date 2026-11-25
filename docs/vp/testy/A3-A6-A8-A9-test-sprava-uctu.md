@@ -100,7 +100,7 @@ Nastavte K1, menu ve variantě (a).
 
 | # | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
 |---|---|---|---|---|
-| 1.9 | Supervisor: Nový účet, e-mail `test.a6.editor@example.test`, role `editor`, heslo (8+ znaků) | „Účet test_a6_editor (role editor) je založený.“; přihlášení jménem i e-mailem projde | | |
+| 1.9 | Supervisor: Nový účet, e-mail `test.a6.editor@example.test`, role `editor`, heslo (8+ znaků), osobní jméno **nevyplnit** (e-mail je povinný, přihlašovací jméno se vytvoří z e-mailu) | „Účet test_a6_editor (role editor) je založený.“; přihlášení jménem i e-mailem projde | | |
 | 1.10 | Supervisor: role `visitor`, bez hesla, „Heslo mailem“, osobní jméno `Jana Testová` | E-mail „Nastavení hesla“ (platnost 72 h); heslo kratší než 8 znaků odmítnuto; po nastavení přihlášen jako „Jana Testová“; odkaz podruhé „Odkaz už neplatí“ | | |
 | 1.11 | Dva účty se stejným e-mailem | Oba vzniknou; přihlášení e-mailem vyzve k zadání jména | | |
 | 1.12 | events_administrator: upraveným formulářem (nástroje prohlížeče, `<option>`) založit roli `editor` | „Účet s rolí editor nemůžete založit.“ | | |

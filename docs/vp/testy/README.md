@@ -77,6 +77,22 @@ pokrývají unit testy, ručně se ověřuje jen chování v aplikaci.
 **E2E / Playwright:** kostra v `tests/e2e/` (Docker), plán postupné automatizace ručních scénářů —
 [E2E-PLAN.md](E2E-PLAN.md).
 
+## Aktuální kolo testů: kolo 2 (od 26. 11. 2026)
+
+Opakovaný test po opravách z 1. kola (nálezy v [protokoly/](protokoly/README.md)). Postup jako v části
+[Jak hlásit výsledky](#jak-hlásit-výsledky): nová větev testu z **aktuálního** `master-vp`, např. `master-vp_test-kolo2`.
+
+| Pořadí | Scénář | Co testovat | Na co se zaměřit (opraveno od 1. kola) |
+|---|---|---|---|
+| 1 | [D1-D1c](D1-D1c-test-losovani.md) | celý (části 1–10; body 2.1 a 10.1 vyřazeny) | P5 telefon přes HTTPS (návod v DOCKER-WINDOWS kap. 11) – bez něj nejdou části 3, 4 a 8; 1.5–1.6 hlášky po uložení; 2.2–2.3 volby ankety a vysvětlivky; 7.4 vysvětlivky na lístku; 7.6 tisk „Přizpůsobit“ a řezové značky; 7.7 délka otázky |
+| 2 | [A3-A9](A3-A6-A8-A9-test-sprava-uctu.md) | body 1.9–1.11 a 4.8 | nálezy A6 z 13. 11. (osobní jméno nepovinné, e-mail povinný, „Heslo mailem“ jde zaškrtnout, druhé otevření odkazu na heslo) |
+| 3 | [R1](R1-test-rezervace.md) | celý – 1. kolo | nový balík; texty souhlasů jsou zatím „[Nutno nahradit]“ (#140) – to není chyba |
+| 4 | [F1-F2](F1-F2-test-odkazy.md) | celý – 1. kolo | nový balík |
+| – | [G0](G0-test-program.md) | **zatím netestovat** | čeká na postup založení položek menu se statickými šablonami (#151); bez něj všude 404 |
+
+Etapy přepínačů podle tabulky [Etapy](#etapy). Každý scénář = vlastní protokol (soubor scénáře vyplněný ve větvi testu);
+commitujte průběžně, po každé části.
+
 ## Jak hlásit výsledky
 
 Testeři pracují jen v gitu, GitHub (issues, pull requesty) nepoužívají.
