@@ -26,6 +26,19 @@ final class PosterRulesTest extends TestCase {
         $this->assertStringContainsString('d="M0 0h7v7H0z M8 0h1v1H8z"', $r['svg']);
     }
 
+    /** Skutečný export SVG z QRdirectoru (Petr, 25. 11. 2026): bílé pozadí + jedna cesta, QR vede na qr.grafia.cz. */
+    public function testQrDirectorExportUnchanged(): void {
+        $raw = file_get_contents(__DIR__ . '/fixtures/qrdirector-export.svg');
+        $r = SvgQrSanitizer::sanitize($raw);
+        $this->assertNull($r['error']);
+        $this->assertSame(2, $r['shapes']);
+        $this->assertStringContainsString('viewBox="0 0 642 642"', $r['svg']);
+        preg_match('/ d="([^"]+)"/', $raw, $in);
+        preg_match('/ d="([^"]+)"/', $r['svg'], $out);
+        $this->assertSame($in[1], $out[1], 'moduly QR beze změny');
+        $this->assertStringContainsString('fill="#ffffff"', $r['svg']);
+    }
+
     public function testDangerousContentRemoved(): void {
         $svg = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 10 10" onload="alert(1)">'
             . '<script>alert(1)</script><style>@import url(http://x/a.css); .d{fill:#000}</style>'
