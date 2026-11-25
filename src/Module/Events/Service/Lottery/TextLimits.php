@@ -5,7 +5,8 @@ namespace Events\Service\Lottery;
 /**
  * D1 (#155): nejvyšší délky textů z administrace losování (ve znacích), podle sloupců v DB.
  * VARCHAR(n) = n znaků; TEXT (65 535 B) s rezervou pro 4bajtové znaky utf8mb4.
- * Kontroluje kontrolér před uložením, šablony dávají stejné hodnoty do maxlength.
+ * Kontroluje kontrolér před uložením (oprava chyby: dřív PDOException). Omezení přímo ve formulářích (maxlength)
+ * patří do jednotného systému formulářů – balík Z15.
  */
 final class TextLimits {
 

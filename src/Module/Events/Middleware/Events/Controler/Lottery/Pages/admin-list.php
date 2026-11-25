@@ -3,7 +3,6 @@
 /** @var array $lotteries */
 /** @var bool $isAdmin */
 use Events\Service\Lottery\LotteryService;
-use Events\Service\Lottery\TextLimits;
 ?>
 <div class="card">
     <h1>Losování</h1>
@@ -22,7 +21,7 @@ use Events\Service\Lottery\TextLimits;
 <div class="card">
     <h2>Nové losování</h2>
     <form method="POST" action="events/v1/lottery">
-        <label for="name">Název</label><input type="text" id="name" name="name" maxlength="<?= TextLimits::LOTTERY['name'] ?>" required placeholder="např. Veletrh 2027 – na místě">
+        <label for="name">Název</label><input type="text" id="name" name="name" required placeholder="např. Veletrh 2027 – na místě">
         <p><button type="submit">Založit</button></p>
     </form>
 </div>

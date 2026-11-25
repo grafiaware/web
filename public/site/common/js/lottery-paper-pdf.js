@@ -133,24 +133,6 @@
             y += line + 2 * s;
         });
 
-        // #156: jeden řádek vysvětlivek (hvězdička, kroužky); u otázek by zvětšil anketu o řádky
-        var legend = [];
-        if (data.questions.some(function (q) { return q.required; })) {
-            legend.push('* povinná odpověď');
-        }
-        if (data.questions.some(function (q) { return q.type === 'single' && q.options.length; })) {
-            legend.push('u kroužků vyberte jednu možnost');
-        }
-        if (legend.length) {
-            doc.setFont('LS', 'normal');
-            doc.setFontSize(fs * 0.85);
-            if (draw) {
-                doc.text(legend.join(' · '), x, y, {baseline: 'top'});
-            }
-            y += mm(fs * 0.85) * LH + 1 * s;
-            doc.setFontSize(fs);
-        }
-
         var consent = 'Souhlasím s pravidly losování' + (data.lottery.rulesText ? ' (' + data.lottery.rulesText + ')' : '') + '.';
         var box = 2.3 * s;
         var cl = doc.splitTextToSize(consent, w - box - 1);

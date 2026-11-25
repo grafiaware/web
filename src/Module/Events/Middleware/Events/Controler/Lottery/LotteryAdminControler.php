@@ -64,11 +64,11 @@ class LotteryAdminControler extends LotteryControlerAbstract {
         $data['join_from'] = $this->dateTimeParam($request, 'join_from', '00:00');
         $data['join_until'] = $this->dateTimeParam($request, 'join_until', '23:59');
         if (($tooLong = TextLimits::check(TextLimits::LOTTERY, $data)) !== null) {
-            return $this->tooLong($request, $tooLong, $id === null ? 'events/v1/lottery' : "events/v1/lottery/{$id}#udaje");
+            return $this->tooLong($request, $tooLong, $id === null ? 'events/v1/lottery' : "events/v1/lottery/{$id}");
         }
         $lid = $this->lotteries->saveLottery($id === null ? null : (int) $id, $data);
         $this->addFlashMessage('Losování uloženo.', FlashSeverityEnum::SUCCESS);
-        return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$lid}" . ($id === null ? '' : '#udaje'));
+        return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$lid}");
     }
 
     public function saveRound(ServerRequestInterface $request, $id, $roundId = null): ResponseInterface {
@@ -78,7 +78,7 @@ class LotteryAdminControler extends LotteryControlerAbstract {
         $ok = $this->lotteries->saveRound((int) $id, $roundId === null ? null : (int) $roundId,
             (string) $this->dateTimeParam($request, 'draw_at'), (bool) $this->param($request, 'substitute', false));
         $this->addFlashMessage($ok ? 'Kolo uloženo.' : 'Zadejte datum a čas kola (např. 10:30).', $ok ? FlashSeverityEnum::SUCCESS : FlashSeverityEnum::WARNING);
-        return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$id}#kola");
+        return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$id}");
     }
 
     /** Duplikát kola s novým časem (včetně cen vázaných na kolo). */
@@ -88,7 +88,7 @@ class LotteryAdminControler extends LotteryControlerAbstract {
         }
         $ok = $this->lotteries->copyRound((int) $id, (int) $roundId, (string) $this->dateTimeParam($request, 'draw_at'));
         $this->addFlashMessage($ok ? 'Kolo zduplikováno i s cenami kola.' : 'Zadejte datum a čas nového kola (např. 14:30).', $ok ? FlashSeverityEnum::SUCCESS : FlashSeverityEnum::WARNING);
-        return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$id}#kola");
+        return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$id}");
     }
 
     public function removeRound(ServerRequestInterface $request, $id, $roundId): ResponseInterface {
@@ -97,7 +97,7 @@ class LotteryAdminControler extends LotteryControlerAbstract {
         }
         $ok = $this->lotteries->removeRound((int) $roundId);
         $this->addFlashMessage($ok ? 'Kolo smazáno.' : 'Vylosované kolo nelze smazat.', $ok ? FlashSeverityEnum::SUCCESS : FlashSeverityEnum::WARNING);
-        return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$id}#kola");
+        return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$id}");
     }
 
     public function savePrize(ServerRequestInterface $request, $id, $prizeId = null): ResponseInterface {
@@ -106,11 +106,11 @@ class LotteryAdminControler extends LotteryControlerAbstract {
         }
         $data = $this->fields($request, ['name', 'quantity', 'priority', 'round_id_fk']);
         if (($tooLong = TextLimits::check(TextLimits::PRIZE, $data)) !== null) {
-            return $this->tooLong($request, $tooLong, "events/v1/lottery/{$id}#ceny");
+            return $this->tooLong($request, $tooLong, "events/v1/lottery/{$id}");
         }
         $this->lotteries->savePrize((int) $id, $prizeId === null ? null : (int) $prizeId, $data);
         $this->addFlashMessage('Cena uložena.', FlashSeverityEnum::SUCCESS);
-        return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$id}#ceny");
+        return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$id}");
     }
 
     public function removePrize(ServerRequestInterface $request, $id, $prizeId): ResponseInterface {
@@ -119,7 +119,7 @@ class LotteryAdminControler extends LotteryControlerAbstract {
         }
         $ok = $this->lotteries->removePrize((int) $prizeId);
         $this->addFlashMessage($ok ? 'Cena smazána.' : 'Vylosovanou cenu nelze smazat.', $ok ? FlashSeverityEnum::SUCCESS : FlashSeverityEnum::WARNING);
-        return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$id}#ceny");
+        return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$id}");
     }
 
     public function saveQuestion(ServerRequestInterface $request, $id, $questionId = null): ResponseInterface {
@@ -128,11 +128,11 @@ class LotteryAdminControler extends LotteryControlerAbstract {
         }
         $data = $this->fields($request, ['text', 'type', 'options', 'required', 'position']);
         if (($tooLong = TextLimits::check(TextLimits::QUESTION, $data)) !== null) {
-            return $this->tooLong($request, $tooLong, "events/v1/lottery/{$id}#anketa");
+            return $this->tooLong($request, $tooLong, "events/v1/lottery/{$id}");
         }
         $this->lotteries->saveQuestion((int) $id, $questionId === null ? null : (int) $questionId, $data);
         $this->addFlashMessage('Otázka uložena.', FlashSeverityEnum::SUCCESS);
-        return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$id}#anketa");
+        return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$id}");
     }
 
     public function removeQuestion(ServerRequestInterface $request, $id, $questionId): ResponseInterface {
@@ -141,7 +141,7 @@ class LotteryAdminControler extends LotteryControlerAbstract {
         }
         $ok = $this->lotteries->removeQuestion((int) $questionId);
         $this->addFlashMessage($ok ? 'Otázka smazána.' : 'Otázku, na kterou už někdo odpověděl, nelze smazat.', $ok ? FlashSeverityEnum::SUCCESS : FlashSeverityEnum::WARNING);
-        return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$id}#anketa");
+        return $this->createResponseRedirectSeeOther($request, "events/v1/lottery/{$id}");
     }
 
     /** Přehled výher; vyhledání výherce podle e-mailu (vyzvednutí v sídle). */
