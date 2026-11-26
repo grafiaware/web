@@ -27,6 +27,7 @@ class ConfigurationFeatures {
             'vp.odkazy' => false,               // F1 + F2 – trvalé odkazy /events/v1/r/<kód>, zdroj registrace, přehled, promo kit
             'vp.qr-plakaty' => false,           // F3 – QR z QRdirectoru (SVG), podklad plakátu PDF, QR v promo kitu (jen se zapnutým vp.odkazy)
             'vp.losovani' => false,             // D1, D1c – losování: zapojení s anketou, QR v profilu, skener, losování kol, papírové lístky
+            'vp.profil-dokumenty' => false,     // #180 (příprava) – životopis a motivační dopis v profilu návštěvníka (jednoduchý formulář)
             'vp.zajem-email' => false,          // #173 – e-mail zástupcům firmy a potvrzení návštěvníkovi při odeslání zájmu o pozici
         ];
     }
