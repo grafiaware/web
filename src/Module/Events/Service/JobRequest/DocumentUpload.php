@@ -33,6 +33,15 @@ class DocumentUpload {
         );
     }
 
+    /** @return string[] povolené přípony s tečkou (atribut accept formuláře) */
+    public function acceptedExtensions(): array {
+        return $this->acceptedExtensions;
+    }
+
+    public function maxSizeMb(): int {
+        return (int) round($this->maxSize / 1048576);
+    }
+
     /** Byl ve formuláři vybrán soubor? (prázdné pole input type=file posílá UPLOAD_ERR_NO_FILE) */
     public function isSent(?UploadedFileInterface $file): bool {
         return isset($file) && $file->getError() !== UPLOAD_ERR_NO_FILE;
