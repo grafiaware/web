@@ -147,6 +147,9 @@ use Events\Middleware\Events\Controler\Lottery\LotteryPaperControler;
 use Events\Middleware\Events\Controler\Lottery\LotteryStaffControler;
 use Events\Middleware\Events\Controler\Lottery\LotteryVisitorControler;
 use Events\Service\Lottery\AuthLookup;
+use Events\Service\JobRequest\DocumentUpload;
+use Events\Service\JobRequest\JobRequestDocuments;
+use Events\Service\JobRequest\JobRequestMailer;
 use Events\Service\Lottery\LotteryConfig;
 use Events\Service\Lottery\LotteryDrawService;
 use Events\Service\Lottery\LotteryMailer;
@@ -761,7 +764,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(VisitorJobRequestRepo::class),
                         $c->get(DocumentRepo::class),
                         $c->get(RepresentativeRepo::class),
-                        $c->get(JobRepo::class)
+                        $c->get(JobRepo::class),
+                        $c->get(DocumentUpload::class)
                         )
                        )->injectContainer($c);
             },
@@ -774,9 +778,22 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(VisitorJobRequestRepo::class),
                         $c->get(DocumentRepo::class),
                         $c->get(RepresentativeRepo::class),
-                        $c->get(JobRepo::class)
+                        $c->get(JobRepo::class),
+                        $c->get(JobRequestDocuments::class),
+                        $c->get(JobRequestMailer::class),
+                        $c->get(AuthLookup::class)
                         )
                        )->injectContainer($c);
+            },
+            DocumentUpload::class => function(ContainerInterface $c) {
+                return DocumentUpload::fromConfiguration();
+            },
+            JobRequestDocuments::class => function(ContainerInterface $c) {
+                return new JobRequestDocuments($c->get(DocumentRepo::class), $c->get(DocumentUpload::class));
+            },
+            JobRequestMailer::class => function(ContainerInterface $c) {
+                return new JobRequestMailer($c->get(MailInterface::class), $c->get(HtmlMessage::class),
+                        MailSettings::fromConfiguration(), $c->get(DocumentRepo::class));
             },
 
             CompanyControler::class => function(ContainerInterface $c) {
