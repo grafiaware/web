@@ -8,6 +8,7 @@ use Component\ViewModel\FamilyInterface;
 use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\JobRepoInterface;
 use Events\Model\Repository\VisitorJobRequestRepoInterface;
+use Events\Model\Repository\RepresentativeRepoInterface;
 use Events\Model\Entity\VisitorJobRequestInterface;
 use Events\Model\Entity\VisitorJobRequest;
 
@@ -23,13 +24,23 @@ class JobFamilyJobRequestListViewModel extends ViewModelFamilyListAbstract {
     
     private $status;
     private $jobRequestRepo;
-    
+    /** @var JobRepoInterface */
+    private $jobRepo;
+    /** @var RepresentativeRepoInterface */
+    private $representativeRepo;
+
+    use JobRequestAccessTrait;   // #171: kdo smí vidět zájmy o pozici
+
     public function __construct(
             StatusViewModelInterface $status,
-            VisitorJobRequestRepoInterface $jobRequestRepo            
+            VisitorJobRequestRepoInterface $jobRequestRepo,
+            JobRepoInterface $jobRepo,
+            RepresentativeRepoInterface $representativeRepo
             ) {
         $this->status = $status;
         $this->jobRequestRepo = $jobRequestRepo;
+        $this->jobRepo = $jobRepo;
+        $this->representativeRepo = $representativeRepo;
     }
 
     private function isAdministrator() {
@@ -58,7 +69,17 @@ class JobFamilyJobRequestListViewModel extends ViewModelFamilyListAbstract {
 
     protected function loadListEntities() {
         if (!$this->listEntities) {
-            $this->listEntities = $this->jobRequestRepo->find( "job_id = :jobId ",  ['jobId'=> $this->getFamilyRouteSegment()->getParentId()] );
+            $jobId = $this->getFamilyRouteSegment()->getParentId();
+            $loginName = $this->status->getUserLoginName();
+            if ($this->canSeeAllJobRequests($jobId)) {
+                // #171: všechny zájmy o pozici jen zástupce firmy pozice a administrátor
+                $this->listEntities = $this->jobRequestRepo->find( "job_id = :jobId ",  ['jobId'=> $jobId] );
+            } elseif ($this->isVisitor() && isset($loginName)) {
+                // návštěvník jen svůj zájem
+                $this->listEntities = $this->jobRequestRepo->find( "job_id = :jobId AND login_login_name = :loginName ",  ['jobId'=> $jobId, 'loginName' => $loginName] );
+            } else {
+                $this->listEntities = [];
+            }
         }
     }
 

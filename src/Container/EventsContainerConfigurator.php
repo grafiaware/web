@@ -1034,12 +1034,15 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(JobRepo::class),
                         $c->get(VisitorJobRequestRepo::class),
                         $c->get(VisitorProfileRepo::class),
+                        $c->get(RepresentativeRepo::class),     // #171
                     );
             },                    
             JobFamilyJobRequestListViewModel::class => function(ContainerInterface $c) {
                 return new JobFamilyJobRequestListViewModel(
                         $c->get(StatusViewModel::class),
                         $c->get(VisitorJobRequestRepo::class),
+                        $c->get(JobRepo::class),                // #171
+                        $c->get(RepresentativeRepo::class),     // #171
                     );
             },     
                     

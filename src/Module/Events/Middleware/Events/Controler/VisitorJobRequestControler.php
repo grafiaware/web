@@ -384,7 +384,7 @@ class VisitorJobRequestControler extends FrontControlerAbstract {
      * @param type $jobId
      * @return type
      */
-    public function sendJobRequest(ServerRequestInterface $request, $visitorLoginName, $jobId) {          
+    public function sendJobRequest(ServerRequestInterface $request, $jobId, $visitorLoginName) {   // #172: pořadí podle routy /job/:jobId/jobrequest/:loginloginname/send          
         $isRepresentative = false;
         
         /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -402,7 +402,7 @@ class VisitorJobRequestControler extends FrontControlerAbstract {
             if (isset($role) AND ($role==ConfigurationCache::auth()['roleRepresentative'])   ) {                
                 /**  @var  Job $job  */
                 $job = $this->jobRepo->get($jobId);
-                if ( $this->representativeRepo->get($namePrihlasenehoRepresentanta, $job->getCompanyId()) )  {                                          
+                if ( isset($job) AND $this->representativeRepo->get($namePrihlasenehoRepresentanta, $job->getCompanyId()) )  {                                          
                     $isRepresentative = true;                                           
                     $mailPrihlasenehoRepresentanta = $loginAggregateFull->getRegistration()->getEmail();            
                 }    
