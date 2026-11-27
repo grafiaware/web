@@ -73,24 +73,27 @@ class ValidatingService implements ValidatingServiceInterface {
                 try {
                     //validovat                    
                     $this->validateUserByAuthServer($request, $validatedUserName);
+                    // řádek events.login podle uživatele v session (oprávnění už drží session)
                     $this->loginService->setAddUserNameToEventsLogin($validatedUserName);
 //                    $this->fileLogger?->notice("* " . $validatedUserName . " je validní uživatel( je v single_login)," .
 //                                       ' pokud nebyl v tabulce events.login. -> tak tam byl přidán.' ); 
-                    //není-li ve statusu security (prvni request, jeste nezvalidovano), poznamenat do statusu security 
+                    // pokus o HTTP synchronizaci v této session už proběhl
                     if (!$security->isUserNameVerifiedWithinSession($validatedUserName)) {
                         $security->addUserNameVerifiedWithinSession($validatedUserName);
                     }                    
                 }
                 catch (ValidatingException $e) {
-                    $security->removeContext();   
+                    // auth účet explicitně nezná — upraví se jen events.login, session zůstává
                     $this->loginService->setDeleteUserNameFromEventsLogin($validatedUserName);
 //                    $this->fileLogger?->notice("* " . $validatedUserName . " není validní uživatel (není v single_login)." .
 //                                                       " - a byl 'vymazán' z tabulky events.login (byl-li tam)" );                         
                     $this->fileLogger?->error($e->getMessage());  
                 }  
                 catch (ConnectionException $e) {
-                    $security->removeContext();   
-                    $this->fileLogger?->error($e->getMessage());  
+                    // výpadek spojení není odhlášení; lokální řádek se doplní ze session
+                    $this->loginService->setAddUserNameToEventsLogin($validatedUserName);
+                    $this->fileLogger?->error($e->getMessage());
+                    $this->reportFailedHttpSync();
                 }
             }
             else{   //neni  $validatedUserName                  
@@ -108,7 +111,10 @@ class ValidatingService implements ValidatingServiceInterface {
      * @param string $validatedUserName
      * @return void
      */
-    private function validateUserByAuthServer( ServerRequestInterface $request, string $validatedUserName ):void {                               
+    /**
+     * Viditelnost protected kvůli testu reakce na výjimku bez skutečného HTTP.
+     */
+    protected function validateUserByAuthServer( ServerRequestInterface $request, string $validatedUserName ):void {                               
 
         $scheme = $request->getUri()->getScheme();
         $host = $request->getUri()->getHost();
@@ -157,6 +163,22 @@ class ValidatingService implements ValidatingServiceInterface {
             throw new LogicException("Atribut requestu ".Request::URI_INFO_ATTRIBUTE_NAME." neobsahuje objekt typu ".UriInfoInterface::class.".");
         }
         return $uriInfo;
+    }
+
+    /**
+     * Výpadek HTTP synchronizace. Zpráva se hned uloží do flash, protože cascade
+     * požadavek session zavře dřív, než FlashStatus stihne storeMessages().
+     */
+    private function reportFailedHttpSync(): void {
+        $flash = $this->statusFlashRepo->get();
+        if ($flash === null) {
+            return;
+        }
+        $flash->setMessage(
+            'Spojení s auth serverem se nezdařilo, účet se nepodařilo synchronizovat. Přihlášení zůstává.',
+            FlashSeverityEnum::WARNING
+        );
+        $flash->storeMessages();
     }
     
      
