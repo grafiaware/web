@@ -147,6 +147,9 @@ use Events\Middleware\Events\Controler\Lottery\LotteryPaperControler;
 use Events\Middleware\Events\Controler\Lottery\LotteryStaffControler;
 use Events\Middleware\Events\Controler\Lottery\LotteryVisitorControler;
 use Events\Service\Lottery\AuthLookup;
+use Events\Service\JobRequest\DocumentUpload;
+use Events\Service\JobRequest\JobRequestDocuments;
+use Events\Service\JobRequest\JobRequestMailer;
 use Events\Service\Lottery\LotteryConfig;
 use Events\Service\Lottery\LotteryDrawService;
 use Events\Service\Lottery\LotteryMailer;
@@ -159,6 +162,15 @@ use Events\Service\Reservation\ReservationConfig;
 use Events\Service\Reservation\ReservationMailer;
 use Events\Service\Reservation\SchoolReservationService;
 use Auth\Service\Qr\QrImageGenerator;
+use Auth\Service\Source\VisitSourceStore;
+use Events\Middleware\Events\Controler\Promo\PromoAdminControler;
+use Events\Middleware\Events\Controler\Promo\PromoQrControler;
+use Events\Service\Promo\PosterDataService;
+use Events\Middleware\Events\Controler\Promo\PromoVisitControler;
+use Events\Service\Promo\PromoAuthLookup;
+use Events\Service\Promo\PromoConfig;
+use Events\Service\Promo\PromoLinkService;
+use Pes\Session\SessionStatusHandlerInterface;
 use Mail\MailSettings;
 use Mail\MessageFactory\HtmlMessage;
 use Pes\Mail\MailInterface;
@@ -643,6 +655,29 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class), $c->get(SchoolReservationService::class),
                         $c->get(ReservationMailer::class)))->injectContainer($c);
             },
+            // F1 + F2 (#47): odkazy s měřením
+            PromoAuthLookup::class => function(ContainerInterface $c) {
+                return new PromoAuthLookup();
+            },
+            VisitSourceStore::class => function(ContainerInterface $c) {
+                return new VisitSourceStore($c->get(SessionStatusHandlerInterface::class), PromoConfig::fromConfiguration()->sourceCookieDays);
+            },
+            PromoVisitControler::class => function(ContainerInterface $c) {
+                return (new PromoVisitControler($c->get(StatusSecurityRepo::class), $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class), $c->get(PromoLinkService::class),
+                        $c->get(VisitSourceStore::class)))->injectContainer($c);
+            },
+            PromoAdminControler::class => function(ContainerInterface $c) {
+                return (new PromoAdminControler($c->get(StatusSecurityRepo::class), $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class), $c->get(PromoLinkService::class),
+                        $c->get(PromoAuthLookup::class), $c->get(PosterDataService::class)))->injectContainer($c);
+            },
+            // F3 (#47): QR z QRdirectoru, QR webu PNG, podklad plakátu, ověření QR
+            PromoQrControler::class => function(ContainerInterface $c) {
+                return (new PromoQrControler($c->get(StatusSecurityRepo::class), $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class), $c->get(PromoLinkService::class),
+                        $c->get(PosterDataService::class), new QrImageGenerator()))->injectContainer($c);
+            },
             LotteryMailer::class => function(ContainerInterface $c) {
                 return new LotteryMailer($c->get(MailInterface::class), $c->get(HtmlMessage::class), MailSettings::fromConfiguration(),
                     LotteryConfig::fromConfiguration());
@@ -729,7 +764,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(VisitorJobRequestRepo::class),
                         $c->get(DocumentRepo::class),
                         $c->get(RepresentativeRepo::class),
-                        $c->get(JobRepo::class)
+                        $c->get(JobRepo::class),
+                        $c->get(DocumentUpload::class)
                         )
                        )->injectContainer($c);
             },
@@ -742,9 +778,22 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(VisitorJobRequestRepo::class),
                         $c->get(DocumentRepo::class),
                         $c->get(RepresentativeRepo::class),
-                        $c->get(JobRepo::class)
+                        $c->get(JobRepo::class),
+                        $c->get(JobRequestDocuments::class),
+                        $c->get(JobRequestMailer::class),
+                        $c->get(AuthLookup::class)
                         )
                        )->injectContainer($c);
+            },
+            DocumentUpload::class => function(ContainerInterface $c) {
+                return DocumentUpload::fromConfiguration();
+            },
+            JobRequestDocuments::class => function(ContainerInterface $c) {
+                return new JobRequestDocuments($c->get(DocumentRepo::class), $c->get(DocumentUpload::class));
+            },
+            JobRequestMailer::class => function(ContainerInterface $c) {
+                return new JobRequestMailer($c->get(MailInterface::class), $c->get(HtmlMessage::class),
+                        MailSettings::fromConfiguration(), $c->get(DocumentRepo::class));
             },
 
             CompanyControler::class => function(ContainerInterface $c) {
@@ -1002,12 +1051,15 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(JobRepo::class),
                         $c->get(VisitorJobRequestRepo::class),
                         $c->get(VisitorProfileRepo::class),
+                        $c->get(RepresentativeRepo::class),     // #171
                     );
             },                    
             JobFamilyJobRequestListViewModel::class => function(ContainerInterface $c) {
                 return new JobFamilyJobRequestListViewModel(
                         $c->get(StatusViewModel::class),
                         $c->get(VisitorJobRequestRepo::class),
+                        $c->get(JobRepo::class),                // #171
+                        $c->get(RepresentativeRepo::class),     // #171
                     );
             },     
                     

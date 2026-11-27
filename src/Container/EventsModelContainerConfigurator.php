@@ -37,6 +37,12 @@ use Events\Model\Dao\Reservation\ReservationOfferDao;
 use Events\Model\Dao\Reservation\SchoolReservationDao;
 use Events\Service\Reservation\ReservationConfig;
 use Events\Service\Reservation\SchoolReservationService;
+use Events\Model\Dao\Promo\PromoLinkDao;
+use Events\Model\Dao\Promo\PromoLinkVisitDao;
+use Events\Model\Dao\Promo\PromoQrSvgDao;
+use Events\Service\Promo\PosterDataService;
+use Events\Service\Promo\PromoConfig;
+use Events\Service\Promo\PromoLinkService;
 
 use Events\Model\Dao\LoginDao;
 use Events\Model\Hydrator\LoginHydrator;
@@ -516,6 +522,23 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             SchoolReservationDao::class => function(ContainerInterface $c) {
                 return new SchoolReservationDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            // F2 (#47): trvalé odkazy s měřením
+            PromoLinkService::class => function(ContainerInterface $c) {
+                return new PromoLinkService($c->get(PromoLinkDao::class), $c->get(PromoLinkVisitDao::class), PromoConfig::fromConfiguration());
+            },
+            PromoLinkDao::class => function(ContainerInterface $c) {
+                return new PromoLinkDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            PromoLinkVisitDao::class => function(ContainerInterface $c) {
+                return new PromoLinkVisitDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            // F3 (#47): QR z QRdirectoru (SVG) a podklad plakátu
+            PromoQrSvgDao::class => function(ContainerInterface $c) {
+                return new PromoQrSvgDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            PosterDataService::class => function(ContainerInterface $c) {
+                return new PosterDataService($c->get(PromoLinkDao::class), $c->get(PromoQrSvgDao::class), $c->get(PromoLinkService::class));
             },
             LotteryDao::class => function(ContainerInterface $c) {
                 return new LotteryDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);

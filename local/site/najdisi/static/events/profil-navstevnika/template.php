@@ -28,12 +28,16 @@ if ($isVisitor) {
     if (\Application\Feature\FeatureFlags::fromConfiguration()->isEnabled('vp.losovani')) {
         include __DIR__ . '/../../vp/vp-profil-navstevnika/content/losovani.php';
     }
-echo Html::tag('div', 
+echo Html::tag('div',
         [
             'class'=>'cascade',
             'data-red-apiuri'=>"events/v1/data/visitorprofile/$loginName"
         ]
     );
+    // #180 (příprava): životopis a motivační dopis – jednoduchý formulář do rozhodnutí o UI (#170, Z15)
+    if (\Application\Feature\FeatureFlags::fromConfiguration()->isEnabled('vp.profil-dokumenty')) {
+        include __DIR__ . '/content/dokumenty.php';
+    }
 } else {
     echo Html::tag('div', ["class"=>"ui blue segment"],
                     Html::p("Stránka je určena pouze přihlášenému návštěvníkovi.")

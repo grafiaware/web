@@ -142,6 +142,7 @@ Stejný jako D1: `vp.losovani`.
 
 ## Stav a další krok
 
+24. 11. 2026: ruční test D1c (vlse2610, 19. 11.) v PR #150. Nálezy: #153 PDF se při tisku 100 % nevejde na A4, vodítka střihu nejsou vidět (k rozhodnutí: způsob tisku), #155 otázka > 500 znaků, #156 vysvětlivky na lístku. Další krok: rozhodnutí k #153, oprava, test tisku.
 24. 11. 2026 (#153, větev `vp/d1c-rezove-znacky`): PDF lístků – tisk s volbou „Přizpůsobit“ (pokyn na stránce PDF lístků a v hlášce po vytvoření), místo tečkovaného rámečku **řezové značky**: na okrajích listu čárky v ose řezů (vlevo/vpravo vodorovné, nahoře/dole svislé), mezi lístky křížek; žádné ořezové značky ani spadávka, okraje listu se neřežou (rozhodl Petr). Obsah lístku je 6 mm od řezu a u okraje listu o 5 mm blíž k okraji PDF (1 mm) – nepotištěný pruh tiskárny se počítá 5 mm; u lístků na okraji se o 5 mm posune i ústřižek s čarou, takže na papíře vyjde rozvržení všech lístků stejně. Plocha pro anketu se měří pro lístek s řezy ze všech stran (6 mm místo dřívějších 5 mm). Ověřeno vykreslením PDF (4 i 2 na A4) v Chromiu; neověřeno: tisk a řez. Další krok: revize PR, tisk 1 strany a rozřezání (scénář 7.6).
 
 17. 11. 2026 odpoledne: Petr ověřil PDF (600 lístků za 3–4 s, QR čitelné; fotoaparát Androidu hlásí „nepodporovaný kód“

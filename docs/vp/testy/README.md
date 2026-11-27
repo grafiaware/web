@@ -10,6 +10,10 @@ název `<kódy balíků>-test-<co se testuje>.md`.
 | [G0-test-program.md](G0-test-program.md) | G0 – program z databáze, přihlášení na akci, administrace programu | `vp.program` |
 | [D1-D1c-test-losovani.md](D1-D1c-test-losovani.md) | D1, D1c – losování, skener, papírové lístky | `vp.losovani` |
 | [R1-test-rezervace.md](R1-test-rezervace.md) | R1 – rezervace míst na přednáškách pro školy | `vp.rezervace` |
+| [F1-F2-test-odkazy.md](F1-F2-test-odkazy.md) | F1, F2 – trvalé odkazy s měřením, zdroj registrace, promo kit | `vp.odkazy` |
+| [F3-test-qr-plakaty.md](F3-test-qr-plakaty.md) | F3 – QR z QRdirectoru, QR webu, podklad plakátu PDF, ověření QR | `vp.qr-plakaty` |
+
+Vyplněné protokoly z proběhlých testů: [protokoly/](protokoly/README.md).
 
 ## Celý test nad `master-vp` s postupným zapínáním přepínačů
 
@@ -42,7 +46,9 @@ zapnuté, takže se ověří i spolupráce balíků. Na konci se vše vypne a ov
 | **4** | + `vp.program` | [G0](G0-test-program.md) body 0.2–0.4 a části 1–7 |
 | **5** | + `vp.losovani` | [D1-D1c](D1-D1c-test-losovani.md) části 1–9 |
 | **5b** | + `vp.rezervace` | [R1](R1-test-rezervace.md) části 1–6 |
-| **6** | vše zpět na `false` | [A3-A9 část 6](A3-A6-A8-A9-test-sprava-uctu.md#6-k0-vše-vypnuto--produkce-etapa-6), [G0 část 8](G0-test-program.md#8-vypnutý-přepínač-etapa-6), [D1-D1c část 10](D1-D1c-test-losovani.md#10-vypnutý-přepínač-etapa-6), [R1 část 7](R1-test-rezervace.md#7-vypnutý-přepínač-etapa-6) |
+| **5c** | + `vp.odkazy` | [F1-F2](F1-F2-test-odkazy.md) části 1–6 |
+| **5d** | + `vp.qr-plakaty` | [F3](F3-test-qr-plakaty.md) části 1–5 |
+| **6** | vše zpět na `false` | [A3-A9 část 6](A3-A6-A8-A9-test-sprava-uctu.md#6-k0-vše-vypnuto--produkce-etapa-6), [G0 část 8](G0-test-program.md#8-vypnutý-přepínač-etapa-6), [D1-D1c část 10](D1-D1c-test-losovani.md#10-vypnutý-přepínač-etapa-6), [R1 část 7](R1-test-rezervace.md#7-vypnutý-přepínač-etapa-6), [F1-F2 část 7](F1-F2-test-odkazy.md#7-vypnutý-přepínač-etapa-6), [F3 část 6](F3-test-qr-plakaty.md#6-vypnutý-přepínač-etapa-6) |
 
 Úplný seznam přepínačů v etapě 5b (vše zapnuto, jak má být na veletrhu):
 
@@ -56,6 +62,8 @@ zapnuté, takže se ověří i spolupráce balíků. Na konci se vše vypne a ov
 'vp.program' => true,
 'vp.losovani' => true,
 'vp.rezervace' => true,
+'vp.odkazy' => true,
+'vp.qr-plakaty' => true,
 ```
 
 **Účty a role:** scénáře uvádějí **roli**, se kterou se má tester přihlásit (např. „přihlásit se účtem s rolí
@@ -72,13 +80,39 @@ pokrývají unit testy, ručně se ověřuje jen chování v aplikaci.
 **E2E / Playwright:** kostra v `tests/e2e/` (Docker), plán postupné automatizace ručních scénářů —
 [E2E-PLAN.md](E2E-PLAN.md).
 
-## Jak hlásit výsledky (návrh, čeká na schválení)
+## Aktuální kolo testů: kolo 2 (od 26. 11. 2026)
 
-1. Tester si scénář zkopíruje a vyplní sloupce **Výsledek** a **Poznámka** (lze i v prohlížeči na GitHubu
-   přes tlačítko „Edit“ → zkopírovat obsah). Vyplněný scénář se do repa necommituje – v repu zůstává prázdný předpis.
-2. Vyplněný protokol vloží jako **komentář do issue balíku** (A1 #44, A3 #45, A6 #72, A9 #93, D1 #46, D1c #108,
-   G0 #116, R1 #48). Tabulky v Markdownu GitHub zobrazí.
-3. Každá **CHYBA** se navíc založí jako samostatné issue s názvem `<kód balíku> test: <krátký popis>`,
-   s číslem bodu scénáře, postupem, očekávaným a skutečným výsledkem a snímkem obrazovky.
-4. Vývojář chybu opraví v pull requestu, který issue uzavře; tester bod zopakuje a výsledek doplní do komentáře.
-5. Když očekávaný výsledek ve scénáři není jasný, zapište to do poznámky jako **NEJASNÉ** – vývojář scénář upřesní.
+Obsah kola je uzavřený – další balíky se do něj nepřidávají; F3 (QR v plakátech) se dokončí a testuje
+v dalším kole.
+
+Opakovaný test po opravách z 1. kola (nálezy v [protokoly/](protokoly/README.md)). Postup jako v části
+[Jak hlásit výsledky](#jak-hlásit-výsledky): nová větev testu z **aktuálního** `master-vp`, např. `master-vp_test-kolo2`.
+
+| Pořadí | Scénář | Co testovat | Na co se zaměřit (opraveno od 1. kola) |
+|---|---|---|---|
+| 1 | [D1-D1c](D1-D1c-test-losovani.md) | celý (části 1–10; body 2.1 a 10.1 vyřazeny) | P5 telefon přes HTTPS (návod v DOCKER-WINDOWS kap. 11) – bez něj nejdou části 3, 4 a 8; 1.5–1.6 hlášky po uložení; 2.2–2.3 volby ankety a vysvětlivky; 7.4 vysvětlivky na lístku; 7.6 tisk „Přizpůsobit“ a řezové značky; 7.7 délka otázky |
+| 2 | [A3-A9](A3-A6-A8-A9-test-sprava-uctu.md) | body 1.9–1.11 a 4.8 | nálezy A6 z 13. 11. (osobní jméno nepovinné, e-mail povinný, „Heslo mailem“ jde zaškrtnout, druhé otevření odkazu na heslo) |
+| 3 | [R1](R1-test-rezervace.md) | celý – 1. kolo | nový balík; texty souhlasů jsou zatím „[Nutno nahradit]“ (#140) – to není chyba |
+| 4 | [F1-F2](F1-F2-test-odkazy.md) | celý – 1. kolo | nový balík |
+| – | [G0](G0-test-program.md) | 2. průchod hotový 26. 11. ([protokol](protokoly/2026-11-26-G0-test-program.md)) | nálezy #187–#191, scénář #192; části 3–7 většinou NEPROVEDENO kvůli #191 – opakovat po opravách |
+
+Etapy přepínačů podle tabulky [Etapy](#etapy). Každý scénář = vlastní protokol (soubor scénáře vyplněný ve větvi testu);
+commitujte průběžně, po každé části.
+
+## Jak hlásit výsledky
+
+Testeři pracují jen v gitu, GitHub (issues, pull requesty) nepoužívají.
+
+1. **Větev testu:** tester si z aktuálního `master-vp` založí vlastní větev (např. `master-vp_D1-test`) a lokálně
+   zapíná přepínače podle etap. Do `master-vp` se z ní nic neslučuje.
+2. **Protokol:** tester vyplní ve scénáři sloupce **Výsledek** (OK / CHYBA / NEPROVEDENO / NEJASNÉ) a **Poznámka**,
+   tabulku Záznam testu (tester, datum, commit) a commituje do své větve – průběžně, aby nic nezůstalo jen lokálně.
+   Když očekávaný výsledek není jasný, zapíše **NEJASNÉ** a vlastními slovy, co viděl.
+3. **Převzetí:** vývojář (agent) protokol převezme z větve testera do archivu [`protokoly/`](protokoly/README.md)
+   jako `YYYY-MM-DD-<balíky>-test-<co>.md` s hlavičkou (tester, datum, testovaný commit, zdrojová větev),
+   bez lokálních přepínačů a dalších změn prostředí (`composer.lock`, konfigurace). Scénáře v této složce zůstávají
+   prázdné předpisy.
+4. **Issues:** z každé CHYBY a NEJASNÉ položky založí vývojář issue s názvem `<kód balíku> test: <krátký popis>`
+   a odkazem na řádek archivovaného protokolu; v issue balíku a v zadání (Stav a další krok) odkáže na nálezy.
+5. **Oprava a opakování:** chyba se opraví v pull requestu, který issue uzavře. Tester bod zopakuje v nové větvi
+   testu; nový protokol jde do archivu jako další soubor (archivované protokoly se nemění).

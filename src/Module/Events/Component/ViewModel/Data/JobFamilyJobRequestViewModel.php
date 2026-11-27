@@ -7,6 +7,7 @@ use Component\ViewModel\StatusViewModelInterface;
 use Events\Model\Repository\JobRepoInterface;
 use Events\Model\Repository\VisitorJobRequestRepoInterface;
 use Events\Model\Repository\VisitorProfileRepoInterface;
+use Events\Model\Repository\RepresentativeRepoInterface;
 use Events\Model\Entity\VisitorJobRequestInterface;
 use Events\Model\Entity\VisitorProfileInterface;
 use Pes\Model\Entity\EntityInterface;
@@ -31,6 +32,11 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
     private $jobRequestRepo;
     private $visitorProfileRepo;
 
+    /** @var RepresentativeRepoInterface */
+    private $representativeRepo;
+
+    use JobRequestAccessTrait;   // #171: kdo smí vidět zájem o pozici
+
 
     /**
      * @var VisitorJobRequestInterface
@@ -42,12 +48,14 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
             StatusViewModelInterface $status,
             JobRepoInterface $jobRepo,
             VisitorJobRequestRepoInterface $jobRequestRepo,
-            VisitorProfileRepoInterface $visitorProfileRepo
+            VisitorProfileRepoInterface $visitorProfileRepo,
+            RepresentativeRepoInterface $representativeRepo
             ) {
         $this->status = $status;
         $this->jobRepo = $jobRepo;
         $this->jobRequestRepo = $jobRequestRepo;
         $this->visitorProfileRepo = $visitorProfileRepo;
+        $this->representativeRepo = $representativeRepo;
     }
     
     private function isAdministrator() {
@@ -126,8 +134,11 @@ class JobFamilyJobRequestViewModel extends ViewModelFamilyItemAbstract {
         $visitorEmail = $this->status->getUserEmail();
 
         if ($this->getFamilyRouteSegment()->hasChildId()) {   // požaduji job request
-            if(isset($this->jobRequest)) {    // job request již byl uložen
-                if($this->isRepresentative()) {  // jen podle role, nezjišťuji jestli reprezentuje company - nemám company repo a v kontoleru se automaticky odesílá právě přuhlášenému reprezentantovi
+            if(isset($this->jobRequest) && !$this->canSeeJobRequest($this->getFamilyRouteSegment()->getParentId(), $this->getFamilyRouteSegment()->getChildId())) {
+                // #171: uložený zájem vidí jen jeho autor, zástupce firmy pozice a administrátor
+                $item = [];
+            } elseif(isset($this->jobRequest)) {    // job request již byl uložen
+                if($this->canSeeAllJobRequests($this->getFamilyRouteSegment()->getParentId()) && $this->isRepresentative()) {  // #171: jen zástupce firmy pozice  // jen podle role, nezjišťuji jestli reprezentuje company - nemám company repo a v kontoleru se automaticky odesílá právě přuhlášenému reprezentantovi
                     $buttonAction = $this->getFamilyRouteSegment()->getSavePath()."/send";  // routa s id job requestu doplněná o /send
                     $buttonTitle = 'Chci odeslat uložený zájem o pozici na svůj e-mail';
                 }

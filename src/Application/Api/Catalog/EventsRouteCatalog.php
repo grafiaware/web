@@ -21,6 +21,9 @@ use Events\Middleware\Events\Controler\Lottery\LotteryStaffControler;
 use Events\Middleware\Events\Controler\Lottery\LotteryVisitorControler;
 use Events\Middleware\Events\Controler\Reservation\ReservationAdminControler;
 use Events\Middleware\Events\Controler\Reservation\ReservationPublicControler;
+use Events\Middleware\Events\Controler\Promo\PromoAdminControler;
+use Events\Middleware\Events\Controler\Promo\PromoQrControler;
+use Events\Middleware\Events\Controler\Promo\PromoVisitControler;
 use FrontControler\Response\MutationResponseMode;
 use StaticRegistry\Middleware\Controler\StaticRegistryControler;
 
@@ -152,6 +155,22 @@ final class EventsRouteCatalog implements ModuleRouteCatalogInterface {
             new RouteDefinition('GET', '/events/v1/reservation/offer/:id/csv', ReservationAdminControler::class, 'csv', null, 'vp.rezervace'),
             new RouteDefinition('POST', '/events/v1/reservation/item/:rid', ReservationAdminControler::class, 'saveReservation', MutationResponseMode::BROWSER_FORM, 'vp.rezervace'),
             new RouteDefinition('POST', '/events/v1/reservation/item/:rid/cancel', ReservationAdminControler::class, 'cancelReservation', MutationResponseMode::BROWSER_FORM, 'vp.rezervace'),
+            // F1 + F2 (#47): trvalé odkazy s měřením a zdroj registrace (docs/vp/zadani/F1.md)
+            new RouteDefinition('GET', '/events/v1/r/:code', PromoVisitControler::class, 'visit', null, 'vp.odkazy'),
+            new RouteDefinition('GET', '/events/v1/r/:code/:channel', PromoVisitControler::class, 'visit', null, 'vp.odkazy'),
+            new RouteDefinition('GET', '/events/v1/source', PromoVisitControler::class, 'source', null, 'vp.odkazy'),
+            new RouteDefinition('GET', '/events/v1/promo', PromoAdminControler::class, 'index', null, 'vp.odkazy'),
+            new RouteDefinition('POST', '/events/v1/promo', PromoAdminControler::class, 'save', MutationResponseMode::BROWSER_FORM, 'vp.odkazy'),
+            new RouteDefinition('GET', '/events/v1/promo-csv', PromoAdminControler::class, 'csv', null, 'vp.odkazy'),
+            new RouteDefinition('GET', '/events/v1/promo/:id', PromoAdminControler::class, 'detail', null, 'vp.odkazy'),
+            new RouteDefinition('POST', '/events/v1/promo/:id', PromoAdminControler::class, 'save', MutationResponseMode::BROWSER_FORM, 'vp.odkazy'),
+            // F3 (#47): QR z QRdirectoru (SVG), QR webu PNG, podklad plakátu; kontrolér navíc vyžaduje vp.odkazy
+            new RouteDefinition('POST', '/events/v1/promo/:id/qr-svg', PromoQrControler::class, 'uploadSvg', MutationResponseMode::BROWSER_FORM, 'vp.qr-plakaty'),
+            new RouteDefinition('POST', '/events/v1/promo/:id/qr-svg/:sid/delete', PromoQrControler::class, 'deleteSvg', MutationResponseMode::BROWSER_FORM, 'vp.qr-plakaty'),
+            new RouteDefinition('GET', '/events/v1/promo/:id/qr.png', PromoQrControler::class, 'qrPng', null, 'vp.qr-plakaty'),
+            new RouteDefinition('GET', '/events/v1/promo/:id/poster', PromoQrControler::class, 'poster', null, 'vp.qr-plakaty'),
+            // ověření QR: za vp.odkazy nebo vp.losovani – kontroluje kontrolér (vypnuto obojí = 404)
+            new RouteDefinition('GET', '/events/v1/qr-check', PromoQrControler::class, 'qrCheck'),
         ];
     }
 }

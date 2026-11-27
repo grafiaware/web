@@ -136,4 +136,4 @@ FROM school_reservation ORDER BY id DESC LIMIT 20;
 
 - Přepínače vraťte na `false` (soubor necommitujte). Testovací rezervace a nabídku smaže vývojář
   (`DELETE FROM school_reservation WHERE contact_email LIKE '%@example.test'`, pak nabídku).
-- Vyplněný protokol a nalezené chyby: viz [README.md](README.md#jak-hlásit-výsledky-návrh-čeká-na-schválení) (issue R1 #48).
+- Vyplněný protokol a nalezené chyby: viz [README.md](README.md#jak-hlásit-výsledky).
