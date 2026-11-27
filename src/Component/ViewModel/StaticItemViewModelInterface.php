@@ -28,6 +28,9 @@ interface StaticItemViewModelInterface extends ViewModelInterface {
     public function isEditable(): bool;
     public function getStaticFullTemplatePath(): string;
 
+    /** Api modul položky menu (api_module_fk) – určuje kontejner, kterým se šablona vykresluje; null = výchozí red. */
+    public function getApiModule(): ?string;
+
     /**
      * Seznam šablon z remote auth/events (pro select box v editoru).
      * Prázdné pole = renderer použije textová input pole.

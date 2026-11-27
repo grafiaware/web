@@ -18,13 +18,6 @@ if (!FeatureFlags::fromConfiguration()->isEnabled('vp.program')) {
     echo '<p class="ui segment">Program zatím není zveřejněn.</p>';
     return;
 }
-// #191: program potřebuje kontejner modulu events (EventsModelContainerConfigurator). Položka menu jiného modulu
-// (red|static) ho nemá – místo Fatal error srozumitelná hláška pro toho, kdo položku zakládá.
-if (!$container->has(ProgramViewModel::class)) {
-    echo '<p class="ui orange segment">Program nelze zobrazit: stránka musí být položka menu typu statická stránka '
-        . 'modulu <b>events</b> (ne red). Obraťte se na správce webu.</p>';
-    return;
-}
 /** @var StatusViewModel $statusViewModel */
 $statusViewModel = $container->get(StatusViewModel::class);
 /** @var ProgramViewModel $programViewModel */
