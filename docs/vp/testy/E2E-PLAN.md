@@ -59,7 +59,7 @@ Odděleně od „klikání“: **fixture pipeline** (`docker compose exec` / skr
 - Fyzický telefon a sken QR.
 - Instalace `ca.pem`, DNS / Virtual Host app.
 - Reálná kamera skeneru obsluhy.
-- Plné ruční protokoly z `*-test-*.md` do issue (dokud E2E bod nepokrývá).
+- Plné ruční protokoly z `*-test-*.md` do archivu `protokoly/` (dokud E2E bod nepokrývá).
 
 ## Organizační postup (ne implementace)
 

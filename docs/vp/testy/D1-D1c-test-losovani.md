@@ -14,52 +14,52 @@
 
 ## Záznam testu
 
-| Údaj                                | Hodnota |
-| ----------------------------------- | ------- |
-| Tester                              |         |
-| Datum                               |         |
-| Commit (`git log -1 --format=%h`)   |         |
-| Prohlížeč počítače                  |         |
-| Telefony (model, systém, prohlížeč) |         |
-| Čas T (viz Příprava)                |         |
+| Údaj | Hodnota |
+|---|---|
+| Tester | |
+| Datum | |
+| Commit (`git log -1 --format=%h`) | |
+| Prohlížeč počítače | |
+| Telefony (model, systém, prohlížeč) | |
+| **Čas T** (bod P2) | |
 
 Výsledek u každého bodu: **OK** / **CHYBA** / **NEPROVEDENO** / **NEJASNÉ**. Hlášení výsledků viz [README.md](README.md).
 
 ## Příprava
 
-| #   | Co udělat                                                                                                                         | Očekávaný výsledek                 | Výsledek                               | Poznámka                                              |
-| --- | --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | -------------------------------------- | ----------------------------------------------------- |
-| P1  | Etapa 5: `'vp.losovani' => true` (přepínače z etap 1–4 zůstávají zapnuté)                                                         |                                    |                                        |                                                       |
-| P2  | Zvolte **T** = nejbližší celých 10 minut od začátku testu (např. 14:20) a zapište do Záznamu. Kola budou v T+40, T+70 a T+100 min |                                    |                                        | nebylo kam nebo jsem nevedela kam napsat              |
-| P3  | Zaregistrovat návštěvníky A, B, C (`test.d1.*@example.test`), dokončit registraci z e-mailu                                       | Účty s rolí `visitor`              | ok                                     |                                                       |
-| P4  | Vstup do administrace: statická stránka `events/admin/lottery` (položka menu, je-li) nebo přímo adresa `events/v1/lottery`        | Přehled losování                   | pres adresu  **events/v1/lottery**  ok | pristup přes menu na stránku s losovanim nelze, neni! |
-| P5  | Telefon obsluhy: otevřít `https://<LAN-IP>/`, přihlásit `t_events_administrator`                                                  | Stránka bez varování o certifikátu | ???                                    | ???                                                   |
+| # | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
+|---|---|---|---|---|
+| P1 | Etapa 5: `'vp.losovani' => true` (přepínače z etap 1–4 zůstávají zapnuté) | | | |
+| P2 | Zvolte **T** = nejbližší celých 10 minut od začátku testu (např. 14:20) a **zapište ho do tabulky Záznam testu nahoře (řádek „Čas T“)**. Kola budou v T+40, T+70 a T+100 min | Čas T je v Záznamu testu | | |
+| P3 | Zaregistrovat návštěvníky A, B, C (`test.d1.*@example.test`), dokončit registraci z e-mailu | Účty s rolí `visitor` | | |
+| P4 | Vstup do administrace: zadat přímo adresu `events/v1/lottery` (položka menu zatím není – #151) | Přehled losování | | |
+| P5 | Telefon obsluhy: nainstalovat certifikát `docker/certs/ca.pem` podle [DOCKER-WINDOWS.md, kap. 11](../DOCKER-WINDOWS.md#11-telefon-https-a-instalace-capem) (Android 11.3, iPhone 11.4; když telefon stránku nevidí, 11.5 firewall). Pak otevřít `https://<LAN-IP>/` (LAN IP: kap. 2) a přihlásit účet s rolí `events_administrator` | Stránka bez varování o certifikátu (zámek v adresním řádku) | | |
 
 ## 1. Administrace losování (správce, počítač)
 
-| #   | Co udělat                                                                                                                                                  | Očekávaný výsledek                                                                  | Výsledek | Poznámka                                                                     |
-| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------- | ---------------------------------------------------------------------------- |
-| 1.1 | „Nové losování“: název „Losování test“, popis, odkaz na pravidla `https://example.test/pravidla`, zapojit se od (dnes, bez času) do (zítra), stav otevřeno | „Losování uloženo.“; u polí vysvětlivky k odkazu na pravidla a období zapojení      |          | nevim u jakych poli jake vysvetlivky mam hlidat                              |
-| 1.2 | Kalendář u data                                                                                                                                            | Zavře se kliknutím na den; čas se píše do vedlejšího pole                           | ok       |                                                                              |
-| 1.3 | Rozpis kol: přidat kolo v čase T+40 (např. `15.00`), T+70 s volbou „losuje se náhradník“                                                                   | Kola v seznamu, každé ve vlastním bloku; nové kolo předvyplní datum posledního      | ok       |                                                                              |
-| 1.4 | U kola T+40 „Duplikovat“ s časem T+100                                                                                                                     | „Kolo zduplikováno i s cenami kola.“; tři kola                                      | ok       | ano,mam 3 kola .<br/>A bez cen to taky jde ?To se žádá jak, nebo k cemu toje |
-| 1.5 | Ceny: „Batoh“ 2 ks bez kola, „Hrnek“ 1 ks pro kolo T+70                                                                                                    | „Cena uložena.“                                                                     | ?        | zadne hlaseni jsem nevidela                                                  |
-| 1.6 | Anketa: otázka jedna volba (povinná, 3 možnosti po řádcích), více voleb (nepovinná), textová                                                               | „Otázka uložena.“                                                                   | ok?      | 3 otázky jsou zaadané.<br/>Žádne hlaseni jsem nevidela.                      |
-| 1.7 | Duplikovat kolo T+70 s časem T+130                                                                                                                         | Nové kolo má náhradníka i cenu Hrnek (ceny kola se kopírují); pak ho smažte         | asi ok   | hrnek se zkopiroval ,  smazala jsem ho                                       |
-| 1.8 | Jako `t_visitor` otevřít `events/v1/lottery`                                                                                                               | „Tato stránka je jen pro obsluhu losování. Přihlaste se účtem obsluhy.“, žádná data | ok       |                                                                              |
+| # | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
+|---|---|---|---|---|
+| 1.1 | Přehled losování: „Nové losování“ – jen název „Losování test“ → Založit. Otevře se detail: v oddílu „Údaje losování“ vyplnit popis, odkaz na pravidla `https://example.test/pravidla`, zapojit se od (dnes, bez času) do (zítra), stav „otevřeno“ → Uložit | „Losování uloženo.“; v oddílu Údaje losování jsou šedé vysvětlivky pod odkazem na pravidla („Adresa stránky s pravidly losování…“) a pod obdobím zapojení („Období, kdy se návštěvník může v profilu zapojit…“) | | |
+| 1.2 | Kalendář u data | Zavře se kliknutím na den; čas se píše do vedlejšího pole | | |
+| 1.3 | Rozpis kol: přidat kolo v čase T+40 (např. `15.00`), T+70 s volbou „losuje se náhradník“ | Kola v seznamu, každé ve vlastním bloku; nové kolo předvyplní datum posledního | | |
+| 1.4 | U kola T+40 „Duplikovat“ s časem T+100 (duplikát = stejné kolo i s cenami v jiném čase, např. opakované kolo odpoledne; kolo T+100 se použije v bodu 5.2) | „Kolo zduplikováno i s cenami kola.“; tři kola | | |
+| 1.5 | Ceny: „Batoh“ 2 ks bez kola, „Hrnek“ 1 ks pro kolo T+70 | Po každém uložení stránka zůstane u oddílu Ceny a nahoře v okně je hláška „Cena uložena.“ (bez posouvání) | | |
+| 1.6 | Anketa: otázka jedna volba (povinná, 3 možnosti po řádcích), více voleb (nepovinná), textová | Po každém uložení stránka zůstane u oddílu Anketa a nahoře v okně je hláška „Otázka uložena.“ | | |
+| 1.7 | Duplikovat kolo T+70 s časem T+130 | Nové kolo má náhradníka i cenu Hrnek (ceny kola se kopírují); pak ho smažte | | |
+| 1.8 | S rolí `visitor` otevřít `events/v1/lottery` | „Tato stránka je jen pro obsluhu losování. Přihlaste se účtem obsluhy.“, žádná data | | |
 
 ## 2. Profil návštěvníka a zapojení (návštěvníci A, B, C)
 
-| #   | Co udělat                                                            | Očekávaný výsledek                                                                                                                                                           | Výsledek                                                                   | Poznámka                                                                                                                                                                                     |
-| --- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2.1 | Nepřihlášen: úvodní stránka                                          | Oddíl „Losování o ceny“: „Zaregistrujte se a zapojte se do losování ve svém profilu…“ (místo „Anketa a slosování“)                                                           | nic nevidim o losování ani Profil návštěvníka                              | protoze Oddíl je v  Profilu návštěvníka                                                                                                                                                      |
-| 2.2 | A: profil → „Zapojit se do losování“ bez odpovědi na povinnou otázku | Nezapojí se; „Odpovězte prosím na otázku „…““                                                                                                                                | nefunguje, nejde odeslat formular                                          | -- hlaseni je *zvolte nekterou moznost*,<br/>----  mohlo by tam  take byt ze hvezdicka znamena povinnou odpoved<br/>---**nelze** kliknout na vybírátka<br/>---- akorat to pise do text .pole |
-| 2.3 | A: zaškrtnout souhlas s pravidly, vyplnit anketu, odeslat            | „Jste zapojeni do losování. Na veletrhu ukažte u vchodu svůj QR kód…“; v profilu QR kód, „Los zatím nebyl vydán.“, odkaz na pravidla funguje                                 | nefunguje, nejde odeslat formular                                          | odkaz vede na https://example.test/pravidla, "server nenalezen"                                                                                                                              |
-| 2.4 | smtp4dev                                                             | E-mail po zapojení s QR kódem a radou uložit si kód                                                                                                                          | tim padem NEPROVEDENO                                                      |                                                                                                                                                                                              |
-| 2.5 | A: obnovit profil                                                    | Tlačítko zapojení už není; kód je stejný jako v e-mailu                                                                                                                      | tim padem<br/>NEPROVEDENO                                                  |                                                                                                                                                                                              |
-| 2.6 | Zapojit B; C se nezapojí                                             | B zapojen                                                                                                                                                                    | tim padem<br/>NEPROVEDENO                                                  |                                                                                                                                                                                              |
-| 2.7 | `t_representative`: profil                                           | Blok losování se zapojením není; v konzoli `fetch('events/v1/lottery/<id>/join', {method: 'POST'})` → po obnovení „Do losování se mohou zapojit jen přihlášení návštěvníci.“ | trochu jinak                                                               | representant nevidi losovaní- OK<br/>--- po zadani events/v1/lottery zobrazi *Tato stránka je jen pro obsluhu losování. Přihlaste se účtem obsluhy.*                                         |
-| 2.8 | Správce změní „zapojit se do“ na včerejšek; C zkusí zapojit          | Zapojení nejde (mimo období). Pak vrátit na zítřek a C se zapojí                                                                                                             | na vcerejsek - c nevidi losovani, <br/>na dnesek, zitřek - c vidi losovani | (spravce je events__administrator,  losovani je v profilu)                                                                                                                                   |
+| # | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
+|---|---|---|---|---|
+| 2.1 | *(vyřazeno – úvodní stránka je šablona z webu VP online, #158 / #163)* | – | NEPROVEDENO | |
+| 2.2 | A: profil → „Zapojit se do losování“ bez odpovědi na povinnou otázku | Nad otázkami „* povinná odpověď“, u otázek „(vyberte jednu možnost)“ / „(lze více možností)“; zaškrtnutí voleb je vidět. Nezapojí se: prohlížeč nepustí odeslání bez povinné volby, u povinné textové otázky hláška „Odpovězte prosím na otázku „…““ | | |
+| 2.3 | A: zaškrtnout souhlas s pravidly, vyplnit anketu, odeslat | „Jste zapojeni do losování. Na veletrhu ukažte u vchodu svůj QR kód…“; v profilu QR kód, „Los zatím nebyl vydán.“, odkaz na pravidla funguje | | |
+| 2.4 | smtp4dev | E-mail po zapojení s QR kódem a radou uložit si kód | | |
+| 2.5 | A: obnovit profil | Tlačítko zapojení už není; kód je stejný jako v e-mailu | | |
+| 2.6 | Zapojit B; C se nezapojí | B zapojen | | |
+| 2.7 | S rolí `representative`: profil vystavovatele | Blok losování v profilu není (zapojit se mohou jen návštěvníci) | | |
+| 2.8 | Správce změní „zapojit se do“ na včerejšek; C otevře profil | V profilu C blok losování není (mimo období zapojení se nezobrazuje). Pak vrátit na zítřek: blok je zpět a C se zapojí | | |
 
 ## 3. Můj kód offline (telefon návštěvníka A)
 
@@ -113,17 +113,17 @@ V detailu losování odkaz na skener; stanoviště zvolte na stránce skeneru. Z
 
 ## 7. Papírové lístky – sada a PDF (D1c, správce)
 
-| #   | Co udělat                                                         | Očekávaný výsledek                                                                                                                                                                                                                      | Výsledek                            | Poznámka                                                                                                                                                                                                                   |
-| --- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 7.1 | Detail losování → „Papírové lístky“ → „Nová sada lístků“ 6 ks     | „Vytvořeny lístky …“; vytištěno 6, vydáno 0, čísla 0001–0006                                                                                                                                                                            | ok                                  | soubor losovani-1-listky-0001-0006.pdf                                                                                                                                                                                     |
-| 7.2 | Další sada 2 ks                                                   | Čísla navazují: 0007–0008                                                                                                                                                                                                               | ok                                  |                                                                                                                                                                                                                            |
-| 7.3 | „Stáhnout PDF“, 4 lístky na A4, rozsah 1–8                        | Průběh, pak soubor `losovani-<id>-listky-0001-0008.pdf`; 2 strany; hláška „Hotovo: 8 lístků, 2 strany A4 …“                                                                                                                             | ok                                  | /                                                                                                                                                                                                                          |
-| 7.4 | PDF zkontrolovat                                                  | Na lístku název losování, Jméno/Příjmení/E-mail, otázky ankety (kroužky u jedné volby, čtverečky u více voleb, čára u textu), souhlas s pravidly s adresou, malé číslo a kód; za čárkovanou čarou ústřižek s QR, velkým číslem a pokyny |                                     | neni popsano co je hvezdicka - /povinné/, <br/>u jedné možnosti bych to tam taky uvedla , že jen 1 možnost                                                                                                                 |
-| 7.5 | Totéž 2 lístky na A4                                              | 4 strany, ústřižek vpravo                                                                                                                                                                                                               | ok                                  | pro 8 listků                                                                                                                                                                                                               |
-| 7.6 | Vytisknout 1 stranu v měřítku 100 %                               | Lístky A6 (4 na A4) odpovídají střihovým čarám                                                                                                                                                                                          | **CHYBA**                           | střihové čáry neexistují,.<br/>V meřítku 100%, ani pri Přizpůsobit, se nevejde na stránku -při tisku z prohlížeče.<br/>Při tisku z Adobe - také nutno zadat Přizpůsobit, pak tisk se vejde. čáry na ořez jsou neviditelné. |
-| 7.7 | Přidat do ankety 8 dalších dlouhých otázek a stáhnout PDF 4 na A4 | Buď „…písmo ankety zmenšeno na … %“, nebo „Anketa se na lístek (4 na A4) nevejde. Zvolte 2 lístky na A4…“; pak otázky smazat                                                                                                            | obě situace se podařilo nasimulovat | při otázce delší než 500 nastává  při ulpžení otázky**error PDOException:** SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'text'.                                                           |
-| 7.8 | Export CSV lístků                                                 | Číslo, kód, adresa QR (`…/events/v1/scan/L…`)                                                                                                                                                                                           | asi OK                              |                                                                                                                                                                                                                            |
-| 7.9 | Vyhledání lístku podle čísla `5`                                  | Lístek č. 0005, los zatím nevydán                                                                                                                                                                                                       | ok                                  |                                                                                                                                                                                                                            |
+| # | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
+|---|---|---|---|---|
+| 7.1 | Detail losování → „Papírové lístky“ → „Nová sada lístků“ 6 ks | „Vytvořeny lístky …“; vytištěno 6, vydáno 0, čísla 0001–0006 | | |
+| 7.2 | Další sada 2 ks | Čísla navazují: 0007–0008 | | |
+| 7.3 | „Stáhnout PDF“, 4 lístky na A4, rozsah 1–8 | Průběh, pak soubor `losovani-<id>-listky-0001-0008.pdf`; 2 strany; hláška „Hotovo: 8 lístků, 2 strany A4 …“ | | |
+| 7.4 | PDF zkontrolovat | Na lístku název losování, Jméno/Příjmení/E-mail, otázky ankety (kroužky u jedné volby, čtverečky u více voleb s „(lze více možností)“, čára u textu), pod nimi „* povinná odpověď · u kroužků vyberte jednu možnost“, souhlas s pravidly s adresou, malé číslo a kód; za čárkovanou čarou ústřižek s QR, velkým číslem a pokyny | | |
+| 7.5 | Totéž 2 lístky na A4 | 4 strany, ústřižek vpravo | | |
+| 7.6 | Vytisknout 1 stranu s volbou „Přizpůsobit“ (ne 100 %); rozřezat podle značek | Celý obsah je vytištěný; na okrajích listu čárky v ose řezů, uprostřed křížek; po rozřezání (okraje listu se neřežou) má každý lístek obsah přibližně stejně daleko od všech svých okrajů | | |
+| 7.7 | Přidat do ankety 8 dalších dlouhých otázek a stáhnout PDF 4 na A4 | Buď „…písmo ankety zmenšeno na … %“, nebo „Anketa se na lístek (4 na A4) nevejde. Zvolte 2 lístky na A4…“; pak otázky smazat. Do otázky nejde napsat víc než 500 znaků (Z15); po odebrání omezení ve vývojářských nástrojích uložit delší text → varování „Otázka může mít nejvýš 500 znaků (zadáno …)“, nic se neuloží, žádná chyba databáze (#155) | | |
+| 7.8 | Export CSV lístků | Číslo, kód, adresa QR (`…/events/v1/scan/L…`) | | |
+| 7.9 | Vyhledání lístku podle čísla `5` | Lístek č. 0005, los zatím nevydán | | |
 
 ## 8. Papírové lístky na místě (D1c, telefon obsluhy)
 
@@ -140,21 +140,24 @@ V detailu losování odkaz na skener; stanoviště zvolte na stránce skeneru. Z
 
 ## 9. Kontrola v databázi (etapa 5)
 
-| #   | Dotaz (DB events)                                                 | Očekávaný výsledek                                                                       | Výsledek                                                | Poznámka                                            |
-| --- | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------- | --------------------------------------------------- |
-| 9.1 | `SELECT login_login_name_fk, code FROM visitor_code;`             | Jeden kód na zapojený účet, 12 znaků; kód není tajný (výjimka v AGENTS.md)               | **neni co kontrolovat, kdyz tam nejsou prideleny lidi** | neni co kontrolovat, kdyz tam nejsou prideleny lidi |
-| 9.2 | `SELECT * FROM lottery_presence_event ORDER BY id DESC LIMIT 20;` | Každé vydání a prodloužení s časem, stanovištěm a obsluhou; u skenu z bodu 4.7 čas skenu | **neni co kontrolovat, kdyz tam nejsou prideleny lidi** | neni co kontrolovat, kdyz tam nejsou prideleny lidi |
-| 9.3 | `SELECT number, code FROM lottery_paper_ticket ORDER BY number;`  | Lístky 1–8 s unikátními kódy                                                             | ok                                                      |                                                     |
+Provádí se **po částech 2–4 a 7–8** (dotazy kontrolují jejich výsledek); když nebyly provedeny, zapište NEPROVEDENO.
+Dotaz spusťte v PowerShellu v kořeni projektu: `docker compose exec db mariadb -uroot -proot events -e "<dotaz>"` (viz [DOCKER-WINDOWS.md, kap. 10](../DOCKER-WINDOWS.md#10-databáze-stručně)).
+
+| # | Dotaz (DB events) | Očekávaný výsledek | Výsledek | Poznámka |
+|---|---|---|---|---|
+| 9.1 | `SELECT login_login_name_fk, code FROM visitor_code;` | Jeden kód na zapojený účet, 12 znaků; kód není tajný (výjimka v AGENTS.md) | | |
+| 9.2 | `SELECT * FROM lottery_presence_event ORDER BY id DESC LIMIT 20;` | Každé vydání a prodloužení s časem, stanovištěm a obsluhou; u skenu z bodu 4.7 čas skenu | | |
+| 9.3 | `SELECT number, code FROM lottery_paper_ticket ORDER BY number;` | Lístky 1–8 s unikátními kódy | | |
 
 ## 10. Vypnutý přepínač (etapa 6)
 
 `'vp.losovani' => false`.
 
-| #    | Co udělat                                                          | Očekávaný výsledek                         | Výsledek | Poznámka      |
-| ---- | ------------------------------------------------------------------ | ------------------------------------------ | -------- | ------------- |
-| 10.1 | Úvodní stránka                                                     | Zase „Anketa a slosování“ jako na produkci |          | **nerozumim** |
-| 10.2 | Profil návštěvníka                                                 | Bez bloku losování                         | ok       |               |
-| 10.3 | `events/v1/lottery`, `events/v1/mycode/page`, `events/v1/scan/ABC` | 404                                        | ok       |               |
+| # | Co udělat | Očekávaný výsledek | Výsledek | Poznámka |
+|---|---|---|---|---|
+| 10.1 | *(vyřazeno – úvodní stránka, viz 2.1)* | – | NEPROVEDENO | |
+| 10.2 | Profil návštěvníka | Bez bloku losování | | |
+| 10.3 | `events/v1/lottery`, `events/v1/mycode/page`, `events/v1/scan/ABC` | 404 | | |
 
 ## Po testu
 

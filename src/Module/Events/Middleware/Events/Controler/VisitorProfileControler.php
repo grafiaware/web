@@ -53,6 +53,9 @@ use Pes\Mail\Assembly\Attachment;
 use Pes\Mail\Assembly\StringAttachment;
 use Pes\Mail\Assembly\Party;
 
+use Access\Enum\RoleEnum;
+use Events\Service\JobRequest\DocumentUpload;
+
 
 /**
  * Description of NestedFilesUpload
@@ -117,7 +120,8 @@ class VisitorProfileControler extends FrontControlerAbstract {
             VisitorJobRequestRepoInterface $visitorJobRequesRepo,          
             DocumentRepoInterface $documentRepo,
             RepresentativeRepoInterface $representativeRepo,
-            JobRepo $job
+            JobRepo $job,
+            private DocumentUpload $documentUpload
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->visitorProfileRepo = $visitorProfileRepo;
@@ -346,9 +350,7 @@ class VisitorProfileControler extends FrontControlerAbstract {
     * @param type $type
     * @return type
     */
-    private function getRightDocument( VisitorProfileInterface $visitorProfile, $type ) {
-        /** @var VisitorProfileInterface $visitorProfile */
-       //$visitorProfile = $this->visitorProfileRepo->get($parentId);           
+    private function getRightDocument( VisitorProfileInterface $visitorProfile, $type ): ?DocumentInterface {
         switch ($type) {
             case self::TYPE_CV:
                 $idDocument = $visitorProfile->getCvDocument();
@@ -357,21 +359,25 @@ class VisitorProfileControler extends FrontControlerAbstract {
                 $idDocument = $visitorProfile->getLetterDocument();
                 break;
             default:
+                $idDocument = null;
                 break;
         }
-        
-        if (isset($idDocument) ) {       
-            /** @var DocumentInterface $document */
-            $document = $this->documentRepo->get($idDocument);
-            
-            if (isset($document)) {
-                $this->addFlashMessage("Mám document v tabulce document  id $idDocument! ");
-            } else {
-                $this->addFlashMessage("Nemám document v tabulce document  id $idDocument! Uáááá :-(");
-            }
-        }
-        return($document);
+        return isset($idDocument) ? $this->documentRepo->get($idDocument) : null;
     }
+
+    /**
+     * #175: dokumenty profilu smí měnit jen návštěvník – vlastník profilu, nebo administrátor.
+     */
+    private function canEditProfileDocuments($parentId): bool {
+        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+        if (!isset($loginAggregate)) {
+            return false;
+        }
+        $role = $loginAggregate->getCredentials()?->getRoleFk();
+        return ($role === RoleEnum::VISITOR && $loginAggregate->getLoginName() === $parentId)
+                || $role === RoleEnum::EVENTS_ADMINISTRATOR;
+    }
+
         
     /**
      * 
@@ -381,149 +387,72 @@ class VisitorProfileControler extends FrontControlerAbstract {
      * @param type $id
      * @return type
      */
-    public function addupdateDocument (ServerRequestInterface $request, $parentId, $type ) {  
-        
-//      muze ???
-//      -----------------------------------------------------------------------                
-//      
-//      
-        // POST data                               
-        $statusSecurity = $this->statusSecurityRepo->get();
-        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
-
+    public function addupdateDocument (ServerRequestInterface $request, $parentId, $type ) {
+        $loginAggregateCredentials = $this->statusSecurityRepo->get()->getLoginAggregate();
         if (!isset($loginAggregateCredentials)) {
-            $response = (new ResponseFactory())->createResponse()->withStatus(401);  // Unauthorized
+            return (new ResponseFactory())->createResponse()->withStatus(401);  // Unauthorized
+        }
+        if (!$this->canEditProfileDocuments($parentId) || !in_array($type, [self::TYPE_CV, self::TYPE_LETTER], true)) {
+            $this->addFlashMessage("Chyba oprávnění. Soubor neuložen.", FlashSeverityEnum::WARNING);
+            return $this->redirectSeeLastGet($request);
+        }
+        /** @var VisitorProfileInterface $visitorProfile */
+        $visitorProfile = $this->visitorProfileRepo->get($parentId);
+        if (!isset($visitorProfile)) {
+            $this->addFlashMessage("Nejdříve uložte údaje profilu. Soubor neuložen.", FlashSeverityEnum::WARNING);
+            return $this->redirectSeeLastGet($request);
+        }
+        $files = $request->getUploadedFiles() ?? [];
+        $fileForSave = $files[self::UPLOADED_KEY.$loginAggregateCredentials->getLoginNameHash()] ?? null;
+        if (!$this->documentUpload->isSent($fileForSave)) {
+            $this->addFlashMessage("Nebyl vybrán žádný soubor. Soubor neuložen.", FlashSeverityEnum::WARNING);
+            return $this->redirectSeeLastGet($request);
+        }
+        $error = $this->documentUpload->validate($fileForSave);
+        if (isset($error)) {
+            $this->addFlashMessage($error . " Soubor neuložen.", FlashSeverityEnum::WARNING);
+            return $this->redirectSeeLastGet($request);
+        }
+
+        $document = $this->getRightDocument($visitorProfile, $type);
+        if (isset($document)) {
+            $this->documentUpload->fill($document, $fileForSave);     // výměna – uloží se při flush
         } else {
-            $userHash = $loginAggregateCredentials->getLoginNameHash();         
-            $files = $request->getUploadedFiles();
-            
-            /** @var  UploadedFileInterface $file */
-            if(isset($files) AND $files) {
-                if (array_key_exists(self::UPLOADED_KEY.$userHash, $files)) {
-                    $fileForSave = $files[self::UPLOADED_KEY.$userHash];
-                    $typeSelf = self::UPLOADED_KEY;
-                } else {
-                    //  tady nevim co delat
-                }
-                $response = $this->createResponeIfError($request, $fileForSave);
+            $document = $this->documentUpload->createDocument($fileForSave);
+            $this->documentRepo->add($document);                     // autoincrement – uloží se hned a dostane id
+            if ($type === self::TYPE_CV) {
+                $visitorProfile->setCvDocument($document->getId());
             } else {
-                $this->addFlashMessage("neodeslán žádný soubor. Soubor neuložen.", FlashSeverityEnum::WARNING);
-                $response = $this->redirectSeeLastGet($request);                                 
+                $visitorProfile->setLetterDocument($document->getId());
             }
         }
-            
-             
-        ###### SAVE
-        if (!isset($response) AND isset($typeSelf)) {
-//        $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
-//        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
-            
-            /** @var VisitorProfileInterface $visitorProfile */  
-            $visitorProfile = $this->visitorProfileRepo->get($parentId);   
-            if (isset ($visitorProfile) ) {
+        $label = $type === self::TYPE_CV ? "životopis" : "motivační dopis";
+        $this->addFlashMessage("Uložen váš $label: " . $document->getDocumentFilename() . ".", FlashSeverityEnum::SUCCESS);
+        return $this->redirectSeeLastGet($request);
+    }
 
-                $document = $this->getRightDocument($visitorProfile, $type);
-
-                // file move to temp
-                $clientFileName = $fileForSave->getClientFilename();
-                $clientMime = $fileForSave->getClientMediaType();
-                $size = $fileForSave->getSize();  // v bytech
-                $ext = pathinfo($clientFileName,  PATHINFO_EXTENSION );
-                $uploadedFileTemp = tempnam(sys_get_temp_dir(), hash('sha256', $clientFileName)).'.'.$ext;
-                $fileForSave->moveTo($uploadedFileTemp);
-
-                // if login - save data
-                if ( isset($loginAggregateCredentials) )  {            
-
-                    if (!isset($document)) {                                    
-//                    //add
-                        $document = new Document();
-                        $this->documentRepo->add($document);
-                        
-                        switch ($type) {
-                            case self::TYPE_CV:
-                                $visitorProfile->setCvDocument($document->getId());
-                                break;
-                            case self::TYPE_LETTER:
-                                $visitorProfile->setLetterDocument($document->getId());
-                                break;
-                            default:
-                                break;
-                        }                      
-                    }                    
-                    $document->setContent(file_get_contents($uploadedFileTemp));
-                    $document->setDocumentMimetype($clientMime);
-                    $document->setDocumentFilename($clientFileName);  
-                    
-                    $this->addFlashMessage("Uložen váš soubor." .$document->getDocumentFilename(), FlashSeverityEnum::SUCCESS);                        
-                    $flashMessage = "Uloženo $size bytů.";
-                    $this->addFlashMessage($flashMessage);
-                    $response = $this->redirectSeeLastGet($request);
-                } else {
-                    $this->addFlashMessage("Chyba oprávnění.", FlashSeverityEnum::WARNING);
-                    $this->addFlashMessage("Soubor neuložen!", FlashSeverityEnum::WARNING);
-                    $this->redirectSeeLastGet($request);
-                }         
-            }  
-            else {
-                // nepřečetl se  VisitorProfile
-                 $response = $this->redirectSeeLastGet($request); 
-            }                        
+    public function remove(ServerRequestInterface $request, $parentId, $type) {
+        if (!$this->canEditProfileDocuments($parentId)) {
+            $this->addFlashMessage("Chyba oprávnění. Soubor nesmazán.", FlashSeverityEnum::WARNING);
+            return $this->redirectSeeLastGet($request);
+        }
+        $visitorProfile = $this->visitorProfileRepo->get($parentId);
+        $document = isset($visitorProfile) ? $this->getRightDocument($visitorProfile, $type) : null;
+        if (!isset($document)) {
+            $this->addFlashMessage("Soubor nenalezen.", FlashSeverityEnum::WARNING);
         } else {
-            if (isset($clientFileName)) {
-                $this->addFlashMessage($clientFileName);
+            // odkaz v profilu zrušit i v entitě (v DB to udělá ON DELETE SET NULL) – jinak by se při flush zapsalo staré id
+            if ($type === self::TYPE_CV) {
+                $visitorProfile->setCvDocument(null);
+            } else {
+                $visitorProfile->setLetterDocument(null);
             }
-            $this->addFlashMessage("Soubor neuložen!", FlashSeverityEnum::WARNING);
-            return $response;
+            $this->documentRepo->remove($document);
+            $this->addFlashMessage("Soubor smazán. Zájmů o pozici, které jste už odeslali, se to netýká.", FlashSeverityEnum::SUCCESS);
         }
-                        
-        return $response;
-  
+        return $this->redirectSeeLastGet($request);
     }
-    
-    
-    
-    
-    
-    
-    
-     public function remove(ServerRequestInterface $request, $parentId, $type) {
-            $visitorProfile = $this->visitorProfileRepo->get($parentId);  
-            if (isset ($visitorProfile) ) {
-                $document = $this->getRightDocument($visitorProfile, $type);
-            }
-                       
-            if (!isset($document)) {    
-                $this->addFlashMessage(" Document nenalezen.");
-            }
-            else{
-                $this->documentRepo->remove($document); 
-                $this->addFlashMessage(" Document smazán.");
-            } 
 
-            return $this->redirectSeeLastGet($request);        
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     //----------------------------------------------------------------------------------------------------------------
 
     /**
