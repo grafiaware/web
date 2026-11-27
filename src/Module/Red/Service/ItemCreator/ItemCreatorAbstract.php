@@ -11,6 +11,7 @@ namespace Red\Service\ItemCreator;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Enum\FlashSeverityEnum;
 
 /**
  * Description of ContentService
@@ -43,6 +44,13 @@ abstract class ItemCreatorAbstract {
         $this->statusSecurityRepo = $statusSecurityRepo;
         $this->statusPresentationRepo = $statusPresentationRepo;
         $this->statusFlashRepo = $statusFlashRepo;
+    }
+
+    /**
+     * Hláška do pruhu hlášek – stejně jako FrontControlerAbstract::addFlashMessage() (#187: creator není kontrolér).
+     */
+    protected function addFlashMessage($message, $severity = FlashSeverityEnum::INFO): void {
+        $this->statusFlashRepo->get()->setMessage($message, $severity);
     }
 
 }

@@ -166,6 +166,10 @@ class StaticItemViewModel extends ViewModelAbstract implements StaticItemViewMod
         }
     }
 
+    public function getApiModule(): ?string {
+        return $this->getApiModuleForTemplates();
+    }
+
     private function getApiModuleForTemplates(): ?string {
         $menuItem = $this->statusViewModel->getPresentedMenuItem();
         if ($menuItem !== null && $menuItem->getApiModuleFk()) {

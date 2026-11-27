@@ -51,7 +51,16 @@ class StaticItemRenderer extends HtmlRendererAbstract {
                 );
         }
         $this->templateCompiler->injectTemplateVars(iterator_to_array($viewModel));
-        $html .= $this->templateCompiler->getCompiledContent($viewModel->getStaticFullTemplatePath());
+        try {
+            $html .= $this->templateCompiler->getCompiledContent($viewModel->getStaticFullTemplatePath());
+        } catch (\Throwable $e) {
+            // #191: služba, kterou kontejner modulu položky menu nemá → hláška místo Fatal error; jiné chyby beze změny
+            $message = StaticTemplateServiceError::message($e, $viewModel->getApiModule());
+            if (!isset($message)) {
+                throw $e;
+            }
+            $html .= Html::tag('div', ['class' => 'ui orange segment'], Html::tag('p', [], htmlspecialchars($message)));
+        }
         return $html;
     }
 
