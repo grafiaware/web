@@ -83,7 +83,8 @@ class ValidatingService implements ValidatingServiceInterface {
                     }                    
                 }
                 catch (ValidatingException $e) {
-                    // auth účet explicitně nezná — upraví se jen events.login, session zůstává
+                    // auth účet výslovně nezná — session končí, events.login se označí
+                    $security->removeContext();
                     $this->loginService->setDeleteUserNameFromEventsLogin($validatedUserName);
 //                    $this->fileLogger?->notice("* " . $validatedUserName . " není validní uživatel (není v single_login)." .
 //                                                       " - a byl 'vymazán' z tabulky events.login (byl-li tam)" );                         

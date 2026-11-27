@@ -39,7 +39,7 @@ final class ValidatingServiceTest extends TestCase
         $this->assertStringContainsString('Přihlášení zůstává', $messages[0]['message']);
     }
 
-    public function testInvalidUserKeepsSessionAndMarksEventsLoginDeleted(): void
+    public function testInvalidUserRemovesSessionAndMarksEventsLoginDeleted(): void
     {
         $security = $this->securityWithUser('editor');
         $flash = new Flash();
@@ -50,8 +50,8 @@ final class ValidatingServiceTest extends TestCase
         $service = $this->service($security, $flash, $loginService, new ValidatingException('Uživatel není validní.'));
         $service->validateUser($this->createStub(ServerRequestInterface::class));
 
-        $this->assertTrue($security->hasValidSecurityContext());
-        $this->assertSame('editor', $security->getLoginAggregate()->getLoginName());
+        $this->assertFalse($security->hasValidSecurityContext());
+        $this->assertNull($security->getLoginAggregate());
         $this->assertSame([], $flash->getMessages());
     }
 
