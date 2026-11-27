@@ -94,7 +94,7 @@ Opakovaný test po opravách z 1. kola (nálezy v [protokoly/](protokoly/README.
 | 2 | [A3-A9](A3-A6-A8-A9-test-sprava-uctu.md) | body 1.9–1.11 a 4.8 | nálezy A6 z 13. 11. (osobní jméno nepovinné, e-mail povinný, „Heslo mailem“ jde zaškrtnout, druhé otevření odkazu na heslo) |
 | 3 | [R1](R1-test-rezervace.md) | celý – 1. kolo | nový balík; texty souhlasů jsou zatím „[Nutno nahradit]“ (#140) – to není chyba |
 | 4 | [F1-F2](F1-F2-test-odkazy.md) | celý – 1. kolo | nový balík |
-| – | [G0](G0-test-program.md) | 2. průchod hotový 26. 11. ([protokol](protokoly/2026-11-26-G0-test-program.md)) | nálezy #187–#191, scénář #192; části 3–7 většinou NEPROVEDENO kvůli #191 – opakovat po opravách |
+| – | [G0](G0-test-program.md) | 3. průchod hotový 27. 11. ([protokol](protokoly/2026-11-27-G0-test-program.md)) | program se zobrazí (#191 opraveno); nezveřejněné eventy ve správě #195 – po opravě opakovat 3.2, 4.4–4.6, 5, 7; část 6 po #188 |
 
 Etapy přepínačů podle tabulky [Etapy](#etapy). Každý scénář = vlastní protokol (soubor scénáře vyplněný ve větvi testu);
 commitujte průběžně, po každé části.
