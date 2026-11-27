@@ -14,6 +14,7 @@ use Pes\Model\Builder\Sql;
 
 // repo
 use Events\Model\Context\ContextProvider;
+use Status\Model\Repository\StatusSecurityRepo;
 
 // D1 losování
 use Events\Model\Dao\Lottery\LotteryDao;
@@ -205,7 +206,7 @@ class EventsModelContainerConfigurator extends ContainerConfiguratorAbstract {
                 },
             // context
             ContextProvider::class => function(ContainerInterface $c) {
-                return new ContextProvider(); // TODO:     ($statusSecurityRepo, $statusPresentationRepo)
+                return new ContextProvider($c->has(StatusSecurityRepo::class) ? $c->get(StatusSecurityRepo::class) : null);   // G0: administrátor vidí i nezveřejněné eventy
             },
 
             // enroll
